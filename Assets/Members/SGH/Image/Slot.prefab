@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 1307036603242307714}
   - component: {fileID: 2170461391786911129}
   - component: {fileID: 7940904079224249243}
+  - component: {fileID: 6034551961628934005}
   m_Layer: 5
   m_Name: Slot
   m_TagString: Untagged
@@ -212,3 +213,15 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 6, y: -5}
   m_UseGraphicAlpha: 1
+--- !u!114 &6034551961628934005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718019040384630477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b2306a4c3f4104092eca04bd0b5e15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Slot
