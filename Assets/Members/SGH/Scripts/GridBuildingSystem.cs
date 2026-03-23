@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
 public enum ETileType { Empty, White, Green, Red }
@@ -8,15 +7,19 @@ public enum ETileType { Empty, White, Green, Red }
 public class GridBuildingSystem : MonoBehaviour
 {
     public static GridBuildingSystem Instance { get; private set; }
+
     public GridLayout gridLayout;
-    public Tilemap MainTilemap;
-    public Tilemap TempTilemap;
+    public Tilemap MainTilemap;   
+    public Tilemap TempTilemap;     // 프리뷰 표시용 타일맵
 
     private static Dictionary<ETileType, TileBase> _tileBases = new Dictionary<ETileType, TileBase>();
 
-    private Building _temp;
-    private Vector3 _prevPos;
-    private BoundsInt prevArea;
+    private Building _temp;     // 현재 배치 중인 건물     
+    private Vector3 _prevPos;   // 이전 마우스 셀 위치
+
+    private HashSet<Vector3Int> occupied = new HashSet<Vector3Int>();   // 점유된 타일 좌표
+
+    private bool _isPlacing = false;    // 프리뷰 상태 체크
 
     private void Awake()
     {
@@ -25,9 +28,7 @@ public class GridBuildingSystem : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
-        //DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -42,133 +43,97 @@ public class GridBuildingSystem : MonoBehaviour
     {
         if (!_temp) return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (!_temp.Placed)
         {
-            if (EventSystem.current.IsPointerOverGameObject(0))
-            {
-                return;
-            }
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
 
-            if (!_temp.Placed)
+            if (_prevPos != cellPos)
             {
-                Vector2 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector3Int cellPos = gridLayout.LocalToCell(touchPos);
+                _temp.transform.localPosition =
+                    gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
 
-                if (_prevPos != cellPos)
-                {
-                    _temp.transform.localPosition = gridLayout.CellToLocalInterpolated(cellPos
-                        + new Vector3(0.5f, 0.5f, 0f));
-                    _prevPos = cellPos;
-                    FollowBuilding();
-                }
+                _prevPos = cellPos;
+                FollowBuilding();  
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (_temp.CanbePlaced())
+            if (CanTakeArea(_temp.area))
             {
+                TakeArea(_temp.area);
                 _temp.Place();
+                _temp = null;
+                _isPlacing = false;
             }
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ClearArea();
+            TempTilemap.ClearAllTiles();
             Destroy(_temp.gameObject);
-        }
-    }
-
-    private static TileBase[] GetTilesBlock(BoundsInt area, Tilemap tilemap)
-    {
-        TileBase[] array = new TileBase[area.size.x * area.size.y * area.size.z];
-        int counter = 0;
-
-        foreach (var v in area.allPositionsWithin)
-        {
-            Vector3Int pos = new Vector3Int(v.x, v.y, 0);
-            array[counter] = tilemap.GetTile(pos);
-            counter++;
-        }
-
-        return array;
-    }
-
-    private static void SetTilesBlock(BoundsInt area, ETileType type, Tilemap tilemap)
-    {
-        int size = area.size.x * area.size.y * area.size.z;
-        TileBase[] tileArray = new TileBase[size];
-        FillTiles(tileArray, type);
-        tilemap.SetTilesBlock(area, tileArray);
-    }
-
-    private static void FillTiles(TileBase[] arr, ETileType type)
-    {
-        for (int i = 0; i < arr.Length; i++)
-        {
-            arr[i] = _tileBases[type];
+            _isPlacing = false;
         }
     }
 
     public void InitializeWithBuilding(GameObject building)
     {
+        if (_isPlacing) return;
+
         _temp = Instantiate(building, Vector3.zero, Quaternion.identity).GetComponent<Building>();
+        _isPlacing = true;
         FollowBuilding();
     }
 
-    private void ClearArea()
-    {
-        TileBase[] toClear = new TileBase[prevArea.size.x * prevArea.size.y * prevArea.size.z];
-        FillTiles(toClear, ETileType.Empty);
-        TempTilemap.SetTilesBlock(prevArea, toClear);
-    }
-
+    // Green/Red 표시
     private void FollowBuilding()
     {
-        ClearArea();
+        TempTilemap.ClearAllTiles();
 
-        _temp.area.position = gridLayout.WorldToCell(_temp.gameObject.transform.position);
-        BoundsInt buildingArea = _temp.area;
+        _temp.area.position = gridLayout.WorldToCell(_temp.transform.position);
+        BoundsInt area = _temp.area;
 
-        TileBase[] baseArray = GetTilesBlock(buildingArea, MainTilemap);
+        int size = area.size.x * area.size.y;
+        TileBase[] tiles = new TileBase[size];
 
-        int size = baseArray.Length;
-        TileBase[] tileArray = new TileBase[size];
-
-        for (int i = 0; i < baseArray.Length; i++)
+        int i = 0;
+        foreach (var pos in area.allPositionsWithin)
         {
-            if (baseArray[i] == _tileBases[ETileType.White])
+            if (occupied.Contains(pos) ||
+                MainTilemap.GetTile(pos) != _tileBases[ETileType.White])
             {
-                tileArray[i] = _tileBases[ETileType.Green];
+                tiles[i] = _tileBases[ETileType.Red];
             }
             else
             {
-                FillTiles(tileArray, ETileType.Red);
-                break;
+                tiles[i] = _tileBases[ETileType.Green];
             }
+            i++;
         }
 
-        TempTilemap.SetTilesBlock(buildingArea, tileArray);
-        prevArea = buildingArea;
+        TempTilemap.SetTilesBlock(area, tiles);
     }
 
+    // 설치 가능 여부 체크용 메서드
     public bool CanTakeArea(BoundsInt area)
     {
-        TileBase[] baseArray = GetTilesBlock(area, MainTilemap);
-        foreach (var b in baseArray)
+        foreach (var pos in area.allPositionsWithin)
         {
-            if (b != _tileBases[ETileType.White])
-            {
-                Debug.Log("Cannot place here");
+            if (occupied.Contains(pos))
                 return false;
-            }
-        }
 
+            if (MainTilemap.GetTile(pos) != _tileBases[ETileType.White])
+                return false;
+        }
         return true;
     }
 
+    // 설치 관련 메서드
     public void TakeArea(BoundsInt area)
     {
-        SetTilesBlock(area, ETileType.Empty, TempTilemap);
-        SetTilesBlock(area, ETileType.Green, MainTilemap);
+        foreach (var pos in area.allPositionsWithin)
+            occupied.Add(pos);
 
+        TempTilemap.ClearAllTiles();
     }
 }
