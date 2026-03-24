@@ -41,9 +41,7 @@ public class GridBuildingSystem : MonoBehaviour
 
     private void Update()
     {
-        if (!_temp) return;
-
-        if (!_temp.Placed)
+        if (_temp != null && !_temp.Placed)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
@@ -52,13 +50,30 @@ public class GridBuildingSystem : MonoBehaviour
             {
                 _temp.transform.localPosition =
                     gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
-
                 _prevPos = cellPos;
-                FollowBuilding();  
+                FollowBuilding();
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0) && !_isPlacing)
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
+
+            foreach (var obj in FindObjectsOfType<Building>())
+            {
+                if (!obj.Placed) continue;
+                if (obj.area.Contains(cellPos))
+                {
+                    _temp = obj;
+                    _temp.StartMove();
+                    _isPlacing = true;
+                    break;
+                }
+            }
+        }
+
+        if (_temp != null && Input.GetKeyDown(KeyCode.Space))
         {
             if (CanTakeArea(_temp.area))
             {
@@ -68,11 +83,31 @@ public class GridBuildingSystem : MonoBehaviour
                 _isPlacing = false;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Escape))
+        else if (_temp != null && Input.GetKeyDown(KeyCode.Escape))
         {
             TempTilemap.ClearAllTiles();
             Destroy(_temp.gameObject);
             _isPlacing = false;
+        }
+
+        if (Input.GetMouseButtonDown(1) && !_isPlacing) 
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
+
+            foreach (var obj in FindObjectsOfType<Building>())
+            {
+                if (!obj.Placed) continue;
+                if (obj.area.Contains(cellPos))
+                {
+                    foreach (var pos in obj.area.allPositionsWithin)
+                        occupied.Remove(pos);
+
+                    MainTilemap.RefreshAllTiles();
+                    Destroy(obj.gameObject);
+                    break;
+                }
+            }
         }
     }
 
@@ -135,5 +170,14 @@ public class GridBuildingSystem : MonoBehaviour
             occupied.Add(pos);
 
         TempTilemap.ClearAllTiles();
+    }
+
+    public void ReleaseArea(BoundsInt area)
+    {
+        foreach (var pos in area.allPositionsWithin)
+            occupied.Remove(pos);
+
+        TempTilemap.ClearAllTiles();
+        MainTilemap.RefreshAllTiles();
     }
 }

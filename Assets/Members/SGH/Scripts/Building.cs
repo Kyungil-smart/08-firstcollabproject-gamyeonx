@@ -29,4 +29,11 @@ public class Building : MonoBehaviour
         Placed = true;
         GridBuildingSystem.Instance.TakeArea(areaTemp);
     }
+
+    public void StartMove()
+    {
+        if (!Placed) return;
+        GridBuildingSystem.Instance.ReleaseArea(area);
+        Placed = false;
+    }
 }
