@@ -184,19 +184,16 @@ public class CameraController : MonoBehaviour
     // ───────────────────────────────
     public void MoveToBuilding(Transform pivot, Vector2 boundsSize, float minSize, float maxSize)
     {
+        if (_isMoving || IsInputLocked) return;
+        
         _prevBounds = CameraBounds;
         _prevMinSize = MinSize;
         _prevMaxSize = MaxSize;
         _prevCameraPos = transform.position;
-
-        CameraBounds = new Bounds(
-            new Vector3(pivot.position.x, pivot.position.y, 0),
-            new Vector3(boundsSize.x, boundsSize.y, 0)
-        );
-
+        
+        CameraBounds = new Bounds(pivot.position, new Vector3(boundsSize.x, boundsSize.y, 0));
         MinSize = minSize;
         MaxSize = maxSize;
-        _cam.orthographicSize = Mathf.Clamp(_cam.orthographicSize, MinSize, MaxSize);
 
         _moveStartPos = transform.position;
         _moveTargetPos = new Vector3(pivot.position.x, pivot.position.y, transform.position.z);
@@ -232,31 +229,40 @@ public class CameraController : MonoBehaviour
     {
         _moveElapsed += Time.deltaTime;
         float t = Mathf.Clamp01(_moveElapsed / MoveDuration);
-        t = t * t * (3f - 2f * t);
+        t = t * t * (3f - 2f * t); // SmoothStep
 
-        transform.position = Vector3.Lerp(_moveStartPos, _moveTargetPos, t);
+        // 보간된 위치 계산
+        Vector3 nextPos = Vector3.Lerp(_moveStartPos, _moveTargetPos, t);
 
-        // 복귀 중에는 ClampPosition 스킵 (9999 bounds 설정으로도 막히는 경우 방지)
+        // [수정] 복귀 중에는 절대 Clamp하지 않음 (Bounds 무시하고 강제 이동)
         if (!_isReturning)
-            ClampPosition();
+        {
+            nextPos.x = Mathf.Clamp(nextPos.x, CameraBounds.min.x, CameraBounds.max.x);
+            nextPos.y = Mathf.Clamp(nextPos.y, CameraBounds.min.y, CameraBounds.max.y);
+        }
+
+        transform.position = nextPos;
 
         if (_moveElapsed >= MoveDuration)
         {
+            // 이동 완료 시점
             transform.position = _moveTargetPos;
             _isMoving = false;
-            IsInputLocked = false;
-            _touchStartedOnBuilding = false;
-            _mouseDownOnUI = false;
-
-            // 복귀 완료 후 원래 Bounds 복원
+        
             if (_isReturning)
             {
+                // [핵심] 복귀가 끝난 '후'에야 Bounds를 복구함
                 CameraBounds = _prevBounds;
                 MinSize = _prevMinSize;
                 MaxSize = _prevMaxSize;
                 _cam.orthographicSize = Mathf.Clamp(_cam.orthographicSize, MinSize, MaxSize);
-                _isReturning = false;
+            
+                _isReturning = false; // 플래그 해제
             }
+
+            IsInputLocked = false;
+            _touchStartedOnBuilding = false;
+            _mouseDownOnUI = false;
         }
     }
 
