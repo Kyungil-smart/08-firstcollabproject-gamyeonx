@@ -8,16 +8,19 @@ public class BuildingData : MonoBehaviour
     public Button Enter;
     public Button LevelUp;
     CameraController _cameraController;
+    
+    public InBuildingData InBuildingData;
 
     private void Awake()
     {
         Canvas.gameObject.SetActive(false);
     }
-
-    public void Start()
+    
+    private void Start()
     {
-        Enter.onClick.AddListener(EnterAddListner);
-        LevelUp.onClick.AddListener(LevelUpAddListner);
+        _cameraController = FindFirstObjectByType<CameraController>();
+        Enter.onClick.AddListener(EnterBuilding);
+        LevelUp.onClick.AddListener(LevelUpBuilding);
     }
 
     public void CanvasActive()
@@ -26,22 +29,26 @@ public class BuildingData : MonoBehaviour
         Canvas.gameObject.SetActive(true);
     }
 
-    void EnterAddListner()
+    public void EnterBuilding()
     {
-        CameraController cam = FindObjectOfType<CameraController>();
-        cam.MoveToBuilding(
-            pivot      : transform,  // 추후 내부건물로 변경해야함
-            boundsSize : new Vector2(10, 10), 
-            minSize    : 2f,
-            maxSize    : 6f // 사이즈 관련도 내부 건물 레벨에 따라 변경 필요
+        _cameraController.MoveToBuilding(
+            pivot      : InBuildingData.Pivot.transform,
+            boundsSize : new Vector2(InBuildingData.CurLevel * 10, InBuildingData.CurLevel * 10), 
+            minSize    : InBuildingData.CurLevel * 2f,
+            maxSize    : InBuildingData.CurLevel * 6f
         );
         
         Canvas.gameObject.SetActive(false);
+        InBuildingData.EnterBuilding();
+        _cameraController.SetInputLock(false);
     }
 
-    void LevelUpAddListner()
+    public void LevelUpBuilding()
     {
         // 재화 있고 최대레벨 이하면 내부 건물 스크립트의 Levelup 불러오기
+        // if (현재재화 < 필요재화) return;
+        InBuildingData.BuildingLevelUp();
         Canvas.gameObject.SetActive(false);
+        _cameraController.SetInputLock(false);
     }
 }

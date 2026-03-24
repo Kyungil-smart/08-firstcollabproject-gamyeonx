@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
     public Bounds CameraBounds;
 
     [Header("이동 설정")]
-    public float MoveDuration = 0.5f;  // 카메라 이동 시간
+    public float MoveDuration = 0.5f;
 
     [HideInInspector] 
     public bool IsInputLocked = false;
@@ -34,14 +34,22 @@ public class CameraController : MonoBehaviour
 
     // 건물 탭 감지
     private bool _touchStartedOnBuilding;
-    private Vector2 _touchBeganPos;        // 터치 시작 위치 (드래그 판단용)
-    private const float DragThreshold = 10f; // 드래그로 판단할 최소 픽셀
+    private bool _mouseDownOnUI;
+    private Vector2 _touchBeganPos;
+    private const float DragThreshold = 10f;
 
-    // 카메라 이동 (코루틴 대신 Update에서 처리)
+    // 카메라 이동
     private bool _isMoving;
+    private bool _isReturning;
     private Vector3 _moveStartPos;
     private Vector3 _moveTargetPos;
     private float _moveElapsed;
+
+    // 내부건물 이동 전 카메라 정보
+    private Bounds _prevBounds;
+    private float _prevMinSize;
+    private float _prevMaxSize;
+    private Vector3 _prevCameraPos;
 
     void Awake()
     {
@@ -51,11 +59,10 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        // 카메라 이동 중이면 이동 처리 먼저
         if (_isMoving)
         {
             HandleCameraMove();
-            return;  // 이동 중엔 터치 입력 전부 차단
+            return;
         }
 
         if (IsInputLocked) return;
@@ -64,13 +71,9 @@ public class CameraController : MonoBehaviour
         HandleMouseInput();
 #else
         int touchCount = Input.touchCount;
-
-        if (touchCount >= 2)
-            HandlePinchZoom();
-        else if (touchCount == 1)
-            HandlePan();
-        else
-            ApplyInertia();
+        if (touchCount >= 2)      HandlePinchZoom();
+        else if (touchCount == 1) HandlePan();
+        else                      ApplyInertia();
 #endif
 
         ClampPosition();
@@ -90,30 +93,24 @@ public class CameraController : MonoBehaviour
             _lastPanPos = touch.position;
             _touchBeganPos = touch.position;
             _velocity = Vector3.zero;
-            _isPanning = false;  // 드래그 확정 전까지 false
+            _isPanning = false;
 
-            // 터치 시작 위치에 건물 있는지 체크
             Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
             RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-            _touchStartedOnBuilding = hit.collider != null &&
-                                      hit.collider.GetComponent<BuildingData>() != null;
+            _touchStartedOnBuilding = hit.collider?.GetComponent<BuildingData>() != null;
         }
         else if (touch.phase == TouchPhase.Moved)
         {
-            // 시작점에서 DragThreshold 이상 움직이면 드래그로 확정
-            float dragDist = Vector2.Distance(touch.position, _touchBeganPos);
-            if (dragDist > DragThreshold)
+            if (Vector2.Distance(touch.position, _touchBeganPos) > DragThreshold)
             {
                 _isPanning = true;
-                _touchStartedOnBuilding = false;  // 드래그면 건물 탭 무효
+                _touchStartedOnBuilding = false;
             }
 
             if (_isPanning)
             {
-                Vector3 prevWorld = _cam.ScreenToWorldPoint(
-                    new Vector3(_lastPanPos.x, _lastPanPos.y, 0));
-                Vector3 currWorld = _cam.ScreenToWorldPoint(
-                    new Vector3(touch.position.x, touch.position.y, 0));
+                Vector3 prevWorld = _cam.ScreenToWorldPoint(new Vector3(_lastPanPos.x, _lastPanPos.y, 0));
+                Vector3 currWorld = _cam.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0));
 
                 Vector3 delta = (prevWorld - currWorld) * PanSpeed;
                 delta.z = 0;
@@ -125,7 +122,6 @@ public class CameraController : MonoBehaviour
         }
         else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
         {
-            // 드래그 없이 뗐고 건물 위였으면 → 건물 탭 처리
             if (!_isPanning && _touchStartedOnBuilding)
             {
                 Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
@@ -180,7 +176,6 @@ public class CameraController : MonoBehaviour
             _cam.orthographicSize + delta * ZoomSpeed,
             MinSize, MaxSize
         );
-
         _prevPinchDist = currentDist;
     }
 
@@ -189,27 +184,44 @@ public class CameraController : MonoBehaviour
     // ───────────────────────────────
     public void MoveToBuilding(Transform pivot, Vector2 boundsSize, float minSize, float maxSize)
     {
-        // 1. Bounds 먼저 변경 (ClampPosition이 목적지를 막지 않도록)
+        _prevBounds = CameraBounds;
+        _prevMinSize = MinSize;
+        _prevMaxSize = MaxSize;
+        _prevCameraPos = transform.position;
+
         CameraBounds = new Bounds(
-            new Vector3(pivot.position.x, pivot.position.y, 0),  // Pivot이 새 Center
+            new Vector3(pivot.position.x, pivot.position.y, 0),
             new Vector3(boundsSize.x, boundsSize.y, 0)
         );
 
-        // 2. 줌 범위 변경
         MinSize = minSize;
         MaxSize = maxSize;
-
-        // 현재 줌이 새 범위 벗어나면 즉시 보정
         _cam.orthographicSize = Mathf.Clamp(_cam.orthographicSize, MinSize, MaxSize);
 
-        // 3. 이동 시작 세팅
         _moveStartPos = transform.position;
         _moveTargetPos = new Vector3(pivot.position.x, pivot.position.y, transform.position.z);
         _moveElapsed = 0f;
         _isMoving = true;
+        _isReturning = false;
         _velocity = Vector3.zero;
+        IsInputLocked = true;
+    }
 
-        IsInputLocked = true;  // 이동 중 조작 차단
+    // ───────────────────────────────
+    // 외부 맵으로 복귀
+    // ───────────────────────────────
+    public void ReturnToWorld()
+    {
+        // Bounds를 크게 설정해 이동 중 ClampPosition에 막히지 않도록
+        CameraBounds = new Bounds(Vector3.zero, new Vector3(9999, 9999, 0));
+
+        _moveStartPos = transform.position;
+        _moveTargetPos = _prevCameraPos;
+        _moveElapsed = 0f;
+        _isMoving = true;
+        _isReturning = true;
+        _velocity = Vector3.zero;
+        IsInputLocked = true;
     }
 
     // ───────────────────────────────
@@ -220,19 +232,31 @@ public class CameraController : MonoBehaviour
     {
         _moveElapsed += Time.deltaTime;
         float t = Mathf.Clamp01(_moveElapsed / MoveDuration);
-
-        // EaseInOut : 처음엔 빠르게, 끝에서 천천히
         t = t * t * (3f - 2f * t);
 
         transform.position = Vector3.Lerp(_moveStartPos, _moveTargetPos, t);
-        ClampPosition();
 
-        // 이동 완료
+        // 복귀 중에는 ClampPosition 스킵 (9999 bounds 설정으로도 막히는 경우 방지)
+        if (!_isReturning)
+            ClampPosition();
+
         if (_moveElapsed >= MoveDuration)
         {
             transform.position = _moveTargetPos;
             _isMoving = false;
-            IsInputLocked = false;  // 이동 완료 후 조작 재활성화
+            IsInputLocked = false;
+            _touchStartedOnBuilding = false;
+            _mouseDownOnUI = false;
+
+            // 복귀 완료 후 원래 Bounds 복원
+            if (_isReturning)
+            {
+                CameraBounds = _prevBounds;
+                MinSize = _prevMinSize;
+                MaxSize = _prevMaxSize;
+                _cam.orthographicSize = Mathf.Clamp(_cam.orthographicSize, MinSize, MaxSize);
+                _isReturning = false;
+            }
         }
     }
 
@@ -283,18 +307,24 @@ public class CameraController : MonoBehaviour
             _velocity = Vector3.zero;
             _isPanning = false;
 
-            // 건물 위 클릭인지 체크
-            Vector2 worldPos = _cam.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-            _touchStartedOnBuilding = hit.collider != null &&
-                                      hit.collider.GetComponent<BuildingData>() != null;
+            // UI 위 클릭이면 건물 감지 스킵
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            {
+                _mouseDownOnUI = true;
+                _touchStartedOnBuilding = false;
+            }
+            else
+            {
+                _mouseDownOnUI = false;
+                Vector2 worldPos = _cam.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+                _touchStartedOnBuilding = hit.collider?.GetComponent<BuildingData>() != null;
+            }
         }
         else if (Input.GetMouseButton(0))
         {
-            float dragDist = Vector2.Distance(
-                new Vector2(Input.mousePosition.x, Input.mousePosition.y), _touchBeganPos);
-
-            if (dragDist > DragThreshold)
+            if (Vector2.Distance(
+                new Vector2(Input.mousePosition.x, Input.mousePosition.y), _touchBeganPos) > DragThreshold)
             {
                 _isPanning = true;
                 _touchStartedOnBuilding = false;
@@ -302,10 +332,8 @@ public class CameraController : MonoBehaviour
 
             if (_isPanning)
             {
-                Vector3 prevWorld = _cam.ScreenToWorldPoint(
-                    new Vector3(_lastPanPos.x, _lastPanPos.y, 0));
-                Vector3 currWorld = _cam.ScreenToWorldPoint(
-                    new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+                Vector3 prevWorld = _cam.ScreenToWorldPoint(new Vector3(_lastPanPos.x, _lastPanPos.y, 0));
+                Vector3 currWorld = _cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
 
                 Vector3 delta = (prevWorld - currWorld) * PanSpeed;
                 delta.z = 0;
@@ -317,8 +345,8 @@ public class CameraController : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            // 드래그 없이 뗐고 건물 위였으면 → 건물 클릭 처리
-            if (!_isPanning && _touchStartedOnBuilding)
+            // UI에서 시작된 클릭이면 건물 탭 무시
+            if (!_mouseDownOnUI && !_isPanning && _touchStartedOnBuilding)
             {
                 Vector2 worldPos = _cam.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
@@ -327,6 +355,7 @@ public class CameraController : MonoBehaviour
 
             _isPanning = false;
             _touchStartedOnBuilding = false;
+            _mouseDownOnUI = false;
         }
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
