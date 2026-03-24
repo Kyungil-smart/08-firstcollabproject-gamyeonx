@@ -1,0 +1,11 @@
+using UnityEngine;
+
+public enum EGuestNeedType
+{
+   None = 0,
+   Hunger = 1,
+   Thirst = 2,
+   Fatigue = 3,
+   Cleanliness = 4,
+
+}

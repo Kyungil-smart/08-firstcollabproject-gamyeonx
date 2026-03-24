@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24dc387aed8ef2947aed91400eb127df, type: 3}
+  m_Name: FacilityEffectDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::FacilityEffectDatabaseSO
+  _effectRowList:
+  - _facilityID: 0
+    _eFacilityType: 0
+    _hungerEffect: 0
+    _thirstEffect: 0
+    _fatigueEffect: 0
+    _cleanEffect: 0
+    _satisfactionEffect: 0
