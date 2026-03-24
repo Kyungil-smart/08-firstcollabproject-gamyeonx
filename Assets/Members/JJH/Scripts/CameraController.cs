@@ -74,7 +74,7 @@ public class CameraController : MonoBehaviour
     // ───────────────────────────────
     public void MoveToBuilding(Transform pivot, Vector2 boundsSize, float minSize, float maxSize)
     {
-        // ★ 중요: 이미 건물 내부라면 이전 좌표(월드 좌표)를 다시 덮어씌우지 않음
+        // 중요: 이미 건물 내부라면 이전 좌표(월드 좌표)를 다시 덮어씌우지 않음
         if (!_isInBuilding)
         {
             _prevBounds = CameraBounds;
