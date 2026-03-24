@@ -109,6 +109,12 @@ public class GridBuildingSystem : MonoBehaviour
                 }
             }
         }
+
+        if (_temp != null && Input.GetKeyDown(KeyCode.G))
+        {
+            _temp.Rotate();
+            FollowBuilding();
+        }
     }
 
     public void InitializeWithBuilding(GameObject building)
@@ -172,6 +178,7 @@ public class GridBuildingSystem : MonoBehaviour
         TempTilemap.ClearAllTiles();
     }
 
+    // 오브젝트 재배치용 메서드
     public void ReleaseArea(BoundsInt area)
     {
         foreach (var pos in area.allPositionsWithin)

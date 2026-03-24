@@ -30,6 +30,16 @@ public class Building : MonoBehaviour
         GridBuildingSystem.Instance.TakeArea(areaTemp);
     }
 
+    // 오브젝트 회전시키는 메서드
+    public void Rotate()
+    {
+        transform.Rotate(0, 0, -90);
+
+        var size = area.size;
+        area.size = new Vector3Int(size.y, size.x, size.z);
+    }
+
+    // 오브젝트 재배치용 메서드
     public void StartMove()
     {
         if (!Placed) return;
