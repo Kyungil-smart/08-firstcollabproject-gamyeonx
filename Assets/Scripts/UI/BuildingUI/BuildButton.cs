@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class BuildButton : MonoBehaviour
 {
     [SerializeField] private GameObject _uiBuildPanel;
+    [SerializeField] private GameObject _topUI;
 
     private Button _buildButton;
 
@@ -19,6 +20,7 @@ public class BuildButton : MonoBehaviour
         UIManager.Instance.IsStop = !UIManager.Instance.IsStop;
         Time.timeScale = UIManager.Instance.IsStop ? 0f : 1f;
         _uiBuildPanel.SetActive(true);
+        _topUI.SetActive(false);
         gameObject.SetActive(false);
     }
 
