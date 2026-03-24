@@ -1,0 +1,84 @@
+using UnityEngine;
+
+
+public class FacilityEffectSheetLoader : MonoBehaviour
+{
+    [Header("Sheet")]
+    [SerializeField] private SheetData _facilityEffectSheet;
+
+    [Header("Target Database")]
+    [SerializeField] private FacilityEffectDatabaseSO _facilityEffectDatabase;
+
+    [Header("Sheet Row Settings")]
+    [Tooltip("데이터 시작 줄 인덱스. 예: 1이면 두 번째 줄부터 읽음")]
+    [SerializeField] private int _startRowIndex = 1;
+
+    private void Start()
+    {
+        if (string.IsNullOrWhiteSpace(_facilityEffectSheet.Url))
+        {
+            Debug.LogError("[FacilityEffectSheetLoader] FacilityEffectSheet Url is missing.");
+            return;
+        }
+
+        if (_facilityEffectDatabase == null)
+        {
+            Debug.LogError("[FacilityEffectSheetLoader] FacilityEffectDatabase is missing.");
+            return;
+        }
+
+        StartCoroutine(_facilityEffectSheet.Load(SetFacilityEffectDatas));
+    }
+
+    /// <summary>
+    /// 시트 로드 완료 후 호출
+    /// </summary>
+    public void SetFacilityEffectDatas(char splitSymbol, string[] lines)
+    {
+        if (lines == null || lines.Length == 0)
+        {
+            Debug.LogWarning("[FacilityEffectSheetLoader] Lines are null or empty.");
+            return;
+        }
+
+        _facilityEffectDatabase.Clear();
+
+        for (int i = _startRowIndex; i < lines.Length; i++)
+        {
+            if (string.IsNullOrWhiteSpace(lines[i]))
+            {
+                continue;
+            }
+
+            string[] cols = lines[i].Split(splitSymbol);
+
+            // 예상 컬럼 수:
+            // 0 FacilityID
+            // 1 EFacilityType
+            // 2 HungerEffect
+            // 3 ThirstEffect
+            // 4 FatigueEffect
+            // 5 CleanEffect
+            // 6 SatisfactionEffect
+            if (cols.Length < 7)
+            {
+                Debug.LogWarning($"[FacilityEffectSheetLoader] Invalid column count at line {i}. Line skipped.");
+                continue;
+            }
+
+            for (int j = 0; j < cols.Length; j++)
+            {
+                cols[j] = cols[j].Trim();
+            }
+
+            FacilityEffectRow row = new FacilityEffectRow();
+            row.SetData(cols);
+
+            _facilityEffectDatabase.AddEffectRow(row);
+
+            Debug.Log($"[FacilityEffectSheetLoader] Facility Effect Loaded | {row.GetDebugText()}");
+        }
+
+        Debug.Log($"[FacilityEffectSheetLoader] Load Complete. Count: {_facilityEffectDatabase.EffectRowList.Count}");
+    }
+}
