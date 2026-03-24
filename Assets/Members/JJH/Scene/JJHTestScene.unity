@@ -296,10 +296,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eabecf2d412f41efad8928358b13ce89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapManager
-  Prefab: {fileID: 4225765993996541767, guid: 01819713e37b65f4eae6e174b9cdd763, type: 3}
+  BuildingPrefab: {fileID: 4225765993996541767, guid: 01819713e37b65f4eae6e174b9cdd763, type: 3}
   InstancePivot: {fileID: 1006408774}
   CurrentInstance: 0
   PivotDistance: 5
+  InBuildingPrefab1: {fileID: 5646732189160533396, guid: 66cfe941a5063654092b87d962b9ef6e, type: 3}
+  InBuildingPrefab2: {fileID: 6652110904473233531, guid: 8b576560d01143e4c88504c7e7eba9de, type: 3}
+  InBuildingPivot: {fileID: 844537610}
+  InBuildingPivotDistance: 50
+  CurrentInBuilding: 0
 --- !u!1 &816333551
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,6 +674,7 @@ MonoBehaviour:
   CameraBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 10, y: 5, z: 0}
+  MoveDuration: 0.5
   IsInputLocked: 0
 --- !u!114 &1384792206
 MonoBehaviour:

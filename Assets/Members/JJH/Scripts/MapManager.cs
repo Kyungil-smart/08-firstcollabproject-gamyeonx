@@ -15,7 +15,7 @@ public class MapManager : MonoBehaviour
     public GameObject InBuildingPrefab1;
     public GameObject InBuildingPrefab2;
     public GameObject InBuildingPivot;
-    public float InBuildingPivotDistance = 20f;
+    public float InBuildingPivotDistance = 50f;
     public int CurrentInBuilding = 0;
 
     private void Awake()
@@ -34,22 +34,20 @@ public class MapManager : MonoBehaviour
     public void InstantiateButton()
     {
         // 외부 건물 생성 로직
-        float X = InstancePivot.transform.position.x + (CurrentInstance * PivotDistance);
-        float Y = InstancePivot.transform.position.y;
-        Vector2 InstatiatePivot = new Vector2(X, Y);
+        Vector2 InstatiatePivot = PivotTransform(InstancePivot, CurrentInstance, PivotDistance);
         Instantiate(BuildingPrefab, InstatiatePivot, InstancePivot.transform.rotation);
         CurrentInstance++;
         
-        // 내부 건물 생성 함수
-        InBuildingInstatntiate();
-    }
-
-    private void InBuildingInstatntiate()
-    {
-        float X = InBuildingPivot.transform.position.x + (CurrentInBuilding * InBuildingPivotDistance);
-        float Y = InBuildingPivot.transform.position.y;
-        Vector2 InBuildingInstatiatePivot = new Vector2(X, Y);
-        Instantiate(BuildingPrefab, InBuildingInstatiatePivot, InBuildingPivot.transform.rotation);
+        // 내부 건물 생성 로직
+        Vector2 InBuildingInstatiatePivot = PivotTransform(InBuildingPivot, CurrentInBuilding, InBuildingPivotDistance);
+        Instantiate(InBuildingPrefab1, InBuildingInstatiatePivot, InstancePivot.transform.rotation);
         CurrentInBuilding++;
+    }
+    
+    private Vector2 PivotTransform(GameObject obj, int curInstance, float distance)
+    {
+        float X = obj.transform.position.x + (curInstance * distance);
+        float Y = obj.transform.position.y;
+        return new Vector2(X, Y);
     }
 }
