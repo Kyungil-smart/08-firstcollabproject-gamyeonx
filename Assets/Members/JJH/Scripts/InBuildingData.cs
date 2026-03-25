@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class InBuildingData : MonoBehaviour
@@ -12,8 +13,8 @@ public class InBuildingData : MonoBehaviour
     [SerializeField] private Button _returnButton;
 
     [Header("건물 정보")]
-    public int CurrentLevel = 1;
-    public int MaxLevel = 2;
+    public int currentLevel { get; private set; } = 1;
+    public int maxLevel { get; private set; } = 2;
     
     [Header("다음레벨 프리팹")]
     [SerializeField] private List<GameObject> _nextLevelPrefabs;
@@ -38,12 +39,12 @@ public class InBuildingData : MonoBehaviour
 
     public void BuildingLevelUp()
     {
-        if (MaxLevel <= CurrentLevel) return;
+        if (maxLevel <= currentLevel) return;
         float X = CameraPivot.transform.position.x;
         float Y = CameraPivot.transform.position.y;
         Vector2 NextLevelPivot = new Vector2(X, Y);
-        Instantiate(_nextLevelPrefabs[CurrentLevel - 1], NextLevelPivot, CameraPivot.transform.rotation);
-        CurrentLevel++;
+        Instantiate(_nextLevelPrefabs[currentLevel - 1], NextLevelPivot, CameraPivot.transform.rotation);
+        currentLevel++;
     }
 
     public void ReturnButton()

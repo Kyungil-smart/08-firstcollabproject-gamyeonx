@@ -32,9 +32,9 @@ public class BuildingData : MonoBehaviour
     {
         _cameraController.MoveToBuilding(
             pivot      : InBuildingData.CameraPivot.transform,
-            boundsSize : new Vector2(InBuildingData.CurrentLevel * 10, InBuildingData.CurrentLevel * 10), 
-            minSize    : InBuildingData.CurrentLevel * 2f,
-            maxSize    : InBuildingData.CurrentLevel * 6f
+            boundsSize : new Vector2(InBuildingData.currentLevel * 10, InBuildingData.currentLevel * 10), 
+            minSize    : InBuildingData.currentLevel * 2f,
+            maxSize    : InBuildingData.currentLevel * 6f
         );
         
         _canvas.gameObject.SetActive(false);

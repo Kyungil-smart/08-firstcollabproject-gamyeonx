@@ -6,16 +6,16 @@ public class MapManager : MonoBehaviour
     public static MapManager Instance;
     
     [Header("외부 건물 생성")]
-    public List<GameObject> BuildingPrefabs;
-    public GameObject BuildingPivot;
-    public int CurrentBuildingNum = 0;
-    public float BuildingPivotDistance = 5f; // 빌딩 생성용 임시 함수 추후 제거
+    [SerializeField] private List<GameObject> BuildingPrefabs;
+    [SerializeField] private GameObject BuildingPivot;
+    [SerializeField] private int CurrentBuildingNum = 0;
+    [SerializeField] private float BuildingPivotDistance = 5f; // 빌딩 생성용 임시 함수 추후 제거
 
     [Header("내부 건물 생성")] 
-    public List<GameObject> InBuildingPrefabs;
-    public GameObject InBuildingPivot;
-    public float InBuildingPivotDistance = 50f;
-    public int CurrentInBuildingNum = 0;
+    [SerializeField] private List<GameObject> InBuildingPrefabs;
+    [SerializeField] private GameObject InBuildingPivot;
+    [SerializeField] private float InBuildingPivotDistance = 50f;
+    [SerializeField] private int CurrentInBuildingNum = 0;
 
     private void Awake()
     {
