@@ -487,7 +487,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5635269092621493210}
         m_TargetAssemblyTypeName: BuildingData, Assembly-CSharp
-        m_MethodName: EnterBuilding
+        m_MethodName: BuildingEntered
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1105,7 +1105,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5635269092621493210}
         m_TargetAssemblyTypeName: BuildingData, Assembly-CSharp
-        m_MethodName: LevelUpBuilding
+        m_MethodName: BuildingLevelUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

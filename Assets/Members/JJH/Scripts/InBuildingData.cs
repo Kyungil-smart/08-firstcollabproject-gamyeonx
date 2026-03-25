@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,14 +5,14 @@ using UnityEngine.UI;
 public class InBuildingData : MonoBehaviour
 {
     [Header("카메라 기준점")]
-    public GameObject Pivot;
+    public GameObject CameraPivot;
     
     [Header("캔버스 및 버튼")]   
     [SerializeField] private Canvas _canvas;
     [SerializeField] private Button _returnButton;
 
     [Header("건물 정보")]
-    public int CurLevel = 1;
+    public int CurrentLevel = 1;
     public int MaxLevel = 2;
     
     [Header("다음레벨 프리팹")]
@@ -32,19 +31,19 @@ public class InBuildingData : MonoBehaviour
         _cameraController = FindFirstObjectByType<CameraController>();
     }
 
-    public void EnterBuilding()
+    public void BuildingEntered()
     {
         _canvas.gameObject.SetActive(true);
     }
 
     public void BuildingLevelUp()
     {
-        if (MaxLevel <= CurLevel) return;
-        float X = Pivot.transform.position.x;
-        float Y = Pivot.transform.position.y;
+        if (MaxLevel <= CurrentLevel) return;
+        float X = CameraPivot.transform.position.x;
+        float Y = CameraPivot.transform.position.y;
         Vector2 NextLevelPivot = new Vector2(X, Y);
-        Instantiate(_nextLevelPrefabs[CurLevel - 1], NextLevelPivot, Pivot.transform.rotation);
-        CurLevel++;
+        Instantiate(_nextLevelPrefabs[CurrentLevel - 1], NextLevelPivot, CameraPivot.transform.rotation);
+        CurrentLevel++;
     }
 
     public void ReturnButton()

@@ -39,7 +39,7 @@ public class CameraController : MonoBehaviour
     private float _prevMinSize;
     private float _prevMaxSize;
     private Vector3 _prevCameraPos;
-    private bool _isInBuilding = false; // ★ 현재 건물 내부인지 체크하는 플래그
+    private bool _isInBuilding = false; // 현재 건물 내부인지 체크하는 플래그
 
     void Awake()
     {
@@ -74,7 +74,7 @@ public class CameraController : MonoBehaviour
     // ───────────────────────────────
     public void MoveToBuilding(Transform pivot, Vector2 boundsSize, float minSize, float maxSize)
     {
-        // 중요: 이미 건물 내부라면 이전 좌표(월드 좌표)를 다시 덮어씌우지 않음
+        // 이미 건물 내부라면 이전 좌표(월드 좌표)를 다시 덮어씌우지 않음
         if (!_isInBuilding)
         {
             _prevBounds = CameraBounds;
@@ -105,7 +105,7 @@ public class CameraController : MonoBehaviour
     // ───────────────────────────────
     public void ReturnToWorld()
     {
-        // ★ 저장된 월드 데이터로 강제 복구
+        // 저장된 월드 데이터로 강제 복구
         CameraBounds = _prevBounds;
         MinSize = _prevMinSize;
         MaxSize = _prevMaxSize;
@@ -119,7 +119,7 @@ public class CameraController : MonoBehaviour
         _isPanning = false;
         _isPinching = false;
         IsInputLocked = false;
-        _isInBuilding = false; // ★ 월드로 돌아왔음을 표시
+        _isInBuilding = false; // 월드로 돌아왔음을 표시
 
         // 즉시 위치 강제 고정
         ClampPosition();
