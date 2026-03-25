@@ -7,61 +7,49 @@ using UnityEngine;
 public class GuestController : MonoBehaviour
 {
     [Header("Guest Identity")]
-    // 이 손님이 사용할 VisitorID
     [SerializeField] private int _visitorID = 1;
 
     [Header("Database References")]
-    // 손님 설정 데이터 DB
     [SerializeField] private GuestDataDatabaseSO _guestDataDatabase;
-
-    // 시설 효과 데이터 DB
     [SerializeField] private FacilityEffectDatabaseSO _facilityEffectDatabase;
 
     [Header("Runtime Guest States")]
-    // 현재 손님 상태값
     [SerializeField] private GuestStates _guestStates = new GuestStates();
 
     [Header("State Durations")]
-    // Idle 상태 유지 시간
     [SerializeField] private float _idleDuration = 2f;
 
-    // 시설 이용 시간
-    [SerializeField] private float _useDuration = 3f;
+    [Header("Use Goal Settings")]
+    [Tooltip("How often facility effect is applied while using.")]
+    [SerializeField] private float _useEffectTickInterval = 1f;
 
-    // 현재 손님 상태 데이터 getter
+    [Tooltip("Food use ends when hunger is equal to or below this value.")]
+    [SerializeField, Range(0, 100)] private int _hungerExitThreshold = 25;
+
+    [Tooltip("Drink use ends when thirst is equal to or below this value.")]
+    [SerializeField, Range(0, 100)] private int _thirstExitThreshold = 25;
+
+    [Tooltip("Rest use ends when fatigue is equal to or below this value.")]
+    [SerializeField, Range(0, 100)] private int _fatigueExitThreshold = 25;
+
+    [Tooltip("Clean use ends when cleanliness is equal to or above this value.")]
+    [SerializeField, Range(0, 100)] private int _cleanlinessExitThreshold = 75;
+
     public GuestStates GuestStates => _guestStates;
-
-    // IdleState에서 사용하는 대기 시간
     public float IdleDuration => _idleDuration;
-
-    // WanderState에서 사용하는 배회 시간
     public float WanderDuration { get; private set; } = 3f;
+    public float UseEffectTickInterval => _useEffectTickInterval;
 
-    // UseState에서 사용하는 시설 이용 시간
-    public float UseDuration => _useDuration;
-
-    // Utility AI가 판단한 현재 욕구
     public EGuestNeedType CurrentNeedType { get; private set; } = EGuestNeedType.None;
-
-    // Utility AI가 판단한 현재 목표 시설 타입
     public EFacilityType CurrentTargetFacilityType { get; private set; } = EFacilityType.None;
 
-    // 실제 이동 완료 여부
     public bool HasArrivedAtFacility { get; private set; }
-
-    // 시설 사용 가능 여부
     public bool CanUseFacility { get; private set; }
-
-    // 현재 목표 시설 ID
     public int CurrentTargetFacilityID { get; private set; } = -1;
 
-    // Utility AI 평가기
     private GuestUtilityEvaluator _utilityEvaluator;
-
-    // 상태 머신
     private GuestStateMachine _stateMachine;
 
-    // FSM 상태들
     private GuestIdleState _idleState;
     private GuestWanderState _wanderState;
     private GuestDecideState _decideState;
@@ -76,25 +64,18 @@ public class GuestController : MonoBehaviour
 
     private void Update()
     {
-        // 현재 상태 업데이트
         _stateMachine?.Update();
-
-        // 손님 상태값을 시간에 따라 변화시킴
         UpdateGuestStatesOverTime();
     }
 
     /// <summary>
-    /// 초기화
+    /// Initialize runtime systems and FSM states.
     /// </summary>
     private void Initialize()
     {
-        // Utility AI 생성
         _utilityEvaluator = new GuestUtilityEvaluator();
-
-        // 상태 머신 생성
         _stateMachine = new GuestStateMachine();
 
-        // FSM 상태 객체 생성
         _idleState = new GuestIdleState(this);
         _wanderState = new GuestWanderState(this);
         _decideState = new GuestDecideState(this);
@@ -102,17 +83,14 @@ public class GuestController : MonoBehaviour
         _waitState = new GuestWaitState(this);
         _useState = new GuestUseState(this);
 
-        // VisitorID 기준으로 손님 설정 데이터 로드
         LoadGuestData();
-
-        // 초기 상태는 Idle
         _stateMachine.ChangeState(_idleState);
 
         Debug.Log("[GuestController] Initialized.");
     }
 
     /// <summary>
-    /// GuestDataDatabase에서 VisitorID에 맞는 데이터를 읽어와 초기화
+    /// Load initial guest values from database by visitor ID.
     /// </summary>
     private void LoadGuestData()
     {
@@ -130,7 +108,6 @@ public class GuestController : MonoBehaviour
             return;
         }
 
-        // 현재 상태값 초기화
         _guestStates.Initialize(
             row.VisitorID,
             row.Hunger,
@@ -140,14 +117,13 @@ public class GuestController : MonoBehaviour
             row.Satisfaction
         );
 
-        // Wander 시간은 시트 데이터에서 가져옴
         WanderDuration = row.WanderDuration;
 
         Debug.Log($"[GuestController] Guest data loaded. VisitorID: {_visitorID}");
     }
 
     /// <summary>
-    /// 시간에 따라 손님 상태값 변화
+    /// Apply passive stat change over time.
     /// </summary>
     private void UpdateGuestStatesOverTime()
     {
@@ -163,7 +139,6 @@ public class GuestController : MonoBehaviour
             return;
         }
 
-        // 초당 변화량 적용
         _guestStates.AddHunger(Mathf.RoundToInt(row.HungerDeltaPerSecond * Time.deltaTime));
         _guestStates.AddThirst(Mathf.RoundToInt(row.ThirstDeltaPerSecond * Time.deltaTime));
         _guestStates.AddFatigue(Mathf.RoundToInt(row.FatigueDeltaPerSecond * Time.deltaTime));
@@ -172,8 +147,7 @@ public class GuestController : MonoBehaviour
     }
 
     /// <summary>
-    /// Utility AI 실행
-    /// 현재 가장 급한 욕구와 목표 시설 타입을 계산
+    /// Evaluate current highest need and target facility type.
     /// </summary>
     public void EvaluateCurrentNeed()
     {
@@ -190,8 +164,7 @@ public class GuestController : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 목표 시설 ID 설정
-    /// 나중에 시설 담당자 코드와 연결 예정
+    /// Set current target facility ID.
     /// </summary>
     public void SetCurrentTargetFacilityID(int facilityID)
     {
@@ -200,8 +173,7 @@ public class GuestController : MonoBehaviour
     }
 
     /// <summary>
-    /// 이동 완료 처리
-    /// 나중에 A* 담당자 코드에서 호출 예정
+    /// Set arrival state from movement system.
     /// </summary>
     public void SetArrivedAtFacility(bool isArrived)
     {
@@ -210,8 +182,7 @@ public class GuestController : MonoBehaviour
     }
 
     /// <summary>
-    /// 시설 사용 가능 여부 설정
-    /// 나중에 시설 담당자 코드에서 호출 예정
+    /// Set availability from facility system.
     /// </summary>
     public void SetCanUseFacility(bool canUse)
     {
@@ -220,8 +191,7 @@ public class GuestController : MonoBehaviour
     }
 
     /// <summary>
-    /// 현재 시설 효과 적용
-    /// GuestUseState에서 호출 예정
+    /// Apply current facility effect once.
     /// </summary>
     public void ApplyCurrentFacilityEffect()
     {
@@ -248,9 +218,43 @@ public class GuestController : MonoBehaviour
         _guestStates.ApplyFacilityEffect(effectRow);
     }
 
-    // -----------------------------
-    // FSM 상태 전환 함수들
-    // -----------------------------
+    /// <summary>
+    /// Return true when the current facility's main goal is already satisfied.
+    /// </summary>
+    public bool IsCurrentFacilityGoalReached()
+    {
+        switch (CurrentTargetFacilityType)
+        {
+            case EFacilityType.Food:
+                return _guestStates.hunger <= _hungerExitThreshold;
+
+            case EFacilityType.Drink:
+                return _guestStates.thirst <= _thirstExitThreshold;
+
+            case EFacilityType.Rest:
+                return _guestStates.fatigue <= _fatigueExitThreshold;
+
+            case EFacilityType.Clean:
+                return _guestStates.cleanliness >= _cleanlinessExitThreshold;
+
+            default:
+                Debug.LogWarning("[GuestController] IsCurrentFacilityGoalReached failed. Invalid facility type.");
+                return true;
+        }
+    }
+
+    /// <summary>
+    /// Clear runtime facility context after use ends.
+    /// </summary>
+    public void ClearCurrentFacilityContext()
+    {
+        CurrentTargetFacilityID = -1;
+        CurrentTargetFacilityType = EFacilityType.None;
+        HasArrivedAtFacility = false;
+        CanUseFacility = false;
+
+        Debug.Log("[GuestController] Cleared current facility context.");
+    }
 
     public void ChangeToIdleState()
     {
@@ -281,10 +285,6 @@ public class GuestController : MonoBehaviour
     {
         _stateMachine.ChangeState(_useState);
     }
-
-    // -----------------------------
-    // 디버그용 ContextMenu
-    // -----------------------------
 
     [ContextMenu("Debug Arrive Facility")]
     private void DebugArriveFacility()
