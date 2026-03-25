@@ -1,16 +1,17 @@
+using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class MainCanvasButten : MonoBehaviour
+public class MainCanvasButton : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Button NewGame;
+    [SerializeField] private Button LoadGame;
+    [SerializeField] private Button Quit;
+    [SerializeField] private Button Setting;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+
     }
 }
