@@ -7,6 +7,8 @@ public enum ETileType { Empty, White, Green, Red }
 public class GridBuildingSystem : MonoBehaviour
 {
     public static GridBuildingSystem Instance { get; private set; }
+    // grid 좌표에 Tile상태를 저장
+    private Dictionary<Vector3Int, TileType> tileTypes = new Dictionary<Vector3Int, TileType>();
 
     public GridLayout gridLayout;
     public Tilemap MainTilemap;   
@@ -20,7 +22,7 @@ public class GridBuildingSystem : MonoBehaviour
     private HashSet<Vector3Int> occupied = new HashSet<Vector3Int>();   // 점유된 타일 좌표
 
     private bool _isPlacing = false;    // 프리뷰 상태 체크
-
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -37,6 +39,7 @@ public class GridBuildingSystem : MonoBehaviour
         _tileBases.Add(ETileType.White, Resources.Load<TileBase>("SGH_Test/white"));
         _tileBases.Add(ETileType.Green, Resources.Load<TileBase>("SGH_Test/green"));
         _tileBases.Add(ETileType.Red, Resources.Load<TileBase>("SGH_Test/red"));
+        InitTileTypes();
     }
 
     private void Update()
@@ -173,7 +176,23 @@ public class GridBuildingSystem : MonoBehaviour
     public void TakeArea(BoundsInt area)
     {
         foreach (var pos in area.allPositionsWithin)
+        {
             occupied.Add(pos);
+
+            if (_temp.buildType == BuildType.Road)
+            {
+                SetTileType(pos, TileType.Road);
+            }
+            else if (_temp.buildType == BuildType.Building)
+            {
+                SetTileType(pos, TileType.Building);
+            }
+            else
+            {
+                Debug.Log("알 수 없는 타입!");
+            }
+        }
+
 
         TempTilemap.ClearAllTiles();
     }
@@ -182,9 +201,40 @@ public class GridBuildingSystem : MonoBehaviour
     public void ReleaseArea(BoundsInt area)
     {
         foreach (var pos in area.allPositionsWithin)
+        {
             occupied.Remove(pos);
+            SetTileType(pos, TileType.Empty);
+        }
 
         TempTilemap.ClearAllTiles();
         MainTilemap.RefreshAllTiles();
+    }
+
+    public bool IsOccupied(Vector3Int pos)
+    {
+        return occupied.Contains(pos);
+    }
+    
+    // 해당 gird의 좌표에 무슨 TileType인지 알려줌
+    public TileType GetTileType(Vector3Int pos)
+    {
+        if (tileTypes.TryGetValue(pos, out TileType type)) return type;
+
+        return TileType.Empty;
+    }
+    
+    // 해당 좌표에 어떤 TileType을 배치할지
+    public void SetTileType(Vector3Int pos, TileType type) => tileTypes[pos] = type;
+    
+    // 맵 전체를 순회하면서 모든 타일 상태를 초기화하는 함수
+    void InitTileTypes()
+    {
+        // 타일맵 전체 범위 가져오기
+        BoundsInt bounds = MainTilemap.cellBounds;
+
+        // 맵 안의 모든 좌표 하나씩 꺼냄
+        foreach (var pos in bounds.allPositionsWithin)
+            SetTileType(pos, TileType.Empty); // 전부 TileType.Empty(빈 상태)로 초기화
+        
     }
 }
