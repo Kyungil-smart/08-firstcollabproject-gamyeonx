@@ -1,9 +1,16 @@
 using UnityEngine;
 
+public enum BuildType
+{
+    Road,
+    Building
+}
+
 public class Building : MonoBehaviour
 {
     public bool Placed { get; private set; }    // 설치 완료 여부
     public BoundsInt area;  // 건물이 차지하는 영역 오프셋
+    public BuildType buildType;
 
     // 현재 위치에서 설치 가능여부 체크용 메서드
     public bool CanbePlaced()
