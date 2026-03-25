@@ -688,9 +688,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86604253aef394947944e726f664d2d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
-  Canvas: {fileID: 3448930228716829054}
-  Enter: {fileID: 1104006527878900171}
-  LevelUp: {fileID: 383192829236046706}
+  _canvas: {fileID: 3448930228716829054}
+  _enterButton: {fileID: 1104006527878900171}
+  _levelUpButton: {fileID: 383192829236046706}
   InBuildingData: {fileID: 0}
 --- !u!1 &3795103889493291835
 GameObject:

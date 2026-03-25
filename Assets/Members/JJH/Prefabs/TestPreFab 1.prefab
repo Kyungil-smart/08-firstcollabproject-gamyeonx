@@ -44,11 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62df3b16713ddb944a54c43bd74195f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InBuildingData
-  Pivot: {fileID: 1391556549972393632}
+  CameraPivot: {fileID: 1391556549972393632}
   _canvas: {fileID: 3212967578689697212}
   _returnButton: {fileID: 7071408701860079218}
-  CurLevel: 1
-  MaxLevel: 2
   _nextLevelPrefabs:
   - {fileID: 6652110904473233531, guid: 8b576560d01143e4c88504c7e7eba9de, type: 3}
 --- !u!1 &2164831686825136632

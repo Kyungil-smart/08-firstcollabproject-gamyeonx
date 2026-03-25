@@ -124,7 +124,6 @@ public class CameraController : MonoBehaviour
         // 즉시 위치 강제 고정
         ClampPosition();
         
-        Debug.Log($"World 복귀 완료! 목표 좌표: {_prevCameraPos}");
     }
 
     // ───────────────────────────────

@@ -298,14 +298,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapManager
   BuildingPrefabs:
   - {fileID: 4225765993996541767, guid: 01819713e37b65f4eae6e174b9cdd763, type: 3}
-  InstancePivot: {fileID: 1006408774}
-  CurrentInstance: 0
-  PivotDistance: 5
+  BuildingPivot: {fileID: 1006408774}
+  CurrentBuildingNum: 0
+  BuildingPivotDistance: 5
   InBuildingPrefabs:
   - {fileID: 5646732189160533396, guid: 66cfe941a5063654092b87d962b9ef6e, type: 3}
   InBuildingPivot: {fileID: 844537610}
   InBuildingPivotDistance: 50
-  CurrentInBuilding: 0
+  CurrentInBuildingNum: 0
 --- !u!1 &816333551
 GameObject:
   m_ObjectHideFlags: 0
