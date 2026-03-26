@@ -168,7 +168,7 @@ public class CameraController : MonoBehaviour
                 Vector3 currWorld = _cam.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0));
                 Vector3 delta = (prevWorld - currWorld) * PanSpeed;
                 delta.z = 0;
-                _velocity = delta / Time.deltaTime;
+                if (Time.deltaTime > 0) _velocity = delta / Time.deltaTime;  // ← 수정
                 transform.position += delta;
                 _lastPanPos = touch.position;
             }
@@ -188,6 +188,14 @@ public class CameraController : MonoBehaviour
     void ApplyInertia()
     {
         if (_isPanning) return;
+
+        // NaN 체크
+        if (float.IsNaN(_velocity.x) || float.IsNaN(_velocity.y))
+        {
+            _velocity = Vector3.zero;
+            return;
+        }
+
         if (_velocity.sqrMagnitude < 0.001f) { _velocity = Vector3.zero; return; }
         transform.position += _velocity * Time.deltaTime;
         _velocity *= Reducing;
@@ -243,7 +251,7 @@ public class CameraController : MonoBehaviour
                 Vector3 currWorld = _cam.ScreenToWorldPoint(Input.mousePosition);
                 Vector3 delta = (prevWorld - currWorld) * PanSpeed;
                 delta.z = 0;
-                _velocity = delta / Time.deltaTime;
+                if (Time.deltaTime > 0) _velocity = delta / Time.deltaTime;  // ← 수정
                 transform.position += delta;
                 _lastPanPos = Input.mousePosition;
             }

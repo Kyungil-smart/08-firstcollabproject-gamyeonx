@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/MapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/MapManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/CameraController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/SGH/Scripts/ObyO.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/SGH/Scripts/ObyO.prefab" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +95,7 @@
       <updated>1774318716015</updated>
       <workItem from="1774318721448" duration="20817000" />
       <workItem from="1774395949697" duration="12266000" />
-      <workItem from="1774488212928" duration="5503000" />
+      <workItem from="1774488212928" duration="6785000" />
     </task>
     <servers />
   </component>
