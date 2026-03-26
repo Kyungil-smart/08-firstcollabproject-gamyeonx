@@ -26,7 +26,7 @@ public class GuestDecideState : IGuestState
 
         if (_controller.CurrentTargetFacilityType == EFacilityType.None)
         {
-            Debug.LogWarning("[GuestDecideState] 목표 시설 타입이 없어서 다시 배회로 복귀");
+            Debug.Log("[GuestDecideState] 목표 시설 타입이 없어서 다시 배회로 복귀");
             _controller.ChangeToWanderState();
             return;
         }
@@ -35,7 +35,7 @@ public class GuestDecideState : IGuestState
 
         if (!found)
         {
-            Debug.LogWarning("[GuestDecideState] 사용할 수 있는 목표 시설을 찾지 못해서 다시 배회로 복귀");
+            Debug.Log("[GuestDecideState] 사용할 수 있는 목표 시설을 찾지 못해서 다시 배회로 복귀");
             _controller.ChangeToWanderState();
             return;
         }

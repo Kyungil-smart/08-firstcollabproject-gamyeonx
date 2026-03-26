@@ -17,7 +17,6 @@ public class FacilityEffectDatabaseSO : ScriptableObject
     {
         if (row == null)
         {
-            Debug.LogWarning("[FacilityEffectDatabaseSO] row가 null이라 추가하지 못했습니다.");
             return;
         }
 
@@ -41,7 +40,6 @@ public class FacilityEffectDatabaseSO : ScriptableObject
             }
         }
 
-        Debug.LogWarning($"[FacilityEffectDatabaseSO] FacilityID={facilityID} 데이터를 찾지 못했습니다.");
         return null;
     }
 
@@ -56,13 +54,12 @@ public class FacilityEffectDatabaseSO : ScriptableObject
                 continue;
             }
 
-            if (row.FacilityType == facilityType && row.IsSelectableByNormalGuest)
+            if (row.FacilityType == facilityType && row.NormalGuest)
             {
                 return row;
             }
         }
 
-        Debug.LogWarning($"[FacilityEffectDatabaseSO] 일반 손님이 선택 가능한 시설이 없습니다. FacilityType={facilityType}");
         return null;
     }
 }

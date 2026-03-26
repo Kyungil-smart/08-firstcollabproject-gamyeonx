@@ -17,27 +17,21 @@ public class FacilityEffectSheetLoader : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(_facilityEffectSheet.Url))
         {
-            Debug.LogError("[FacilityEffectSheetLoader] FacilityEffectSheet Url is missing.");
             return;
         }
 
         if (_facilityEffectDatabase == null)
         {
-            Debug.LogError("[FacilityEffectSheetLoader] FacilityEffectDatabase is missing.");
             return;
         }
 
         StartCoroutine(_facilityEffectSheet.Load(SetFacilityEffectDatas));
     }
 
-    /// <summary>
-    /// 시트 로드 완료 후 호출
-    /// </summary>
     public void SetFacilityEffectDatas(char splitSymbol, string[] lines)
     {
         if (lines == null || lines.Length == 0)
         {
-            Debug.LogWarning("[FacilityEffectSheetLoader] Lines are null or empty.");
             return;
         }
 
@@ -76,9 +70,7 @@ public class FacilityEffectSheetLoader : MonoBehaviour
 
             _facilityEffectDatabase.AddEffectRow(row);
 
-            Debug.Log($"[FacilityEffectSheetLoader] Facility Effect Loaded | {row.GetDebugText()}");
         }
 
-        Debug.Log($"[FacilityEffectSheetLoader] Load Complete. Count: {_facilityEffectDatabase.EffectRowList.Count}");
     }
 }

@@ -62,7 +62,7 @@ public class GuestStates
                 _fatigue = clampedValue;
                 break;
             default:
-                Debug.LogWarning($"[GuestStates] SetNeedValue 실패. 잘못된 needType={needType}");
+                Debug.Log($"[GuestStates] SetNeedValue 실패. 잘못된 needType={needType}");
                 return;
         }
 
@@ -99,7 +99,6 @@ public class GuestStates
         _thirst = ClampValue(_thirst + 1);
         _fatigue = ClampValue(_fatigue + 1);
 
-        Debug.Log($"[GuestStates] 배회 틱 적용 | {GetDebugText()}");
         RaiseStatesChanged();
     }
 
@@ -112,7 +111,6 @@ public class GuestStates
     {
         if (effectRow == null)
         {
-            Debug.LogWarning("[GuestStates] 시설 효과 적용 실패. effectRow가 null입니다.");
             return;
         }
 
@@ -121,7 +119,6 @@ public class GuestStates
         _fatigue = ClampValue(_fatigue + effectRow.FatigueEffectPerTick);
         _satisfaction = ClampValue(_satisfaction + effectRow.SatisfactionEffectPerTick);
 
-        Debug.Log($"[GuestStates] 시설 효과 틱 적용 | {effectRow.GetDebugText()}");
         RaiseStatesChanged();
     }
 

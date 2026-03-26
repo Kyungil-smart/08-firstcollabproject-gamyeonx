@@ -9,7 +9,7 @@ public class FacilityEffectRow
     [SerializeField] private EFacilityType _facilityType = EFacilityType.None;
 
     [Header("일반 손님 선택 가능 여부")]
-    [SerializeField] private bool _isSelectableByNormalGuest = false;
+    [SerializeField] private bool _NormalGuest = false;
 
     [Header("이용 중 틱 효과")]
     [SerializeField] private int _hungerEffectPerTick;
@@ -19,7 +19,7 @@ public class FacilityEffectRow
 
     public int FacilityID => _facilityID;
     public EFacilityType FacilityType => _facilityType;
-    public bool IsSelectableByNormalGuest => _isSelectableByNormalGuest;
+    public bool NormalGuest => _NormalGuest;
 
     public int HungerEffectPerTick => _hungerEffectPerTick;
     public int ThirstEffectPerTick => _thirstEffectPerTick;
@@ -30,7 +30,7 @@ public class FacilityEffectRow
     {
         _facilityID = int.Parse(cols[0]);
         _facilityType = ParseFacilityType(cols[1]);
-        _isSelectableByNormalGuest = ParseBool(cols[2]);
+        _NormalGuest = ParseBool(cols[2]);
         _hungerEffectPerTick = int.Parse(cols[3]);
         _thirstEffectPerTick = int.Parse(cols[4]);
         _fatigueEffectPerTick = int.Parse(cols[5]);
@@ -39,7 +39,7 @@ public class FacilityEffectRow
 
     public string GetDebugText()
     {
-        return $"FacilityID={_facilityID}, FacilityType={_facilityType}, Selectable={_isSelectableByNormalGuest}, HungerTick={_hungerEffectPerTick}, ThirstTick={_thirstEffectPerTick}, FatigueTick={_fatigueEffectPerTick}, SatisfactionTick={_satisfactionEffectPerTick}";
+        return $"FacilityID={_facilityID}, FacilityType={_facilityType}, Selectable={_NormalGuest}, HungerTick={_hungerEffectPerTick}, ThirstTick={_thirstEffectPerTick}, FatigueTick={_fatigueEffectPerTick}, SatisfactionTick={_satisfactionEffectPerTick}";
     }
 
     private EFacilityType ParseFacilityType(string value)
