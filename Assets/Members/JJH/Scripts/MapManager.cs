@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 
 public class MapManager : MonoBehaviour
 {
     public static MapManager Instance;
     
     [Header("외부 건물 생성")]
-    [SerializeField] private List<GameObject> BuildingPrefabs;
-    [SerializeField] private GameObject BuildingPivot;
+    // [SerializeField] private List<GameObject> BuildingPrefabs;
+    // [SerializeField] private GameObject BuildingPivot;
     [SerializeField] private int CurrentBuildingNum = 0;
     [SerializeField] private float BuildingPivotDistance = 5f; // 빌딩 생성용 임시 함수 추후 제거
 
@@ -30,23 +31,25 @@ public class MapManager : MonoBehaviour
         }
     }
     
-    public void InstantiateButton()
+    public void InstantiateInBuilding(Building building, int index)
     {
-        int index = 0; // 추후 UI쪽 스크립트에서 함수로 받아올것
+        /*int index = 0; // 추후 UI쪽 스크립트에서 함수로 받아올것
         
         // 외부 건물 생성 로직 (추후 그리드시스템과 연계)
         Vector2 BuildingInstatiatePivot = PivotTransform(BuildingPivot, CurrentBuildingNum, BuildingPivotDistance);
-        GameObject outBuilding = Instantiate(BuildingPrefabs[index], BuildingInstatiatePivot, BuildingPivot.transform.rotation);
+        GameObject outBuilding = Instantiate(BuildingPrefabs[index], BuildingInstatiatePivot, BuildingPivot.transform.rotation);*/
+
+        if (index < 0) return;
         CurrentBuildingNum++;
         
         // 내부 건물 생성 로직
         Vector2 InBuildingInstantiatePivot = PivotTransform(InBuildingPivot, CurrentInBuildingNum, InBuildingPivotDistance);
-        GameObject inBuilding = Instantiate(InBuildingPrefabs[index], InBuildingInstantiatePivot, BuildingPivot.transform.rotation);
+        GameObject inBuilding = Instantiate(InBuildingPrefabs[index], InBuildingInstantiatePivot, InBuildingPivot.transform.rotation);
         CurrentInBuildingNum++;
-
-        BuildingData outData = outBuilding.GetComponentInChildren<BuildingData>();
+        
         InBuildingData inData = inBuilding.GetComponentInChildren<InBuildingData>();
-        outData.InBuildingData = inData;
+        building.InBuildingData = inData;
+        building.InBuildingRoot = inBuilding;
     }
     
     private Vector2 PivotTransform(GameObject obj, int curInstance, float distance)
@@ -54,17 +57,5 @@ public class MapManager : MonoBehaviour
         float x = obj.transform.position.x + (curInstance * distance);
         float y = obj.transform.position.y;
         return new Vector2(x, y);
-    }
-
-    // 추후 UI 쪽 스크립트로 이전
-    public int BuildingIndex(GameObject obj)
-    {
-        switch (obj.tag)
-        {
-            case "HotSpring":
-                return 0;
-            default:
-                return -1;
-        }
     }
 }

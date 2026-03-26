@@ -58,7 +58,7 @@ public class GridBuildingSystem : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && !_isPlacing)
+        if (Input.GetMouseButtonDown(2) && !_isPlacing)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
@@ -89,7 +89,7 @@ public class GridBuildingSystem : MonoBehaviour
         else if (_temp != null && Input.GetKeyDown(KeyCode.Escape))
         {
             TempTilemap.ClearAllTiles();
-            Destroy(_temp.gameObject);
+            _temp.DestroyBuilding();
             _isPlacing = false;
         }
 
@@ -107,7 +107,7 @@ public class GridBuildingSystem : MonoBehaviour
                         occupied.Remove(pos);
 
                     MainTilemap.RefreshAllTiles();
-                    Destroy(obj.gameObject);
+                    obj.DestroyBuilding();
                     break;
                 }
             }
@@ -124,7 +124,10 @@ public class GridBuildingSystem : MonoBehaviour
     {
         if (_isPlacing) return;
 
+        int index = BuildingIndex(building);
+
         _temp = Instantiate(building, Vector3.zero, Quaternion.identity).GetComponent<Building>();
+        MapManager.Instance.InstantiateInBuilding(_temp, index);
         _isPlacing = true;
         FollowBuilding();
     }
@@ -236,5 +239,18 @@ public class GridBuildingSystem : MonoBehaviour
         foreach (var pos in bounds.allPositionsWithin)
             SetTileType(pos, TileType.Empty); // 전부 TileType.Empty(빈 상태)로 초기화
         
+    }
+    
+    public int BuildingIndex(GameObject obj)
+    {
+        switch (obj.tag)
+        {
+            case "TwoByOne":
+                return 0;
+            case "OByO":
+                return 1;
+            default:
+                return -1;
+        }
     }
 }

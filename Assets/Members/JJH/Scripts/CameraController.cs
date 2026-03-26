@@ -153,7 +153,7 @@ public class CameraController : MonoBehaviour
             _isPanning = false;
             Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
             RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-            _touchStartedOnBuilding = hit.collider?.GetComponent<BuildingData>() != null;
+            _touchStartedOnBuilding = hit.collider?.GetComponent<Building>() != null;
         }
         else if (touch.phase == TouchPhase.Moved)
         {
@@ -168,7 +168,7 @@ public class CameraController : MonoBehaviour
                 Vector3 currWorld = _cam.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0));
                 Vector3 delta = (prevWorld - currWorld) * PanSpeed;
                 delta.z = 0;
-                _velocity = delta / Time.deltaTime;
+                if (Time.deltaTime > 0) _velocity = delta / Time.deltaTime;  // ← 수정
                 transform.position += delta;
                 _lastPanPos = touch.position;
             }
@@ -179,7 +179,7 @@ public class CameraController : MonoBehaviour
             {
                 Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
                 RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-                hit.collider?.GetComponent<BuildingData>()?.CanvasActive();
+                hit.collider?.GetComponent<Building>()?.CanvasActive();
             }
             _isPanning = _isPinching = _touchStartedOnBuilding = false;
         }
@@ -188,6 +188,14 @@ public class CameraController : MonoBehaviour
     void ApplyInertia()
     {
         if (_isPanning) return;
+
+        // NaN 체크
+        if (float.IsNaN(_velocity.x) || float.IsNaN(_velocity.y))
+        {
+            _velocity = Vector3.zero;
+            return;
+        }
+
         if (_velocity.sqrMagnitude < 0.001f) { _velocity = Vector3.zero; return; }
         transform.position += _velocity * Time.deltaTime;
         _velocity *= Reducing;
@@ -227,7 +235,7 @@ public class CameraController : MonoBehaviour
                 _mouseDownOnUI = false;
                 Vector2 worldPos = _cam.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-                _touchStartedOnBuilding = hit.collider?.GetComponent<BuildingData>() != null;
+                _touchStartedOnBuilding = hit.collider?.GetComponent<Building>() != null;
             }
         }
         else if (Input.GetMouseButton(0))
@@ -243,7 +251,7 @@ public class CameraController : MonoBehaviour
                 Vector3 currWorld = _cam.ScreenToWorldPoint(Input.mousePosition);
                 Vector3 delta = (prevWorld - currWorld) * PanSpeed;
                 delta.z = 0;
-                _velocity = delta / Time.deltaTime;
+                if (Time.deltaTime > 0) _velocity = delta / Time.deltaTime;  // ← 수정
                 transform.position += delta;
                 _lastPanPos = Input.mousePosition;
             }
@@ -254,7 +262,7 @@ public class CameraController : MonoBehaviour
             {
                 Vector2 worldPos = _cam.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-                hit.collider?.GetComponent<BuildingData>()?.CanvasActive();
+                hit.collider?.GetComponent<Building>()?.CanvasActive();
             }
             _isPanning = _touchStartedOnBuilding = _mouseDownOnUI = false;
         }
