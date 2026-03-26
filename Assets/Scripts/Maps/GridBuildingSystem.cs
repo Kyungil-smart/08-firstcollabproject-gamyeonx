@@ -104,7 +104,11 @@ public class GridBuildingSystem : MonoBehaviour
                 if (obj.area.Contains(cellPos))
                 {
                     foreach (var pos in obj.area.allPositionsWithin)
+                    {
                         occupied.Remove(pos);
+                        // 연동준이 고침  
+                        SetTileType(pos, TileType.Empty);
+                    }
 
                     MainTilemap.RefreshAllTiles();
                     obj.DestroyBuilding();
