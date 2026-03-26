@@ -17,8 +17,8 @@ public class BuildButton : MonoBehaviour
 
     public void OnClickSetBuildPanel()
     {
-        UIManager.Instance.IsStop = !UIManager.Instance.IsStop;
-        Time.timeScale = UIManager.Instance.IsStop ? 0f : 1f;
+        //UIManager.Instance.IsStop = !UIManager.Instance.IsStop;
+        //Time.timeScale = UIManager.Instance.IsStop ? 0f : 1f;
         _uiBuildPanel.SetActive(true);
         _topUI.SetActive(false);
         gameObject.SetActive(false);
