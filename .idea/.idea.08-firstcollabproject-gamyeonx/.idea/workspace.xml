@@ -6,8 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Members/YDJ/YDJ_TestScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/YDJ/YDJ_TestScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/YDJ/Prefabs/Facility.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/YDJ/Prefabs/Facility.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/YDJ/YDJ_Scene.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/YDJ/YDJ_Scene.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/YDJ/YDJ_TestScene.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/YDJ/YDJ_TestScene.unity.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +24,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/31f3cd5c2a074982a9d5664e7709cac1212400/b9/b9b349ed/BoundsInt.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ac986a0571c64890abc6290fd3560d2bda00/74/c1606f58/TileBase.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ac986a0571c64890abc6290fd3560d2bda00/c0/9a98124a/Tilemap.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/fac7a4a0c8bc4b468987fb121888bf686200/ff/5f46ed4d/GridLayout.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/YDJ/Scripts/AStarPathfinder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/YDJ/Scripts/Enum_TileType.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/YDJ/Scripts/Node.cs" root0="FORCE_HIGHLIGHTING" />
@@ -97,7 +101,7 @@
       <workItem from="1774395949697" duration="12266000" />
       <workItem from="1774430208661" duration="1362000" />
       <workItem from="1774434608854" duration="1692000" />
-      <workItem from="1774483977663" duration="3025000" />
+      <workItem from="1774483977663" duration="8365000" />
     </task>
     <servers />
   </component>
