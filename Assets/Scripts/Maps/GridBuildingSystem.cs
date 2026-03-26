@@ -127,7 +127,7 @@ public class GridBuildingSystem : MonoBehaviour
         int index = BuildingIndex(building);
 
         _temp = Instantiate(building, Vector3.zero, Quaternion.identity).GetComponent<Building>();
-        MapManager.Instance.InstantiateInBuilding(building, index);
+        MapManager.Instance.InstantiateInBuilding(_temp, index);
         _isPlacing = true;
         FollowBuilding();
     }

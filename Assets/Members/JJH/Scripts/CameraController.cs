@@ -153,7 +153,7 @@ public class CameraController : MonoBehaviour
             _isPanning = false;
             Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
             RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-            _touchStartedOnBuilding = hit.collider?.GetComponent<BuildingData>() != null;
+            _touchStartedOnBuilding = hit.collider?.GetComponent<Building>() != null;
         }
         else if (touch.phase == TouchPhase.Moved)
         {
@@ -179,7 +179,7 @@ public class CameraController : MonoBehaviour
             {
                 Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
                 RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-                hit.collider?.GetComponent<BuildingData>()?.CanvasActive();
+                hit.collider?.GetComponent<Building>()?.CanvasActive();
             }
             _isPanning = _isPinching = _touchStartedOnBuilding = false;
         }
@@ -227,7 +227,7 @@ public class CameraController : MonoBehaviour
                 _mouseDownOnUI = false;
                 Vector2 worldPos = _cam.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-                _touchStartedOnBuilding = hit.collider?.GetComponent<BuildingData>() != null;
+                _touchStartedOnBuilding = hit.collider?.GetComponent<Building>() != null;
             }
         }
         else if (Input.GetMouseButton(0))
@@ -254,7 +254,7 @@ public class CameraController : MonoBehaviour
             {
                 Vector2 worldPos = _cam.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-                hit.collider?.GetComponent<BuildingData>()?.CanvasActive();
+                hit.collider?.GetComponent<Building>()?.CanvasActive();
             }
             _isPanning = _touchStartedOnBuilding = _mouseDownOnUI = false;
         }

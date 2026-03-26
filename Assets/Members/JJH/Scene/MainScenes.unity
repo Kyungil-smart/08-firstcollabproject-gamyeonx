@@ -1805,7 +1805,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00029355765}
+  m_AnchoredPosition: {x: 0, y: 0.000282873}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &731388506
@@ -4293,6 +4293,7 @@ GameObject:
   - component: {fileID: 1685894809}
   - component: {fileID: 1685894808}
   - component: {fileID: 1685894811}
+  - component: {fileID: 1685894812}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4418,6 +4419,27 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &1685894812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685894807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3531c2aff4f4c4498c47c4320326330, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraController
+  PanSpeed: 1
+  Reducing: 0.92
+  ZoomSpeed: 0.05
+  MaxSize: 10
+  MinSize: 3
+  CameraBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 10, y: 5, z: 0}
+  IsInputLocked: 0
 --- !u!1 &1723742365
 GameObject:
   m_ObjectHideFlags: 0
@@ -4453,6 +4475,7 @@ MonoBehaviour:
   CurrentBuildingNum: 0
   BuildingPivotDistance: 5
   InBuildingPrefabs:
+  - {fileID: 5646732189160533396, guid: 66cfe941a5063654092b87d962b9ef6e, type: 3}
   - {fileID: 5646732189160533396, guid: 66cfe941a5063654092b87d962b9ef6e, type: 3}
   InBuildingPivot: {fileID: 218385191}
   InBuildingPivotDistance: 50
@@ -4692,7 +4715,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 89115028}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999882
+  m_Size: 0.9998806
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
