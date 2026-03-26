@@ -1,61 +1,70 @@
 using UnityEngine;
 
 /// <summary>
-/// Main controller for one guest.
-/// This class connects guest data, runtime states, utility AI, and FSM states.
+/// 손님 1명의 전체 흐름을 관리하는 메인 컨트롤러
+/// FSM, 런타임 상태값, 시설 선택, 외부 시스템 연결 지점을 담당
 /// </summary>
 public class GuestController : MonoBehaviour
 {
-    [Header("Guest Identity")]
+    [Header("손님 식별값")]
     [SerializeField] private int _visitorID = 1;
 
-    [Header("Database References")]
+    [Header("DB 참조")]
     [SerializeField] private GuestDataDatabaseSO _guestDataDatabase;
     [SerializeField] private FacilityEffectDatabaseSO _facilityEffectDatabase;
 
-    [Header("Runtime Guest States")]
+    [Header("런타임 상태")]
     [SerializeField] private GuestStates _guestStates = new GuestStates();
 
-    [Header("State Durations")]
-    [SerializeField] private float _idleDuration = 2f;
+    [Header("배회 설정")]
+    [Tooltip("배회 중 컨디션 증가 주기. 기획 기준 2초")]
+    [SerializeField] private float _wanderNeedTickInterval = 2f;
 
-    [Header("Use Goal Settings")]
-    [Tooltip("How often facility effect is applied while using.")]
+    [Tooltip("배회 중 이벤트 판정 주기")]
+    [SerializeField] private float _wanderEventCheckInterval = 1f;
+
+    [Tooltip("배회 중 시설 이용 이벤트 발생 확률(%)")]
+    [SerializeField, Range(0f, 100f)] private float _facilityUseEventChancePercent = 20f;
+
+    [Header("이용 설정")]
+    [Tooltip("시설 이용 중 틱 적용 주기")]
     [SerializeField] private float _useEffectTickInterval = 1f;
 
-    [Tooltip("Food use ends when hunger is equal to or below this value.")]
-    [SerializeField, Range(0, 100)] private int _hungerExitThreshold = 25;
+    [Header("퇴장 설정")]
+    [Tooltip("시설 1회 이용 완료 시 증가하는 퇴장 확률(%)")]
+    [SerializeField, Range(0f, 100f)] private float _exitChanceIncreasePerUse = 3f;
 
-    [Tooltip("Drink use ends when thirst is equal to or below this value.")]
-    [SerializeField, Range(0, 100)] private int _thirstExitThreshold = 25;
-
-    [Tooltip("Rest use ends when fatigue is equal to or below this value.")]
-    [SerializeField, Range(0, 100)] private int _fatigueExitThreshold = 25;
-
-    [Tooltip("Clean use ends when cleanliness is equal to or above this value.")]
-    [SerializeField, Range(0, 100)] private int _cleanlinessExitThreshold = 75;
+    [Header("디버그")]
+    [SerializeField] private bool _enableDebugLog = true;
 
     public GuestStates GuestStates => _guestStates;
-    public float IdleDuration => _idleDuration;
-    public float WanderDuration { get; private set; } = 3f;
+    public float WanderNeedTickInterval => _wanderNeedTickInterval;
+    public float WanderEventCheckInterval => _wanderEventCheckInterval;
     public float UseEffectTickInterval => _useEffectTickInterval;
 
     public EGuestNeedType CurrentNeedType { get; private set; } = EGuestNeedType.None;
     public EFacilityType CurrentTargetFacilityType { get; private set; } = EFacilityType.None;
+    public int CurrentTargetFacilityID { get; private set; } = -1;
 
     public bool HasArrivedAtFacility { get; private set; }
     public bool CanUseFacility { get; private set; }
-    public int CurrentTargetFacilityID { get; private set; } = -1;
+    public bool ShouldWaitForFacility { get; private set; }
+    public bool HasMovementFailed { get; private set; }
+    public bool HasFacilityUseFailed { get; private set; }
+
+    public bool IsTurnEnding { get; private set; }
+    public int FacilityUseCount { get; private set; }
+    public float CurrentExitChancePercent { get; private set; }
 
     private GuestUtilityEvaluator _utilityEvaluator;
     private GuestStateMachine _stateMachine;
 
-    private GuestIdleState _idleState;
     private GuestWanderState _wanderState;
     private GuestDecideState _decideState;
     private GuestMoveState _moveState;
     private GuestWaitState _waitState;
     private GuestUseState _useState;
+    private GuestExitState _exitState;
 
     private void Awake()
     {
@@ -65,38 +74,31 @@ public class GuestController : MonoBehaviour
     private void Update()
     {
         _stateMachine?.Update();
-        UpdateGuestStatesOverTime();
     }
 
-    /// <summary>
-    /// Initialize runtime systems and FSM states.
-    /// </summary>
     private void Initialize()
     {
         _utilityEvaluator = new GuestUtilityEvaluator();
         _stateMachine = new GuestStateMachine();
 
-        _idleState = new GuestIdleState(this);
         _wanderState = new GuestWanderState(this);
         _decideState = new GuestDecideState(this);
         _moveState = new GuestMoveState(this);
         _waitState = new GuestWaitState(this);
         _useState = new GuestUseState(this);
+        _exitState = new GuestExitState(this);
 
         LoadGuestData();
-        _stateMachine.ChangeState(_idleState);
+        _stateMachine.ChangeState(_wanderState);
 
-        Debug.Log("[GuestController] Initialized.");
+        Log("[GuestController] 초기화 완료. 시작 상태 = Wander");
     }
 
-    /// <summary>
-    /// Load initial guest values from database by visitor ID.
-    /// </summary>
     private void LoadGuestData()
     {
         if (_guestDataDatabase == null)
         {
-            Debug.LogError("[GuestController] GuestDataDatabase is missing.");
+            Debug.LogError("[GuestController] GuestDataDatabaseSO가 비어 있습니다.");
             return;
         }
 
@@ -104,7 +106,7 @@ public class GuestController : MonoBehaviour
 
         if (row == null)
         {
-            Debug.LogError($"[GuestController] GuestDataRow not found. VisitorID: {_visitorID}");
+            Debug.LogError($"[GuestController] VisitorID={_visitorID} 데이터를 찾지 못했습니다.");
             return;
         }
 
@@ -113,152 +115,257 @@ public class GuestController : MonoBehaviour
             row.Hunger,
             row.Thirst,
             row.Fatigue,
-            row.Cleanliness,
             row.Satisfaction
         );
 
-        WanderDuration = row.WanderDuration;
-
-        Debug.Log($"[GuestController] Guest data loaded. VisitorID: {_visitorID}");
+        Log($"[GuestController] 손님 데이터 로드 완료 | {row.GetDebugText()}");
     }
 
-    /// <summary>
-    /// Apply passive stat change over time.
-    /// </summary>
-    private void UpdateGuestStatesOverTime()
-    {
-        if (_guestDataDatabase == null)
-        {
-            return;
-        }
-
-        GuestDataRow row = _guestDataDatabase.GetGuestDataByVisitorID(_visitorID);
-
-        if (row == null)
-        {
-            return;
-        }
-
-        _guestStates.AddHunger(Mathf.RoundToInt(row.HungerDeltaPerSecond * Time.deltaTime));
-        _guestStates.AddThirst(Mathf.RoundToInt(row.ThirstDeltaPerSecond * Time.deltaTime));
-        _guestStates.AddFatigue(Mathf.RoundToInt(row.FatigueDeltaPerSecond * Time.deltaTime));
-        _guestStates.AddCleanliness(Mathf.RoundToInt(row.CleanlinessDeltaPerSecond * Time.deltaTime));
-        _guestStates.AddSatisfaction(Mathf.RoundToInt(row.SatisfactionDeltaPerSecond * Time.deltaTime));
-    }
-
-    /// <summary>
-    /// Evaluate current highest need and target facility type.
-    /// </summary>
     public void EvaluateCurrentNeed()
     {
         if (_utilityEvaluator == null)
         {
-            Debug.LogError("[GuestController] UtilityEvaluator is missing.");
+            Debug.LogError("[GuestController] UtilityEvaluator가 비어 있습니다.");
             return;
         }
 
         CurrentNeedType = _utilityEvaluator.EvaluateHighestNeed(_guestStates);
         CurrentTargetFacilityType = _utilityEvaluator.EvaluateTargetFacilityType(_guestStates);
 
-        Debug.Log($"[GuestController] EvaluateCurrentNeed | Need = {CurrentNeedType}, TargetFacilityType = {CurrentTargetFacilityType}");
+        Log($"[GuestController] Need 평가 완료 | Need={CurrentNeedType}, TargetFacilityType={CurrentTargetFacilityType}");
     }
 
     /// <summary>
-    /// Set current target facility ID.
+    /// 현재 Need 기준으로 목표 시설을 찾는다.
+    /// 현재는 첫 번째 selectable 시설을 반환.
+    /// 나중에 시설 위치/거리 시스템과 연결되면 '가장 가까운 시설'로 교체.
     /// </summary>
-    public void SetCurrentTargetFacilityID(int facilityID)
+    public bool TryFindTargetFacility()
+    {
+        if (_facilityEffectDatabase == null)
+        {
+            Debug.LogError("[GuestController] FacilityEffectDatabaseSO가 비어 있습니다.");
+            return false;
+        }
+
+        if (CurrentTargetFacilityType == EFacilityType.None)
+        {
+            Debug.LogWarning("[GuestController] 목표 시설 타입이 없습니다.");
+            return false;
+        }
+
+        FacilityEffectRow targetRow = _facilityEffectDatabase.GetFirstSelectableEffectByType(CurrentTargetFacilityType);
+
+        if (targetRow == null)
+        {
+            Debug.LogWarning($"[GuestController] 선택 가능한 목표 시설이 없습니다. TargetFacilityType={CurrentTargetFacilityType}");
+            return false;
+        }
+
+        SetCurrentTargetFacility(targetRow.FacilityID, targetRow.FacilityType);
+        return true;
+    }
+
+    public void SetCurrentTargetFacility(int facilityID, EFacilityType facilityType)
     {
         CurrentTargetFacilityID = facilityID;
-        Debug.Log($"[GuestController] CurrentTargetFacilityID set to {facilityID}");
+        CurrentTargetFacilityType = facilityType;
+
+        ResetMovementAndFacilityFlags();
+
+        Log($"[GuestController] 목표 시설 설정 | FacilityID={facilityID}, FacilityType={facilityType}");
     }
 
-    /// <summary>
-    /// Set arrival state from movement system.
-    /// </summary>
-    public void SetArrivedAtFacility(bool isArrived)
+    public void ClearCurrentFacilityContext()
     {
-        HasArrivedAtFacility = isArrived;
-        Debug.Log($"[GuestController] HasArrivedAtFacility = {HasArrivedAtFacility}");
+        CurrentTargetFacilityID = -1;
+        CurrentTargetFacilityType = EFacilityType.None;
+        CurrentNeedType = EGuestNeedType.None;
+
+        ResetMovementAndFacilityFlags();
+
+        Log("[GuestController] 현재 시설 문맥 초기화");
     }
 
-    /// <summary>
-    /// Set availability from facility system.
-    /// </summary>
-    public void SetCanUseFacility(bool canUse)
+    public void ResetMovementAndFacilityFlags()
     {
-        CanUseFacility = canUse;
-        Debug.Log($"[GuestController] CanUseFacility = {CanUseFacility}");
+        HasArrivedAtFacility = false;
+        CanUseFacility = false;
+        ShouldWaitForFacility = false;
+        HasMovementFailed = false;
+        HasFacilityUseFailed = false;
     }
 
-    /// <summary>
-    /// Apply current facility effect once.
-    /// </summary>
+    public void SetArrivedAtFacility(bool value)
+    {
+        HasArrivedAtFacility = value;
+        Log($"[GuestController] HasArrivedAtFacility={value}");
+    }
+
+    public void SetCanUseFacility(bool value)
+    {
+        CanUseFacility = value;
+        Log($"[GuestController] CanUseFacility={value}");
+    }
+
+    public void SetShouldWaitForFacility(bool value)
+    {
+        ShouldWaitForFacility = value;
+        Log($"[GuestController] ShouldWaitForFacility={value}");
+    }
+
+    public void SetMovementFailed(bool value)
+    {
+        HasMovementFailed = value;
+        Log($"[GuestController] HasMovementFailed={value}");
+    }
+
+    public void SetFacilityUseFailed(bool value)
+    {
+        HasFacilityUseFailed = value;
+        Log($"[GuestController] HasFacilityUseFailed={value}");
+    }
+
+    public void ApplyWanderNeedTick()
+    {
+        _guestStates.IncreaseAllNeedsByWanderTick();
+    }
+
+    public bool ShouldStartFacilitySearchNow()
+    {
+        if (_guestStates.HasAnyNeedReachedMax())
+        {
+            Log("[GuestController] Need가 100에 도달해서 즉시 시설 탐색");
+            return true;
+        }
+
+        bool triggered = Random.Range(0f, 100f) < _facilityUseEventChancePercent;
+
+        if (triggered)
+        {
+            Log("[GuestController] 시설 이용 이벤트 발생");
+        }
+
+        return triggered;
+    }
+
+    public bool ShouldExitFromWander()
+    {
+        if (FacilityUseCount <= 0)
+        {
+            return false;
+        }
+
+        bool triggered = Random.Range(0f, 100f) < CurrentExitChancePercent;
+
+        if (triggered)
+        {
+            Log($"[GuestController] 일반 퇴장 이벤트 발생 | ExitChance={CurrentExitChancePercent}%");
+        }
+
+        return triggered;
+    }
+
     public void ApplyCurrentFacilityEffect()
     {
         if (_facilityEffectDatabase == null)
         {
-            Debug.LogError("[GuestController] FacilityEffectDatabase is missing.");
+            Debug.LogError("[GuestController] FacilityEffectDatabaseSO가 비어 있습니다.");
             return;
         }
 
         if (CurrentTargetFacilityID < 0)
         {
-            Debug.LogWarning("[GuestController] CurrentTargetFacilityID is invalid.");
+            Debug.LogWarning("[GuestController] CurrentTargetFacilityID가 유효하지 않습니다.");
             return;
         }
 
-        FacilityEffectRow effectRow = _facilityEffectDatabase.GetEffectByFacilityID(CurrentTargetFacilityID);
+        FacilityEffectRow row = _facilityEffectDatabase.GetEffectByFacilityID(CurrentTargetFacilityID);
 
-        if (effectRow == null)
+        if (row == null)
         {
-            Debug.LogWarning($"[GuestController] EffectRow not found. FacilityID: {CurrentTargetFacilityID}");
+            Debug.LogWarning($"[GuestController] FacilityID={CurrentTargetFacilityID} 효과 데이터를 찾지 못했습니다.");
             return;
         }
 
-        _guestStates.ApplyFacilityEffect(effectRow);
+        _guestStates.ApplyFacilityEffect(row);
     }
 
-    /// <summary>
-    /// Return true when the current facility's main goal is already satisfied.
-    /// </summary>
     public bool IsCurrentFacilityGoalReached()
     {
-        switch (CurrentTargetFacilityType)
+        if (CurrentTargetFacilityType == EFacilityType.None)
         {
-            case EFacilityType.Food:
-                return _guestStates.hunger <= _hungerExitThreshold;
+            return false;
+        }
 
-            case EFacilityType.Drink:
-                return _guestStates.thirst <= _thirstExitThreshold;
+        EGuestNeedType targetNeed = GetNeedTypeByFacilityType(CurrentTargetFacilityType);
 
-            case EFacilityType.Rest:
-                return _guestStates.fatigue <= _fatigueExitThreshold;
+        if (targetNeed == EGuestNeedType.None)
+        {
+            return false;
+        }
 
-            case EFacilityType.Clean:
-                return _guestStates.cleanliness >= _cleanlinessExitThreshold;
+        return _guestStates.GetNeedValue(targetNeed) <= 0;
+    }
+
+    public void FinishCurrentFacilityUse()
+    {
+        EGuestNeedType targetNeed = GetNeedTypeByFacilityType(CurrentTargetFacilityType);
+
+        if (targetNeed != EGuestNeedType.None)
+        {
+            _guestStates.SetNeedValue(targetNeed, 0);
+        }
+
+        FacilityUseCount++;
+        CurrentExitChancePercent = FacilityUseCount * _exitChanceIncreasePerUse;
+
+        Log($"[GuestController] 시설 이용 완료 | UseCount={FacilityUseCount}, ExitChance={CurrentExitChancePercent}%");
+
+        // TODO: 재화/평판 시스템 연결 지점
+        // 시설 이용 완료 시점에 골드, 평판 반영
+
+        ClearCurrentFacilityContext();
+    }
+
+    public EGuestNeedType GetNeedTypeByFacilityType(EFacilityType facilityType)
+    {
+        switch (facilityType)
+        {
+            case EFacilityType.Restaurant:
+                return EGuestNeedType.Hunger;
+
+            case EFacilityType.VendingMachine:
+                return EGuestNeedType.Thirst;
+
+            case EFacilityType.HotSpring:
+                return EGuestNeedType.Fatigue;
 
             default:
-                Debug.LogWarning("[GuestController] IsCurrentFacilityGoalReached failed. Invalid facility type.");
-                return true;
+                return EGuestNeedType.None;
         }
     }
 
-    /// <summary>
-    /// Clear runtime facility context after use ends.
-    /// </summary>
-    public void ClearCurrentFacilityContext()
+    public void NotifyTurnEnded()
     {
-        CurrentTargetFacilityID = -1;
-        CurrentTargetFacilityType = EFacilityType.None;
-        HasArrivedAtFacility = false;
-        CanUseFacility = false;
+        IsTurnEnding = true;
+        Log("[GuestController] 턴 종료 통보 수신");
 
-        Debug.Log("[GuestController] Cleared current facility context.");
+        if (!IsCurrentStateUse())
+        {
+            ChangeToExitState();
+        }
     }
 
-    public void ChangeToIdleState()
+    public bool IsCurrentStateUse()
     {
-        _stateMachine.ChangeState(_idleState);
+        return _stateMachine != null && _stateMachine.CurrentState == _useState;
+    }
+
+    public void CompleteExit()
+    {
+        Log("[GuestController] 퇴장 완료. 오브젝트 제거");
+        Destroy(gameObject);
     }
 
     public void ChangeToWanderState()
@@ -286,21 +393,40 @@ public class GuestController : MonoBehaviour
         _stateMachine.ChangeState(_useState);
     }
 
-    [ContextMenu("Debug Arrive Facility")]
-    private void DebugArriveFacility()
+    public void ChangeToExitState()
+    {
+        _stateMachine.ChangeState(_exitState);
+    }
+
+    [ContextMenu("디버그/도착 처리")]
+    private void DebugArrive()
     {
         SetArrivedAtFacility(true);
     }
 
-    [ContextMenu("Debug Can Use Facility")]
-    private void DebugCanUseFacility()
+    [ContextMenu("디버그/즉시 이용 가능")]
+    private void DebugCanUse()
     {
         SetCanUseFacility(true);
     }
 
-    [ContextMenu("Debug Apply Current Facility Effect")]
-    private void DebugApplyCurrentFacilityEffect()
+    [ContextMenu("디버그/대기 필요")]
+    private void DebugShouldWait()
     {
-        ApplyCurrentFacilityEffect();
+        SetShouldWaitForFacility(true);
+    }
+
+    [ContextMenu("디버그/턴 종료")]
+    private void DebugTurnEnd()
+    {
+        NotifyTurnEnded();
+    }
+
+    private void Log(string message)
+    {
+        if (_enableDebugLog)
+        {
+            Debug.Log(message);
+        }
     }
 }

@@ -1,57 +1,39 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GuestUtilityEvaluator
 {
-    /// <summary>
-    /// 현재 손님 상태를 보고 가장 급한 욕구를 찾음
-    /// </summary>
     public EGuestNeedType EvaluateHighestNeed(GuestStates guestStates)
     {
         if (guestStates == null)
         {
-            Debug.LogWarning("[GuestUtilityEvaluator] EvaluateHighestNeed failed. GuestStates is null.");
+            Debug.LogWarning("[GuestUtilityEvaluator] GuestStates가 null입니다.");
             return EGuestNeedType.None;
         }
 
-        int hungerScore = guestStates.GetHungerScore();
-        int thirstScore = guestStates.GetThirstScore();
-        int fatigueScore = guestStates.GetFatigueScore();
-        int cleanlinessScore = guestStates.GetCleanlinessScore();
+        int hunger = guestStates.Hunger;
+        int thirst = guestStates.Thirst;
+        int fatigue = guestStates.Fatigue;
 
-        int highestScore = -1;
-        EGuestNeedType highestNeed = EGuestNeedType.None;
+        int highestValue = Mathf.Max(hunger, thirst, fatigue);
 
-        if (hungerScore > highestScore)
+        List<EGuestNeedType> candidates = new List<EGuestNeedType>();
+
+        if (hunger == highestValue) candidates.Add(EGuestNeedType.Hunger);
+        if (thirst == highestValue) candidates.Add(EGuestNeedType.Thirst);
+        if (fatigue == highestValue) candidates.Add(EGuestNeedType.Fatigue);
+
+        if (candidates.Count == 0)
         {
-            highestScore = hungerScore;
-            highestNeed = EGuestNeedType.Hunger;
+            return EGuestNeedType.None;
         }
 
-        if (thirstScore > highestScore)
-        {
-            highestScore = thirstScore;
-            highestNeed = EGuestNeedType.Thirst;
-        }
+        EGuestNeedType selectedNeed = candidates[Random.Range(0, candidates.Count)];
 
-        if (fatigueScore > highestScore)
-        {
-            highestScore = fatigueScore;
-            highestNeed = EGuestNeedType.Fatigue;
-        }
-
-        if (cleanlinessScore > highestScore)
-        {
-            highestScore = cleanlinessScore;
-            highestNeed = EGuestNeedType.Cleanliness;
-        }
-
-        Debug.Log($"[GuestUtilityEvaluator] HighestNeed = {highestNeed}, Score = {highestScore}");
-        return highestNeed;
+        Debug.Log($"[GuestUtilityEvaluator] 최고 Need 선택 | Need={selectedNeed}, Value={highestValue}, CandidateCount={candidates.Count}");
+        return selectedNeed;
     }
 
-    /// <summary>
-    /// 가장 급한 욕구를 시설 타입으로 변환
-    /// </summary>
     public EFacilityType EvaluateTargetFacilityType(GuestStates guestStates)
     {
         EGuestNeedType highestNeed = EvaluateHighestNeed(guestStates);
@@ -59,40 +41,13 @@ public class GuestUtilityEvaluator
         switch (highestNeed)
         {
             case EGuestNeedType.Hunger:
-                return EFacilityType.Food;
-
+                return EFacilityType.Restaurant;
             case EGuestNeedType.Thirst:
-                return EFacilityType.Drink;
-
+                return EFacilityType.VendingMachine;
             case EGuestNeedType.Fatigue:
-                return EFacilityType.Rest;
-
-            case EGuestNeedType.Cleanliness:
-                return EFacilityType.Clean;
-
+                return EFacilityType.HotSpring;
             default:
                 return EFacilityType.None;
         }
-    }
-
-    /// <summary>
-    /// 디버그 확인용 문자열
-    /// </summary>
-    public string GetDebugEvaluationText(GuestStates guestStates)
-    {
-        if (guestStates == null)
-        {
-            return "[GuestUtilityEvaluator] GuestStates is null.";
-        }
-
-        int hungerScore = guestStates.GetHungerScore();
-        int thirstScore = guestStates.GetThirstScore();
-        int fatigueScore = guestStates.GetFatigueScore();
-        int cleanlinessScore = guestStates.GetCleanlinessScore();
-
-        EGuestNeedType highestNeed = EvaluateHighestNeed(guestStates);
-        EFacilityType targetFacilityType = EvaluateTargetFacilityType(guestStates);
-
-        return $"Hunger={hungerScore}, Thirst={thirstScore}, Fatigue={fatigueScore}, Cleanliness={cleanlinessScore}, HighestNeed={highestNeed}, TargetFacilityType={targetFacilityType}";
     }
 }

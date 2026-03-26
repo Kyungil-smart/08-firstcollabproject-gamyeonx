@@ -27,6 +27,19 @@ public class GuestWaitState : IGuestState
         // 예:
         // if (_controller.CanUseFacility)
         // ---------------------------------------------------
+        if (_controller.IsTurnEnding)
+        {
+            _controller.ChangeToExitState();
+            return;
+        }
+
+        if (_controller.HasFacilityUseFailed || _controller.HasMovementFailed)
+        {
+            Debug.LogWarning("[GuestWaitState] 대기 중 실패 처리로 다시 배회");
+            _controller.ClearCurrentFacilityContext();
+            _controller.ChangeToWanderState();
+            return;
+        }
         if (_controller.CanUseFacility)
         {
             _controller.ChangeToUseState();

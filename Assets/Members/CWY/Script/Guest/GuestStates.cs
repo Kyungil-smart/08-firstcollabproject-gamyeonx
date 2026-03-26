@@ -1,130 +1,142 @@
 using System;
 using UnityEngine;
 
+[Serializable]
 public class GuestStates
 {
-    [Header("Guest States")]
-    //방문객 고유 ID
+    [Header("손님 상태")]
     [SerializeField] private int _visitorID;
+    [SerializeField, Range(0, 100)] private int _hunger;
+    [SerializeField, Range(0, 100)] private int _thirst;
+    [SerializeField, Range(0, 100)] private int _fatigue;
+    [SerializeField, Range(0, 100)] private int _satisfaction;
 
-    //Guest 배고픔 수치(높을수록 더 배고픔)
-    [SerializeField, Range(0, 100)] private int _hunger = 0;
-
-    //Guest 목마름 수치(높을수록 더 목마름)
-    [SerializeField, Range(0, 100)] private int _thirst = 0;
-
-    //Guest 피로도 수치(높을수록 더 피로함)
-    [SerializeField, Range(0, 100)] private int _fatigue = 0;
-
-    //Guest 청결도 수치(높을수록 더 깨끗함)
-    [SerializeField, Range(0, 100)] private int _cleanliness = 0;
-
-    //Guest 배고픔 수치(높을수록 더 배고픔)
-    [SerializeField, Range(0, 100)] private int _satisfaction = 0;
-
-    public int visitorID => _visitorID;
-    public int hunger => _hunger;
-    public int thirst => _thirst;
-    public int fatigue => _fatigue;
-    public int cleanliness => _cleanliness;
+    public int VisitorID => _visitorID;
+    public int Hunger => _hunger;
+    public int Thirst => _thirst;
+    public int Fatigue => _fatigue;
     public int Satisfaction => _satisfaction;
 
     public event Action OnStatesChanged;
 
-    public void Initialize(
-        int visitorID,
-        int hunger,
-        int thirst,
-        int fatigue,
-        int cleanliness,
-        int satisfaction)
+    public void Initialize(int visitorID, int hunger, int thirst, int fatigue, int satisfaction)
     {
         _visitorID = visitorID;
-        _hunger = ClampNeed(hunger);
-        _thirst = ClampNeed(thirst);
-        _fatigue = ClampNeed(fatigue);
-        _cleanliness = ClampNeed(cleanliness);
-        _satisfaction = ClampNeed(satisfaction);
+        _hunger = ClampValue(hunger);
+        _thirst = ClampValue(thirst);
+        _fatigue = ClampValue(fatigue);
+        _satisfaction = ClampValue(satisfaction);
 
-        Debug.Log($"[GuestNeeds] Initialized | {GetDebugText()}");
+        Debug.Log($"[GuestStates] 초기화 완료 | {GetDebugText()}");
         RaiseStatesChanged();
     }
 
-    public int GetHungerScore()
+    public int GetNeedValue(EGuestNeedType needType)
     {
-        return _hunger;
-    }
-    public int GetThirstScore()
-    { 
-        return _thirst; 
-    }
-    public int GetFatigueScore()
-    {
-        return _fatigue;
-    }
-    public int GetCleanlinessScore()
-    {
-        return 100 - _cleanliness;
+        switch (needType)
+        {
+            case EGuestNeedType.Hunger:
+                return _hunger;
+            case EGuestNeedType.Thirst:
+                return _thirst;
+            case EGuestNeedType.Fatigue:
+                return _fatigue;
+            default:
+                return 0;
+        }
     }
 
-    public void AddHunger(int value)
+    public void SetNeedValue(EGuestNeedType needType, int value)
     {
-        _hunger = ClampNeed(_hunger + value);
+        int clampedValue = ClampValue(value);
+
+        switch (needType)
+        {
+            case EGuestNeedType.Hunger:
+                _hunger = clampedValue;
+                break;
+            case EGuestNeedType.Thirst:
+                _thirst = clampedValue;
+                break;
+            case EGuestNeedType.Fatigue:
+                _fatigue = clampedValue;
+                break;
+            default:
+                Debug.LogWarning($"[GuestStates] SetNeedValue 실패. 잘못된 needType={needType}");
+                return;
+        }
+
         RaiseStatesChanged();
     }
 
-    public void AddThirst(int value)
+    public void AddHunger(int delta)
     {
-        _thirst = ClampNeed(_thirst + value);
+        _hunger = ClampValue(_hunger + delta);
         RaiseStatesChanged();
     }
 
-    public void AddFatigue(int value)
+    public void AddThirst(int delta)
     {
-        _fatigue = ClampNeed(_fatigue + value);
+        _thirst = ClampValue(_thirst + delta);
         RaiseStatesChanged();
     }
 
-    public void AddCleanliness(int value)
+    public void AddFatigue(int delta)
     {
-        _cleanliness = ClampNeed(_cleanliness + value);
+        _fatigue = ClampValue(_fatigue + delta);
         RaiseStatesChanged();
     }
 
-    public void AddSatisfaction(int value)
+    public void AddSatisfaction(int delta)
     {
-        _satisfaction = ClampNeed(_satisfaction + value);
+        _satisfaction = ClampValue(_satisfaction + delta);
         RaiseStatesChanged();
     }
 
+    public void IncreaseAllNeedsByWanderTick()
+    {
+        _hunger = ClampValue(_hunger + 1);
+        _thirst = ClampValue(_thirst + 1);
+        _fatigue = ClampValue(_fatigue + 1);
 
-    private int ClampNeed(int value)
-    {
-        return Mathf.Clamp(value, 0, 100);
+        Debug.Log($"[GuestStates] 배회 틱 적용 | {GetDebugText()}");
+        RaiseStatesChanged();
     }
-    public string GetDebugText()
+
+    public bool HasAnyNeedReachedMax()
     {
-        return $"VisitorID={_visitorID}, Hunger={_hunger}, Thirst={_thirst}, Fatigue={_fatigue}, Cleanliness={_cleanliness}, Satisfaction={_satisfaction}";
-    }
-    private void RaiseStatesChanged()
-    {
-        OnStatesChanged?.Invoke();
+        return _hunger >= 100 || _thirst >= 100 || _fatigue >= 100;
     }
 
     public void ApplyFacilityEffect(FacilityEffectRow effectRow)
     {
         if (effectRow == null)
         {
-            Debug.LogWarning("[GuestStates] ApplyFacilityEffect failed. EffectRow is null.");
+            Debug.LogWarning("[GuestStates] 시설 효과 적용 실패. effectRow가 null입니다.");
             return;
         }
 
-        AddHunger(effectRow.HungerEffect);
-        AddThirst(effectRow.ThirstEffect);
-        AddFatigue(effectRow.FatigueEffect);
-        AddCleanliness(effectRow.CleanEffect);
-        AddSatisfaction(effectRow.SatisfactionEffect);
+        _hunger = ClampValue(_hunger + effectRow.HungerEffectPerTick);
+        _thirst = ClampValue(_thirst + effectRow.ThirstEffectPerTick);
+        _fatigue = ClampValue(_fatigue + effectRow.FatigueEffectPerTick);
+        _satisfaction = ClampValue(_satisfaction + effectRow.SatisfactionEffectPerTick);
 
-        Debug.Log($"[GuestStates] Applied Facility Effect | {effectRow.GetDebugText()}");
+        Debug.Log($"[GuestStates] 시설 효과 틱 적용 | {effectRow.GetDebugText()}");
+        RaiseStatesChanged();
+    }
+
+    public string GetDebugText()
+    {
+        return $"VisitorID={_visitorID}, Hunger={_hunger}, Thirst={_thirst}, Fatigue={_fatigue}, Satisfaction={_satisfaction}";
+    }
+
+    private int ClampValue(int value)
+    {
+        return Mathf.Clamp(value, 0, 100);
+    }
+
+    private void RaiseStatesChanged()
+    {
+        OnStatesChanged?.Invoke();
     }
 }
