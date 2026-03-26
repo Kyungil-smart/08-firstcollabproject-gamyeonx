@@ -20,7 +20,6 @@ public class GuestDataDatabaseSO : ScriptableObject
     {
         if (row == null)
         {
-            Debug.LogWarning("[GuestDataDatabaseSO] AddRow failed. Row is null.");
             return;
         }
 
@@ -45,7 +44,6 @@ public class GuestDataDatabaseSO : ScriptableObject
             }
         }
 
-        Debug.LogWarning($"[GuestDataDatabaseSO] GuestDataRow not found. VisitorID: {visitorID}");
         return null;
     }
 }
