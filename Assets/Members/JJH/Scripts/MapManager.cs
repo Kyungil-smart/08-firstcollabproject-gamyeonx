@@ -58,16 +58,4 @@ public class MapManager : MonoBehaviour
         float y = obj.transform.position.y;
         return new Vector2(x, y);
     }
-
-    // 추후 UI 쪽 스크립트로 이전
-    public int BuildingIndex(GameObject obj)
-    {
-        switch (obj.tag)
-        {
-            case "HotSpring":
-                return 0;
-            default:
-                return -1;
-        }
-    }
 }
