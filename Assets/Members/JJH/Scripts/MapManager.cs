@@ -49,6 +49,7 @@ public class MapManager : MonoBehaviour
         
         InBuildingData inData = inBuilding.GetComponentInChildren<InBuildingData>();
         building.InBuildingData = inData;
+        building.InBuildingRoot = inBuilding;
     }
     
     private Vector2 PivotTransform(GameObject obj, int curInstance, float distance)

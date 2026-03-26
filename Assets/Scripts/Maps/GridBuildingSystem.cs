@@ -89,7 +89,7 @@ public class GridBuildingSystem : MonoBehaviour
         else if (_temp != null && Input.GetKeyDown(KeyCode.Escape))
         {
             TempTilemap.ClearAllTiles();
-            Destroy(_temp.gameObject);
+            _temp.DestroyBuilding();
             _isPlacing = false;
         }
 
@@ -107,7 +107,7 @@ public class GridBuildingSystem : MonoBehaviour
                         occupied.Remove(pos);
 
                     MainTilemap.RefreshAllTiles();
-                    Destroy(obj.gameObject);
+                    obj.DestroyBuilding();
                     break;
                 }
             }

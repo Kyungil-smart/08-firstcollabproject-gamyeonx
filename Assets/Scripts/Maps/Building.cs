@@ -19,6 +19,7 @@ public class Building : MonoBehaviour
     CameraController _cameraController;
     
     public InBuildingData InBuildingData;
+    public GameObject InBuildingRoot;
 
     
     private void Awake()
@@ -107,5 +108,11 @@ public class Building : MonoBehaviour
         Placed = false;
     }
     
-    
+    // 건물 삭제 메서드
+    public void DestroyBuilding()
+    {
+        if (InBuildingRoot != null)
+            Destroy(InBuildingRoot);  // 루트 삭제
+        Destroy(gameObject);
+    }
 }
