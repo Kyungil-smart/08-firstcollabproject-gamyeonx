@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Members/SGH/Scripts/Road2.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Members/SGH/Scripts/Road2.prefab.meta" beforeDir="false" />
-    </list>
+    <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
