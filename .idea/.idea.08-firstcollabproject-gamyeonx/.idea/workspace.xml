@@ -8,6 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/CameraController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Members/SGH/Scripts/ObyO.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/SGH/Scripts/ObyO.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maps/GridBuildingSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maps/GridBuildingSystem.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +96,7 @@
       <updated>1774318716015</updated>
       <workItem from="1774318721448" duration="20817000" />
       <workItem from="1774395949697" duration="12266000" />
-      <workItem from="1774488212928" duration="6785000" />
+      <workItem from="1774488212928" duration="7446000" />
     </task>
     <servers />
   </component>

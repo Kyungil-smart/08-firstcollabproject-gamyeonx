@@ -24,7 +24,7 @@ public class Building : MonoBehaviour
     
     private void Awake()
     {
-        _canvas = GetComponentInChildren<Canvas>();
+        _canvas = GetComponentInChildren<Canvas>(true);
         _enterButton = _canvas?.transform.Find("Enter")?.GetComponent<Button>();
         _levelUpButton = _canvas?.transform.Find("LevelUp")?.GetComponent<Button>();
         _canvas?.gameObject.SetActive(false);

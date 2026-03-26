@@ -58,7 +58,7 @@ public class GridBuildingSystem : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && !_isPlacing)
+        if (Input.GetMouseButtonDown(2) && !_isPlacing)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
