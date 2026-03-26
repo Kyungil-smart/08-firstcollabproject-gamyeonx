@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 4278282176692766884}
   m_Layer: 0
   m_Name: TwoByOne
-  m_TagString: Untagged
+  m_TagString: TwoByOne
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

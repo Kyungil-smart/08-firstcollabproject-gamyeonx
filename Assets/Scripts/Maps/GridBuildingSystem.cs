@@ -124,7 +124,10 @@ public class GridBuildingSystem : MonoBehaviour
     {
         if (_isPlacing) return;
 
+        int index = BuildingIndex(building);
+
         _temp = Instantiate(building, Vector3.zero, Quaternion.identity).GetComponent<Building>();
+        MapManager.Instance.InstantiateInBuilding(building, index);
         _isPlacing = true;
         FollowBuilding();
     }
@@ -236,5 +239,18 @@ public class GridBuildingSystem : MonoBehaviour
         foreach (var pos in bounds.allPositionsWithin)
             SetTileType(pos, TileType.Empty); // 전부 TileType.Empty(빈 상태)로 초기화
         
+    }
+    
+    public int BuildingIndex(GameObject obj)
+    {
+        switch (obj.tag)
+        {
+            case "TwoByOne":
+                return 0;
+            case "OByO":
+                return 1;
+            default:
+                return -1;
+        }
     }
 }

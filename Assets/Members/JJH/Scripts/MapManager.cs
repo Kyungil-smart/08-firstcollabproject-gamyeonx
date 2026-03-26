@@ -30,13 +30,13 @@ public class MapManager : MonoBehaviour
         }
     }
     
-    public void InstantiateButton()
+    public void InstantiateInBuilding(GameObject building, int index)
     {
-        int index = 0; // 추후 UI쪽 스크립트에서 함수로 받아올것
+        /*int index = 0; // 추후 UI쪽 스크립트에서 함수로 받아올것
         
         // 외부 건물 생성 로직 (추후 그리드시스템과 연계)
         Vector2 BuildingInstatiatePivot = PivotTransform(BuildingPivot, CurrentBuildingNum, BuildingPivotDistance);
-        GameObject outBuilding = Instantiate(BuildingPrefabs[index], BuildingInstatiatePivot, BuildingPivot.transform.rotation);
+        GameObject outBuilding = Instantiate(BuildingPrefabs[index], BuildingInstatiatePivot, BuildingPivot.transform.rotation);*/
         CurrentBuildingNum++;
         
         // 내부 건물 생성 로직
@@ -44,7 +44,7 @@ public class MapManager : MonoBehaviour
         GameObject inBuilding = Instantiate(InBuildingPrefabs[index], InBuildingInstantiatePivot, BuildingPivot.transform.rotation);
         CurrentInBuildingNum++;
 
-        BuildingData outData = outBuilding.GetComponentInChildren<BuildingData>();
+        BuildingData outData = building.GetComponentInChildren<BuildingData>();
         InBuildingData inData = inBuilding.GetComponentInChildren<InBuildingData>();
         outData.InBuildingData = inData;
     }
