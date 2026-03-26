@@ -3,12 +3,9 @@ using UnityEngine;
 public enum EFacilityType
 {
     None = 0,
-    Guild = 1,
-    HotSpring =2,
-    Restaurant = 3,
-    VendingMachine = 4,
-    Shop = 5,
-    TrainingGround = 6,
-    Road = 7,
+    Food = 1,
+    Drink = 2,
+    Rest = 3,
+    Clean = 4,
 
 }

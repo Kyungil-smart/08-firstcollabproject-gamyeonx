@@ -6,4 +6,6 @@ public enum EGuestNeedType
    Hunger = 1,
    Thirst = 2,
    Fatigue = 3,
+   Cleanliness = 4,
+
 }

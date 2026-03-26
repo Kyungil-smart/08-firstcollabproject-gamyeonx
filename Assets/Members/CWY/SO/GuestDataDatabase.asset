@@ -13,8 +13,42 @@ MonoBehaviour:
   m_Name: GuestDataDatabase
   m_EditorClassIdentifier: Assembly-CSharp::GuestDataDatabaseSO
   _guestDataRows:
-  - _visitorID: 0
-    _hunger: 0
-    _thirst: 0
-    _fatigue: 0
-    _satisfaction: 0
+  - _visitorID: 1
+    _hunger: 10
+    _thirst: 20
+    _fatigue: 5
+    _cleanliness: 80
+    _satisfaction: 50
+    _hungerDeltaPerSecond: 1
+    _thirstDeltaPerSecond: 2
+    _fatigueDeltaPerSecond: 1
+    _cleanlinessDeltaPerSecond: -1
+    _satisfactionDeltaPerSecond: 0
+    _decisionInterval: 2
+    _wanderDuration: 3
+  - _visitorID: 2
+    _hunger: 30
+    _thirst: 10
+    _fatigue: 15
+    _cleanliness: 60
+    _satisfaction: 40
+    _hungerDeltaPerSecond: 2
+    _thirstDeltaPerSecond: 1
+    _fatigueDeltaPerSecond: 2
+    _cleanlinessDeltaPerSecond: -2
+    _satisfactionDeltaPerSecond: 0
+    _decisionInterval: 1.5
+    _wanderDuration: 2
+  - _visitorID: 3
+    _hunger: 60
+    _thirst: 35
+    _fatigue: 25
+    _cleanliness: 70
+    _satisfaction: 60
+    _hungerDeltaPerSecond: 1
+    _thirstDeltaPerSecond: 3
+    _fatigueDeltaPerSecond: 1
+    _cleanlinessDeltaPerSecond: -1
+    _satisfactionDeltaPerSecond: 1
+    _decisionInterval: 3
+    _wanderDuration: 4
