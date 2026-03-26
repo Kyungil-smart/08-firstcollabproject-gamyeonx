@@ -2,15 +2,15 @@ using UnityEngine;
 
 /// <summary>
 /// 배회 상태
-/// 아직 실제 이동 구현은 없고, 일정 시간 대기 후 Decide 상태로 넘어감
+/// 2초마다 모든 Need가 1 증가하고,
+/// 배회 중에만 시설 이용 이벤트 / 일반 퇴장 이벤트를 판정
 /// </summary>
 public class GuestWanderState : IGuestState
 {
-    // 상태 전환 및 데이터 접근용 컨트롤러 참조
     private readonly GuestController _controller;
 
-    // 현재 상태에서 경과 시간
-    private float _elapsedTime;
+    private float _needTickTimer;
+    private float _eventCheckTimer;
 
     public GuestWanderState(GuestController controller)
     {
@@ -19,21 +19,49 @@ public class GuestWanderState : IGuestState
 
     public void Enter()
     {
-        // 상태 진입 시 시간 초기화
-        _elapsedTime = 0f;
+        _needTickTimer = 0f;
+        _eventCheckTimer = 0f;
 
         Debug.Log("[GuestWanderState] Enter");
     }
 
     public void Update()
     {
-        // 매 프레임 시간 누적
-        _elapsedTime += Time.deltaTime;
-
-        // Wander 시간이 끝나면 Decide 상태로 전환
-        if (_elapsedTime >= _controller.WanderDuration)
+        if (_controller.IsTurnEnding)
         {
-            _controller.ChangeToDecideState();
+            _controller.ChangeToExitState();
+            return;
+        }
+
+        _needTickTimer += Time.deltaTime;
+        _eventCheckTimer += Time.deltaTime;
+
+        if (_needTickTimer >= _controller.WanderNeedTickInterval)
+        {
+            _needTickTimer -= _controller.WanderNeedTickInterval;
+            _controller.ApplyWanderNeedTick();
+
+            if (_controller.GuestStates.HasAnyNeedReachedMax())
+            {
+                _controller.ChangeToDecideState();
+                return;
+            }
+        }
+
+        if (_eventCheckTimer >= _controller.WanderEventCheckInterval)
+        {
+            _eventCheckTimer -= _controller.WanderEventCheckInterval;
+
+            if (_controller.ShouldStartFacilitySearchNow())
+            {
+                _controller.ChangeToDecideState();
+                return;
+            }
+
+            if (_controller.ShouldExitFromWander())
+            {
+                _controller.ChangeToExitState();
+            }
         }
     }
 

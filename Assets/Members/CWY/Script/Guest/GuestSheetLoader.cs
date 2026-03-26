@@ -54,10 +54,15 @@ public class GuestSheetLoader : MonoBehaviour
 
             string[] cols = lines[i].Split(splitSymbol);
 
-            if (cols.Length < 13)
+            if (cols.Length < 5)
             {
                 Debug.LogWarning($"[GuestSheetLoader] Invalid column count at line {i}. Line skipped.");
                 continue;
+            }
+
+            for (int j = 0; j < cols.Length; j++)
+            {
+                cols[j] = cols[j].Trim();
             }
 
             GuestDataRow row = new GuestDataRow();
