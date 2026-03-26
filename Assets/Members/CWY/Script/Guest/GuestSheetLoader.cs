@@ -39,7 +39,6 @@ public class GuestSheetLoader : MonoBehaviour
     {
         if (lines == null || lines.Length == 0)
         {
-            Debug.LogWarning("[GuestSheetLoader] Lines are null or empty.");
             return;
         }
 
@@ -56,7 +55,6 @@ public class GuestSheetLoader : MonoBehaviour
 
             if (cols.Length < 5)
             {
-                Debug.LogWarning($"[GuestSheetLoader] Invalid column count at line {i}. Line skipped.");
                 continue;
             }
 
@@ -70,9 +68,7 @@ public class GuestSheetLoader : MonoBehaviour
 
             _guestDataDatabase.AddRow(row);
 
-            Debug.Log($"[GuestSheetLoader] Guest Row Loaded | {row.GetDebugText()}");
         }
 
-        Debug.Log($"[GuestSheetLoader] Load Complete. Count: {_guestDataDatabase.GuestDataRows.Count}");
     }
 }

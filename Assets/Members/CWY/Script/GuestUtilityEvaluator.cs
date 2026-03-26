@@ -7,7 +7,6 @@ public class GuestUtilityEvaluator
     {
         if (guestStates == null)
         {
-            Debug.LogWarning("[GuestUtilityEvaluator] GuestStates가 null입니다.");
             return EGuestNeedType.None;
         }
 
@@ -30,7 +29,7 @@ public class GuestUtilityEvaluator
 
         EGuestNeedType selectedNeed = candidates[Random.Range(0, candidates.Count)];
 
-        Debug.Log($"[GuestUtilityEvaluator] 최고 Need 선택 | Need={selectedNeed}, Value={highestValue}, CandidateCount={candidates.Count}");
+        Debug.Log($"[GuestUtilityEvaluator] 최고 상태 선택 | Need={selectedNeed}, Value={highestValue}, CandidateCount={candidates.Count}");
         return selectedNeed;
     }
 
