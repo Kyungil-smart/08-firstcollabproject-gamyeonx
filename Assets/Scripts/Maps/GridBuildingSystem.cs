@@ -249,6 +249,8 @@ public class GridBuildingSystem : MonoBehaviour
     {
         FacilityRuntime facilityRuntime = obj.GetComponentInChildren<FacilityRuntime>();
         
-        return (int)facilityRuntime._facilityType + 1;
+        if (facilityRuntime == null) return -1;
+
+        return (int)facilityRuntime._facilityType - 1;
     }
 }
