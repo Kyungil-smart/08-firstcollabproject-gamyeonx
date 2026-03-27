@@ -47,4 +47,13 @@ public class FacilityRegistry : MonoBehaviour
 
         return null;
     }
+    
+    public void RegisterFacility(FacilityRuntime facility)
+    {
+        if (facility == null) return;
+        _facilityMap[facility.FacilityID] = facility;
+    
+        if (!_facilityList.Contains(facility))
+            _facilityList.Add(facility);
+    }
 }

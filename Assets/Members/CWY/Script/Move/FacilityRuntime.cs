@@ -1,28 +1,47 @@
+using System;
 using UnityEngine;
 
 public class FacilityRuntime : MonoBehaviour
 {
-    [Header("±âº» Á¤º¸")]
+    [Header("ï¿½âº» ï¿½ï¿½ï¿½ï¿½")]
     [SerializeField] private int _facilityID;
     [SerializeField] private EFacilityType _facilityType;
 
-    [Header("¿ÜºÎ ÀÔ±¸ Á¤º¸")]
-    [Tooltip("¼Õ´ÔÀÌ A*·Î Ã£¾Æ°¥ ÀÔ±¸ ¾Õ Road")]
-    [SerializeField] private Vector3Int _entranceRoadCell;
+    [Header("ï¿½Üºï¿½ ï¿½Ô±ï¿½ ï¿½ï¿½ï¿½ï¿½")]
+    [Tooltip("ï¿½Õ´ï¿½ï¿½ï¿½ A*ï¿½ï¿½ Ã£ï¿½Æ°ï¿½ ï¿½Ô±ï¿½ ï¿½ï¿½ Road")]
+    [SerializeField] private GameObject _entranceRoadObject;
 
-    [Header("³»ºÎ Æ÷ÀÎÆ®")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®")]
     [SerializeField] private Transform _interiorEntryPoint;
     [SerializeField] private Transform _waitPoint;
     [SerializeField] private Transform _usePoint;
     [SerializeField] private Transform _outsideExitPoint;
 
-    [Header("½Ã¼³ »óÅÂ")]
+    [Header("ï¿½Ã¼ï¿½ ï¿½ï¿½ï¿½ï¿½")]
     [SerializeField] private bool _canUseImmediately = true;
     [SerializeField] private bool _supportsQueue = true;
+    
+    public InBuildingData _inBuildingData;
+
+    private void Update()
+    {
+        _interiorEntryPoint = _inBuildingData.EnterPivot.transform;
+        _waitPoint = _inBuildingData.WaitPivot.transform;
+        _usePoint = _inBuildingData.UsePivot.transform;
+    }
+
 
     public int FacilityID => _facilityID;
     public EFacilityType FacilityType => _facilityType;
-    public Vector3Int EntranceRoadCell => _entranceRoadCell;
+    public Vector3Int EntranceRoadCell
+    {
+        get
+        {
+            if (_entranceRoadObject == null) return Vector3Int.zero;
+            return GridBuildingSystem.Instance.gridLayout.WorldToCell(
+                _entranceRoadObject.transform.position);
+        }
+    }
 
     public Transform InteriorEntryPoint => _interiorEntryPoint;
     public Transform WaitPoint => _waitPoint;

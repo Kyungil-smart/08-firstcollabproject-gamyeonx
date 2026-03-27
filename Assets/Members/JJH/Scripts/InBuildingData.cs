@@ -19,6 +19,12 @@ public class InBuildingData : MonoBehaviour
     [Header("다음레벨 프리팹")]
     [SerializeField] private List<GameObject> _nextLevelPrefabs;
     
+    [Header("입구/웨이팅/사용 정보")]
+    public GameObject EnterPivot;
+
+    public GameObject WaitPivot;
+    public GameObject UsePivot;
+    
     CameraController _cameraController;
 
     private void Awake()

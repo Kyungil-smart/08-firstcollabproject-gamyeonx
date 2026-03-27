@@ -17,6 +17,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject InBuildingPivot;
     [SerializeField] private float InBuildingPivotDistance = 50f;
     [SerializeField] private int CurrentInBuildingNum = 0;
+    
 
     private void Awake()
     {
@@ -50,6 +51,13 @@ public class MapManager : MonoBehaviour
         InBuildingData inData = inBuilding.GetComponentInChildren<InBuildingData>();
         building.InBuildingData = inData;
         building.InBuildingRoot = inBuilding;
+        
+        FacilityRuntime facilityRuntime = building.GetComponentInChildren<FacilityRuntime>();
+        if (facilityRuntime != null && inData != null)
+        {
+            facilityRuntime._inBuildingData = inData;
+            FacilityRegistry.Instance?.RegisterFacility(facilityRuntime);
+        }
     }
     
     private Vector2 PivotTransform(GameObject obj, int curInstance, float distance)
