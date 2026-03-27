@@ -67,6 +67,9 @@ public class GuestController : MonoBehaviour
     private GuestUseState _useState;
     private GuestExitState _exitState;
 
+    [Header("°ñµå Á¤»ó")]
+    [SerializeField] private GoldTest _goldTest;
+
     private void Awake()
     {
         Initialize();
@@ -303,7 +306,7 @@ public class GuestController : MonoBehaviour
 
         FacilityUseCount++;
         CurrentExitChancePercent = FacilityUseCount * _exitChanceIncreasePerUse;
-
+        
     }
 
     public EGuestNeedType GetNeedTypeByFacilityType(EFacilityType facilityType)
@@ -439,6 +442,10 @@ public class GuestController : MonoBehaviour
 
     public void CompleteExit()
     {
+        if(_goldTest != null)
+        {
+            _goldTest.PayMoney(10);
+        }
         Destroy(gameObject);
     }
 
@@ -489,4 +496,6 @@ public class GuestController : MonoBehaviour
             Debug.Log(message);
         }
     }
+
+
 }
