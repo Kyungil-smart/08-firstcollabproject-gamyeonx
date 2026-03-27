@@ -7,8 +7,6 @@ public class MapManager : MonoBehaviour
     public static MapManager Instance;
     
     [Header("외부 건물 생성")]
-    // [SerializeField] private List<GameObject> BuildingPrefabs;
-    // [SerializeField] private GameObject BuildingPivot;
     [SerializeField] private int CurrentBuildingNum = 0;
     [SerializeField] private float BuildingPivotDistance = 5f; // 빌딩 생성용 임시 함수 추후 제거
 
@@ -34,13 +32,7 @@ public class MapManager : MonoBehaviour
     
     public void InstantiateInBuilding(Building building, int index)
     {
-        /*int index = 0; // 추후 UI쪽 스크립트에서 함수로 받아올것
-        
-        // 외부 건물 생성 로직 (추후 그리드시스템과 연계)
-        Vector2 BuildingInstatiatePivot = PivotTransform(BuildingPivot, CurrentBuildingNum, BuildingPivotDistance);
-        GameObject outBuilding = Instantiate(BuildingPrefabs[index], BuildingInstatiatePivot, BuildingPivot.transform.rotation);*/
-
-        if (index < 0) return;
+        if (index <= 0) return;
         CurrentBuildingNum++;
         
         // 내부 건물 생성 로직

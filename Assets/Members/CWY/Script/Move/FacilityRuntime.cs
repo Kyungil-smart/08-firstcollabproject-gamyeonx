@@ -5,7 +5,7 @@ public class FacilityRuntime : MonoBehaviour
 {
     [Header("�⺻ ����")]
     [SerializeField] private int _facilityID;
-    [SerializeField] private EFacilityType _facilityType;
+    [SerializeField] public EFacilityType _facilityType;
 
     [Header("�ܺ� �Ա� ����")]
     [Tooltip("�մ��� A*�� ã�ư� �Ա� �� Road")]
