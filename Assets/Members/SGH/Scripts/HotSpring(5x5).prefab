@@ -1128,7 +1128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1c44a9a59fd35c4fab45c33e0d3bef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FacilityRuntime
-  _facilityID: 1001
+  _facilityID: 3001
   _facilityType: 2
   _entranceRoadObject: {fileID: 1932289875626956231}
   _interiorEntryPoint: {fileID: 0}
