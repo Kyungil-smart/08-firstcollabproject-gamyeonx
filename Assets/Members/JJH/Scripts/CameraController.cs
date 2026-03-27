@@ -240,6 +240,8 @@ public class CameraController : MonoBehaviour
         }
         else if (Input.GetMouseButton(0))
         {
+            if (_mouseDownOnUI) return;
+            
             if (Vector2.Distance(Input.mousePosition, _touchBeganPos) > DragThreshold)
             {
                 _isPanning = true;

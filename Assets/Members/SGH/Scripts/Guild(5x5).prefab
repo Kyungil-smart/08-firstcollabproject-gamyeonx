@@ -1026,7 +1026,7 @@ GameObject:
   - component: {fileID: 4515432953137878291}
   - component: {fileID: 6933469259068330659}
   m_Layer: 0
-  m_Name: ObyO
+  m_Name: Guild(5x5)
   m_TagString: OByO
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1129,11 +1129,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FacilityRuntime
   _facilityID: 1001
-  _facilityType: 3
+  _facilityType: 1
   _entranceRoadObject: {fileID: 1932289875626956231}
+  _interiorEntryPoint: {fileID: 0}
+  _waitPoint: {fileID: 0}
+  _usePoint: {fileID: 0}
   _outsideExitPoint: {fileID: 2233161381431702980}
   _canUseImmediately: 1
   _supportsQueue: 1
+  _inBuildingData: {fileID: 0}
 --- !u!1 &8711760362736447898
 GameObject:
   m_ObjectHideFlags: 0
