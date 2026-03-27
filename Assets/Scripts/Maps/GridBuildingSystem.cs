@@ -247,14 +247,10 @@ public class GridBuildingSystem : MonoBehaviour
     
     public int BuildingIndex(GameObject obj)
     {
-        switch (obj.tag)
-        {
-            case "TwoByOne":
-                return 0;
-            case "OByO":
-                return 1;
-            default:
-                return -1;
-        }
+        FacilityRuntime facilityRuntime = obj.GetComponentInChildren<FacilityRuntime>();
+        
+        if (facilityRuntime == null) return -1;
+
+        return (int)facilityRuntime._facilityType - 1;
     }
 }

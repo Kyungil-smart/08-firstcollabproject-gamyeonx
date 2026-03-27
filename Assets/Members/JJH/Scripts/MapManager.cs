@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
@@ -7,17 +8,21 @@ public class MapManager : MonoBehaviour
     public static MapManager Instance;
     
     [Header("외부 건물 생성")]
-    // [SerializeField] private List<GameObject> BuildingPrefabs;
-    // [SerializeField] private GameObject BuildingPivot;
     [SerializeField] private int CurrentBuildingNum = 0;
     [SerializeField] private float BuildingPivotDistance = 5f; // 빌딩 생성용 임시 함수 추후 제거
 
     [Header("내부 건물 생성")] 
-    [SerializeField] private List<GameObject> InBuildingPrefabs;
+    [SerializeField] private GameObject Guild;
+    [SerializeField] private GameObject HotSpring;
+    [SerializeField] private GameObject Restaurant;
+    [SerializeField] private GameObject VendingMachine;
+    [SerializeField] private GameObject Shop;
+    [SerializeField] private GameObject TrainingGround;
     [SerializeField] private GameObject InBuildingPivot;
     [SerializeField] private float InBuildingPivotDistance = 50f;
     [SerializeField] private int CurrentInBuildingNum = 0;
     
+    private List<GameObject> InBuildingPrefabs;
 
     private void Awake()
     {
@@ -31,15 +36,14 @@ public class MapManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
+    private void Start()
+    {
+        PrefabListAdd();
+    }
+
     public void InstantiateInBuilding(Building building, int index)
     {
-        /*int index = 0; // 추후 UI쪽 스크립트에서 함수로 받아올것
-        
-        // 외부 건물 생성 로직 (추후 그리드시스템과 연계)
-        Vector2 BuildingInstatiatePivot = PivotTransform(BuildingPivot, CurrentBuildingNum, BuildingPivotDistance);
-        GameObject outBuilding = Instantiate(BuildingPrefabs[index], BuildingInstatiatePivot, BuildingPivot.transform.rotation);*/
-
         if (index < 0) return;
         CurrentBuildingNum++;
         
@@ -65,5 +69,17 @@ public class MapManager : MonoBehaviour
         float x = obj.transform.position.x + (curInstance * distance);
         float y = obj.transform.position.y;
         return new Vector2(x, y);
+    }
+
+    private void PrefabListAdd()
+    {
+        InBuildingPrefabs = new List<GameObject>();
+        
+        InBuildingPrefabs.Add(Guild);
+        InBuildingPrefabs.Add(HotSpring);
+        InBuildingPrefabs.Add(Restaurant);
+        InBuildingPrefabs.Add(VendingMachine);
+        InBuildingPrefabs.Add(Shop);
+        InBuildingPrefabs.Add(TrainingGround);
     }
 }
