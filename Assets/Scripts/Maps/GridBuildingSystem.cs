@@ -2,27 +2,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public enum ETileType { Empty, White, Green, Red }
+public enum ETileType
+{
+    Empty,
+    White,
+    Green,
+    Red
+}
 
 public class GridBuildingSystem : MonoBehaviour
 {
     public static GridBuildingSystem Instance { get; private set; }
+
     // grid 좌표에 Tile상태를 저장
     private Dictionary<Vector3Int, TileType> tileTypes = new Dictionary<Vector3Int, TileType>();
 
     public GridLayout gridLayout;
-    public Tilemap MainTilemap;   
-    public Tilemap TempTilemap;     // 프리뷰 표시용 타일맵
+    public Tilemap MainTilemap;
+    public Tilemap TempTilemap; // 프리뷰 표시용 타일맵
 
     private static Dictionary<ETileType, TileBase> _tileBases = new Dictionary<ETileType, TileBase>();
 
-    private Building _temp;     // 현재 배치 중인 건물     
-    private Vector3 _prevPos;   // 이전 마우스 셀 위치
+    private Building _temp; // 현재 배치 중인 건물     
+    private Vector3 _prevPos; // 이전 마우스 셀 위치
 
-    private HashSet<Vector3Int> occupied = new HashSet<Vector3Int>();   // 점유된 타일 좌표
+    private HashSet<Vector3Int> occupied = new HashSet<Vector3Int>(); // 점유된 타일 좌표
 
-    private bool _isPlacing = false;    // 프리뷰 상태 체크
-    
+    private bool _isPlacing = false; // 프리뷰 상태 체크
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -30,6 +37,7 @@ public class GridBuildingSystem : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
     }
 
@@ -76,24 +84,32 @@ public class GridBuildingSystem : MonoBehaviour
             }
         }
 
-        if (_temp != null && Input.GetKeyDown(KeyCode.Space))
+        if (_temp != null)
         {
-            if (CanTakeArea(_temp.area))
+            bool shouldPlace = (_temp.buildType == BuildType.TileBrush || _temp.buildType == BuildType.Road)
+                ? Input.GetMouseButton(0)
+                : Input.GetMouseButtonDown(0);
+
+            if (shouldPlace && CanTakeArea(_temp.area))
             {
                 TakeArea(_temp.area);
-                _temp.Place();
-                _temp = null;
-                _isPlacing = false;
+                if(Input.GetMouseButtonUp(0))
+                {
+                    Destroy(_temp.gameObject);
+                    _temp = null;
+                    _isPlacing = false;
+                }
             }
         }
-        else if (_temp != null && Input.GetKeyDown(KeyCode.Escape))
+
+        if (_temp != null && Input.GetKeyDown(KeyCode.Escape))
         {
             TempTilemap.ClearAllTiles();
             _temp.DestroyBuilding();
             _isPlacing = false;
         }
 
-        if (Input.GetMouseButtonDown(1) && !_isPlacing) 
+        if (Input.GetMouseButtonDown(1) && !_isPlacing)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
@@ -140,7 +156,6 @@ public class GridBuildingSystem : MonoBehaviour
     private void FollowBuilding()
     {
         TempTilemap.ClearAllTiles();
-
         _temp.area.position = gridLayout.WorldToCell(_temp.transform.position);
         BoundsInt area = _temp.area;
 
@@ -150,15 +165,21 @@ public class GridBuildingSystem : MonoBehaviour
         int i = 0;
         foreach (var pos in area.allPositionsWithin)
         {
-            if (occupied.Contains(pos) ||
-                MainTilemap.GetTile(pos) != _tileBases[ETileType.White])
+            if (_temp.buildType == BuildType.TileBrush)
             {
-                tiles[i] = _tileBases[ETileType.Red];
+                // TileBrush는 타일 없는 곳 = 초록, 이미 있는 곳 = 빨강
+                tiles[i] = MainTilemap.GetTile(pos) == null
+                    ? _tileBases[ETileType.Green]
+                    : _tileBases[ETileType.Red];
             }
             else
             {
-                tiles[i] = _tileBases[ETileType.Green];
+                tiles[i] = (occupied.Contains(pos) ||
+                            MainTilemap.GetTile(pos) != _tileBases[ETileType.White])
+                    ? _tileBases[ETileType.Red]
+                    : _tileBases[ETileType.Green];
             }
+
             i++;
         }
 
@@ -168,14 +189,22 @@ public class GridBuildingSystem : MonoBehaviour
     // 설치 가능 여부 체크용 메서드
     public bool CanTakeArea(BoundsInt area)
     {
+        if (_temp.buildType == BuildType.TileBrush)
+        {
+            foreach (var pos in area.allPositionsWithin)
+            {
+                if (MainTilemap.GetTile(pos) != null) return false;
+            }
+
+            return true;
+        }
+
         foreach (var pos in area.allPositionsWithin)
         {
-            if (occupied.Contains(pos))
-                return false;
-
-            if (MainTilemap.GetTile(pos) != _tileBases[ETileType.White])
-                return false;
+            if (occupied.Contains(pos)) return false;
+            if (MainTilemap.GetTile(pos) != _tileBases[ETileType.White]) return false;
         }
+
         return true;
     }
 
@@ -184,22 +213,21 @@ public class GridBuildingSystem : MonoBehaviour
     {
         foreach (var pos in area.allPositionsWithin)
         {
-            occupied.Add(pos);
-
-            if (_temp.buildType == BuildType.Road)
+            if (_temp.buildType == BuildType.TileBrush)
             {
-                SetTileType(pos, TileType.Road);
-            }
-            else if (_temp.buildType == BuildType.Building)
-            {
-                SetTileType(pos, TileType.Building);
+                // occupied에 추가 안 하고 white 타일만 설치
+                MainTilemap.SetTile(pos, _tileBases[ETileType.White]);
+                SetTileType(pos, TileType.Empty);
             }
             else
             {
-                Debug.Log("알 수 없는 타입!");
+                occupied.Add(pos);
+                if (_temp.buildType == BuildType.Road)
+                    SetTileType(pos, TileType.Road);
+                else if (_temp.buildType == BuildType.Building)
+                    SetTileType(pos, TileType.Building);
             }
         }
-
 
         TempTilemap.ClearAllTiles();
     }
@@ -221,7 +249,7 @@ public class GridBuildingSystem : MonoBehaviour
     {
         return occupied.Contains(pos);
     }
-    
+
     // 해당 gird의 좌표에 무슨 TileType인지 알려줌
     public TileType GetTileType(Vector3Int pos)
     {
@@ -229,10 +257,10 @@ public class GridBuildingSystem : MonoBehaviour
 
         return TileType.Empty;
     }
-    
+
     // 해당 좌표에 어떤 TileType을 배치할지
     public void SetTileType(Vector3Int pos, TileType type) => tileTypes[pos] = type;
-    
+
     // 맵 전체를 순회하면서 모든 타일 상태를 초기화하는 함수
     void InitTileTypes()
     {
@@ -242,13 +270,12 @@ public class GridBuildingSystem : MonoBehaviour
         // 맵 안의 모든 좌표 하나씩 꺼냄
         foreach (var pos in bounds.allPositionsWithin)
             SetTileType(pos, TileType.Empty); // 전부 TileType.Empty(빈 상태)로 초기화
-        
     }
-    
+
     public int BuildingIndex(GameObject obj)
     {
         FacilityRuntime facilityRuntime = obj.GetComponentInChildren<FacilityRuntime>();
-        
+
         if (facilityRuntime == null) return -1;
 
         return (int)facilityRuntime._facilityType - 1;

@@ -4,7 +4,8 @@ using UnityEngine.UI;
 public enum BuildType
 {
     Road,
-    Building
+    Building,
+    TileBrush
 }
 
 public class Building : MonoBehaviour
