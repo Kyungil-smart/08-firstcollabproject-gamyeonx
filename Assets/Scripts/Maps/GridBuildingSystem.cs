@@ -93,9 +93,30 @@ public class GridBuildingSystem : MonoBehaviour
             if (shouldPlace && CanTakeArea(_temp.area))
             {
                 TakeArea(_temp.area);
-                if(Input.GetMouseButtonUp(0))
+
+                if (_temp.buildType == BuildType.TileBrush)
                 {
-                    Destroy(_temp.gameObject);
+                    FollowBuilding();
+                }
+                else if (_temp.buildType == BuildType.Road)
+                {
+                    GameObject roadPrefab = _temp.gameObject;
+                    _temp.Place();
+
+                    // 현재 마우스 위치 계산
+                    Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
+                    Vector3 spawnPos = gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
+
+                    // 마우스 위치에 바로 생성
+                    _temp = Instantiate(roadPrefab, spawnPos, Quaternion.identity).GetComponent<Building>();
+                    _isPlacing = true;
+                    _prevPos = Vector3.zero;
+                    FollowBuilding();
+                }
+                else
+                {
+                    _temp.Place();
                     _temp = null;
                     _isPlacing = false;
                 }
@@ -230,6 +251,7 @@ public class GridBuildingSystem : MonoBehaviour
         }
 
         TempTilemap.ClearAllTiles();
+        MainTilemap.RefreshAllTiles();
     }
 
     // 오브젝트 재배치용 메서드
