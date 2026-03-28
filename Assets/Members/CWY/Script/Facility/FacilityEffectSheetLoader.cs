@@ -54,7 +54,7 @@ public class FacilityEffectSheetLoader : MonoBehaviour
             // 4 FatigueEffect
             // 5 CleanEffect
             // 6 SatisfactionEffect
-            if (cols.Length < 7)
+            if (cols.Length < 6)
             {
                 Debug.LogWarning($"[FacilityEffectSheetLoader] Invalid column count at line {i}. Line skipped.");
                 continue;

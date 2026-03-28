@@ -53,7 +53,7 @@ public class GuestSheetLoader : MonoBehaviour
 
             string[] cols = lines[i].Split(splitSymbol);
 
-            if (cols.Length < 5)
+            if (cols.Length < 4)
             {
                 continue;
             }

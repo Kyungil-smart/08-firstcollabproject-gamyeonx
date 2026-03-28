@@ -9,23 +9,20 @@ public class GuestStates
     [SerializeField, Range(0, 100)] private int _hunger;
     [SerializeField, Range(0, 100)] private int _thirst;
     [SerializeField, Range(0, 100)] private int _fatigue;
-    [SerializeField, Range(0, 100)] private int _satisfaction;
 
     public int VisitorID => _visitorID;
     public int Hunger => _hunger;
     public int Thirst => _thirst;
     public int Fatigue => _fatigue;
-    public int Satisfaction => _satisfaction;
 
     public event Action OnStatesChanged;
 
-    public void Initialize(int visitorID, int hunger, int thirst, int fatigue, int satisfaction)
+    public void Initialize(int visitorID, int hunger, int thirst, int fatigue)
     {
         _visitorID = visitorID;
         _hunger = ClampValue(hunger);
         _thirst = ClampValue(thirst);
         _fatigue = ClampValue(fatigue);
-        _satisfaction = ClampValue(satisfaction);
 
         Debug.Log($"[GuestStates] 초기화 완료 | {GetDebugText()}");
         RaiseStatesChanged();
@@ -87,11 +84,6 @@ public class GuestStates
         RaiseStatesChanged();
     }
 
-    public void AddSatisfaction(int delta)
-    {
-        _satisfaction = ClampValue(_satisfaction + delta);
-        RaiseStatesChanged();
-    }
 
     public void IncreaseAllNeedsByWanderTick()
     {
@@ -117,14 +109,13 @@ public class GuestStates
         _hunger = ClampValue(_hunger + effectRow.HungerEffectPerTick);
         _thirst = ClampValue(_thirst + effectRow.ThirstEffectPerTick);
         _fatigue = ClampValue(_fatigue + effectRow.FatigueEffectPerTick);
-        _satisfaction = ClampValue(_satisfaction + effectRow.SatisfactionEffectPerTick);
 
         RaiseStatesChanged();
     }
 
     public string GetDebugText()
     {
-        return $"VisitorID={_visitorID}, Hunger={_hunger}, Thirst={_thirst}, Fatigue={_fatigue}, Satisfaction={_satisfaction}";
+        return $"VisitorID={_visitorID}, Hunger={_hunger}, Thirst={_thirst}, Fatigue={_fatigue}";
     }
 
     private int ClampValue(int value)
