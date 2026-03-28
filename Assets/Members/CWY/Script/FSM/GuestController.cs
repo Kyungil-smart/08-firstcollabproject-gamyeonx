@@ -132,7 +132,7 @@ public class GuestController : MonoBehaviour
             return;
         }
 
-        _guestStates.Initialize(row.VisitorID, row.Hunger, row.Thirst, row.Fatigue, row.Satisfaction);
+        _guestStates.Initialize(row.VisitorID, row.Hunger, row.Thirst, row.Fatigue);
     }
 
     public void EvaluateCurrentNeed()

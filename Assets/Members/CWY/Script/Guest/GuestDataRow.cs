@@ -9,13 +9,11 @@ public class GuestDataRow
     [SerializeField, Range(0, 100)] private int _hunger = 0;
     [SerializeField, Range(0, 100)] private int _thirst = 0;
     [SerializeField, Range(0, 100)] private int _fatigue = 0;
-    [SerializeField, Range(0, 100)] private int _satisfaction = 50;
 
     public int VisitorID => _visitorID;
     public int Hunger => _hunger;
     public int Thirst => _thirst;
     public int Fatigue => _fatigue;
-    public int Satisfaction => _satisfaction;
 
     public void SetData(string[] cols)
     {
@@ -23,12 +21,11 @@ public class GuestDataRow
         _hunger = ClampValue(int.Parse(cols[1]));
         _thirst = ClampValue(int.Parse(cols[2]));
         _fatigue = ClampValue(int.Parse(cols[3]));
-        _satisfaction = ClampValue(int.Parse(cols[4]));
     }
 
     public string GetDebugText()
     {
-        return $"VisitorID={_visitorID}, Hunger={_hunger}, Thirst={_thirst}, Fatigue={_fatigue}, Satisfaction={_satisfaction}";
+        return $"VisitorID={_visitorID}, Hunger={_hunger}, Thirst={_thirst}, Fatigue={_fatigue}";
     }
 
     private int ClampValue(int value)
