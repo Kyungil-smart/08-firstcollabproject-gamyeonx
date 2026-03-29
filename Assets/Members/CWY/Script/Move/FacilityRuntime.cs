@@ -21,6 +21,10 @@ public class FacilityRuntime : MonoBehaviour
     [SerializeField] private bool _canUseImmediately = true;
     [SerializeField] private bool _supportsQueue = true;
     
+    //연동준이 추가
+    [Header("시설 이용 가격")] 
+    [SerializeField] private int _gold;
+    
     public InBuildingData _inBuildingData;
 
     private void Update()
@@ -29,8 +33,13 @@ public class FacilityRuntime : MonoBehaviour
         _waitPoint = _inBuildingData.WaitPivot.transform;
         _usePoint = _inBuildingData.UsePivot.transform;
     }
-
-
+    
+    // 연동준이 추가
+    public int GetPrice() // 시설 이용 가격
+    {
+        return _gold;
+    }
+    
     public int FacilityID => _facilityID;
     public EFacilityType FacilityType => _facilityType;
     public Vector3Int EntranceRoadCell

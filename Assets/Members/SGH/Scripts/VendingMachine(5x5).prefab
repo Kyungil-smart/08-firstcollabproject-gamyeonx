@@ -1137,6 +1137,7 @@ MonoBehaviour:
   _outsideExitPoint: {fileID: 2233161381431702980}
   _canUseImmediately: 1
   _supportsQueue: 1
+  _gold: 20
   _inBuildingData: {fileID: 0}
 --- !u!1 &8711760362736447898
 GameObject:

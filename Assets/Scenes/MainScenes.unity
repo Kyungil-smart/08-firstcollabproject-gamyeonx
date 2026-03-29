@@ -1972,7 +1972,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00003761245}
+  m_AnchoredPosition: {x: 0, y: 0.0009056543}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &731388506
@@ -5566,6 +5566,10 @@ PrefabInstance:
       value: NPC Test
       objectReference: {fileID: 0}
     - target: {fileID: 8696321141006669572, guid: dd420277725931f4ba968611d2cc602a, type: 3}
+      propertyPath: _goldTest
+      value: 
+      objectReference: {fileID: 138611614}
+    - target: {fileID: 8696321141006669572, guid: dd420277725931f4ba968611d2cc602a, type: 3}
       propertyPath: _visitorID
       value: 1
       objectReference: {fileID: 0}
@@ -7148,7 +7152,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 89115028}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.15182361
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
