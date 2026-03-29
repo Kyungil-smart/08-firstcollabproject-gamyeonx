@@ -419,6 +419,10 @@ public class GuestController : MonoBehaviour
         if (CurrentFacilityRuntime != null && CurrentFacilityRuntime.OutsideExitPoint != null)
         {
             MovementAgent.TeleportTo(CurrentFacilityRuntime.OutsideExitPoint);
+            
+            // 연동준이 추가
+            int gold = CurrentFacilityRuntime.GetPrice();
+            _goldTest.PayMoney(gold);
         }
 
         IsInsideFacility = false;
@@ -444,7 +448,7 @@ public class GuestController : MonoBehaviour
     {
         if(_goldTest != null)
         {
-            _goldTest.PayMoney(10);
+            // _goldTest.PayMoney(10);
         }
         Destroy(gameObject);
     }
