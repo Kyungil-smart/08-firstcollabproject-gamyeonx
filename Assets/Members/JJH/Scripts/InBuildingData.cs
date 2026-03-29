@@ -48,6 +48,7 @@ public class InBuildingData : MonoBehaviour
     public void BuildingEntered()
     {
         _canvas.gameObject.SetActive(true);
+        GridBuildingSystem.Instance.SetCurrentInBuilding(this);
     }
 
     public void BuildingLevelUp()
@@ -71,6 +72,7 @@ public class InBuildingData : MonoBehaviour
     {
         _cameraController.ReturnToWorld();
         _canvas.gameObject.SetActive(false);
+        GridBuildingSystem.Instance.SetCurrentInBuilding(null);
     }
     
     private void InBuildingWhiteTilesCreate()
