@@ -139,3 +139,9 @@ MonoBehaviour:
   area:
     m_Position: {x: 0, y: 0, z: 0}
     m_Size: {x: 1, y: 1, z: 1}
+  buildType: 0
+  InBuildingData: {fileID: 0}
+  InBuildingRoot: {fileID: 0}
+  turnType: 0
+  pivot: {fileID: 9083954952997580163}
+  rotateCount: 0

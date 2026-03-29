@@ -24,6 +24,8 @@ public class MapManager : MonoBehaviour
     
     private List<GameObject> InBuildingPrefabs;
 
+    public int MapLevel = 1;
+
     private void Awake()
     {
         if (Instance == null)
