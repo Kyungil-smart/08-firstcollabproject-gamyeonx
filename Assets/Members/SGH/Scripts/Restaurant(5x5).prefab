@@ -163,11 +163,11 @@ Transform:
   m_GameObject: {fileID: 1225896220540437624}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6000790222877399845}
+  m_Father: {fileID: 1254885943345794470}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4912989981437576162
 SpriteRenderer:
@@ -392,13 +392,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932289875626956231}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: -1, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5688861189285011437}
-  m_Father: {fileID: 6000790222877399845}
+  m_Father: {fileID: 1254885943345794470}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4631049883130529804
 MonoBehaviour:
@@ -418,6 +418,9 @@ MonoBehaviour:
   buildType: 0
   InBuildingData: {fileID: 0}
   InBuildingRoot: {fileID: 0}
+  turnType: 0
+  pivot: {fileID: 0}
+  rotateCount: 0
 --- !u!61 &6098650717847420250
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -740,10 +743,13 @@ Transform:
   m_GameObject: {fileID: 3106733847384429580}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2161120917826492929}
+  - {fileID: 3737421573351592369}
+  - {fileID: 2233161381431702980}
   m_Father: {fileID: 6000790222877399845}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2824599307133597316
@@ -1045,10 +1051,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2161120917826492929}
   - {fileID: 1254885943345794470}
-  - {fileID: 3737421573351592369}
-  - {fileID: 2233161381431702980}
   - {fileID: 5152256464910581859}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1070,6 +1073,9 @@ MonoBehaviour:
   buildType: 1
   InBuildingData: {fileID: 0}
   InBuildingRoot: {fileID: 0}
+  turnType: 0
+  pivot: {fileID: 1254885943345794470}
+  rotateCount: 0
 --- !u!61 &4515432953137878291
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1255,13 +1261,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8839235113384572298}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: -1, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1174881119848372061}
-  m_Father: {fileID: 6000790222877399845}
+  m_Father: {fileID: 1254885943345794470}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8285687950921582778
 MonoBehaviour:
@@ -1281,6 +1287,9 @@ MonoBehaviour:
   buildType: 0
   InBuildingData: {fileID: 0}
   InBuildingRoot: {fileID: 0}
+  turnType: 0
+  pivot: {fileID: 0}
+  rotateCount: 0
 --- !u!61 &5342572930882078739
 BoxCollider2D:
   m_ObjectHideFlags: 0
