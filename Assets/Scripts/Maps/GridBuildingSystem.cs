@@ -302,4 +302,72 @@ public class GridBuildingSystem : MonoBehaviour
 
         return (int)facilityRuntime._facilityType - 1;
     }
+    
+    public void MapLevelUp()
+    {
+        if (MapManager.Instance.MapLevel != 1) return;
+        
+        // 현재 타일맵 범위 가져오기
+        BoundsInt currentBounds = MainTilemap.cellBounds;
+    
+        int currentWidth = currentBounds.size.x;
+        int currentHeight = currentBounds.size.y;
+
+        // 우측으로 현재 너비만큼 확장
+        BoundsInt rightArea = new BoundsInt(
+            currentBounds.max.x,     
+            currentBounds.min.y,      
+            0,
+            currentWidth,           
+            currentHeight * 2, 
+            1
+        );
+
+        // 상단으로 현재 높이만큼 확장
+        BoundsInt topArea = new BoundsInt(
+            currentBounds.min.x,    
+            currentBounds.max.y,    
+            0,
+            currentWidth,            
+            currentHeight,            
+            1
+        );
+
+        TileBase whiteTile = _tileBases[ETileType.White];
+
+        // 우측 영역 타일 생성
+        foreach (var pos in rightArea.allPositionsWithin)
+        {
+            MainTilemap.SetTile(pos, whiteTile);
+            SetTileType(pos, TileType.Empty);
+        }
+
+        // 상단 영역 타일 생성
+        foreach (var pos in topArea.allPositionsWithin)
+        {
+            MainTilemap.SetTile(pos, whiteTile);
+            SetTileType(pos, TileType.Empty);
+        }
+
+        MainTilemap.RefreshAllTiles();
+
+        // 카메라 Bounds 업데이트
+        LevelUpCameraBounds();
+        MapManager.Instance.MapLevel++;
+    }
+
+    private void LevelUpCameraBounds()
+    {
+        CameraController cam = FindFirstObjectByType<CameraController>();
+        if (cam == null) return;
+        
+        Bounds mapBounds = MainTilemap.localBounds;
+
+        cam.CameraBounds = new Bounds(
+            mapBounds.center,  
+            cam.CameraBounds.size * 2f  
+        );
+        
+        cam.MaxSize *= 2f;
+    }
 }
