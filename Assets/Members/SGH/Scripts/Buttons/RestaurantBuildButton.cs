@@ -6,13 +6,13 @@ public class RestaurantBuildButton : MonoBehaviour
     [SerializeField] private GameObject _uiRestaurantPanel;
     [SerializeField] private GameObject _topUI;
 
-    private Button _RestaurantbuildButton;
+    private Button _restaurantbuildButton;
 
     private void Awake()
     {
-        _RestaurantbuildButton = GetComponent<Button>();
+        _restaurantbuildButton = GetComponent<Button>();
 
-        if (_RestaurantbuildButton != null) _RestaurantbuildButton.onClick.AddListener(OnClickSetRestaurantBuildPanel);
+        if (_restaurantbuildButton != null) _restaurantbuildButton.onClick.AddListener(OnClickSetRestaurantBuildPanel);
     }
 
     public void OnClickSetRestaurantBuildPanel()
@@ -26,6 +26,6 @@ public class RestaurantBuildButton : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (_RestaurantbuildButton != null) _RestaurantbuildButton.onClick.RemoveListener(OnClickSetRestaurantBuildPanel);
+        if (_restaurantbuildButton != null) _restaurantbuildButton.onClick.RemoveListener(OnClickSetRestaurantBuildPanel);
     }
 }
