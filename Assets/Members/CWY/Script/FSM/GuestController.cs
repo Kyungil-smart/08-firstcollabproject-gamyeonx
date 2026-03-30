@@ -1,9 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// 손님 1명의 전체 흐름을 관리하는 메인 컨트롤러
-/// FSM, 런타임 상태값, 시설 선택, 외부 시스템 연결 지점을 담당
-/// </summary>
 [RequireComponent(typeof(GuestMovementAgent))]
 [RequireComponent(typeof(GuestRoadWanderSelector))]
 [RequireComponent(typeof(GuestEntryFlowHandler))]
