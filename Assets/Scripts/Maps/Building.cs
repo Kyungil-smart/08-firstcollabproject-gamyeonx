@@ -98,6 +98,7 @@ public class Building : MonoBehaviour
         Vector3Int positionInt = GridBuildingSystem.Instance.gridLayout.LocalToCell(transform.position);
         BoundsInt areaTemp = area;
         areaTemp.position = positionInt;
+        GridBuildingSystem.Instance.OccupiedPositionList.Add(positionInt); // 세이브용
         Placed = true;
         GridBuildingSystem.Instance.TakeArea(areaTemp);
     }

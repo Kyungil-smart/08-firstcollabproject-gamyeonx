@@ -22,11 +22,14 @@ public class SaveManager : MonoBehaviour
     public void Save()
     {
         SaveData data = new SaveData();
-        data.MainTilemap = GridBuildingSystem.Instance.MainTilemap;
-        data.BuildingList = GridBuildingSystem.Instance.BuildingList;
-        data.PositionList = GridBuildingSystem.Instance.PositionList;
-        data.OccupiedPositionList = GridBuildingSystem.Instance.OccupiedPositionList;
-        data.TileTypes = GridBuildingSystem.Instance.TileTypes;
+        BoundsInt bounds = GridBuildingSystem.Instance.MainTilemap.cellBounds;
+        
+        foreach (var pos in bounds.allPositionsWithin)
+        {
+            TileType type = GridBuildingSystem.Instance.GetTileType(pos);
+            data.OccupiedPositionList.Add(new Vector3IntSaveData(pos));
+            data.TileTypes.Add(type);
+        }
         
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(_savePath, json);
@@ -35,16 +38,19 @@ public class SaveManager : MonoBehaviour
     public void Load()
     {
         if (!HasSave()) { Debug.LogWarning("세이브 파일 없음"); return; }
+        
+        GridBuildingSystem.Instance.MainTilemap.ClearAllTiles();
 
         string json = File.ReadAllText(_savePath);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
-
-        GridBuildingSystem.Instance.MainTilemap = data.MainTilemap;
         
         for (int i = 0; i < data.OccupiedPositionList.Count; i++)
         {
-            GridBuildingSystem.Instance.SetTileType(data.OccupiedPositionList[i], data.TileTypes[i]);
+            Vector3Int pos = data.OccupiedPositionList[i].SaveData();
+            GridBuildingSystem.Instance.LoadSetTileType(pos, data.TileTypes[i]);
         }
+        
+        GridBuildingSystem.Instance.MainTilemap.RefreshAllTiles();
     }
     
     public void DeleteSave()

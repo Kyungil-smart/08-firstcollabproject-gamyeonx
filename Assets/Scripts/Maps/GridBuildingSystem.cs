@@ -35,7 +35,6 @@ public class GridBuildingSystem : MonoBehaviour
     
     //세이브용
     public List<Building> BuildingList = new List<Building>();
-    public List<Position> PositionList = new List<Position>();
     public List<Vector3Int> OccupiedPositionList = new List<Vector3Int>();
     public List<TileType> TileTypes = new List<TileType>();
 
@@ -137,6 +136,7 @@ public class GridBuildingSystem : MonoBehaviour
         if (_temp != null && Input.GetKeyDown(KeyCode.Escape))
         {
             TempTilemap.ClearAllTiles();
+            BuildingList.Remove(_temp); // 세이브용
             _temp.DestroyBuilding();
             _isPlacing = false;
         }
@@ -151,11 +151,13 @@ public class GridBuildingSystem : MonoBehaviour
                 if (!obj.Placed) continue;
                 if (obj.area.Contains(cellPos))
                 {
+                    BuildingList.Remove(obj);
                     foreach (var pos in obj.area.allPositionsWithin)
                     {
                         occupied.Remove(pos);
+                        OccupiedPositionList.Remove(pos); // 세이브용
                         // 연동준이 고침  
-                        SetTileType(pos, TileType.Empty);
+                        SetTileType(pos, TileType.Tile);
                     }
 
                     MainTilemap.RefreshAllTiles();
@@ -179,6 +181,7 @@ public class GridBuildingSystem : MonoBehaviour
         int index = BuildingIndex(building);
 
         _temp = Instantiate(building, Vector3.zero, Quaternion.identity).GetComponent<Building>();
+        BuildingList.Add(_temp); // 세이브용
         MapManager.Instance.InstantiateInBuilding(_temp, index);
         _isPlacing = true;
         FollowBuilding();
@@ -249,7 +252,7 @@ public class GridBuildingSystem : MonoBehaviour
             {
                 // occupied에 추가 안 하고 white 타일만 설치
                 MainTilemap.SetTile(pos, _tileBases[ETileType.White]);
-                SetTileType(pos, TileType.Empty);
+                SetTileType(pos, TileType.Tile);
             }
             else
             {
@@ -276,7 +279,8 @@ public class GridBuildingSystem : MonoBehaviour
         foreach (var pos in area.allPositionsWithin)
         {
             occupied.Remove(pos);
-            SetTileType(pos, TileType.Empty);
+            OccupiedPositionList.Remove(pos); // 세이브용
+            SetTileType(pos, TileType.Tile);
         }
 
         TempTilemap.ClearAllTiles();
@@ -303,11 +307,16 @@ public class GridBuildingSystem : MonoBehaviour
     void InitTileTypes()
     {
         // 타일맵 전체 범위 가져오기
-        BoundsInt bounds = MainTilemap.cellBounds;
+        BoundsInt bounds = _initialMapBounds;
 
         // 맵 안의 모든 좌표 하나씩 꺼냄
         foreach (var pos in bounds.allPositionsWithin)
-            SetTileType(pos, TileType.Empty); // 전부 TileType.Empty(빈 상태)로 초기화
+        {
+            MainTilemap.SetTile(pos, _tileBases[ETileType.White]);
+            SetTileType(pos, TileType.Tile); // 전부 TileType.Empty(빈 상태)로 초기화
+        }
+        
+        MainTilemap.RefreshAllTiles();
     }
 
     public int BuildingIndex(GameObject obj)
@@ -355,14 +364,14 @@ public class GridBuildingSystem : MonoBehaviour
         foreach (var pos in rightArea.allPositionsWithin)
         {
             MainTilemap.SetTile(pos, whiteTile);
-            SetTileType(pos, TileType.Empty);
+            SetTileType(pos, TileType.Tile);
         }
 
         // 상단 영역 타일 생성
         foreach (var pos in topArea.allPositionsWithin)
         {
             MainTilemap.SetTile(pos, whiteTile);
-            SetTileType(pos, TileType.Empty);
+            SetTileType(pos, TileType.Tile);
         }
 
         MainTilemap.RefreshAllTiles();
@@ -400,28 +409,36 @@ public class GridBuildingSystem : MonoBehaviour
     }
     
     // ----------- 세이브 관련 -----------
-    
-    public void SaveTileType()
-    {
-        // 타일맵 전체 범위 가져오기
-        BoundsInt bounds = MainTilemap.cellBounds;
-
-        // 맵 안의 모든 좌표 하나씩 꺼냄
-        foreach (var pos in bounds.allPositionsWithin)
-        {
-            OccupiedPositionList.Add(pos);
-            TileTypes.Add(GetTileType(pos));
-        }
-    }
 
     public void Save()
     {
-        SaveTileType();
         SaveManager.Instance.Save();
     }
 
     public void Load()
     {
         SaveManager.Instance.Load();
+    }
+
+    public void LoadSetTileType(Vector3Int pos, TileType type)
+    {
+        tileTypes[pos] = type;
+        if (type != TileType.Empty)
+        {
+            MainTilemap.SetTile(pos, _tileBases[ETileType.White]);
+            if (type == TileType.Road || type == TileType.Building)
+            {
+                if (!occupied.Contains(pos)) occupied.Add(pos);
+            }
+            else
+            {
+                if (occupied.Contains(pos)) occupied.Remove(pos);
+            }
+        }
+        else 
+        {
+            MainTilemap.SetTile(pos, null); 
+            if (occupied.Contains(pos)) occupied.Remove(pos);
+        }
     }
 }
