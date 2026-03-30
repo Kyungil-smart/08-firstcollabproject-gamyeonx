@@ -66,25 +66,6 @@ public class GuestStates
         RaiseStatesChanged();
     }
 
-    public void AddHunger(int delta)
-    {
-        _hunger = ClampValue(_hunger + delta);
-        RaiseStatesChanged();
-    }
-
-    public void AddThirst(int delta)
-    {
-        _thirst = ClampValue(_thirst + delta);
-        RaiseStatesChanged();
-    }
-
-    public void AddFatigue(int delta)
-    {
-        _fatigue = ClampValue(_fatigue + delta);
-        RaiseStatesChanged();
-    }
-
-
     public void IncreaseAllNeedsByWanderTick()
     {
         _hunger = ClampValue(_hunger + 1);
@@ -101,7 +82,7 @@ public class GuestStates
 
     public void ApplyFacilityEffect(FacilityEffectRow effectRow)
     {
-        if(effectRow == null)
+        if (effectRow == null)
         {
             return;
         }

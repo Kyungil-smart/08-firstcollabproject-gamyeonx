@@ -17,10 +17,6 @@ public class GuestEntryFlowHandler : MonoBehaviour
 
     private bool _isEntryRunning;
     private bool _isWaitingEntranceTrigger;
-    private bool _isMovingToEntrancePoint;
-
-    public bool IsEntryRunning => _isEntryRunning;
-    public bool IsWaitingEntranceTrigger => _isWaitingEntranceTrigger;
 
     private void Awake()
     {
@@ -30,7 +26,7 @@ public class GuestEntryFlowHandler : MonoBehaviour
 
     public void BeginEntryFlow()
     {
-        if(!ValidateEntryPoints())
+        if (!ValidateEntryPoints())
         {
             Debug.LogWarning("[GuestEntryFlowHandler] 입장 포인트가 올바르지 않아 입장 흐름을 시작할 수 없습니다.");
             _controller.HandleEntryFlowFailed();
@@ -39,7 +35,6 @@ public class GuestEntryFlowHandler : MonoBehaviour
 
         _isEntryRunning = true;
         _isWaitingEntranceTrigger = true;
-        _isMovingToEntrancePoint = true;
 
         _movementAgent.StopMove();
         _movementAgent.TeleportTo(_spawnPoint);
@@ -50,18 +45,17 @@ public class GuestEntryFlowHandler : MonoBehaviour
 
     public void NotifyEnteredGuildEntranceTrigger()
     {
-        if(!_isEntryRunning)
+        if (!_isEntryRunning)
         {
             return;
         }
 
-        if(!_isWaitingEntranceTrigger)
+        if (!_isWaitingEntranceTrigger)
         {
             return;
         }
 
         _isWaitingEntranceTrigger = false;
-        _isMovingToEntrancePoint = false;
 
         _movementAgent.StopMove();
         _movementAgent.TeleportTo(_guildInnerEntrancePoint);
@@ -79,7 +73,7 @@ public class GuestEntryFlowHandler : MonoBehaviour
 
     private void Log(string message)
     {
-        if(_enableDebugLog)
+        if (_enableDebugLog)
         {
             Debug.Log(message);
         }

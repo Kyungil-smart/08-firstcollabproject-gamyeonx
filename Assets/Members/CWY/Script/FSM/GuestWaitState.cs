@@ -18,21 +18,22 @@ public class GuestWaitState : IGuestState
     public void Update()
     {
 
-        if(_controller.IsTurnEnding)
+        if (_controller.IsTurnEnding)
         {
             _controller.ChangeToExitState();
             return;
         }
 
-        if(_controller.HasFacilityUseFailed || _controller.HasMovementFailed)
+        if (_controller.HasFacilityUseFailed || _controller.HasMovementFailed)
         {
             _controller.ClearCurrentFacilityContext();
             _controller.ChangeToWanderState();
             return;
         }
-        if(_controller.CanUseFacility)
+        if (_controller.CanUseFacility)
         {
             _controller.ChangeToUseState();
+            return;
         }
     }
 

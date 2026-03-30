@@ -1,10 +1,9 @@
 using UnityEngine;
 
-
 public class GuestExitState : IGuestState
 {
     private readonly GuestController _controller;
-    private bool _exitStarted;
+    private bool _startedExitProcess;
 
     public GuestExitState(GuestController controller)
     {
@@ -13,24 +12,34 @@ public class GuestExitState : IGuestState
 
     public void Enter()
     {
-        _exitStarted = false;
+        _startedExitProcess = false;
         Debug.Log("[GuestExitState] Enter");
-
-        if(_controller.IsInsideFacility)
-        {
-            _controller.ExitFacilityToOutside();
-        }
     }
 
     public void Update()
     {
-        if(_exitStarted)
+        if (_startedExitProcess)
         {
             return;
         }
 
-        _exitStarted = true;
-        _controller.CompleteExit();
+        _startedExitProcess = true;
+
+        // 시설 내부에 있으면 먼저 시설 내부 종료 흐름 처리
+        if (_controller.IsInsideFacility)
+        {
+            bool startedLeave = _controller.BeginFacilityLeave();
+
+            if (!startedLeave)
+            {
+                _controller.StartGuildExitFlow();
+            }
+
+            return;
+        }
+
+        // 시설 밖이면 길드 최종 퇴장 처리
+        _controller.StartGuildExitFlow();
     }
 
     public void Exit()
