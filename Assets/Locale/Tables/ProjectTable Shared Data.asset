@@ -79,6 +79,74 @@ MonoBehaviour:
     m_Key: UI_Building
     m_Metadata:
       m_Items: []
+  - m_Id: 602119983054848
+    m_Key: UI_Start_a_New_Game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603212259508224
+    m_Key: UI_Save_File
+    m_Metadata:
+      m_Items: []
+  - m_Id: 604172792872960
+    m_Key: UI_Quit Game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 604555204345856
+    m_Key: UI_Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 605484137824256
+    m_Key: UI_Master_Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 605838908833792
+    m_Key: UI_Sound_Effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 612697363431424
+    m_Key: UI_Return
+    m_Metadata:
+      m_Items: []
+  - m_Id: 612980336345088
+    m_Key: UI_Restaurant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613090533294080
+    m_Key: UI_Guild
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613178374602752
+    m_Key: UI_Hot_Spring
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613281864859648
+    m_Key: UI_Shop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613369576144896
+    m_Key: UI_Training_Ground
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613672656551936
+    m_Key: UI_Vending_Machine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 617261651181568
+    m_Key: UI_Second
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619016124350464
+    m_Key: UI_Week
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619018020175872
+    m_Key: UI_Month
+    m_Metadata:
+      m_Items: []
+  - m_Id: 619020557729792
+    m_Key: UI_Year
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

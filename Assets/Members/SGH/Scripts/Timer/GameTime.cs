@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Localization.Settings;
 
 public class GameTime : MonoBehaviour
 {
@@ -23,16 +24,16 @@ public class GameTime : MonoBehaviour
     private void Awake()
     {
         _nightImageObject.SetActive(false);
-        _week.text = $"{_userWeek}주";
-        _month.text = $"{_userMonth}월";
-        _year.text = $"{_userYear}년";
-        _time.text = $"{_userTime}초";
+        _week.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Week", new object[] { _userWeek });
+        _month.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Month", new object[] { _userMonth });
+        _year.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Year", new object[] { _userYear });
+        _time.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Second", new object[] { (int)_userTime });
     }
 
     private void Update()
     {
         _userTime += Time.deltaTime;
-        _time.text = $"{(int)_userTime}초";
+        _time.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Second", new object[] { (int)_userTime });
 
         if (_userTime >= _nightTime && _userTime < _userTimeUnit && !_nightImageObject.activeSelf)
         {
@@ -43,21 +44,21 @@ public class GameTime : MonoBehaviour
             _userTime -= _userTimeUnit;
             _nightImageObject.SetActive(false);
             _userWeek++;
-            _week.text = $"{_userWeek}주";
+            _week.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Week", new object[] { _userWeek });
         }
         if (_userWeek >= _userWeekUnit)
         {
             _userWeek = 0;
-            _week.text = $"{_userWeek}주";
+            _week.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Week", new object[] { _userWeek });
             _userMonth++;
-            _month.text = $"{_userMonth}월";
+            _month.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Month", new object[] { _userMonth });
         }
         if (_userMonth >= _userMonthUnit)
         {
             _userMonth = 0;
-            _month.text = $"{_userMonth}월";
+            _month.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Month", new object[] { _userMonth });
             _userYear++;
-            _year.text = $"{_userYear}년";
+            _year.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Year", new object[] { _userYear });
         }
     }
 }
