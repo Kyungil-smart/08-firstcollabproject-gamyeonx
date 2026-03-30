@@ -22,9 +22,6 @@ public class GuestExitFlowHandler : MonoBehaviour
     private bool _isWaitingInnerExitTrigger;
     private bool _isMovingToDespawn;
 
-    public bool IsExitRunning => _isExitRunning;
-    public bool IsWaitingInnerExitTrigger => _isWaitingInnerExitTrigger;
-
     private void Awake()
     {
         _controller = GetComponent<GuestController>();
@@ -33,12 +30,12 @@ public class GuestExitFlowHandler : MonoBehaviour
 
     private void Update()
     {
-        if(!_isExitRunning)
+        if (!_isExitRunning)
         {
             return;
         }
 
-        if(_isMovingToDespawn && !_movementAgent.IsMoving)
+        if (_isMovingToDespawn && !_movementAgent.IsMoving)
         {
             _isExitRunning = false;
             _isMovingToDespawn = false;
@@ -51,7 +48,7 @@ public class GuestExitFlowHandler : MonoBehaviour
 
     public void BeginExitFlow()
     {
-        if(!ValidateExitPoints())
+        if (!ValidateExitPoints())
         {
             Debug.LogWarning("[GuestExitFlowHandler] 퇴장 포인트가 올바르지 않아 퇴장 흐름을 시작할 수 없습니다.");
             _controller.HandleExitFlowFailed();
@@ -67,7 +64,7 @@ public class GuestExitFlowHandler : MonoBehaviour
         Vector3Int exitRoadCell = _grid.WorldToCell(_guildInnerExitPoint.position);
         bool requested = _movementAgent.MoveToRoadCell(exitRoadCell);
 
-        if(!requested)
+        if (!requested)
         {
             Debug.LogWarning($"[GuestExitFlowHandler] GuildInnerExitPoint 이동 실패 | Cell={exitRoadCell}");
             _controller.HandleExitFlowFailed();
@@ -79,12 +76,12 @@ public class GuestExitFlowHandler : MonoBehaviour
 
     public void NotifyEnteredGuildInnerExitTrigger()
     {
-        if(!_isExitRunning)
+        if (!_isExitRunning)
         {
             return;
         }
 
-        if(!_isWaitingInnerExitTrigger)
+        if (!_isWaitingInnerExitTrigger)
         {
             return;
         }
@@ -94,7 +91,7 @@ public class GuestExitFlowHandler : MonoBehaviour
         _movementAgent.StopMove();
         _movementAgent.TeleportTo(_guildExitPoint);
 
-        if(_despawnPoint != null)
+        if (_despawnPoint != null)
         {
             _movementAgent.MoveInsideTo(_despawnPoint);
             _isMovingToDespawn = true;
@@ -116,7 +113,7 @@ public class GuestExitFlowHandler : MonoBehaviour
 
     private void Log(string message)
     {
-        if(_enableDebugLog)
+        if (_enableDebugLog)
         {
             Debug.Log(message);
         }

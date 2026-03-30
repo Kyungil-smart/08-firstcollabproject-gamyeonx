@@ -3,7 +3,6 @@ using UnityEngine;
 public class GuestMoveState : IGuestState
 {
     private readonly GuestController _controller;
-    private bool _requestedMove;
 
     public GuestMoveState(GuestController controller)
     {
@@ -12,19 +11,17 @@ public class GuestMoveState : IGuestState
 
     public void Enter()
     {
-
-        if(_controller.IsTurnEnding)
+        if (_controller.IsTurnEnding)
         {
             _controller.ChangeToExitState();
             return;
         }
 
-        _requestedMove = false;
         _controller.ResetMovementAndFacilityFlags();
 
-        _requestedMove = _controller.RequestMoveToFacilityEntrance();
+        bool requestedMove = _controller.RequestMoveToFacilityEntrance();
 
-        if(!_requestedMove)
+        if (!requestedMove)
         {
             _controller.SetMovementFailed(true);
         }
@@ -32,32 +29,31 @@ public class GuestMoveState : IGuestState
 
     public void Update()
     {
-        if(_controller.IsTurnEnding)
+        if (_controller.IsTurnEnding)
         {
             _controller.ChangeToExitState();
             return;
         }
 
-        if(_controller.HasMovementFailed || _controller.HasFacilityUseFailed)
+        if (_controller.HasMovementFailed || _controller.HasFacilityUseFailed)
         {
             _controller.ClearCurrentFacilityContext();
             _controller.ChangeToWanderState();
             return;
         }
 
-
-        if(!_controller.HasArrivedAtFacility)
+        if (!_controller.HasArrivedAtFacility)
         {
             return;
         }
 
-        if(_controller.CanUseFacility)
+        if (_controller.CanUseFacility)
         {
             _controller.ChangeToUseState();
             return;
         }
 
-        if(_controller.ShouldWaitForFacility)
+        if (_controller.ShouldWaitForFacility)
         {
             _controller.ChangeToWaitState();
             return;
