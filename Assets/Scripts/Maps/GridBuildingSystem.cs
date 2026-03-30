@@ -29,6 +29,8 @@ public class GridBuildingSystem : MonoBehaviour
     private HashSet<Vector3Int> occupied = new HashSet<Vector3Int>(); // 점유된 타일 좌표
 
     private bool _isPlacing = false; // 프리뷰 상태 체크
+    private BoundsInt _initialMapBounds;
+    private InBuildingData _currentInBuildingData; // 내부건물 정보 저장용
 
     private void Awake()
     {
@@ -47,6 +49,7 @@ public class GridBuildingSystem : MonoBehaviour
         _tileBases.Add(ETileType.White, Resources.Load<TileBase>("SGH_Test/white"));
         _tileBases.Add(ETileType.Green, Resources.Load<TileBase>("SGH_Test/green"));
         _tileBases.Add(ETileType.Red, Resources.Load<TileBase>("SGH_Test/red"));
+        _initialMapBounds = MainTilemap.cellBounds;
         InitTileTypes();
     }
 
@@ -247,6 +250,11 @@ public class GridBuildingSystem : MonoBehaviour
                     SetTileType(pos, TileType.Road);
                 else if (_temp.buildType == BuildType.Building)
                     SetTileType(pos, TileType.Building);
+                /*else if (_temp.buildType == BuildType.Object) // 스텟상승 오브젝트
+                {
+                    SetTileType(pos, TileType.Building);
+                    ApplyStatToInBuilding(); // 스텟상승 로직
+                }*/
             }
         }
 
@@ -308,7 +316,7 @@ public class GridBuildingSystem : MonoBehaviour
         if (MapManager.Instance.MapLevel != 1) return;
         
         // 현재 타일맵 범위 가져오기
-        BoundsInt currentBounds = MainTilemap.cellBounds;
+        BoundsInt currentBounds = _initialMapBounds;
     
         int currentWidth = currentBounds.size.x;
         int currentHeight = currentBounds.size.y;
@@ -361,7 +369,7 @@ public class GridBuildingSystem : MonoBehaviour
         CameraController cam = FindFirstObjectByType<CameraController>();
         if (cam == null) return;
         
-        Bounds mapBounds = MainTilemap.localBounds;
+        BoundsInt mapBounds = _initialMapBounds;
 
         cam.CameraBounds = new Bounds(
             mapBounds.center,  
@@ -369,5 +377,17 @@ public class GridBuildingSystem : MonoBehaviour
         );
         
         cam.MaxSize *= 2f;
+    }
+    
+    // enter 시 내부건물 참조용
+    public void SetCurrentInBuilding(InBuildingData data)
+    {
+        _currentInBuildingData = data;
+    }
+
+    private void ApplyStatToInBuilding()
+    {
+        // 건물 스텟 상승 로직
+        // _currentInBuildingData.stat++;
     }
 }
