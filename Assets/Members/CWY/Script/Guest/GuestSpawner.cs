@@ -1,15 +1,15 @@
 using System.Collections;
+using System.Reflection;
 using UnityEngine;
 
 public class GuestSpawner : MonoBehaviour
 {
-    [Header("손님 프리팹")]
+    [Header("참조")]
     [SerializeField] private GameObject _guestPrefab;
+    [SerializeField] private GameTime _gameTime;
 
-    [Header("사이클 설정")]
+    [Header("입장 가능 시간")]
     [SerializeField] private float _spawnOpenDuration = 60f;
-    [SerializeField] private float _cycleDuration = 180f;
-    [SerializeField] private bool _spawnOnStart = true;
 
     [Header("사이클별 목표 스폰 수")]
     [Tooltip("0번 = 1사이클, 1번 = 2사이클, 2번 = 3사이클")]
@@ -23,35 +23,130 @@ public class GuestSpawner : MonoBehaviour
     [Header("디버그")]
     [SerializeField] private bool _enableDebugLog = true;
 
-    private Coroutine _spawnCycleCoroutine;
-    private bool _isSpawnRunning;
-    private int _cycleIndex;
+    private Coroutine _spawnRoutine;
 
-    private void Start()
+    private int _currentCycleIndex = 1;
+    private bool _wasSpawnWindowOpen;
+    private bool _wasTurnInitialized;
+
+    // GameTime private 필드 접근용
+    private FieldInfo _userTimeField;
+    private FieldInfo _userTimeUnitField;
+
+    private void Awake()
     {
-        if(_spawnOnStart)
+        if(_gameTime == null)
         {
-            StartSpawn();
+            _gameTime = FindFirstObjectByType<GameTime>();
+        }
+
+        CacheGameTimeFields();
+    }
+
+    private void Update()
+    {
+        if(_gameTime == null)
+        {
+            return;
+        }
+
+        float currentTurnTime = GetGameTimeValue("_userTime");
+        float currentTurnDuration = GetGameTimeValue("_userTimeUnit");
+
+        if(currentTurnDuration <= 0f)
+        {
+            return;
+        }
+
+        bool isSpawnWindowOpen = currentTurnTime < _spawnOpenDuration;
+
+        // 첫 시작 처리
+        if(!_wasTurnInitialized)
+        {
+            _wasTurnInitialized = true;
+            _wasSpawnWindowOpen = isSpawnWindowOpen;
+
+            if (isSpawnWindowOpen)
+            {
+                StartSpawnForCurrentCycle();
+            }
+
+            Log($"[GuestSpawner] 초기화 완료 | Cycle={_currentCycleIndex}, TurnTime={currentTurnTime:F1}");
+            return;
+        }
+
+        // 스폰 가능 구간 시작 감지
+        if(!_wasSpawnWindowOpen && isSpawnWindowOpen)
+        {
+            _currentCycleIndex++;
+            StartSpawnForCurrentCycle();
+
+            Log($"[GuestSpawner] 새 사이클 시작 감지 | Cycle={_currentCycleIndex}, TurnTime={currentTurnTime:F1}");
+        }
+
+        // 스폰 가능 구간 종료 감지
+        if(_wasSpawnWindowOpen && !isSpawnWindowOpen)
+        {
+            StopSpawnRoutine();
+            Log($"[GuestSpawner] 스폰 가능 구간 종료 | Cycle={_currentCycleIndex}, TurnTime={currentTurnTime:F1}");
+        }
+
+        _wasSpawnWindowOpen = isSpawnWindowOpen;
+    }
+
+    private void CacheGameTimeFields()
+    {
+        if(_gameTime == null)
+        {
+            Debug.LogWarning("[GuestSpawner] GameTime 참조가 없습니다.");
+            return;
+        }
+
+        System.Type gameTimeType = typeof(GameTime);
+
+        _userTimeField = gameTimeType.GetField("_userTime", BindingFlags.NonPublic | BindingFlags.Instance);
+        _userTimeUnitField = gameTimeType.GetField("_userTimeUnit", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        if(_userTimeField == null || _userTimeUnitField == null)
+        {
+            Debug.LogWarning("[GuestSpawner] GameTime의 private 필드를 찾지 못했습니다. 필드명이 변경되었는지 확인하세요.");
         }
     }
 
-    public void StartSpawn()
+    private float GetGameTimeValue(string fieldName)
+    {
+        if(_gameTime == null)
+        {
+            return 0f;
+        }
+
+        FieldInfo field = fieldName switch
+        {
+            "_userTime" => _userTimeField,
+            "_userTimeUnit" => _userTimeUnitField,
+            _ => null
+        };
+
+        if(field == null)
+        {
+            return 0f;
+        }
+
+        object value = field.GetValue(_gameTime);
+
+        if(value is float floatValue)
+        {
+            return floatValue;
+        }
+
+        return 0f;
+    }
+
+    private void StartSpawnForCurrentCycle()
     {
         if(_guestPrefab == null)
         {
             Debug.LogWarning("[GuestSpawner] Guest Prefab이 비어 있습니다.");
-            return;
-        }
-
-        if(_cycleDuration <= 0f)
-        {
-            Debug.LogWarning("[GuestSpawner] Cycle Duration은 0보다 커야 합니다.");
-            return;
-        }
-
-        if(_spawnOpenDuration <= 0f || _spawnOpenDuration > _cycleDuration)
-        {
-            Debug.LogWarning("[GuestSpawner] Spawn Open Duration은 0보다 크고 Cycle Duration 이하여야 합니다.");
             return;
         }
 
@@ -61,99 +156,55 @@ public class GuestSpawner : MonoBehaviour
             return;
         }
 
-        StopSpawn();
-
-        _isSpawnRunning = true;
-        _cycleIndex = 0;
-        _spawnCycleCoroutine = StartCoroutine(SpawnCycleRoutine());
-
-        Log("[GuestSpawner] 스폰 시스템 시작");
+        StopSpawnRoutine();
+        _spawnRoutine = StartCoroutine(SpawnRoutine());
     }
 
-    public void StopSpawn()
+    private void StopSpawnRoutine()
     {
-        _isSpawnRunning = false;
-
-        if (_spawnCycleCoroutine != null)
+        if(_spawnRoutine != null)
         {
-            StopCoroutine(_spawnCycleCoroutine);
-            _spawnCycleCoroutine = null;
-        }
-
-        Log("[GuestSpawner] 스폰 시스템 중지");
-    }
-
-    private IEnumerator SpawnCycleRoutine()
-    {
-        while (_isSpawnRunning)
-        {
-            _cycleIndex++;
-
-            int currentCycleTargetCount = GetTargetSpawnCountForCurrentCycle();
-
-            Log($"[GuestSpawner] 사이클 시작 | Cycle={_cycleIndex}, TargetSpawn={currentCycleTargetCount}");
-
-            yield return StartCoroutine(SpawnWindowRoutine(currentCycleTargetCount));
-
-            if (!_isSpawnRunning)
-            {
-                yield break;
-            }
-
-            float closedDuration = _cycleDuration - _spawnOpenDuration;
-
-            if (closedDuration > 0f)
-            {
-                Log($"[GuestSpawner] 스폰 닫힘 구간 시작 | Duration={closedDuration:F1}s");
-                yield return new WaitForSeconds(closedDuration);
-            }
+            StopCoroutine(_spawnRoutine);
+            _spawnRoutine = null;
         }
     }
 
-    private IEnumerator SpawnWindowRoutine(int targetSpawnCount)
+    private IEnumerator SpawnRoutine()
     {
-        Log($"[GuestSpawner] 스폰 가능 구간 시작 | Duration={_spawnOpenDuration:F1}s, Target={targetSpawnCount}");
+        int targetSpawnCount = GetTargetSpawnCountForCurrentCycle();
 
-        if (targetSpawnCount <= 0)
+        Log($"[GuestSpawner] 스폰 시작 | Cycle={_currentCycleIndex}, TargetSpawn={targetSpawnCount}");
+
+        if(targetSpawnCount <= 0)
         {
             Log("[GuestSpawner] 이번 사이클 목표 스폰 수가 0이므로 생성하지 않습니다.");
-            yield return new WaitForSeconds(_spawnOpenDuration);
             yield break;
         }
 
-        // 목표 수에 맞춰 간격 자동 계산
-        float spawnIntervalForThisCycle = _spawnOpenDuration / targetSpawnCount;
-
-        Log($"[GuestSpawner] 이번 사이클 자동 스폰 간격 = {spawnIntervalForThisCycle:F2}s");
+        float spawnInterval = _spawnOpenDuration / targetSpawnCount;
+        Log($"[GuestSpawner] 자동 스폰 간격 = {spawnInterval:F2}s");
 
         for(int i = 0; i < targetSpawnCount; i++)
         {
-            if(!_isSpawnRunning)
+            float currentTurnTime = GetGameTimeValue("_userTime");
+
+            if(currentTurnTime >= _spawnOpenDuration)
             {
+                Log("[GuestSpawner] 스폰 가능 시간이 종료되어 스폰을 중단합니다.");
                 yield break;
             }
 
             SpawnGuest();
 
-            // 마지막 스폰 뒤에는 대기 안 함
             if(i == targetSpawnCount - 1)
             {
                 break;
             }
 
-            yield return new WaitForSeconds(spawnIntervalForThisCycle);
+            yield return new WaitForSeconds(spawnInterval);
         }
 
-        Log($"[GuestSpawner] 스폰 가능 구간 종료 | Spawned={targetSpawnCount}");
-
-        // 남은 시간 보정
-        float estimatedUsedTime = spawnIntervalForThisCycle * targetSpawnCount;
-        float remainTime = _spawnOpenDuration - estimatedUsedTime;
-
-        if(remainTime > 0f)
-        {
-            yield return new WaitForSeconds(remainTime);
-        }
+        Log($"[GuestSpawner] 스폰 완료 | Cycle={_currentCycleIndex}, Spawned={targetSpawnCount}");
     }
 
     private int GetTargetSpawnCountForCurrentCycle()
@@ -163,7 +214,7 @@ public class GuestSpawner : MonoBehaviour
             return 0;
         }
 
-        int arrayIndex = _cycleIndex - 1;
+        int arrayIndex = _currentCycleIndex - 1;
 
         if(arrayIndex < 0)
         {
@@ -172,7 +223,6 @@ public class GuestSpawner : MonoBehaviour
 
         if(arrayIndex >= _spawnCountPerCycle.Length)
         {
-            // 배열을 넘어가면 마지막 값 계속 사용
             return Mathf.Max(0, _spawnCountPerCycle[_spawnCountPerCycle.Length - 1]);
         }
 
@@ -188,7 +238,6 @@ public class GuestSpawner : MonoBehaviour
         }
 
         GameObject guestObject = Instantiate(_guestPrefab, transform.position, Quaternion.identity);
-
         GuestController guestController = guestObject.GetComponent<GuestController>();
 
         if(guestController == null)
@@ -201,7 +250,7 @@ public class GuestSpawner : MonoBehaviour
         int visitorID = GetSpawnVisitorID();
         guestController.SetupSpawn(visitorID);
 
-        Log($"[GuestSpawner] 손님 생성 완료 | Cycle={_cycleIndex}, VisitorID={visitorID}");
+        Log($"[GuestSpawner] 손님 생성 완료 | Cycle={_currentCycleIndex}, VisitorID={visitorID}");
 
         return guestObject;
     }
