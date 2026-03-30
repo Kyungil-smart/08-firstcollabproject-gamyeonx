@@ -1,8 +1,6 @@
 using UnityEngine;
 
-/// <summary>
-/// 현재 가장 높은 Need를 해소할 시설을 결정하는 상태
-/// </summary>
+
 public class GuestDecideState : IGuestState
 {
     private readonly GuestController _controller;
@@ -16,7 +14,7 @@ public class GuestDecideState : IGuestState
     {
         Debug.Log("[GuestDecideState] Enter");
 
-        if (_controller.IsTurnEnding)
+        if(_controller.IsTurnEnding)
         {
             _controller.ChangeToExitState();
             return;
@@ -24,7 +22,7 @@ public class GuestDecideState : IGuestState
 
         _controller.EvaluateCurrentNeed();
 
-        if (_controller.CurrentTargetFacilityType == EFacilityType.None)
+        if(_controller.CurrentTargetFacilityType == EFacilityType.None)
         {
             Debug.Log("[GuestDecideState] 목표 시설 타입이 없어서 다시 배회로 복귀");
             _controller.ChangeToWanderState();
@@ -33,7 +31,7 @@ public class GuestDecideState : IGuestState
 
         bool found = _controller.TryFindTargetFacility();
 
-        if (!found)
+        if(!found)
         {
             Debug.Log("[GuestDecideState] 사용할 수 있는 목표 시설을 찾지 못해서 다시 배회로 복귀");
             _controller.ChangeToWanderState();

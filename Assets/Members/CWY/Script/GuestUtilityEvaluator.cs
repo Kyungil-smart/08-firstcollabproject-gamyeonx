@@ -5,7 +5,7 @@ public class GuestUtilityEvaluator
 {
     public EGuestNeedType EvaluateHighestNeed(GuestStates guestStates)
     {
-        if (guestStates == null)
+        if(guestStates == null)
         {
             return EGuestNeedType.None;
         }
@@ -18,9 +18,9 @@ public class GuestUtilityEvaluator
 
         List<EGuestNeedType> candidates = new List<EGuestNeedType>();
 
-        if (hunger == highestValue) candidates.Add(EGuestNeedType.Hunger);
-        if (thirst == highestValue) candidates.Add(EGuestNeedType.Thirst);
-        if (fatigue == highestValue) candidates.Add(EGuestNeedType.Fatigue);
+        if(hunger == highestValue) candidates.Add(EGuestNeedType.Hunger);
+        if(thirst == highestValue) candidates.Add(EGuestNeedType.Thirst);
+        if(fatigue == highestValue) candidates.Add(EGuestNeedType.Fatigue);
 
         if (candidates.Count == 0)
         {

@@ -9,18 +9,18 @@ public class FacilityEntranceTrigger : MonoBehaviour
     {
         GuestController guest = other.GetComponent<GuestController>();
 
-        if (guest == null)
+        if(guest == null)
         {
             return;
         }
 
-        if (_facilityRuntime == null)
+        if(_facilityRuntime == null)
         {
             Debug.Log("[FacilityEntranceTrigger] FacilityRuntime이 연결되지 않았습니다.");
             return;
         }
 
-        if (guest.CurrentTargetFacilityID != _facilityRuntime.FacilityID)
+        if(guest.CurrentTargetFacilityID != _facilityRuntime.FacilityID)
         {
             return;
         }

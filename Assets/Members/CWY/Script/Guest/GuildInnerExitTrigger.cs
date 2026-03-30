@@ -7,12 +7,12 @@ public class GuildInnerExitTrigger : MonoBehaviour
     {
         GuestController guest = other.GetComponent<GuestController>();
 
-        if (guest == null)
+        if(guest == null)
         {
             return;
         }
 
-        if (guest.ExitFlowHandler == null)
+        if(guest.ExitFlowHandler == null)
         {
             return;
         }

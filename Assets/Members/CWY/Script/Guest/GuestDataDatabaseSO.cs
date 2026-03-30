@@ -18,7 +18,7 @@ public class GuestDataDatabaseSO : ScriptableObject
 
     public void AddRow(GuestDataRow row)
     {
-        if (row == null)
+        if(row == null)
         {
             return;
         }
@@ -29,16 +29,16 @@ public class GuestDataDatabaseSO : ScriptableObject
 
     public GuestDataRow GetGuestDataByVisitorID(int visitorID)
     {
-        for (int i = 0; i < _guestDataRows.Count; i++)
+        for(int i = 0; i < _guestDataRows.Count; i++)
         {
             GuestDataRow row = _guestDataRows[i];
 
-            if (row == null)
+            if(row == null)
             {
                 continue;
             }
 
-            if (row.VisitorID == visitorID)
+            if(row.VisitorID == visitorID)
             {
                 return row;
             }

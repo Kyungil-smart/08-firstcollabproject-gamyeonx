@@ -51,12 +51,12 @@ public class FacilityRuntime : MonoBehaviour
         _exitPoint = _inBuildingData.ExitPivot.transform;
         _entranceWayPoints = new List<Transform>();
         _exitWayPoints = new List<Transform>();
-        foreach (var way in _inBuildingData.EntranceWayPivots)
+        foreach(var way in _inBuildingData.EntranceWayPivots)
         {
             _entranceWayPoints.Add(way.transform);
         }
 
-        foreach (var way in _inBuildingData.ExitWayPivots)
+        foreach(var way in _inBuildingData.ExitWayPivots)
         {
             _exitWayPoints.Add(way.transform);
         }
@@ -86,7 +86,7 @@ public class FacilityRuntime : MonoBehaviour
     {
         get
         {
-            if (_entranceRoadObject == null) return Vector3Int.zero;
+            if(_entranceRoadObject == null) return Vector3Int.zero;
             return GridBuildingSystem.Instance.gridLayout.WorldToCell(
                 _entranceRoadObject.transform.position);
         }
