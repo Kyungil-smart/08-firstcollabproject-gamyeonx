@@ -1,8 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// 목표 시설 입구 앞 Road 셀까지 A*로 이동하는 상태
-/// </summary>
 public class GuestMoveState : IGuestState
 {
     private readonly GuestController _controller;
@@ -16,7 +13,7 @@ public class GuestMoveState : IGuestState
     public void Enter()
     {
 
-        if (_controller.IsTurnEnding)
+        if(_controller.IsTurnEnding)
         {
             _controller.ChangeToExitState();
             return;
@@ -27,7 +24,7 @@ public class GuestMoveState : IGuestState
 
         _requestedMove = _controller.RequestMoveToFacilityEntrance();
 
-        if (!_requestedMove)
+        if(!_requestedMove)
         {
             _controller.SetMovementFailed(true);
         }
@@ -35,13 +32,13 @@ public class GuestMoveState : IGuestState
 
     public void Update()
     {
-        if (_controller.IsTurnEnding)
+        if(_controller.IsTurnEnding)
         {
             _controller.ChangeToExitState();
             return;
         }
 
-        if (_controller.HasMovementFailed || _controller.HasFacilityUseFailed)
+        if(_controller.HasMovementFailed || _controller.HasFacilityUseFailed)
         {
             _controller.ClearCurrentFacilityContext();
             _controller.ChangeToWanderState();
@@ -49,18 +46,18 @@ public class GuestMoveState : IGuestState
         }
 
 
-        if (!_controller.HasArrivedAtFacility)
+        if(!_controller.HasArrivedAtFacility)
         {
             return;
         }
 
-        if (_controller.CanUseFacility)
+        if(_controller.CanUseFacility)
         {
             _controller.ChangeToUseState();
             return;
         }
 
-        if (_controller.ShouldWaitForFacility)
+        if(_controller.ShouldWaitForFacility)
         {
             _controller.ChangeToWaitState();
             return;

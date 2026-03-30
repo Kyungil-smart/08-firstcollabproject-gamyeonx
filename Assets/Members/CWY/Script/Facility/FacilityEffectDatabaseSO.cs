@@ -15,7 +15,7 @@ public class FacilityEffectDatabaseSO : ScriptableObject
 
     public void AddEffectRow(FacilityEffectRow row)
     {
-        if (row == null)
+        if(row == null)
         {
             return;
         }
@@ -25,16 +25,16 @@ public class FacilityEffectDatabaseSO : ScriptableObject
 
     public FacilityEffectRow GetEffectByFacilityID(int facilityID)
     {
-        for (int i = 0; i < _effectRowList.Count; i++)
+        for(int i = 0; i < _effectRowList.Count; i++)
         {
             FacilityEffectRow row = _effectRowList[i];
 
-            if (row == null)
+            if(row == null)
             {
                 continue;
             }
 
-            if (row.FacilityID == facilityID)
+            if(row.FacilityID == facilityID)
             {
                 return row;
             }
@@ -45,16 +45,16 @@ public class FacilityEffectDatabaseSO : ScriptableObject
 
     public FacilityEffectRow GetFirstSelectableEffectByType(EFacilityType facilityType)
     {
-        for (int i = 0; i < _effectRowList.Count; i++)
+        for(int i = 0; i < _effectRowList.Count; i++)
         {
             FacilityEffectRow row = _effectRowList[i];
 
-            if (row == null)
+            if(row == null)
             {
                 continue;
             }
 
-            if (row.FacilityType == facilityType && row.NormalGuest)
+            if(row.FacilityType == facilityType && row.NormalGuest)
             {
                 return row;
             }

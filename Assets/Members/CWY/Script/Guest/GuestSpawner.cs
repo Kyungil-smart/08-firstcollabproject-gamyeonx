@@ -29,7 +29,7 @@ public class GuestSpawner : MonoBehaviour
 
     private void Start()
     {
-        if (_spawnOnStart)
+        if(_spawnOnStart)
         {
             StartSpawn();
         }
@@ -37,25 +37,25 @@ public class GuestSpawner : MonoBehaviour
 
     public void StartSpawn()
     {
-        if (_guestPrefab == null)
+        if(_guestPrefab == null)
         {
             Debug.LogWarning("[GuestSpawner] Guest Prefab이 비어 있습니다.");
             return;
         }
 
-        if (_cycleDuration <= 0f)
+        if(_cycleDuration <= 0f)
         {
             Debug.LogWarning("[GuestSpawner] Cycle Duration은 0보다 커야 합니다.");
             return;
         }
 
-        if (_spawnOpenDuration <= 0f || _spawnOpenDuration > _cycleDuration)
+        if(_spawnOpenDuration <= 0f || _spawnOpenDuration > _cycleDuration)
         {
             Debug.LogWarning("[GuestSpawner] Spawn Open Duration은 0보다 크고 Cycle Duration 이하여야 합니다.");
             return;
         }
 
-        if (_spawnCountPerCycle == null || _spawnCountPerCycle.Length == 0)
+        if(_spawnCountPerCycle == null || _spawnCountPerCycle.Length == 0)
         {
             Debug.LogWarning("[GuestSpawner] SpawnCountPerCycle이 비어 있습니다.");
             return;
@@ -126,9 +126,9 @@ public class GuestSpawner : MonoBehaviour
 
         Log($"[GuestSpawner] 이번 사이클 자동 스폰 간격 = {spawnIntervalForThisCycle:F2}s");
 
-        for (int i = 0; i < targetSpawnCount; i++)
+        for(int i = 0; i < targetSpawnCount; i++)
         {
-            if (!_isSpawnRunning)
+            if(!_isSpawnRunning)
             {
                 yield break;
             }
@@ -136,7 +136,7 @@ public class GuestSpawner : MonoBehaviour
             SpawnGuest();
 
             // 마지막 스폰 뒤에는 대기 안 함
-            if (i == targetSpawnCount - 1)
+            if(i == targetSpawnCount - 1)
             {
                 break;
             }
@@ -150,7 +150,7 @@ public class GuestSpawner : MonoBehaviour
         float estimatedUsedTime = spawnIntervalForThisCycle * targetSpawnCount;
         float remainTime = _spawnOpenDuration - estimatedUsedTime;
 
-        if (remainTime > 0f)
+        if(remainTime > 0f)
         {
             yield return new WaitForSeconds(remainTime);
         }
@@ -158,19 +158,19 @@ public class GuestSpawner : MonoBehaviour
 
     private int GetTargetSpawnCountForCurrentCycle()
     {
-        if (_spawnCountPerCycle == null || _spawnCountPerCycle.Length == 0)
+        if(_spawnCountPerCycle == null || _spawnCountPerCycle.Length == 0)
         {
             return 0;
         }
 
         int arrayIndex = _cycleIndex - 1;
 
-        if (arrayIndex < 0)
+        if(arrayIndex < 0)
         {
             return 0;
         }
 
-        if (arrayIndex >= _spawnCountPerCycle.Length)
+        if(arrayIndex >= _spawnCountPerCycle.Length)
         {
             // 배열을 넘어가면 마지막 값 계속 사용
             return Mathf.Max(0, _spawnCountPerCycle[_spawnCountPerCycle.Length - 1]);
@@ -181,7 +181,7 @@ public class GuestSpawner : MonoBehaviour
 
     public GameObject SpawnGuest()
     {
-        if (_guestPrefab == null)
+        if(_guestPrefab == null)
         {
             Debug.LogWarning("[GuestSpawner] Guest Prefab이 비어 있어 스폰할 수 없습니다.");
             return null;
@@ -191,7 +191,7 @@ public class GuestSpawner : MonoBehaviour
 
         GuestController guestController = guestObject.GetComponent<GuestController>();
 
-        if (guestController == null)
+        if(guestController == null)
         {
             Debug.LogWarning("[GuestSpawner] 생성된 오브젝트에 GuestController가 없습니다.");
             Destroy(guestObject);
@@ -208,12 +208,12 @@ public class GuestSpawner : MonoBehaviour
 
     private int GetSpawnVisitorID()
     {
-        if (!_useRandomVisitorID)
+        if(!_useRandomVisitorID)
         {
             return _fixedVisitorID;
         }
 
-        if (_randomVisitorIDPool == null || _randomVisitorIDPool.Length == 0)
+        if(_randomVisitorIDPool == null || _randomVisitorIDPool.Length == 0)
         {
             Debug.LogWarning("[GuestSpawner] 랜덤 VisitorID Pool이 비어 있어 FixedVisitorID를 사용합니다.");
             return _fixedVisitorID;
@@ -225,29 +225,9 @@ public class GuestSpawner : MonoBehaviour
 
     private void Log(string message)
     {
-        if (_enableDebugLog)
+        if(_enableDebugLog)
         {
             Debug.Log(message);
         }
     }
 }
-
-/*
-[Unity 구현 방법]
-1. GuestSpawner를 길드 밖 스폰 위치 오브젝트에 붙입니다.
-2. _guestPrefab에 Guest 프리팹을 연결합니다.
-3. 사이클 설정 예시
-   - _cycleDuration = 180
-   - _spawnOpenDuration = 60
-4. 사이클별 스폰 수 예시
-   - Size = 3
-   - Element 0 = 10
-   - Element 1 = 20
-   - Element 2 = 30
-5. 그러면
-   - 1사이클은 60초 동안 10명
-   - 2사이클은 60초 동안 20명
-   - 3사이클은 60초 동안 30명
-   이 실제로 맞춰서 스폰됩니다.
-6. 4사이클부터는 마지막 값(30명)을 계속 사용합니다.
-*/

@@ -42,7 +42,7 @@ public class FacilityEffectRow
 
     private EFacilityType ParseFacilityType(string value)
     {
-        if (Enum.TryParse(value, true, out EFacilityType result))
+        if(Enum.TryParse(value, true, out EFacilityType result))
         {
             return result;
         }

@@ -1,8 +1,6 @@
 using UnityEngine;
 
-/// <summary>
-/// Loads guest data from Google Sheet using SheetData.
-/// </summary>
+
 public class GuestSheetLoader : MonoBehaviour
 {
     [Header("Sheet")]
@@ -17,13 +15,13 @@ public class GuestSheetLoader : MonoBehaviour
 
     private void Start()
     {
-        if (string.IsNullOrWhiteSpace(_guestSheet.Url))
+        if(string.IsNullOrWhiteSpace(_guestSheet.Url))
         {
             Debug.LogError("[GuestSheetLoader] GuestSheet Url is missing.");
             return;
         }
 
-        if (_guestDataDatabase == null)
+        if(_guestDataDatabase == null)
         {
             Debug.LogError("[GuestSheetLoader] GuestDataDatabase is missing.");
             return;
@@ -32,33 +30,30 @@ public class GuestSheetLoader : MonoBehaviour
         StartCoroutine(_guestSheet.Load(SetGuestDatas));
     }
 
-    /// <summary>
-    /// Called by SheetData after CSV text is loaded.
-    /// </summary>
     public void SetGuestDatas(char splitSymbol, string[] lines)
     {
-        if (lines == null || lines.Length == 0)
+        if(lines == null || lines.Length == 0)
         {
             return;
         }
 
         _guestDataDatabase.Clear();
 
-        for (int i = _startRowIndex; i < lines.Length; i++)
+        for(int i = _startRowIndex; i < lines.Length; i++)
         {
-            if (string.IsNullOrWhiteSpace(lines[i]))
+            if(string.IsNullOrWhiteSpace(lines[i]))
             {
                 continue;
             }
 
             string[] cols = lines[i].Split(splitSymbol);
 
-            if (cols.Length < 4)
+            if(cols.Length < 4)
             {
                 continue;
             }
 
-            for (int j = 0; j < cols.Length; j++)
+            for(int j = 0; j < cols.Length; j++)
             {
                 cols[j] = cols[j].Trim();
             }

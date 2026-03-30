@@ -14,31 +14,31 @@ public class GuestRoadWanderSelector : MonoBehaviour
     {
         resultCell = Vector3Int.zero;
 
-        if (GridBuildingSystem.Instance == null)
+        if(GridBuildingSystem.Instance == null)
         {
             return false;
         }
 
         Vector3Int currentCell = GridBuildingSystem.Instance.gridLayout.WorldToCell(transform.position);
 
-        if (GridBuildingSystem.Instance.GetTileType(currentCell) != TileType.Road)
+        if(GridBuildingSystem.Instance.GetTileType(currentCell) != TileType.Road)
         {
             return false;
         }
 
         List<Vector3Int> candidateCells = CollectWanderRoadCandidates(currentCell);
 
-        if (candidateCells.Count == 0)
+        if(candidateCells.Count == 0)
         {
             return false;
         }
 
-        for (int i = 0; i < _wanderRandomPickTryCount; i++)
+        for(int i = 0; i < _wanderRandomPickTryCount; i++)
         {
             int randomIndex = Random.Range(0, candidateCells.Count);
             Vector3Int picked = candidateCells[randomIndex];
 
-            if (picked == currentCell)
+            if(picked == currentCell)
             {
                 continue;
             }
@@ -55,23 +55,23 @@ public class GuestRoadWanderSelector : MonoBehaviour
     {
         List<Vector3Int> result = new List<Vector3Int>();
 
-        for (int x = -_wanderSearchRadius; x <= _wanderSearchRadius; x++)
+        for(int x = -_wanderSearchRadius; x <= _wanderSearchRadius; x++)
         {
-            for (int y = -_wanderSearchRadius; y <= _wanderSearchRadius; y++)
+            for(int y = -_wanderSearchRadius; y <= _wanderSearchRadius; y++)
             {
                 Vector3Int cell = new Vector3Int(centerCell.x + x, centerCell.y + y, 0);
 
-                if (cell == centerCell)
+                if(cell == centerCell)
                 {
                     continue;
                 }
 
-                if (!IsFarEnoughForWander(centerCell, cell))
+                if(!IsFarEnoughForWander(centerCell, cell))
                 {
                     continue;
                 }
 
-                if (GridBuildingSystem.Instance.GetTileType(cell) != TileType.Road)
+                if(GridBuildingSystem.Instance.GetTileType(cell) != TileType.Road)
                 {
                     continue;
                 }

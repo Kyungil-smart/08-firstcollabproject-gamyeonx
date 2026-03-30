@@ -15,12 +15,12 @@ public class FacilityEffectSheetLoader : MonoBehaviour
 
     private void Start()
     {
-        if (string.IsNullOrWhiteSpace(_facilityEffectSheet.Url))
+        if(string.IsNullOrWhiteSpace(_facilityEffectSheet.Url))
         {
             return;
         }
 
-        if (_facilityEffectDatabase == null)
+        if(_facilityEffectDatabase == null)
         {
             return;
         }
@@ -30,37 +30,29 @@ public class FacilityEffectSheetLoader : MonoBehaviour
 
     public void SetFacilityEffectDatas(char splitSymbol, string[] lines)
     {
-        if (lines == null || lines.Length == 0)
+        if(lines == null || lines.Length == 0)
         {
             return;
         }
 
         _facilityEffectDatabase.Clear();
 
-        for (int i = _startRowIndex; i < lines.Length; i++)
+        for(int i = _startRowIndex; i < lines.Length; i++)
         {
-            if (string.IsNullOrWhiteSpace(lines[i]))
+            if(string.IsNullOrWhiteSpace(lines[i]))
             {
                 continue;
             }
 
             string[] cols = lines[i].Split(splitSymbol);
 
-            // 예상 컬럼 수:
-            // 0 FacilityID
-            // 1 EFacilityType
-            // 2 HungerEffect
-            // 3 ThirstEffect
-            // 4 FatigueEffect
-            // 5 CleanEffect
-            // 6 SatisfactionEffect
-            if (cols.Length < 6)
+            if(cols.Length < 6)
             {
                 Debug.LogWarning($"[FacilityEffectSheetLoader] Invalid column count at line {i}. Line skipped.");
                 continue;
             }
 
-            for (int j = 0; j < cols.Length; j++)
+            for(int j = 0; j < cols.Length; j++)
             {
                 cols[j] = cols[j].Trim();
             }
