@@ -5,7 +5,8 @@ public enum BuildType
 {
     Road,
     Building,
-    TileBrush
+    TileBrush,
+    Furniture
 }
 
 public enum ETurnType
