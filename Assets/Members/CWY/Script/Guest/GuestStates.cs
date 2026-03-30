@@ -101,7 +101,7 @@ public class GuestStates
 
     public void ApplyFacilityEffect(FacilityEffectRow effectRow)
     {
-        if (effectRow == null)
+        if(effectRow == null)
         {
             return;
         }

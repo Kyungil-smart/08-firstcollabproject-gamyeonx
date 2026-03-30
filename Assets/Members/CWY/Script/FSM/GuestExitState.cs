@@ -1,9 +1,6 @@
 using UnityEngine;
 
-/// <summary>
-/// 퇴장 상태
-/// 현재는 즉시 제거
-/// </summary>
+
 public class GuestExitState : IGuestState
 {
     private readonly GuestController _controller;
@@ -19,7 +16,7 @@ public class GuestExitState : IGuestState
         _exitStarted = false;
         Debug.Log("[GuestExitState] Enter");
 
-        if (_controller.IsInsideFacility)
+        if(_controller.IsInsideFacility)
         {
             _controller.ExitFacilityToOutside();
         }
@@ -27,7 +24,7 @@ public class GuestExitState : IGuestState
 
     public void Update()
     {
-        if (_exitStarted)
+        if(_exitStarted)
         {
             return;
         }

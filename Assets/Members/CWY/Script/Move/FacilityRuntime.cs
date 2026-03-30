@@ -117,7 +117,7 @@ public class FacilityRuntime : MonoBehaviour
     {
         get
         {
-            if (_entranceRoadObject == null) return Vector3Int.zero;
+            if(_entranceRoadObject == null) return Vector3Int.zero;
             return GridBuildingSystem.Instance.gridLayout.WorldToCell(
                 _entranceRoadObject.transform.position);
         }

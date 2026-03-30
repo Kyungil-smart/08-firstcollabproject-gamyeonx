@@ -31,7 +31,7 @@ public class GuestMovementAgent : MonoBehaviour
 
     private void Update()
     {
-        if (!_isMoving)
+        if(!_isMoving)
         {
             return;
         }
@@ -39,14 +39,14 @@ public class GuestMovementAgent : MonoBehaviour
         float speed = _isInsideMove ? _insideMoveSpeed : _outsideMoveSpeed;
         transform.position = Vector3.MoveTowards(transform.position, _targetWorldPos, speed * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, _targetWorldPos) > 0.01f)
+        if(Vector3.Distance(transform.position, _targetWorldPos) > 0.01f)
         {
             return;
         }
 
         transform.position = _targetWorldPos;
 
-        if (_isInsideMove)
+        if(_isInsideMove)
         {
             _isMoving = false;
             OnMoveCompleted?.Invoke();
@@ -58,7 +58,7 @@ public class GuestMovementAgent : MonoBehaviour
 
     public bool MoveToRoadCell(Vector3Int targetCell)
     {
-        if (GridBuildingSystem.Instance == null)
+        if(GridBuildingSystem.Instance == null)
         {
             OnMoveFailed?.Invoke();
             return false;
@@ -66,13 +66,13 @@ public class GuestMovementAgent : MonoBehaviour
 
         Vector3Int startCell = GridBuildingSystem.Instance.gridLayout.WorldToCell(transform.position);
 
-        if (GridBuildingSystem.Instance.GetTileType(startCell) != TileType.Road)
+        if(GridBuildingSystem.Instance.GetTileType(startCell) != TileType.Road)
         {
             OnMoveFailed?.Invoke();
             return false;
         }
 
-        if (GridBuildingSystem.Instance.GetTileType(targetCell) != TileType.Road)
+        if(GridBuildingSystem.Instance.GetTileType(targetCell) != TileType.Road)
         {
             OnMoveFailed?.Invoke();
             return false;
@@ -80,7 +80,7 @@ public class GuestMovementAgent : MonoBehaviour
 
         List<Vector3Int> path = _pathfinder.FindPath(startCell, targetCell);
 
-        if (path == null || path.Count == 0)
+        if(path == null || path.Count == 0)
         {
             OnMoveFailed?.Invoke();
             return false;
@@ -88,9 +88,9 @@ public class GuestMovementAgent : MonoBehaviour
 
         _pathQueue.Clear();
 
-        for (int i = 0; i < path.Count; i++)
+        for(int i = 0; i < path.Count; i++)
         {
-            if (path[i] == startCell)
+            if(path[i] == startCell)
             {
                 continue;
             }
@@ -105,7 +105,7 @@ public class GuestMovementAgent : MonoBehaviour
 
     public void MoveInsideTo(Transform targetPoint)
     {
-        if (targetPoint == null)
+        if(targetPoint == null)
         {
             OnMoveFailed?.Invoke();
             return;
@@ -119,7 +119,7 @@ public class GuestMovementAgent : MonoBehaviour
 
     public void TeleportTo(Transform targetPoint)
     {
-        if (targetPoint == null)
+        if(targetPoint == null)
         {
             return;
         }
@@ -138,7 +138,7 @@ public class GuestMovementAgent : MonoBehaviour
 
     private void MoveNextOutsideCell()
     {
-        if (_pathQueue.Count == 0)
+        if(_pathQueue.Count == 0)
         {
             _isMoving = false;
             OnMoveCompleted?.Invoke();
@@ -147,7 +147,7 @@ public class GuestMovementAgent : MonoBehaviour
 
         Vector3Int nextCell = _pathQueue.Dequeue();
 
-        if (GridBuildingSystem.Instance.GetTileType(nextCell) != TileType.Road)
+        if(GridBuildingSystem.Instance.GetTileType(nextCell) != TileType.Road)
         {
             _isMoving = false;
             OnMoveFailed?.Invoke();
