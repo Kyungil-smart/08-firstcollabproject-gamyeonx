@@ -52,6 +52,9 @@ MonoBehaviour:
   EnterPivot: {fileID: 8138815185548257870}
   WaitPivot: {fileID: 5988660614205722790}
   UsePivot: {fileID: 2164831686825136632}
+  _whiteAreaPivots:
+  - {fileID: 4619695527105294529}
+  - {fileID: 0}
 --- !u!1 &2164831686825136632
 GameObject:
   m_ObjectHideFlags: 0
