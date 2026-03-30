@@ -5,6 +5,7 @@ public class VendingMachineBuildButton : MonoBehaviour
 {
     [SerializeField] private GameObject _uiVendingMachineBuildPanel;
     [SerializeField] private GameObject _topUI;
+    [SerializeField] private EFacilityType _buttonType;
 
     private Button _vendingMachineButton;
 
@@ -22,6 +23,11 @@ public class VendingMachineBuildButton : MonoBehaviour
         _uiVendingMachineBuildPanel.SetActive(true);
         _topUI.SetActive(false);
         gameObject.SetActive(false);
+    }
+
+    public EFacilityType GetButtonType()
+    {
+        return _buttonType;
     }
 
     private void OnDestroy()

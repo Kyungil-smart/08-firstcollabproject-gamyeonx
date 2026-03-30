@@ -5,6 +5,7 @@ public class RestaurantBuildButton : MonoBehaviour
 {
     [SerializeField] private GameObject _uiRestaurantPanel;
     [SerializeField] private GameObject _topUI;
+    [SerializeField] private EFacilityType _buttonType;
 
     private Button _restaurantbuildButton;
 
@@ -22,6 +23,11 @@ public class RestaurantBuildButton : MonoBehaviour
         _uiRestaurantPanel.SetActive(true);
         _topUI.SetActive(false);
         gameObject.SetActive(false);
+    }
+
+    public EFacilityType GetButtonType()
+    {
+        return _buttonType;
     }
 
     private void OnDestroy()

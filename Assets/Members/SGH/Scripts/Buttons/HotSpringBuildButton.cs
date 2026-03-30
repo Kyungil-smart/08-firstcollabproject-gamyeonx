@@ -5,6 +5,7 @@ public class HotSpringBuildButton : MonoBehaviour
 {
     [SerializeField] private GameObject _uiHotSpringPanel;
     [SerializeField] private GameObject _topUI;
+    [SerializeField] private EFacilityType _buttonType;
 
     private Button _hotSpringbuildButton;
 
@@ -22,6 +23,11 @@ public class HotSpringBuildButton : MonoBehaviour
         _uiHotSpringPanel.SetActive(true);
         _topUI.SetActive(false);
         gameObject.SetActive(false);
+    }
+
+    public EFacilityType GetButtonType()
+    {
+        return _buttonType;
     }
 
     private void OnDestroy()

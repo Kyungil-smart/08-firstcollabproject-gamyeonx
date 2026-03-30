@@ -101,6 +101,8 @@ public class InBuildingData : MonoBehaviour
     {
         _cameraController.ReturnToWorld();
         _canvas.gameObject.SetActive(false);
+        UIManager.Instance.SetFurnitureButtonActive(_facilityRuntime.FacilityType, false);
+        UIManager.Instance._buildButton.SetActive(true);
         GridBuildingSystem.Instance.SetCurrentInBuilding(null);
     }
     

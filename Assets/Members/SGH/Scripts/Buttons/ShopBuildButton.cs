@@ -5,6 +5,7 @@ public class ShopBuildButton : MonoBehaviour
 {
     [SerializeField] private GameObject _uiShopBuildPanel;
     [SerializeField] private GameObject _topUI;
+    [SerializeField] private EFacilityType _buttonType;
 
     private Button _shopButton;
 
@@ -22,6 +23,11 @@ public class ShopBuildButton : MonoBehaviour
         _uiShopBuildPanel.SetActive(true);
         _topUI.SetActive(false);
         gameObject.SetActive(false);
+    }
+
+    public EFacilityType GetButtonType()
+    {
+        return _buttonType;
     }
 
     private void OnDestroy()
