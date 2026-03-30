@@ -6,6 +6,8 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(GuestMovementAgent))]
 [RequireComponent(typeof(GuestRoadWanderSelector))]
+[RequireComponent(typeof(GuestEntryFlowHandler))]
+[RequireComponent(typeof(GuestExitFlowHandler))]
 public class GuestController : MonoBehaviour
 {
     [Header("손님 식별값")]
@@ -57,6 +59,14 @@ public class GuestController : MonoBehaviour
     public GuestMovementAgent MovementAgent { get; private set; }
     public GuestRoadWanderSelector WanderSelector { get; private set; }
 
+    // 추가: 입장/퇴장 흐름 핸들러
+    public GuestEntryFlowHandler EntryFlowHandler { get; private set; }
+    public GuestExitFlowHandler ExitFlowHandler { get; private set; }
+
+    // 추가: 입장 완료 전 / 퇴장 연출 중 제어용
+    public bool HasEnteredGuild { get; private set; }
+    public bool IsExitFlowRunning { get; private set; }
+
     private GuestUtilityEvaluator _utilityEvaluator;
     private GuestStateMachine _stateMachine;
 
@@ -95,6 +105,18 @@ public class GuestController : MonoBehaviour
 
     private void Update()
     {
+        // 입장 전에는 일반 FSM 정지
+        if (!HasEnteredGuild)
+        {
+            return;
+        }
+
+        // 퇴장 연출 중에는 일반 FSM 정지
+        if (IsExitFlowRunning)
+        {
+            return;
+        }
+
         _stateMachine?.Update();
     }
 
@@ -102,6 +124,10 @@ public class GuestController : MonoBehaviour
     {
         MovementAgent = GetComponent<GuestMovementAgent>();
         WanderSelector = GetComponent<GuestRoadWanderSelector>();
+
+        // 추가
+        EntryFlowHandler = GetComponent<GuestEntryFlowHandler>();
+        ExitFlowHandler = GetComponent<GuestExitFlowHandler>();
 
         _utilityEvaluator = new GuestUtilityEvaluator();
         _stateMachine = new GuestStateMachine();
@@ -114,8 +140,12 @@ public class GuestController : MonoBehaviour
         _exitState = new GuestExitState(this);
 
         LoadGuestData();
-        _stateMachine.ChangeState(_wanderState);
 
+        // 변경: 바로 Wander 시작하지 않음
+        HasEnteredGuild = false;
+        IsExitFlowRunning = false;
+
+        Log("[GuestController] 초기화 완료");
     }
 
     private void LoadGuestData()
@@ -132,7 +162,57 @@ public class GuestController : MonoBehaviour
             return;
         }
 
+        // 만족도 제거 반영: 3개 컨디션만 초기화
         _guestStates.Initialize(row.VisitorID, row.Hunger, row.Thirst, row.Fatigue);
+    }
+
+    // 추가: 스포너가 생성 직후 호출
+    public void SetupSpawn(int visitorID)
+    {
+        _visitorID = visitorID;
+        LoadGuestData();
+
+        HasEnteredGuild = false;
+        IsExitFlowRunning = false;
+
+        if (EntryFlowHandler == null)
+        {
+            Debug.LogWarning("[GuestController] EntryFlowHandler가 없습니다.");
+            return;
+        }
+
+        EntryFlowHandler.BeginEntryFlow();
+        Log($"[GuestController] 스폰 세팅 완료 | VisitorID={_visitorID}");
+    }
+
+    // 추가: 입장 연출 완료 시 호출
+    public void HandleEntryFlowCompleted()
+    {
+        HasEnteredGuild = true;
+        ChangeToWanderState();
+
+        Log("[GuestController] 길드 입장 완료 -> Wander 상태 시작");
+    }
+
+    // 추가: 입장 연출 실패 시 호출
+    public void HandleEntryFlowFailed()
+    {
+        Debug.LogWarning("[GuestController] 입장 연출 실패");
+        Destroy(gameObject);
+    }
+
+    // 추가: 퇴장 연출 완료 시 호출
+    public void HandleExitFlowCompleted()
+    {
+        IsExitFlowRunning = false;
+        CompleteExit();
+    }
+
+    // 추가: 퇴장 연출 실패 시 호출
+    public void HandleExitFlowFailed()
+    {
+        IsExitFlowRunning = false;
+        CompleteExit();
     }
 
     public void EvaluateCurrentNeed()
@@ -173,7 +253,6 @@ public class GuestController : MonoBehaviour
             : null;
 
         ResetMovementAndFacilityFlags();
-
     }
 
     public void ClearCurrentFacilityContext()
@@ -184,7 +263,6 @@ public class GuestController : MonoBehaviour
         CurrentFacilityRuntime = null;
 
         ResetMovementAndFacilityFlags();
-
     }
 
     public void ResetMovementAndFacilityFlags()
@@ -306,7 +384,6 @@ public class GuestController : MonoBehaviour
 
         FacilityUseCount++;
         CurrentExitChancePercent = FacilityUseCount * _exitChanceIncreasePerUse;
-        
     }
 
     public EGuestNeedType GetNeedTypeByFacilityType(EFacilityType facilityType)
@@ -346,8 +423,8 @@ public class GuestController : MonoBehaviour
     {
         if (WanderSelector == null)
         {
-                 return false;
-        }   
+            return false;
+        }
 
         bool found = WanderSelector.TryGetRandomRoadCell(out Vector3Int targetRoadCell);
 
@@ -419,7 +496,7 @@ public class GuestController : MonoBehaviour
         if (CurrentFacilityRuntime != null && CurrentFacilityRuntime.OutsideExitPoint != null)
         {
             MovementAgent.TeleportTo(CurrentFacilityRuntime.OutsideExitPoint);
-            
+
             // 연동준이 추가
             int gold = CurrentFacilityRuntime.GetPrice();
             _goldTest.PayMoney(gold);
@@ -446,7 +523,7 @@ public class GuestController : MonoBehaviour
 
     public void CompleteExit()
     {
-        if(_goldTest != null)
+        if (_goldTest != null)
         {
             // _goldTest.PayMoney(10);
         }
@@ -480,6 +557,20 @@ public class GuestController : MonoBehaviour
 
     public void ChangeToExitState()
     {
+        // 기존 기능 확장: 바로 ExitState로만 넘기지 않고 퇴장 연출 시작
+        if (IsExitFlowRunning)
+        {
+            return;
+        }
+
+        IsExitFlowRunning = true;
+
+        if (ExitFlowHandler != null)
+        {
+            ExitFlowHandler.BeginExitFlow();
+            return;
+        }
+
         _stateMachine.ChangeState(_exitState);
     }
 
@@ -500,6 +591,14 @@ public class GuestController : MonoBehaviour
             Debug.Log(message);
         }
     }
-
-
 }
+
+/*
+[Unity 구현 방법]
+1. Guest 프리팹에 GuestEntryFlowHandler, GuestExitFlowHandler를 추가합니다.
+2. GuestSpawner가 손님 생성 직후 SetupSpawn(visitorID)를 호출합니다.
+3. 이제 손님은 생성 직후 바로 Wander에 들어가지 않고,
+   EntryFlowHandler 완료 후 Wander 상태로 전환됩니다.
+4. 퇴장 시에는 ExitFlowHandler가 연결되어 있으면 퇴장 연출을 먼저 실행합니다.
+5. 기존 시설 탐색, 이용, 골드 지급, 상태 변화 기능은 그대로 유지됩니다.
+*/
