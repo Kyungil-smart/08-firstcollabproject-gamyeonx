@@ -62,6 +62,8 @@ public class MapManager : MonoBehaviour
         if (facilityRuntime != null && inData != null)
         {
             facilityRuntime._inBuildingData = inData;
+            // 연동준이 추가
+            inData.SetFacilityRuntime(facilityRuntime);
             FacilityRegistry.Instance?.RegisterFacility(facilityRuntime);
         }
     }

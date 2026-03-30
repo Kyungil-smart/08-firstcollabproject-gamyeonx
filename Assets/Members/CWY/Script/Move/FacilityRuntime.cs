@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FacilityRuntime : MonoBehaviour
@@ -15,29 +16,68 @@ public class FacilityRuntime : MonoBehaviour
     [SerializeField] private Transform _interiorEntryPoint;
     [SerializeField] private Transform _waitPoint;
     [SerializeField] private Transform _usePoint;
+    // [SerializeField] private List<Transform> _usePoint;
     [SerializeField] private Transform _outsideExitPoint;
 
+    [SerializeField] private Transform _entrancePoint;
+    [SerializeField] private Transform _exitPoint;
+    [SerializeField] private List<Transform> _entranceWayPoints;
+    [SerializeField] private List<Transform> _exitWayPoints;
+    
     [Header("�ü� ����")]
     [SerializeField] private bool _canUseImmediately = true;
     [SerializeField] private bool _supportsQueue = true;
     
+    public InBuildingData _inBuildingData;
+    
     //연동준이 추가
     [Header("시설 이용 가격")] 
-    [SerializeField] private int _gold;
-    
-    public InBuildingData _inBuildingData;
+    public int Gold;
 
+
+    // void Start()
+    // {
+    //     _interiorEntryPoint = _inBuildingData.EnterPivot.transform;
+    //     _waitPoint = _inBuildingData.WaitPivot.transform;
+    //     _usePoint = _inBuildingData.UsePivot.transform;
+    // }
+    
     private void Update()
     {
         _interiorEntryPoint = _inBuildingData.EnterPivot.transform;
         _waitPoint = _inBuildingData.WaitPivot.transform;
         _usePoint = _inBuildingData.UsePivot.transform;
+        _entrancePoint = _inBuildingData.EntrancePivot.transform;
+        _exitPoint = _inBuildingData.ExitPivot.transform;
+        _entranceWayPoints = new List<Transform>();
+        _exitWayPoints = new List<Transform>();
+        foreach (var way in _inBuildingData.EntranceWayPivots)
+        {
+            _entranceWayPoints.Add(way.transform);
+        }
+
+        foreach (var way in _inBuildingData.ExitWayPivots)
+        {
+            _exitWayPoints.Add(way.transform);
+        }
+
+        // _usePoint = new List<Transform>();
+        // foreach (var transform in _usePoint)
+        // {
+        //     _usePoint.Add(transform);
+        // }
+
     }
     
     // 연동준이 추가
-    public int GetPrice() // 시설 이용 가격
+    public int GetPrice() // 시설 이용 가격을 알려주는 메서드
     {
-        return _gold;
+        return Gold;
+    }
+
+    public void UpgradePrice(int addPrice) // 시설 2번째 업그레이드 시 가격 인상 메서드
+    {
+        Gold += addPrice;
     }
     
     public int FacilityID => _facilityID;
@@ -55,6 +95,7 @@ public class FacilityRuntime : MonoBehaviour
     public Transform InteriorEntryPoint => _interiorEntryPoint;
     public Transform WaitPoint => _waitPoint;
     public Transform UsePoint => _usePoint;
+    // public List<Transform> UsePoint => _usePoint;
     public Transform OutsideExitPoint => _outsideExitPoint;
 
     public bool CanUseImmediately => _canUseImmediately;

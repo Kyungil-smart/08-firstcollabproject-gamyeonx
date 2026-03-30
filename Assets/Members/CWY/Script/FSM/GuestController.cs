@@ -410,7 +410,6 @@ public class GuestController : MonoBehaviour
             SetFacilityUseFailed(true);
             return;
         }
-
         MovementAgent.MoveInsideTo(CurrentFacilityRuntime.UsePoint);
     }
 
