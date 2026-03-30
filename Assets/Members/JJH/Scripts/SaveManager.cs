@@ -38,6 +38,8 @@ public class SaveManager : MonoBehaviour
 
         string json = File.ReadAllText(_savePath);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+        GridBuildingSystem.Instance.MainTilemap = data.MainTilemap;
         
         for (int i = 0; i < data.OccupiedPositionList.Count; i++)
         {

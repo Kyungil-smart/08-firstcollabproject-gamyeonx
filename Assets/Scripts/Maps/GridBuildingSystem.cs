@@ -30,7 +30,7 @@ public class GridBuildingSystem : MonoBehaviour
     private HashSet<Vector3Int> occupied = new HashSet<Vector3Int>(); // 점유된 타일 좌표
 
     private bool _isPlacing = false; // 프리뷰 상태 체크
-    private BoundsInt _initialMapBounds;
+    [SerializeField] private BoundsInt _initialMapBounds;
     private InBuildingData _currentInBuildingData; // 내부건물 정보 저장용
     
     //세이브용
@@ -57,6 +57,7 @@ public class GridBuildingSystem : MonoBehaviour
         _tileBases.Add(ETileType.Green, Resources.Load<TileBase>("SGH_Test/green"));
         _tileBases.Add(ETileType.Red, Resources.Load<TileBase>("SGH_Test/red"));
         _initialMapBounds = MainTilemap.cellBounds;
+        Debug.Log(MainTilemap.cellBounds);
         InitTileTypes();
     }
 
@@ -178,7 +179,6 @@ public class GridBuildingSystem : MonoBehaviour
         int index = BuildingIndex(building);
 
         _temp = Instantiate(building, Vector3.zero, Quaternion.identity).GetComponent<Building>();
-        BuildingList.Add(_temp);
         MapManager.Instance.InstantiateInBuilding(_temp, index);
         _isPlacing = true;
         FollowBuilding();
