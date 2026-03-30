@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public enum ETileType
 {
@@ -31,6 +32,12 @@ public class GridBuildingSystem : MonoBehaviour
     private bool _isPlacing = false; // 프리뷰 상태 체크
     private BoundsInt _initialMapBounds;
     private InBuildingData _currentInBuildingData; // 내부건물 정보 저장용
+    
+    //세이브용
+    public List<Building> BuildingList = new List<Building>();
+    public List<Position> PositionList = new List<Position>();
+    public List<Vector3Int> OccupiedPositionList = new List<Vector3Int>();
+    public List<TileType> TileTypes = new List<TileType>();
 
     private void Awake()
     {
@@ -171,6 +178,7 @@ public class GridBuildingSystem : MonoBehaviour
         int index = BuildingIndex(building);
 
         _temp = Instantiate(building, Vector3.zero, Quaternion.identity).GetComponent<Building>();
+        BuildingList.Add(_temp);
         MapManager.Instance.InstantiateInBuilding(_temp, index);
         _isPlacing = true;
         FollowBuilding();
@@ -389,5 +397,31 @@ public class GridBuildingSystem : MonoBehaviour
     {
         // 건물 스텟 상승 로직
         // _currentInBuildingData.stat++;
+    }
+    
+    // ----------- 세이브 관련 -----------
+    
+    public void SaveTileType()
+    {
+        // 타일맵 전체 범위 가져오기
+        BoundsInt bounds = MainTilemap.cellBounds;
+
+        // 맵 안의 모든 좌표 하나씩 꺼냄
+        foreach (var pos in bounds.allPositionsWithin)
+        {
+            OccupiedPositionList.Add(pos);
+            TileTypes.Add(GetTileType(pos));
+        }
+    }
+
+    public void Save()
+    {
+        SaveTileType();
+        SaveManager.Instance.Save();
+    }
+
+    public void Load()
+    {
+        SaveManager.Instance.Load();
     }
 }
