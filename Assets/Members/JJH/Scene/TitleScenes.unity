@@ -417,7 +417,7 @@ MonoBehaviour:
   m_text: Save file 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 25bcd8a8e15f3cb4983bb3770b5b190e, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -3966355028550189638, guid: 25bcd8a8e15f3cb4983bb3770b5b190e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1823,7 +1823,7 @@ MonoBehaviour:
   m_text: Back
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 25bcd8a8e15f3cb4983bb3770b5b190e, type: 2}
-  m_sharedMaterial: {fileID: 5144978115774822117, guid: 81908f61089d8ff4c850d75638afc2c4, type: 2}
+  m_sharedMaterial: {fileID: -3966355028550189638, guid: 25bcd8a8e15f3cb4983bb3770b5b190e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2000,7 +2000,7 @@ MonoBehaviour:
   m_text: Save file 3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 25bcd8a8e15f3cb4983bb3770b5b190e, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -3966355028550189638, guid: 25bcd8a8e15f3cb4983bb3770b5b190e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2580,6 +2580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 151346b1a848b8b48b774c12e8d93e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaveManager
+  LoadMap: 0
 --- !u!4 &566101919
 Transform:
   m_ObjectHideFlags: 0
@@ -2735,7 +2736,7 @@ MonoBehaviour:
   m_text: Save file 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 25bcd8a8e15f3cb4983bb3770b5b190e, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -3966355028550189638, guid: 25bcd8a8e15f3cb4983bb3770b5b190e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2812,62 +2813,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 615060952}
   m_CullTransparentMesh: 1
---- !u!1 &658097448
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 658097450}
-  - component: {fileID: 658097449}
-  m_Layer: 0
-  m_Name: MapManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &658097449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 658097448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eabecf2d412f41efad8928358b13ce89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MapManager
-  CurrentBuildingNum: 0
-  BuildingPivotDistance: 5
-  Guild: {fileID: 5646732189160533396, guid: d17018bff77eb5248942b50dc8ba5e93, type: 3}
-  HotSpring: {fileID: 5646732189160533396, guid: d17018bff77eb5248942b50dc8ba5e93, type: 3}
-  Restaurant: {fileID: 5646732189160533396, guid: d17018bff77eb5248942b50dc8ba5e93, type: 3}
-  VendingMachine: {fileID: 5646732189160533396, guid: d17018bff77eb5248942b50dc8ba5e93, type: 3}
-  Shop: {fileID: 5646732189160533396, guid: d17018bff77eb5248942b50dc8ba5e93, type: 3}
-  TrainingGround: {fileID: 5646732189160533396, guid: d17018bff77eb5248942b50dc8ba5e93, type: 3}
-  InBuildingPivot: {fileID: 0}
-  InBuildingPivotDistance: 50
-  CurrentInBuildingNum: 0
-  MapLevel: 1
---- !u!4 &658097450
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 658097448}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.67126, y: -0.40449, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &665942004
 GameObject:
   m_ObjectHideFlags: 0
@@ -4087,9 +4032,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1147981950}
-        m_TargetAssemblyTypeName: MainCanvasButton, Assembly-CSharp
-        m_MethodName: OnClickLoadGame
+      - m_Target: {fileID: 566101918}
+        m_TargetAssemblyTypeName: SaveManager, Assembly-CSharp
+        m_MethodName: LoadButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7379,7 +7324,7 @@ MonoBehaviour:
   m_text: Load file
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 25bcd8a8e15f3cb4983bb3770b5b190e, type: 2}
-  m_sharedMaterial: {fileID: 5144978115774822117, guid: 81908f61089d8ff4c850d75638afc2c4, type: 2}
+  m_sharedMaterial: {fileID: -3966355028550189638, guid: 25bcd8a8e15f3cb4983bb3770b5b190e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9951,5 +9896,4 @@ SceneRoots:
   - {fileID: 1481841451}
   - {fileID: 298779646}
   - {fileID: 2024522077}
-  - {fileID: 658097450}
   - {fileID: 566101919}

@@ -18,12 +18,22 @@ public class Vector3IntSaveData
     public Vector3Int SaveData() => new Vector3Int(x, y, z);
 }
 
+[System.Serializable]
+public class BuildingSaveData
+{
+    public string prefabName;
+    public Vector3Int position;
+    public int rotateCount;
+    public int currentLevel; // 내부 건물 레벨
+    // public float currentStat; // 필요시 스탯 추가
+}
+
 
 [System.Serializable]
 public class SaveData
 {
-    public List<Building> BuildingList;
-    public List<Position> PositionList;
+    public List<BuildingSaveData> Buildings = new List<BuildingSaveData>();
     public List<Vector3IntSaveData> OccupiedPositionList = new List<Vector3IntSaveData>();
     public List<TileType> TileTypes = new List<TileType>();
+    public int MapLevel;
 }

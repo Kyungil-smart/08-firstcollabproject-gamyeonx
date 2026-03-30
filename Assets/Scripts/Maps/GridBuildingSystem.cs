@@ -56,8 +56,14 @@ public class GridBuildingSystem : MonoBehaviour
         _tileBases.Add(ETileType.Green, Resources.Load<TileBase>("SGH_Test/green"));
         _tileBases.Add(ETileType.Red, Resources.Load<TileBase>("SGH_Test/red"));
         _initialMapBounds = MainTilemap.cellBounds;
-        Debug.Log(MainTilemap.cellBounds);
-        InitTileTypes();
+
+        if (SaveManager.Instance.LoadMap == true)
+        {
+            SaveManager.Instance.Load();
+            SaveManager.Instance.LoadMapChange();
+            if(MapManager.Instance.MapLevel == 2) LevelUpCameraBounds();
+        }
+        else InitTileTypes();
     }
 
     private void Update()
@@ -120,6 +126,7 @@ public class GridBuildingSystem : MonoBehaviour
 
                     // 마우스 위치에 바로 생성
                     _temp = Instantiate(roadPrefab, spawnPos, Quaternion.identity).GetComponent<Building>();
+                    BuildingList.Add(_temp); // 세이브용
                     _isPlacing = true;
                     _prevPos = Vector3.zero;
                     FollowBuilding();
@@ -440,5 +447,25 @@ public class GridBuildingSystem : MonoBehaviour
             MainTilemap.SetTile(pos, null); 
             if (occupied.Contains(pos)) occupied.Remove(pos);
         }
+    }
+    
+    public void InitializeWithBuildingFromSave(GameObject prefab, BuildingSaveData bData)
+    {
+        _temp = Instantiate(prefab).GetComponent<Building>();
+        
+        _temp.transform.position = gridLayout.CellToWorld(bData.position) + new Vector3(0.5f, 0.5f, 0);
+        for(int i=0; i<bData.rotateCount; i++) _temp.Rotate(); 
+        
+        int index = BuildingIndex(prefab);
+        MapManager.Instance.InstantiateInBuilding(_temp, index);
+        
+        if (_temp.InBuildingData != null)
+        {
+            _temp.InBuildingData.SetLevel(bData.currentLevel);
+        }
+        _temp.Place();
+    
+        BuildingList.Add(_temp);
+        _temp = null;
     }
 }
