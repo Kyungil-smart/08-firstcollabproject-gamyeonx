@@ -25,6 +25,9 @@ public class BuildingSaveData
     public Vector3Int position;
     public int rotateCount;
     public int currentLevel; // 내부 건물 레벨
+    public int CurrentUseCount; // 내부 건물 UseCount
+
+    public int BuildingGold;
     // public float currentStat; // 필요시 스탯 추가
 }
 
@@ -36,4 +39,6 @@ public class SaveData
     public List<Vector3IntSaveData> OccupiedPositionList = new List<Vector3IntSaveData>();
     public List<TileType> TileTypes = new List<TileType>();
     public int MapLevel;
+    public int UserWeek;
+    public int Gold;
 }

@@ -863,6 +863,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   IsStop: 0
+  _furnitureButtons: []
+  _buildButton: {fileID: 0}
+  _goldTest: {fileID: 138611614}
+  _gameTime: {fileID: 138611613}
 --- !u!4 &138611612
 Transform:
   m_ObjectHideFlags: 0
@@ -896,6 +900,8 @@ MonoBehaviour:
   _time: {fileID: 1764740144}
   _nightImage: {fileID: 1734264312}
   _nightImageObject: {fileID: 1734264310}
+  _userTime: 0
+  _userWeek: 0
 --- !u!114 &138611614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1854,12 +1860,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapManager
   CurrentBuildingNum: 0
   BuildingPivotDistance: 5
-  Guild: {fileID: 5646732189160533396, guid: e8557ead7375c704ca62f9909a32b11d, type: 3}
-  HotSpring: {fileID: 5646732189160533396, guid: e8557ead7375c704ca62f9909a32b11d, type: 3}
-  Restaurant: {fileID: 5646732189160533396, guid: e8557ead7375c704ca62f9909a32b11d, type: 3}
-  VendingMachine: {fileID: 5646732189160533396, guid: e8557ead7375c704ca62f9909a32b11d, type: 3}
-  Shop: {fileID: 5646732189160533396, guid: e8557ead7375c704ca62f9909a32b11d, type: 3}
-  TrainingGround: {fileID: 5646732189160533396, guid: e8557ead7375c704ca62f9909a32b11d, type: 3}
+  Guild: {fileID: 5646732189160533396, guid: dd0a91dcdd31d1a48a8d8c304a05638e, type: 3}
+  HotSpring: {fileID: 5646732189160533396, guid: dd0a91dcdd31d1a48a8d8c304a05638e, type: 3}
+  Restaurant: {fileID: 5646732189160533396, guid: dd0a91dcdd31d1a48a8d8c304a05638e, type: 3}
+  VendingMachine: {fileID: 5646732189160533396, guid: dd0a91dcdd31d1a48a8d8c304a05638e, type: 3}
+  Shop: {fileID: 5646732189160533396, guid: dd0a91dcdd31d1a48a8d8c304a05638e, type: 3}
+  TrainingGround: {fileID: 5646732189160533396, guid: dd0a91dcdd31d1a48a8d8c304a05638e, type: 3}
   InBuildingPivot: {fileID: 218385191}
   InBuildingPivotDistance: 50
   CurrentInBuildingNum: 0
@@ -2299,7 +2305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000053613594}
+  m_AnchoredPosition: {x: 0, y: 0.00047862716}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &731388506
@@ -5619,7 +5625,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 89115028}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999902
+  m_Size: 0.9998803
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

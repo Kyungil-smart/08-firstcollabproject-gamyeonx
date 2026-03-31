@@ -46,7 +46,7 @@ public class InBuildingData : MonoBehaviour
     
     [Header("시설 이용 공간 설정")]
     [SerializeField] private int _defaultUseCount = 4; // 시설 이용 공간 기본 개수
-    [SerializeField] private int _currentUseCount; // 현재 시설 이용 가능 공간 개수
+    public int _currentUseCount; // 현재 시설 이용 가능 공간 개수
     private List<Transform> _usePivotsTransformsList = new List<Transform>(); // 시설 이용 가능한 공간들에 대한 Transform 값들을 넣어놓은 List
     public event Action<List<Transform>> OnUsePivotsChanged; // 시설 이용 가능 공간이 바뀔 때마다 호출될 델리게이트
 
@@ -55,8 +55,8 @@ public class InBuildingData : MonoBehaviour
         _canvas.gameObject.SetActive(false);
         _whiteAreaSize =  new Vector2Int(1, 1);
         _UpgradeExpandArea.SetActive(false);
-
-        _currentUseCount = _defaultUseCount; // 현재 시설 이용 가능 공간을 기본 공간 개수로 초기화
+        
+        if(_currentUseCount < _defaultUseCount) _currentUseCount = _defaultUseCount; // 현재 시설 이용 가능 공간을 기본 공간 개수로 초기화
     }
 
     private void Start()
@@ -67,6 +67,7 @@ public class InBuildingData : MonoBehaviour
         
         UpdateUseVisual();    
         OnUsePivotsChanged?.Invoke(GetUsePivots());
+
     }
 
     void Update()
@@ -160,10 +161,10 @@ public class InBuildingData : MonoBehaviour
             {
                 _whiteAreaPivots.Add(_upgradeWhiteAreaPivots[i]); // 업그레이드 프리팹에 휜 타일 생성 위치 갱신
             }
-
             InBuildingWhiteTilesCreate(); // 업그레이드 프리팹에 휜 타일 생성
         }
-        else if (currentLevel == 2) _facilityRuntime.UpgradePrice(20);
+
+        if (currentLevel == 2) _facilityRuntime.UpgradePrice(20);
         Debug.Log($"<color=yellow/>현재 가격 {_facilityRuntime.Gold}</color>");
         currentLevel++;
     }
@@ -202,10 +203,16 @@ public class InBuildingData : MonoBehaviour
     }
     
     // 세이브 로드 관련
-    public void SetLevel(int level)
+    public void SetLevelPrice(int level, int price)
     {
         currentLevel = level;
-        if(currentLevel >= 2) _UpgradeExpandArea.SetActive(true);
+        if (currentLevel == 2) _UpgradeExpandArea.SetActive(true);
+        _facilityRuntime.Gold = price;
         InBuildingWhiteTilesCreate(); 
+    }
+
+    public void SetCurrentUseCount(int count)
+    {
+        _currentUseCount = count;
     }
 }

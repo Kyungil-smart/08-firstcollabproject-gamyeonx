@@ -69,7 +69,7 @@ public class Building : MonoBehaviour
         
         _canvas?.gameObject.SetActive(false);
 
-        UIManager.Instance._buildButton.SetActive(false);
+        // UIManager.Instance._buildButton.SetActive(false);
         UIManager.Instance.SetFurnitureButtonActive(_facilityType, true);
 
         InBuildingData.BuildingEntered();
