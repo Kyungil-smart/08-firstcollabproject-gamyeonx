@@ -11,7 +11,7 @@ public class FacilityEffectSheetLoader : MonoBehaviour
 
     [Header("Sheet Row Settings")]
     [Tooltip("데이터 시작 줄 인덱스. 예: 1이면 두 번째 줄부터 읽음")]
-    [SerializeField] private int _startRowIndex = 1;
+    [SerializeField] private int _startRowIndex = 4;
 
     private void Start()
     {
@@ -46,7 +46,7 @@ public class FacilityEffectSheetLoader : MonoBehaviour
 
             string[] cols = lines[i].Split(splitSymbol);
 
-            if(cols.Length < 6)
+            if(cols.Length < 17)
             {
                 Debug.LogWarning($"[FacilityEffectSheetLoader] Invalid column count at line {i}. Line skipped.");
                 continue;

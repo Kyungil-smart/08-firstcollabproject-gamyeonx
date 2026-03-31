@@ -3,34 +3,61 @@ using UnityEngine;
 
 public class GuestUtilityEvaluator
 {
-    public EFacilityType EvaluateTargetFacilityType(GuestStates guestStates)
+    public EGuestNeedType EvaluateHighestNeed(GuestStates guestStates)
     {
         if (guestStates == null)
         {
-            return EFacilityType.None;
+            return EGuestNeedType.None;
         }
 
-        int hunger = guestStates.Hunger;
-        int thirst = guestStates.Thirst;
-        int fatigue = guestStates.Fatigue;
-
-        int highestValue = Mathf.Max(hunger, thirst, fatigue);
-        List<EGuestNeedType> candidates = new List<EGuestNeedType>();
-
-        if (hunger == highestValue) candidates.Add(EGuestNeedType.Hunger);
-        if (thirst == highestValue) candidates.Add(EGuestNeedType.Thirst);
-        if (fatigue == highestValue) candidates.Add(EGuestNeedType.Fatigue);
-
-        if (candidates.Count == 0)
+        List<(EGuestNeedType needType, int value)> candidates = new List<(EGuestNeedType, int)>
         {
-            return EFacilityType.None;
+            (EGuestNeedType.Hunger, guestStates.Hunger),
+            (EGuestNeedType.Thirst, guestStates.Thirst),
+            (EGuestNeedType.Fatigue, guestStates.Fatigue)
+        };
+
+        if (guestStates.CanUseShop)
+        {
+            candidates.Add((EGuestNeedType.Shop, guestStates.ShopNeed));
         }
 
-        EGuestNeedType selectedNeed = candidates[Random.Range(0, candidates.Count)];
+        if (guestStates.CanUseTraining)
+        {
+            candidates.Add((EGuestNeedType.Training, guestStates.TrainingNeed));
+        }
 
-        Debug.Log($"[GuestUtilityEvaluator] 최고 상태 선택 | Need={selectedNeed}, Value={highestValue}, CandidateCount={candidates.Count}");
+        int highestValue = int.MinValue;
+        List<EGuestNeedType> highestCandidates = new List<EGuestNeedType>();
 
-        switch (selectedNeed)
+        for (int i = 0; i < candidates.Count; i++)
+        {
+            if (candidates[i].value > highestValue)
+            {
+                highestValue = candidates[i].value;
+                highestCandidates.Clear();
+                highestCandidates.Add(candidates[i].needType);
+            }
+            else if (candidates[i].value == highestValue)
+            {
+                highestCandidates.Add(candidates[i].needType);
+            }
+        }
+
+        if (highestCandidates.Count == 0)
+        {
+            return EGuestNeedType.None;
+        }
+
+        EGuestNeedType selectedNeed = highestCandidates[Random.Range(0, highestCandidates.Count)];
+
+        Debug.Log($"[GuestUtilityEvaluator] 최고 Need 선택 | Need={selectedNeed}, Value={highestValue}, Count={highestCandidates.Count}");
+        return selectedNeed;
+    }
+
+    public EFacilityType EvaluateTargetFacilityType(EGuestNeedType highestNeed)
+    {
+        switch (highestNeed)
         {
             case EGuestNeedType.Hunger:
                 return EFacilityType.Restaurant;
@@ -38,6 +65,10 @@ public class GuestUtilityEvaluator
                 return EFacilityType.VendingMachine;
             case EGuestNeedType.Fatigue:
                 return EFacilityType.HotSpring;
+            case EGuestNeedType.Shop:
+                return EFacilityType.Shop;
+            case EGuestNeedType.Training:
+                return EFacilityType.TrainingGround;
             default:
                 return EFacilityType.None;
         }

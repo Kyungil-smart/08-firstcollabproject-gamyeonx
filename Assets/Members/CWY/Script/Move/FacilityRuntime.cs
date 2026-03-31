@@ -4,7 +4,7 @@ using UnityEngine;
 public class FacilityRuntime : MonoBehaviour
 {
     [Header("기본 정보")]
-    [SerializeField] private int _facilityID;
+    [SerializeField] private string _facilityID;
     [SerializeField] public EFacilityType _facilityType;
 
     [Header("외부 입구 정보")]
@@ -294,7 +294,7 @@ public class FacilityRuntime : MonoBehaviour
         Gold += addPrice;
     }
 
-    public int FacilityID => _facilityID;
+    public string FacilityID => _facilityID;
     public EFacilityType FacilityType => _facilityType;
 
     public Vector3Int EntranceRoadCell

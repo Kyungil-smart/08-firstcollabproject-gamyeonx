@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public class GuestSheetLoader : MonoBehaviour
 {
     [Header("Sheet")]
@@ -10,18 +9,18 @@ public class GuestSheetLoader : MonoBehaviour
     [SerializeField] private GuestDataDatabaseSO _guestDataDatabase;
 
     [Header("Sheet Row Settings")]
-    [Tooltip("데이터 시작 줄 인덱스. 예: 1이면 두 번째 줄부터 읽음")]
-    [SerializeField] private int _startRowIndex = 1;
+    [Tooltip("현재 시트는 실제 데이터가 5번째 줄부터 시작하므로 4 사용")]
+    [SerializeField] private int _startRowIndex = 4;
 
     private void Start()
     {
-        if(string.IsNullOrWhiteSpace(_guestSheet.Url))
+        if (string.IsNullOrWhiteSpace(_guestSheet.Url))
         {
             Debug.LogError("[GuestSheetLoader] GuestSheet Url is missing.");
             return;
         }
 
-        if(_guestDataDatabase == null)
+        if (_guestDataDatabase == null)
         {
             Debug.LogError("[GuestSheetLoader] GuestDataDatabase is missing.");
             return;
@@ -32,28 +31,29 @@ public class GuestSheetLoader : MonoBehaviour
 
     public void SetGuestDatas(char splitSymbol, string[] lines)
     {
-        if(lines == null || lines.Length == 0)
+        if (lines == null || lines.Length == 0)
         {
             return;
         }
 
         _guestDataDatabase.Clear();
 
-        for(int i = _startRowIndex; i < lines.Length; i++)
+        for (int i = _startRowIndex; i < lines.Length; i++)
         {
-            if(string.IsNullOrWhiteSpace(lines[i]))
+            if (string.IsNullOrWhiteSpace(lines[i]))
             {
                 continue;
             }
 
             string[] cols = lines[i].Split(splitSymbol);
 
-            if(cols.Length < 4)
+            if (cols.Length < 14)
             {
+                Debug.LogWarning($"[GuestSheetLoader] 컬럼 수 부족 | RowIndex={i}, Cols={cols.Length}");
                 continue;
             }
 
-            for(int j = 0; j < cols.Length; j++)
+            for (int j = 0; j < cols.Length; j++)
             {
                 cols[j] = cols[j].Trim();
             }
@@ -62,8 +62,6 @@ public class GuestSheetLoader : MonoBehaviour
             row.SetData(cols);
 
             _guestDataDatabase.AddRow(row);
-
         }
-
     }
 }
