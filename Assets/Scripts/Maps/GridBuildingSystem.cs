@@ -504,7 +504,8 @@ public class GridBuildingSystem : MonoBehaviour
         
         if (_temp.InBuildingData != null)
         {
-            _temp.InBuildingData.SetLevel(bData.currentLevel);
+            _temp.InBuildingData.SetLevelPrice(bData.currentLevel, bData.BuildingGold);
+            _temp.InBuildingData.SetCurrentUseCount(bData.CurrentUseCount);
         }
         _temp.Place();
     
