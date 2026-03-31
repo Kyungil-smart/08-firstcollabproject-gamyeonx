@@ -6,7 +6,8 @@ public enum BuildType
     Road,
     Building,
     TileBrush,
-    Furniture
+    CapacityFurniture,
+    ProfitableFurniture
 }
 
 public enum ETurnType

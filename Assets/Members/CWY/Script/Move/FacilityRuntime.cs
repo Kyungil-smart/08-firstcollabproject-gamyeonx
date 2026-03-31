@@ -294,6 +294,11 @@ public class FacilityRuntime : MonoBehaviour
         Gold += addPrice;
     }
 
+    public void DownGradePrice(int minPrice)
+    {
+        Gold -= minPrice;
+    }
+
     public int FacilityID => _facilityID;
     public EFacilityType FacilityType => _facilityType;
 

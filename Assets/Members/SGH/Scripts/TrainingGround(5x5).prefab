@@ -1141,16 +1141,13 @@ MonoBehaviour:
   _entranceRoadObject: {fileID: 1932289875626956231}
   _interiorEntryPoint: {fileID: 0}
   _waitPoint: {fileID: 0}
-  _usePoint: {fileID: 0}
+  _usePoints: []
+  _facilityExitPoint: {fileID: 0}
   _outsideExitPoint: {fileID: 2233161381431702980}
-  _entrancePoint: {fileID: 0}
-  _exitPoint: {fileID: 0}
-  _entranceWayPoints: []
-  _exitWayPoints: []
   _canUseImmediately: 1
   _supportsQueue: 1
   _inBuildingData: {fileID: 0}
-  Gold: 0
+  Gold: 70
 --- !u!1 &8711760362736447898
 GameObject:
   m_ObjectHideFlags: 0
