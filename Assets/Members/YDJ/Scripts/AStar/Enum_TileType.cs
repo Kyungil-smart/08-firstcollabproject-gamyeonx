@@ -3,5 +3,7 @@ public enum TileType
     Empty,
     Road,
     Building,
-    Tile
+    Tile,
+    CapacityFurniture,
+    ProfitableFurniture
 }

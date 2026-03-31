@@ -32,6 +32,7 @@ public class GridBuildingSystem : MonoBehaviour
     private bool _isPlacing = false; // 프리뷰 상태 체크
     [SerializeField] private BoundsInt _initialMapBounds;
     private InBuildingData _currentInBuildingData; // 내부건물 정보 저장용
+    private int _saveframeCount = -1;
     
     //세이브용
     public List<Building> BuildingList = new List<Building>();
@@ -109,7 +110,7 @@ public class GridBuildingSystem : MonoBehaviour
             if (shouldPlace && CanTakeArea(_temp.area))
             {
                 TakeArea(_temp.area);
-
+                
                 if (_temp.buildType == BuildType.TileBrush)
                 {
                     FollowBuilding();
@@ -167,6 +168,15 @@ public class GridBuildingSystem : MonoBehaviour
                         SetTileType(pos, TileType.Tile);
                     }
 
+                    if (obj.buildType == BuildType.CapacityFurniture)
+                    {
+                        _currentInBuildingData.RemoveCapacityFurniture();
+                    }
+                    else if (obj.buildType == BuildType.ProfitableFurniture)
+                    {
+                        _currentInBuildingData.RemoveProfitableFurniture();
+                    }
+                    
                     MainTilemap.RefreshAllTiles();
                     obj.DestroyBuilding();
                     break;
@@ -192,6 +202,31 @@ public class GridBuildingSystem : MonoBehaviour
         MapManager.Instance.InstantiateInBuilding(_temp, index);
         _isPlacing = true;
         FollowBuilding();
+    }
+    public void InitializeBuilding(GameObject building) // 수용성 가구용
+    {
+        if (_isPlacing) return;
+
+        Building buildingType = building.GetComponent<Building>(); 
+        
+        // BuildType이 수용성 가구고 개수가 3을 넘으면 버튼이 동작 안 함
+        if (buildingType.buildType == BuildType.CapacityFurniture)
+        {
+            if (_currentInBuildingData.currentCapacityFurnitureCount >= 3)
+            {
+                Debug.Log("더 이상 설치 불가!");
+                return; 
+            }
+        }
+
+        int index = BuildingIndex(building);
+
+        _temp = Instantiate(building, Vector3.zero, Quaternion.identity).GetComponent<Building>();
+        BuildingList.Add(_temp);
+        MapManager.Instance.InstantiateInBuilding(_temp, index);
+        _isPlacing = true;
+        FollowBuilding();
+        
     }
 
     // Green/Red 표시
@@ -237,16 +272,16 @@ public class GridBuildingSystem : MonoBehaviour
             {
                 if (MainTilemap.GetTile(pos) != null) return false;
             }
-
+    
             return true;
         }
-
+    
         foreach (var pos in area.allPositionsWithin)
         {
             if (occupied.Contains(pos)) return false;
             if (MainTilemap.GetTile(pos) != _tileBases[ETileType.White]) return false;
         }
-
+    
         return true;
     }
 
@@ -268,18 +303,32 @@ public class GridBuildingSystem : MonoBehaviour
                     SetTileType(pos, TileType.Road);
                 else if (_temp.buildType == BuildType.Building)
                     SetTileType(pos, TileType.Building);
-                /*else if (_temp.buildType == BuildType.Object) // 스텟상승 오브젝트
+                else if (_temp.buildType == BuildType.ProfitableFurniture)
                 {
-                    SetTileType(pos, TileType.Building);
-                    ApplyStatToInBuilding(); // 스텟상승 로직
-                }*/
+                    if (_saveframeCount != Time.frameCount)
+                    {
+                        SetTileType(pos, TileType.ProfitableFurniture);
+                        _currentInBuildingData.TryAssignProfitableFurniture();
+                        _saveframeCount = Time.frameCount;
+                    }
+                }
+                else if (_temp.buildType == BuildType.CapacityFurniture) // 수용성 가구 오브젝트
+                {
+                    if (_saveframeCount != Time.frameCount) //TakeArea가 한 프레임 내에 두번 호출돼서 한 번만 하게끔
+                    {
+                        if (_currentInBuildingData.TryAssignCapacityFurniture()) 
+                            SetTileType(pos, TileType.CapacityFurniture);
+                        
+                        _saveframeCount = Time.frameCount;
+                    }
+                }
             }
         }
-
+    
         TempTilemap.ClearAllTiles();
         MainTilemap.RefreshAllTiles();
     }
-
+    
     // 오브젝트 재배치용 메서드
     public void ReleaseArea(BoundsInt area)
     {
@@ -407,12 +456,6 @@ public class GridBuildingSystem : MonoBehaviour
     public void SetCurrentInBuilding(InBuildingData data)
     {
         _currentInBuildingData = data;
-    }
-
-    private void ApplyStatToInBuilding()
-    {
-        // 건물 스텟 상승 로직
-        // _currentInBuildingData.stat++;
     }
     
     // ----------- 세이브 관련 -----------

@@ -50,6 +50,11 @@ public class InBuildingData : MonoBehaviour
     private List<Transform> _usePivotsTransformsList = new List<Transform>(); // 시설 이용 가능한 공간들에 대한 Transform 값들을 넣어놓은 List
     public event Action<List<Transform>> OnUsePivotsChanged; // 시설 이용 가능 공간이 바뀔 때마다 호출될 델리게이트
 
+    [Header("수용형 가구 개수 최대치")] 
+    [SerializeField] private int _maxCapacityFurnitureCount = 3;
+    [SerializeField] private int _currentCapacityFurnitureCount = 0;
+    public int currentCapacityFurnitureCount => _currentCapacityFurnitureCount;
+
     private void Awake()
     {
         _canvas.gameObject.SetActive(false);
@@ -113,7 +118,6 @@ public class InBuildingData : MonoBehaviour
         OnUsePivotsChanged?.Invoke(GetUsePivots());
     }
     
-    
     // 현재 시설 이용 가능 공간들의 Transform 값들을 반환해주는 메서드
     public List<Transform> GetUsePivots()
     {
@@ -125,6 +129,41 @@ public class InBuildingData : MonoBehaviour
         }
     
         return _usePivotsTransformsList;
+    }
+
+    // 수용성 가구의 현재 개수를 늘리고 _maxCapacityFurnitureCount를 초과하면 false, 이하면 true 반환하는 메서드
+    public bool TryAssignCapacityFurniture()
+    {
+        if (_currentCapacityFurnitureCount >= _maxCapacityFurnitureCount)
+        {
+            _currentCapacityFurnitureCount = _maxCapacityFurnitureCount;
+            return false;
+        }
+        
+        _currentCapacityFurnitureCount++;
+        IncreaseUsePivots();
+        Debug.Log($"수용형 가구 설치 개수 : {_currentCapacityFurnitureCount}");
+        return true;
+    }
+
+    // 수용성 가구의 현재 개수를 줄이는 메서드
+    public void RemoveCapacityFurniture()
+    {
+        _currentCapacityFurnitureCount--;
+        if (_currentCapacityFurnitureCount <= 0) _currentCapacityFurnitureCount = 0;
+        
+        DecreaseUsePivots();
+        Debug.Log($"수용형 가구 설치 개수 : {_currentCapacityFurnitureCount}");
+    }
+
+    public void TryAssignProfitableFurniture()
+    {
+        _facilityRuntime.UpgradePrice(30);
+    }
+
+    public void RemoveProfitableFurniture()
+    {
+        _facilityRuntime.DownGradePrice(30);
     }
     
 
