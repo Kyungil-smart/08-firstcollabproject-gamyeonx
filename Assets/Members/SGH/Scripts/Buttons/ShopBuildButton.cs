@@ -1,26 +1,26 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RestaurantBuildButton : MonoBehaviour
+public class ShopBuildButton : MonoBehaviour
 {
-    [SerializeField] private GameObject _uiRestaurantPanel;
+    [SerializeField] private GameObject _uiShopBuildPanel;
     [SerializeField] private GameObject _topUI;
     [SerializeField] private EFacilityType _buttonType;
 
-    private Button _restaurantbuildButton;
+    private Button _shopButton;
 
     private void Awake()
     {
-        _restaurantbuildButton = GetComponent<Button>();
+        _shopButton = GetComponent<Button>();
 
-        if (_restaurantbuildButton != null) _restaurantbuildButton.onClick.AddListener(OnClickSetRestaurantBuildPanel);
+        if (_shopButton != null) _shopButton.onClick.AddListener(OnClickSetRestaurantBuildPanel);
     }
 
     public void OnClickSetRestaurantBuildPanel()
     {
         //UIManager.Instance.IsStop = !UIManager.Instance.IsStop;
         //Time.timeScale = UIManager.Instance.IsStop ? 0f : 1f;
-        _uiRestaurantPanel.SetActive(true);
+        _uiShopBuildPanel.SetActive(true);
         _topUI.SetActive(false);
         gameObject.SetActive(false);
     }
@@ -32,6 +32,6 @@ public class RestaurantBuildButton : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (_restaurantbuildButton != null) _restaurantbuildButton.onClick.RemoveListener(OnClickSetRestaurantBuildPanel);
+        if (_shopButton != null) _shopButton.onClick.RemoveListener(OnClickSetRestaurantBuildPanel);
     }
 }

@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: bd7565f7459c5b84881840b36704fc2c, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 5086423950185988184
   m_TableData:
   - m_Id: 252764733440
     m_Localized: New Game
@@ -82,6 +83,87 @@ MonoBehaviour:
     m_Localized: Building
     m_Metadata:
       m_Items: []
+  - m_Id: 602119983054848
+    m_Localized: Start a New Game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603212259508224
+    m_Localized: Save File
+    m_Metadata:
+      m_Items: []
+  - m_Id: 604172792872960
+    m_Localized: Quit Game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 604555204345856
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 605484137824256
+    m_Localized: Master Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 605838908833792
+    m_Localized: Sound Effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 612697363431424
+    m_Localized: Return
+    m_Metadata:
+      m_Items: []
+  - m_Id: 612980336345088
+    m_Localized: Restaurant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613090533294080
+    m_Localized: Guild
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613178374602752
+    m_Localized: Hot Spring
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613281864859648
+    m_Localized: Shop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613369576144896
+    m_Localized: Training Ground
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613672656551936
+    m_Localized: Vending Machine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 617261651181568
+    m_Localized: '{0}s'
+    m_Metadata:
+      m_Items:
+      - rid: 5086423950185988184
+  - m_Id: 619016124350464
+    m_Localized: '{0}wk'
+    m_Metadata:
+      m_Items:
+      - rid: 5086423950185988184
+  - m_Id: 619018020175872
+    m_Localized: '{0}mo'
+    m_Metadata:
+      m_Items:
+      - rid: 5086423950185988184
+  - m_Id: 619020557729792
+    m_Localized: '{0}yr'
+    m_Metadata:
+      m_Items:
+      - rid: 5086423950185988184
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 5086423950185988184
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 617261651181568
+        - id: 619016124350464
+        - id: 619018020175872
+        - id: 619020557729792

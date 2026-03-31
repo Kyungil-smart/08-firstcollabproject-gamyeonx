@@ -34,6 +34,9 @@ public class Building : MonoBehaviour
     public Transform pivot; // 회전용 피벗
     public int rotateCount = 0; // 회전 횟수 카운트
 
+    [Header("해당 건물과 건축버튼 매칭용")]
+    [SerializeField] private EFacilityType _facilityType;
+
     private void Awake()
     {
         _canvas = GetComponentInChildren<Canvas>(true);
@@ -65,6 +68,10 @@ public class Building : MonoBehaviour
         );
         
         _canvas?.gameObject.SetActive(false);
+
+        UIManager.Instance._buildButton.SetActive(false);
+        UIManager.Instance.SetFurnitureButtonActive(_facilityType, true);
+
         InBuildingData.BuildingEntered();
         // _cameraController.SetInputLock(false);
     }
