@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -12,21 +13,25 @@ public class GameTime : MonoBehaviour
     [SerializeField] private Image _nightImage;
     [SerializeField] private GameObject _nightImageObject;
 
-    private float _userTime;
+    public float _userTime;
     private float _userTimeUnit = 180f;
     private float _nightTime = 120f;
-    private int _userWeek;
-    private int _userWeekUnit = 4;
-    private int _userMonth;
-    private int _userMonthUnit = 12;
-    private int _userYear;
+    public int _userWeek;
 
     private void Awake()
     {
         _nightImageObject.SetActive(false);
+        if (SaveManager.Instance.LoadMap == true)
+        {
+            _userWeek = SaveManager.Instance.data.UserWeek;
+        }
+    }
+
+    private void Start()
+    {
         _week.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Week", new object[] { _userWeek });
-        _month.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Month", new object[] { _userMonth });
-        _year.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Year", new object[] { _userYear });
+        /*_month.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Month", new object[] { _userMonth });
+        _year.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Year", new object[] { _userYear });*/
         _time.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Second", new object[] { (int)_userTime });
     }
 
@@ -34,6 +39,7 @@ public class GameTime : MonoBehaviour
     {
         _userTime += Time.deltaTime;
         _time.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Second", new object[] { (int)_userTime });
+        _week.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Week", new object[] { _userWeek });
 
         if (_userTime >= _nightTime && _userTime < _userTimeUnit && !_nightImageObject.activeSelf)
         {
@@ -44,9 +50,9 @@ public class GameTime : MonoBehaviour
             _userTime -= _userTimeUnit;
             _nightImageObject.SetActive(false);
             _userWeek++;
-            _week.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Week", new object[] { _userWeek });
+            SaveManager.Instance.Save();
         }
-        if (_userWeek >= _userWeekUnit)
+        /*if (_userWeek >= _userWeekUnit)
         {
             _userWeek = 0;
             _week.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Week", new object[] { _userWeek });
@@ -59,6 +65,6 @@ public class GameTime : MonoBehaviour
             _month.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Month", new object[] { _userMonth });
             _userYear++;
             _year.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Year", new object[] { _userYear });
-        }
+        }*/
     }
 }

@@ -8,6 +8,7 @@ public class SaveManager : MonoBehaviour
     public static SaveManager Instance { get; private set; }
     private string _savePath;
     public bool LoadMap = false;
+    public SaveData data = new SaveData();
     
     private void Awake()
     {
@@ -35,20 +36,44 @@ public class SaveManager : MonoBehaviour
             return;
         }
         
-        SaveData data = new SaveData();
+        data.Buildings.Clear(); 
+        data.OccupiedPositionList.Clear();
+        data.TileTypes.Clear();
+        
         data.MapLevel = MapManager.Instance.MapLevel;
+        if (UIManager.Instance != null)
+        {
+            if (UIManager.Instance._gameTime != null)
+            {
+                data.UserWeek = UIManager.Instance._gameTime._userWeek;
+            }
+    
+            if (UIManager.Instance._goldTest != null)
+                data.Gold = UIManager.Instance._goldTest.TestGoldValue;
+        }
         // 건물 정보 저장
         foreach (Building b in GridBuildingSystem.Instance.BuildingList)
         {
             if (b == null || b.gameObject == null || !b.Placed) continue;
             
-            int level = (b.InBuildingData != null) ? b.InBuildingData.currentLevel : 1;
+            int level = 1;
+            int useCount = 4;
+            int gold = 100;
+            
+            if (b.InBuildingData != null)
+            {
+                level = b.InBuildingData.currentLevel;
+                useCount = b.InBuildingData._currentUseCount;
+                gold = b.InBuildingData.FacilityRuntime.GetPrice();
+            }
             
             BuildingSaveData bData = new BuildingSaveData {
                 prefabName = b.name.Replace("(Clone)", "").Trim(), // 프리펩 이름 저장
                 position = GridBuildingSystem.Instance.gridLayout.WorldToCell(b.transform.position),
                 rotateCount = b.rotateCount,
-                currentLevel = level
+                currentLevel = level,
+                CurrentUseCount = useCount,
+                BuildingGold = gold
                 // currentStat = b.InBuildingData.stat; // 필요시 스탯 추가
             };
             data.Buildings.Add(bData);
@@ -73,10 +98,12 @@ public class SaveManager : MonoBehaviour
         if (!HasSave()) { Debug.LogWarning("세이브 파일 없음"); return; }
 
         string json = File.ReadAllText(_savePath);
-        SaveData data = JsonUtility.FromJson<SaveData>(json);
+        data = JsonUtility.FromJson<SaveData>(json);
         
         GridBuildingSystem.Instance.MainTilemap.ClearAllTiles();
         MapManager.Instance.MapLevel = data.MapLevel;
+        UIManager.Instance._gameTime._userWeek = data.UserWeek;
+        UIManager.Instance._goldTest.TestGoldValue = data.Gold;
         // 타일 생성
         for (int i = 0; i < data.OccupiedPositionList.Count; i++)
         {

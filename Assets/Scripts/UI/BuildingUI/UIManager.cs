@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<FurnitureButtonData> _furnitureButtons;
     [Header("메인 건축 버튼")]
     public GameObject _buildButton;
+    
+    public GoldTest _goldTest;
+    public GameTime _gameTime;
 
     [System.Serializable]
     public class FurnitureButtonData
@@ -28,6 +32,9 @@ public class UIManager : MonoBehaviour
         }
 
         Instance = this;
+        
+        _goldTest = GetComponent<GoldTest>();
+        _gameTime = GetComponent<GameTime>();
         //DontDestroyOnLoad(gameObject);
     }
 

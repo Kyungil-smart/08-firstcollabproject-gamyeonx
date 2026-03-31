@@ -1043,7 +1043,7 @@ MonoBehaviour:
   - {fileID: 2076764520801419139}
   - {fileID: 3576051936685183863}
   _defaultUseCount: 4
-  _currentUseCount: 0
+  _currentUseCount: 7
 --- !u!1 &1453535042621394279
 GameObject:
   m_ObjectHideFlags: 0
