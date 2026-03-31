@@ -730,6 +730,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   IsStop: 0
+  _furnitureButtons: []
+  _buildButton: {fileID: 0}
 --- !u!4 &138611612
 Transform:
   m_ObjectHideFlags: 0
@@ -2146,7 +2148,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00084976404}
+  m_AnchoredPosition: {x: 0, y: 0.000022597214}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &731388506
@@ -2476,7 +2478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FacilityEffectSheetLoader
   _facilityEffectSheet:
-    <Url>k__BackingField: https://docs.google.com/spreadsheets/d/1ByxtSw7v6yXk_lYdS2W-TCxm_iobp9_cBTDuRWJXAEQ/edit?gid=0#gid=0
+    <Url>k__BackingField: https://docs.google.com/spreadsheets/d/1ijOdx4y-vqEtAsDmcALPQDnj-C5u9D9VVf51mdpghQM/edit?gid=0#gid=0
     <Type>k__BackingField: 1
   _facilityEffectDatabase: {fileID: 11400000, guid: ee5c3ee1d12a12c4198c3921e997fe65, type: 2}
   _startRowIndex: 1
@@ -7263,11 +7265,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GuestSpawner
   _guestPrefab: {fileID: 2019687305}
   _gameTime: {fileID: 138611613}
+  _guestDataDatabase: {fileID: 11400000, guid: 7b5cf6e9bd03e804784cf540a011d949, type: 2}
   _spawnOpenDuration: 60
   _spawnCountPerCycle: 0a000000140000001e0000002800000032000000
-  _useRandomVisitorID: 1
+  _useFixedVisitorIDForTest: 0
   _fixedVisitorID: 1
-  _randomVisitorIDPool: 01000000020000000300000004000000
   _enableDebugLog: 1
 --- !u!61 &1625377173
 BoxCollider2D:
@@ -7883,7 +7885,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 89115028}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999326
+  m_Size: 0.9996459
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8935,7 +8937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GuestSheetLoader
   _guestSheet:
-    <Url>k__BackingField: https://docs.google.com/spreadsheets/d/1ubugzNF1bHLuZ4EXC83WiNeEPzG9YSsGbY0AaIT-aE8/edit?gid=0#gid=0
+    <Url>k__BackingField: https://docs.google.com/spreadsheets/d/1mj8MCJqUghPZ0P4GFtFlct7DTHhVqmGGqdeX0hIFfV0/edit?gid=0#gid=0
     <Type>k__BackingField: 1
   _guestDataDatabase: {fileID: 11400000, guid: 7b5cf6e9bd03e804784cf540a011d949, type: 2}
   _startRowIndex: 1
@@ -9849,6 +9851,13 @@ MonoBehaviour:
   gridLayout: {fileID: 2123098989}
   MainTilemap: {fileID: 1277836837}
   TempTilemap: {fileID: 731388507}
+  _initialMapBounds:
+    m_Position: {x: 0, y: 0, z: 0}
+    m_Size: {x: 0, y: 0, z: 0}
+  BuildingList:
+  - {fileID: 0}
+  OccupiedPositionList: []
+  TileTypes: 
 --- !u!156049354 &2123098989
 Grid:
   m_ObjectHideFlags: 0

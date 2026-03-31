@@ -13,10 +13,535 @@ MonoBehaviour:
   m_Name: FacilityEffectDatabase
   m_EditorClassIdentifier: Assembly-CSharp::FacilityEffectDatabaseSO
   _effectRowList:
-  - _facilityID: 0
-    _eFacilityType: 0
-    _hungerEffect: 0
-    _thirstEffect: 0
-    _fatigueEffect: 0
-    _cleanEffect: 0
-    _satisfactionEffect: 0
+  - _facilityID: "\uC2DC\uC124 ID"
+    _facilityType: 0
+    _facilityNameKo: "\uC2DC\uC124 \uD55C\uAE00\uBA85"
+    _facilityNameEn: "\uC2DC\uC124 \uC601\uBB38\uBA85"
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: facility_id
+    _facilityType: 0
+    _facilityNameKo: facility_name_ko
+    _facilityNameEn: facility_name_en
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: string
+    _facilityType: 0
+    _facilityNameKo: string
+    _facilityNameEn: string
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: FAC_RESTAURANT_01
+    _facilityType: 3
+    _facilityNameKo: "\uC2DD\uB2F9"
+    _facilityNameEn: Restaurant
+    _buildCost: 4000
+    _upgradeCost: 6000
+    _unlockRevenue: 6000
+    _refundAmount: 2000
+    _usageFee: 100
+    _fatigueEffectPerTick: 1
+    _thirstEffectPerTick: 2
+    _hungerEffectPerTick: -10
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: FAC_RESTAURANT_02
+    _facilityType: 3
+    _facilityNameKo: "\uACE0\uAE09 \uC2DD\uB2F9"
+    _facilityNameEn: Fine Restaurant
+    _buildCost: 10000
+    _upgradeCost: 0
+    _unlockRevenue: 6000
+    _refundAmount: 5000
+    _usageFee: 150
+    _fatigueEffectPerTick: 2
+    _thirstEffectPerTick: 4
+    _hungerEffectPerTick: -15
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: FAC_VENDINGMACHINE_01
+    _facilityType: 4
+    _facilityNameKo: "\uC74C\uB8CC \uC790\uD310\uAE30"
+    _facilityNameEn: Vending Machine I
+    _buildCost: 2000
+    _upgradeCost: 2000
+    _unlockRevenue: 2000
+    _refundAmount: 1000
+    _usageFee: 50
+    _fatigueEffectPerTick: 1
+    _thirstEffectPerTick: -20
+    _hungerEffectPerTick: 2
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: FAC_VENDINGMACHINE_02
+    _facilityType: 4
+    _facilityNameKo: "\uACE0\uAE09 \uC74C\uB8CC \uC790\uD310\uAE30"
+    _facilityNameEn: Vending Machine II
+    _buildCost: 4000
+    _upgradeCost: 0
+    _unlockRevenue: 2000
+    _refundAmount: 2000
+    _usageFee: 80
+    _fatigueEffectPerTick: 2
+    _thirstEffectPerTick: -30
+    _hungerEffectPerTick: 4
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: FAC_ONSEN_01
+    _facilityType: 0
+    _facilityNameKo: "\uC628\uCC9C"
+    _facilityNameEn: Onsen
+    _buildCost: 4000
+    _upgradeCost: 6000
+    _unlockRevenue: 0
+    _refundAmount: 2000
+    _usageFee: 150
+    _fatigueEffectPerTick: -10
+    _thirstEffectPerTick: 2
+    _hungerEffectPerTick: 1
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: FAC_ONSEN_02
+    _facilityType: 0
+    _facilityNameKo: "\uACE0\uAE09 \uC628\uCC9C"
+    _facilityNameEn: Premium Onsen
+    _buildCost: 10000
+    _upgradeCost: 0
+    _unlockRevenue: 6000
+    _refundAmount: 5000
+    _usageFee: 220
+    _fatigueEffectPerTick: -15
+    _thirstEffectPerTick: 4
+    _hungerEffectPerTick: 2
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: FAC_SHOP_01
+    _facilityType: 5
+    _facilityNameKo: "\uC0C1\uC810"
+    _facilityNameEn: Shop
+    _buildCost: 8000
+    _upgradeCost: 12000
+    _unlockRevenue: 14000
+    _refundAmount: 4000
+    _usageFee: 200
+    _fatigueEffectPerTick: 2
+    _thirstEffectPerTick: 1
+    _hungerEffectPerTick: 1
+    _shopEffectPerTick: -10
+    _trainingEffectPerTick: 0
+  - _facilityID: FAC_SHOP_02
+    _facilityType: 5
+    _facilityNameKo: "\uACE0\uAE09 \uC0C1\uC810"
+    _facilityNameEn: Premium Shop
+    _buildCost: 20000
+    _upgradeCost: 0
+    _unlockRevenue: 14000
+    _refundAmount: 10000
+    _usageFee: 300
+    _fatigueEffectPerTick: 2
+    _thirstEffectPerTick: 1
+    _hungerEffectPerTick: 1
+    _shopEffectPerTick: -10
+    _trainingEffectPerTick: 0
+  - _facilityID: FAC_TRAININGGROUND_01
+    _facilityType: 6
+    _facilityNameKo: "\uD6C8\uB828\uC7A5"
+    _facilityNameEn: Training Ground I
+    _buildCost: 6000
+    _upgradeCost: 9000
+    _unlockRevenue: 20000
+    _refundAmount: 3000
+    _usageFee: 300
+    _fatigueEffectPerTick: 8
+    _thirstEffectPerTick: 8
+    _hungerEffectPerTick: 8
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: -10
+  - _facilityID: FAC_TRAININGGROUND_02
+    _facilityType: 6
+    _facilityNameKo: "\uACE0\uAE09 \uD6C8\uB828\uC7A5"
+    _facilityNameEn: Training Ground II
+    _buildCost: 15000
+    _upgradeCost: 0
+    _unlockRevenue: 20000
+    _refundAmount: 7500
+    _usageFee: 450
+    _fatigueEffectPerTick: 16
+    _thirstEffectPerTick: 16
+    _hungerEffectPerTick: 16
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: -20
+  - _facilityID: FAC_GUILD_01
+    _facilityType: 1
+    _facilityNameKo: "\uAE38\uB4DC"
+    _facilityNameEn: Guild
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: FAC_ROAD_01
+    _facilityType: 7
+    _facilityNameKo: "\uAE38"
+    _facilityNameEn: Road
+    _buildCost: 50
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 25
+    _usageFee: 0
+    _fatigueEffectPerTick: 2
+    _thirstEffectPerTick: 1
+    _hungerEffectPerTick: 1
+    _shopEffectPerTick: 1
+    _trainingEffectPerTick: 1
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
+  - _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _refundAmount: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0

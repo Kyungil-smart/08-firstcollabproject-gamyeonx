@@ -10,19 +10,46 @@ public class GuestStates
     [SerializeField, Range(0, 100)] private int _thirst;
     [SerializeField, Range(0, 100)] private int _fatigue;
 
+    [Header("특수시설 사용 가능 여부")]
+    [SerializeField] private bool _canUseShop;
+    [SerializeField] private bool _canUseTraining;
+
+    [Header("특수시설 상태")]
+    [SerializeField, Range(0, 100)] private int _shopNeed;
+    [SerializeField, Range(0, 100)] private int _trainingNeed;
+
     public int VisitorID => _visitorID;
     public int Hunger => _hunger;
     public int Thirst => _thirst;
     public int Fatigue => _fatigue;
+    public bool CanUseShop => _canUseShop;
+    public bool CanUseTraining => _canUseTraining;
+    public int ShopNeed => _shopNeed;
+    public int TrainingNeed => _trainingNeed;
 
     public event Action OnStatesChanged;
 
-    public void Initialize(int visitorID, int hunger, int thirst, int fatigue)
+    public void Initialize(
+        int visitorID, 
+        int hunger, 
+        int thirst,
+        int fatigue, 
+        bool canUseShop, 
+        int shopNeed,
+        bool canUseTraining, 
+        int trainingNeed
+        )
     {
         _visitorID = visitorID;
         _hunger = ClampValue(hunger);
         _thirst = ClampValue(thirst);
         _fatigue = ClampValue(fatigue);
+
+        _canUseShop = canUseShop;
+        _shopNeed = canUseShop ? ClampValue(shopNeed) : 0;
+
+        _canUseTraining = canUseTraining;
+        _trainingNeed = canUseTraining ? ClampValue(trainingNeed) : 0;
 
         Debug.Log($"[GuestStates] 초기화 완료 | {GetDebugText()}");
         RaiseStatesChanged();
@@ -38,6 +65,10 @@ public class GuestStates
                 return _thirst;
             case EGuestNeedType.Fatigue:
                 return _fatigue;
+            case EGuestNeedType.Training:
+                return _canUseTraining ? _trainingNeed : 0;
+            case EGuestNeedType.Shop:
+                return _canUseShop ? _shopNeed : 0;
             default:
                 return 0;
         }
@@ -58,6 +89,18 @@ public class GuestStates
             case EGuestNeedType.Fatigue:
                 _fatigue = clampedValue;
                 break;
+            case EGuestNeedType.Training:
+                if (_canUseTraining)
+                {
+                    _trainingNeed = clampedValue;
+                }
+                break;
+            case EGuestNeedType.Shop:
+                if (_canUseShop)
+                {
+                    _shopNeed = clampedValue;
+                }
+                break;
             default:
                 Debug.Log($"[GuestStates] SetNeedValue 실패. 잘못된 needType={needType}");
                 return;
@@ -72,12 +115,36 @@ public class GuestStates
         _thirst = ClampValue(_thirst + 1);
         _fatigue = ClampValue(_fatigue + 1);
 
+        if(_canUseShop)
+        {
+            _shopNeed = ClampValue(_shopNeed + 1);
+        }
+
+        if(_canUseTraining)
+        {
+            _trainingNeed = ClampValue(_trainingNeed + 1);
+        }
+
         RaiseStatesChanged();
     }
 
     public bool HasAnyNeedReachedMax()
     {
-        return _hunger >= 100 || _thirst >= 100 || _fatigue >= 100;
+        if(_hunger >= 100 || _thirst >= 100 || _fatigue >= 100)
+        {
+            return true;
+        }
+
+        if (_canUseShop && _shopNeed >= 100)
+        {
+            return true;
+        }
+
+        if (_canUseTraining && _trainingNeed >= 100)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void ApplyFacilityEffect(FacilityEffectRow effectRow)
@@ -90,6 +157,15 @@ public class GuestStates
         _hunger = ClampValue(_hunger + effectRow.HungerEffectPerTick);
         _thirst = ClampValue(_thirst + effectRow.ThirstEffectPerTick);
         _fatigue = ClampValue(_fatigue + effectRow.FatigueEffectPerTick);
+
+        if(_canUseShop)
+        {
+            _shopNeed = ClampValue(_shopNeed + effectRow.ShopEffectPerTick);
+        }
+        if(_canUseTraining)
+        {
+            _trainingNeed = ClampValue(_trainingNeed + effectRow.ThirstEffectPerTick);
+        }
 
         RaiseStatesChanged();
     }

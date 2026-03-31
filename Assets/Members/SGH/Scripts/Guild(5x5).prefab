@@ -420,6 +420,7 @@ MonoBehaviour:
   turnType: 0
   pivot: {fileID: 0}
   rotateCount: 0
+  _facilityType: 0
 --- !u!61 &6098650717847420250
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1077,6 +1078,7 @@ MonoBehaviour:
   turnType: 0
   pivot: {fileID: 1254885943345794470}
   rotateCount: 0
+  _facilityType: 0
 --- !u!61 &4515432953137878291
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1140,11 +1142,13 @@ MonoBehaviour:
   _entranceRoadObject: {fileID: 1932289875626956231}
   _interiorEntryPoint: {fileID: 0}
   _waitPoint: {fileID: 0}
-  _usePoint: {fileID: 0}
+  _usePoints: []
+  _facilityExitPoint: {fileID: 0}
   _outsideExitPoint: {fileID: 2233161381431702980}
   _canUseImmediately: 1
   _supportsQueue: 1
   _inBuildingData: {fileID: 0}
+  Gold: 0
 --- !u!1 &8711760362736447898
 GameObject:
   m_ObjectHideFlags: 0
@@ -1290,6 +1294,7 @@ MonoBehaviour:
   turnType: 0
   pivot: {fileID: 0}
   rotateCount: 0
+  _facilityType: 0
 --- !u!61 &5342572930882078739
 BoxCollider2D:
   m_ObjectHideFlags: 0

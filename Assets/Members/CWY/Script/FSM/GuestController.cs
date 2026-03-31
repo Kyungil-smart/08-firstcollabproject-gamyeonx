@@ -38,8 +38,9 @@ public class GuestController : MonoBehaviour
     public float WanderEventCheckInterval => _wanderEventCheckInterval;
     public float UseEffectTickInterval => _useEffectTickInterval;
 
+    public EGuestNeedType CurrentNeedType { get; private set; } = EGuestNeedType.None;
     public EFacilityType CurrentTargetFacilityType { get; private set; } = EFacilityType.None;
-    public int CurrentTargetFacilityID { get; private set; } = -1;
+    public string CurrentTargetFacilityID { get; private set; } = string.Empty;
 
     public bool HasArrivedAtFacility { get; private set; }
     public bool CanUseFacility { get; private set; }
@@ -141,6 +142,7 @@ public class GuestController : MonoBehaviour
     {
         if (_guestDataDatabase == null)
         {
+            Debug.LogWarning("[GuestController] GuestDataDatabase가 없습니다.");
             return;
         }
 
@@ -148,10 +150,20 @@ public class GuestController : MonoBehaviour
 
         if (row == null)
         {
+            Debug.LogWarning($"[GuestController] 손님 데이터가 없습니다. VisitorID={_visitorID}");
             return;
         }
 
-        _guestStates.Initialize(row.VisitorID, row.Hunger, row.Thirst, row.Fatigue);
+        _guestStates.Initialize(
+            row.VisitorID,
+            row.Hunger,
+            row.Thirst,
+            row.Fatigue,
+            row.UseShop,
+            row.ShopNeed,
+            row.UseTraining,
+            row.TrainingNeed
+        );
     }
 
     public void SetupSpawn(int visitorID)
@@ -161,6 +173,11 @@ public class GuestController : MonoBehaviour
 
         HasEnteredGuild = false;
         IsExitFlowRunning = false;
+        IsTurnEnding = false;
+        FacilityUseCount = 0;
+        CurrentExitChancePercent = 0f;
+
+        ClearCurrentFacilityContext();
 
         if (EntryFlowHandler == null)
         {
@@ -200,25 +217,31 @@ public class GuestController : MonoBehaviour
 
     public void EvaluateCurrentNeed()
     {
-        CurrentTargetFacilityType = _utilityEvaluator.EvaluateTargetFacilityType(_guestStates);
+        CurrentNeedType = _utilityEvaluator.EvaluateHighestNeed(_guestStates);
+        CurrentTargetFacilityType = _utilityEvaluator.EvaluateTargetFacilityType(CurrentNeedType);
+
+        Log($"[GuestController] Need 평가 완료 | Need={CurrentNeedType}, FacilityType={CurrentTargetFacilityType}");
     }
 
     public bool TryFindTargetFacility()
     {
         if (_facilityEffectDatabase == null)
         {
+            Debug.LogWarning("[GuestController] FacilityEffectDatabase가 없습니다.");
             return false;
         }
 
         if (CurrentTargetFacilityType == EFacilityType.None)
         {
+            Debug.LogWarning("[GuestController] 목표 시설 타입이 None입니다.");
             return false;
         }
 
-        FacilityEffectRow targetRow = _facilityEffectDatabase.GetFirstSelectableEffectByType(CurrentTargetFacilityType);
+        FacilityEffectRow targetRow = _facilityEffectDatabase.GetFirstMatchingEffectByType(CurrentTargetFacilityType);
 
         if (targetRow == null)
         {
+            Log($"[GuestController] 목표 시설 데이터 없음 | FacilityType={CurrentTargetFacilityType}");
             return false;
         }
 
@@ -226,21 +249,28 @@ public class GuestController : MonoBehaviour
         return true;
     }
 
-    public void SetCurrentTargetFacility(int facilityID, EFacilityType facilityType)
+    public void SetCurrentTargetFacility(string facilityID, EFacilityType facilityType)
     {
         CurrentTargetFacilityID = facilityID;
         CurrentTargetFacilityType = facilityType;
+
         CurrentFacilityRuntime = FacilityRegistry.Instance != null
             ? FacilityRegistry.Instance.GetFacility(facilityID)
             : null;
+
+        if (CurrentFacilityRuntime == null)
+        {
+            Log($"[GuestController] FacilityRuntime을 찾지 못했습니다. FacilityID={facilityID}");
+        }
 
         ResetMovementAndFacilityFlags();
     }
 
     public void ClearCurrentFacilityContext()
     {
-        CurrentTargetFacilityID = -1;
+        CurrentTargetFacilityID = string.Empty;
         CurrentTargetFacilityType = EFacilityType.None;
+        CurrentNeedType = EGuestNeedType.None;
         CurrentFacilityRuntime = null;
         AssignedUsePoint = null;
 
@@ -288,6 +318,7 @@ public class GuestController : MonoBehaviour
     public void ApplyWanderNeedTick()
     {
         _guestStates.IncreaseAllNeedsByWanderTick();
+        Log($"[GuestController] 배회 Need 증가 | {_guestStates.GetDebugText()}");
     }
 
     public bool ShouldStartFacilitySearchNow()
@@ -319,7 +350,7 @@ public class GuestController : MonoBehaviour
 
         if (triggered)
         {
-            Debug.Log($"[GuestController] 일반 퇴장 이벤트 발생 | ExitChance={CurrentExitChancePercent}%");
+            Log($"[GuestController] 일반 퇴장 이벤트 발생 | ExitChance={CurrentExitChancePercent}%");
         }
 
         return triggered;
@@ -329,6 +360,13 @@ public class GuestController : MonoBehaviour
     {
         if (_facilityEffectDatabase == null)
         {
+            Debug.LogWarning("[GuestController] FacilityEffectDatabase가 없습니다.");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(CurrentTargetFacilityID))
+        {
+            Debug.LogWarning("[GuestController] CurrentTargetFacilityID가 비어 있습니다.");
             return;
         }
 
@@ -336,10 +374,12 @@ public class GuestController : MonoBehaviour
 
         if (row == null)
         {
+            Debug.LogWarning($"[GuestController] 시설 효과 데이터를 찾지 못했습니다. FacilityID={CurrentTargetFacilityID}");
             return;
         }
 
         _guestStates.ApplyFacilityEffect(row);
+        Log($"[GuestController] 시설 효과 적용 | FacilityID={CurrentTargetFacilityID}, {_guestStates.GetDebugText()}");
     }
 
     public bool IsCurrentFacilityGoalReached()
@@ -371,6 +411,8 @@ public class GuestController : MonoBehaviour
         FacilityUseCount++;
         CurrentExitChancePercent = FacilityUseCount * _exitChanceIncreasePerUse;
         HasFinishedFacilityUse = true;
+
+        Log($"[GuestController] 시설 이용 종료 | FacilityID={CurrentTargetFacilityID}, ClearedNeed={targetNeed}, UseCount={FacilityUseCount}, ExitChance={CurrentExitChancePercent}%");
     }
 
     public EGuestNeedType GetNeedTypeByFacilityType(EFacilityType facilityType)
@@ -383,6 +425,10 @@ public class GuestController : MonoBehaviour
                 return EGuestNeedType.Thirst;
             case EFacilityType.HotSpring:
                 return EGuestNeedType.Fatigue;
+            case EFacilityType.Shop:
+                return EGuestNeedType.Shop;
+            case EFacilityType.TrainingGround:
+                return EGuestNeedType.Training;
             default:
                 return EGuestNeedType.None;
         }
@@ -393,6 +439,7 @@ public class GuestController : MonoBehaviour
         if (CurrentFacilityRuntime == null)
         {
             SetMovementFailed(true);
+            Debug.LogWarning($"[GuestController] 이동 실패 | FacilityRuntime이 없습니다. FacilityID={CurrentTargetFacilityID}");
             return false;
         }
 
@@ -428,7 +475,7 @@ public class GuestController : MonoBehaviour
             return false;
         }
 
-        return true;
+        return requested;
     }
 
     public void EnterFacility(FacilityRuntime facility)
@@ -441,6 +488,7 @@ public class GuestController : MonoBehaviour
 
         if (facility.FacilityID != CurrentTargetFacilityID)
         {
+            Debug.LogWarning($"[GuestController] 다른 시설 진입 무시 | Current={CurrentTargetFacilityID}, Entered={facility.FacilityID}");
             return;
         }
 
@@ -569,10 +617,14 @@ public class GuestController : MonoBehaviour
             MovementAgent.TeleportTo(CurrentFacilityRuntime.OutsideExitPoint);
         }
 
-        if (HasFinishedFacilityUse && _goldTest != null && CurrentFacilityRuntime != null)
+        if (HasFinishedFacilityUse && _goldTest != null && !string.IsNullOrWhiteSpace(CurrentTargetFacilityID))
         {
-            int gold = CurrentFacilityRuntime.GetPrice();
+            int gold = _facilityEffectDatabase != null
+                ? _facilityEffectDatabase.GetUsageFeeByFacilityID(CurrentTargetFacilityID)
+                : 0;
+
             _goldTest.PayMoney(gold);
+            Log($"[GuestController] 골드 지급 완료 | FacilityID={CurrentTargetFacilityID}, Gold={gold}");
         }
 
         bool shouldExitToGuild = IsTurnEnding;
