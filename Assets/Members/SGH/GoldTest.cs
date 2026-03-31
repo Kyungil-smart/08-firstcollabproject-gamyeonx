@@ -6,8 +6,6 @@ public class GoldTest : MonoBehaviour
 {
     public int _testGold;
     [SerializeField] private TextMeshProUGUI _goldText;
-    
-    private HashSet<string> _triggeredEvents = new HashSet<string>();
 
     public int TestGoldValue
     {
@@ -17,10 +15,13 @@ public class GoldTest : MonoBehaviour
             _testGold = value;
             UpdateUI();
             
-            if (_testGold >= 10 && !_triggeredEvents.Contains("WEEK_10_EVENT"))
+            if (_testGold >= 10)
             {
-                dasfasdfEvent();
-                _triggeredEvents.Add("WEEK_10_EVENT");
+                string eventKey = "WEEK_10_EVENT";
+                
+                if(!UIManager.Instance._triggeredEvents.Contains("WEEK_10_EVENT"))
+                    UIManager.Instance._triggeredEvents.Add(eventKey); // 기록
+                EventManager.Instance.TriggerEvent(eventKey);    // 실행
             }
         }
     }
@@ -39,6 +40,4 @@ public class GoldTest : MonoBehaviour
     {
         _goldText.text = $"{_testGold}G";
     }
-    
-    private void dasfasdfEvent() { /*이벤트 로직*/ }
 }

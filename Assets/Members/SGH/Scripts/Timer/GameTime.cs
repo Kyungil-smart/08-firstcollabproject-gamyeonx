@@ -19,7 +19,6 @@ public class GameTime : MonoBehaviour
     private float _nightTime = 120f;
     public int _userWeek;
     
-    private HashSet<string> _triggeredEvents = new HashSet<string>();
 
     private void Awake()
     {
@@ -67,10 +66,13 @@ public class GameTime : MonoBehaviour
             _userWeek = value;
             UpdateWeekUI();
             
-            if (_userWeek >= 10 && !_triggeredEvents.Contains("WEEK_10_EVENT"))
+            if (_userWeek >= 10)
             {
-                dasfasdfEvent();
-                _triggeredEvents.Add("WEEK_10_EVENT");
+                string eventKey = "WEEK_10_EVENT";
+                
+                if(!UIManager.Instance._triggeredEvents.Contains("WEEK_10_EVENT"))
+                UIManager.Instance._triggeredEvents.Add(eventKey); // 기록
+                EventManager.Instance.TriggerEvent(eventKey);    // 실행
             }
         }
     }
@@ -130,6 +132,4 @@ public class GameTime : MonoBehaviour
     {
         _week.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Week", new object[] { _userWeek });
     }
-
-    private void dasfasdfEvent() { /*이벤트 로직*/ }
 }
