@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public enum ETileType
 {
@@ -29,8 +30,13 @@ public class GridBuildingSystem : MonoBehaviour
     private HashSet<Vector3Int> occupied = new HashSet<Vector3Int>(); // 점유된 타일 좌표
 
     private bool _isPlacing = false; // 프리뷰 상태 체크
-    private BoundsInt _initialMapBounds;
+    [SerializeField] private BoundsInt _initialMapBounds;
     private InBuildingData _currentInBuildingData; // 내부건물 정보 저장용
+    
+    //세이브용
+    public List<Building> BuildingList = new List<Building>();
+    public List<Vector3Int> OccupiedPositionList = new List<Vector3Int>();
+    public List<TileType> TileTypes = new List<TileType>();
 
     private void Awake()
     {
@@ -50,7 +56,14 @@ public class GridBuildingSystem : MonoBehaviour
         _tileBases.Add(ETileType.Green, Resources.Load<TileBase>("SGH_Test/green"));
         _tileBases.Add(ETileType.Red, Resources.Load<TileBase>("SGH_Test/red"));
         _initialMapBounds = MainTilemap.cellBounds;
-        InitTileTypes();
+
+        if (SaveManager.Instance.LoadMap == true)
+        {
+            SaveManager.Instance.Load();
+            SaveManager.Instance.LoadMapChange();
+            if(MapManager.Instance.MapLevel == 2) LevelUpCameraBounds();
+        }
+        else InitTileTypes();
     }
 
     private void Update()
@@ -113,6 +126,7 @@ public class GridBuildingSystem : MonoBehaviour
 
                     // 마우스 위치에 바로 생성
                     _temp = Instantiate(roadPrefab, spawnPos, Quaternion.identity).GetComponent<Building>();
+                    BuildingList.Add(_temp); // 세이브용
                     _isPlacing = true;
                     _prevPos = Vector3.zero;
                     FollowBuilding();
@@ -129,6 +143,7 @@ public class GridBuildingSystem : MonoBehaviour
         if (_temp != null && Input.GetKeyDown(KeyCode.Escape))
         {
             TempTilemap.ClearAllTiles();
+            BuildingList.Remove(_temp); // 세이브용
             _temp.DestroyBuilding();
             _isPlacing = false;
         }
@@ -143,11 +158,13 @@ public class GridBuildingSystem : MonoBehaviour
                 if (!obj.Placed) continue;
                 if (obj.area.Contains(cellPos))
                 {
+                    BuildingList.Remove(obj);
                     foreach (var pos in obj.area.allPositionsWithin)
                     {
                         occupied.Remove(pos);
+                        OccupiedPositionList.Remove(pos); // 세이브용
                         // 연동준이 고침  
-                        SetTileType(pos, TileType.Empty);
+                        SetTileType(pos, TileType.Tile);
                     }
 
                     MainTilemap.RefreshAllTiles();
@@ -171,6 +188,7 @@ public class GridBuildingSystem : MonoBehaviour
         int index = BuildingIndex(building);
 
         _temp = Instantiate(building, Vector3.zero, Quaternion.identity).GetComponent<Building>();
+        BuildingList.Add(_temp); // 세이브용
         MapManager.Instance.InstantiateInBuilding(_temp, index);
         _isPlacing = true;
         FollowBuilding();
@@ -241,7 +259,7 @@ public class GridBuildingSystem : MonoBehaviour
             {
                 // occupied에 추가 안 하고 white 타일만 설치
                 MainTilemap.SetTile(pos, _tileBases[ETileType.White]);
-                SetTileType(pos, TileType.Empty);
+                SetTileType(pos, TileType.Tile);
             }
             else
             {
@@ -268,7 +286,8 @@ public class GridBuildingSystem : MonoBehaviour
         foreach (var pos in area.allPositionsWithin)
         {
             occupied.Remove(pos);
-            SetTileType(pos, TileType.Empty);
+            OccupiedPositionList.Remove(pos); // 세이브용
+            SetTileType(pos, TileType.Tile);
         }
 
         TempTilemap.ClearAllTiles();
@@ -295,11 +314,16 @@ public class GridBuildingSystem : MonoBehaviour
     void InitTileTypes()
     {
         // 타일맵 전체 범위 가져오기
-        BoundsInt bounds = MainTilemap.cellBounds;
+        BoundsInt bounds = _initialMapBounds;
 
         // 맵 안의 모든 좌표 하나씩 꺼냄
         foreach (var pos in bounds.allPositionsWithin)
-            SetTileType(pos, TileType.Empty); // 전부 TileType.Empty(빈 상태)로 초기화
+        {
+            MainTilemap.SetTile(pos, _tileBases[ETileType.White]);
+            SetTileType(pos, TileType.Tile); // 전부 TileType.Empty(빈 상태)로 초기화
+        }
+        
+        MainTilemap.RefreshAllTiles();
     }
 
     public int BuildingIndex(GameObject obj)
@@ -347,14 +371,14 @@ public class GridBuildingSystem : MonoBehaviour
         foreach (var pos in rightArea.allPositionsWithin)
         {
             MainTilemap.SetTile(pos, whiteTile);
-            SetTileType(pos, TileType.Empty);
+            SetTileType(pos, TileType.Tile);
         }
 
         // 상단 영역 타일 생성
         foreach (var pos in topArea.allPositionsWithin)
         {
             MainTilemap.SetTile(pos, whiteTile);
-            SetTileType(pos, TileType.Empty);
+            SetTileType(pos, TileType.Tile);
         }
 
         MainTilemap.RefreshAllTiles();
@@ -389,5 +413,59 @@ public class GridBuildingSystem : MonoBehaviour
     {
         // 건물 스텟 상승 로직
         // _currentInBuildingData.stat++;
+    }
+    
+    // ----------- 세이브 관련 -----------
+
+    public void Save()
+    {
+        SaveManager.Instance.Save();
+    }
+
+    public void Load()
+    {
+        SaveManager.Instance.Load();
+    }
+
+    public void LoadSetTileType(Vector3Int pos, TileType type)
+    {
+        tileTypes[pos] = type;
+        if (type != TileType.Empty)
+        {
+            MainTilemap.SetTile(pos, _tileBases[ETileType.White]);
+            if (type == TileType.Road || type == TileType.Building)
+            {
+                if (!occupied.Contains(pos)) occupied.Add(pos);
+            }
+            else
+            {
+                if (occupied.Contains(pos)) occupied.Remove(pos);
+            }
+        }
+        else 
+        {
+            MainTilemap.SetTile(pos, null); 
+            if (occupied.Contains(pos)) occupied.Remove(pos);
+        }
+    }
+    
+    public void InitializeWithBuildingFromSave(GameObject prefab, BuildingSaveData bData)
+    {
+        _temp = Instantiate(prefab).GetComponent<Building>();
+        
+        _temp.transform.position = gridLayout.CellToWorld(bData.position) + new Vector3(0.5f, 0.5f, 0);
+        for(int i=0; i<bData.rotateCount; i++) _temp.Rotate(); 
+        
+        int index = BuildingIndex(prefab);
+        MapManager.Instance.InstantiateInBuilding(_temp, index);
+        
+        if (_temp.InBuildingData != null)
+        {
+            _temp.InBuildingData.SetLevel(bData.currentLevel);
+        }
+        _temp.Place();
+    
+        BuildingList.Add(_temp);
+        _temp = null;
     }
 }

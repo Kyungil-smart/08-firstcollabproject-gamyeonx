@@ -200,4 +200,12 @@ public class InBuildingData : MonoBehaviour
             }
         }
     }
+    
+    // 세이브 로드 관련
+    public void SetLevel(int level)
+    {
+        currentLevel = level;
+        if(currentLevel >= 2) _UpgradeExpandArea.SetActive(true);
+        InBuildingWhiteTilesCreate(); 
+    }
 }
