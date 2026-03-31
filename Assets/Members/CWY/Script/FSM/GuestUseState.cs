@@ -16,17 +16,11 @@ public class GuestUseState : IGuestState
         _effectTickTimer = 0f;
         _startedUseEffect = false;
 
-        _controller.MoveToFacilityUsePoint();
+        _controller.MoveToAssignedUsePoint();
     }
 
     public void Update()
     {
-        if (_controller.IsTurnEnding && !_startedUseEffect)
-        {
-            _controller.ChangeToExitState();
-            return;
-        }
-
         if (!_startedUseEffect)
         {
             if (_controller.MovementAgent.IsMoving)
@@ -51,16 +45,7 @@ public class GuestUseState : IGuestState
         if (_controller.IsCurrentFacilityGoalReached())
         {
             _controller.FinishCurrentFacilityUse();
-            _controller.ExitFacilityToOutside();
-
-            if (_controller.IsTurnEnding)
-            {
-                _controller.ChangeToExitState();
-            }
-            else
-            {
-                _controller.ChangeToWanderState();
-            }
+            _controller.ChangeToExitState();
         }
     }
 

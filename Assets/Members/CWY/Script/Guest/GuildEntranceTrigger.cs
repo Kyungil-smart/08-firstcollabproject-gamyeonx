@@ -7,12 +7,12 @@ public class GuildEntranceTrigger : MonoBehaviour
     {
         GuestController guest = other.GetComponent<GuestController>();
 
-        if (guest == null)
+        if(guest == null)
         {
             return;
         }
 
-        if (guest.EntryFlowHandler == null)
+        if(guest.EntryFlowHandler == null)
         {
             return;
         }

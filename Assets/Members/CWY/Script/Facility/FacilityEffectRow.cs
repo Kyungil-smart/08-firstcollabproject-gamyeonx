@@ -23,7 +23,7 @@ public class FacilityEffectRow
     public int HungerEffectPerTick => _hungerEffectPerTick;
     public int ThirstEffectPerTick => _thirstEffectPerTick;
     public int FatigueEffectPerTick => _fatigueEffectPerTick;
-  
+
 
     public void SetData(string[] cols)
     {
@@ -33,11 +33,6 @@ public class FacilityEffectRow
         _hungerEffectPerTick = int.Parse(cols[3]);
         _thirstEffectPerTick = int.Parse(cols[4]);
         _fatigueEffectPerTick = int.Parse(cols[5]);
-    }
-
-    public string GetDebugText()
-    {
-        return $"FacilityID={_facilityID}, FacilityType={_facilityType}, Selectable={_NormalGuest}, HungerTick={_hungerEffectPerTick}, ThirstTick={_thirstEffectPerTick}, FatigueTick={_fatigueEffectPerTick}";
     }
 
     private EFacilityType ParseFacilityType(string value)

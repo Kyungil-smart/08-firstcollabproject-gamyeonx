@@ -56,16 +56,19 @@ public class CameraController : MonoBehaviour
     {
         if (!IsInputLocked)
         {
-#if UNITY_EDITOR
             HandleMouseInput();
-#else
-            int touchCount = Input.touchCount;
-            if (touchCount >= 2)      HandlePinchZoom();
-            else if (touchCount == 1) HandlePan();
-            else                      ApplyInertia();
-#endif
-        }
+            //#if UNITY_EDITOR
+            //            HandleMouseInput();
+            //#else
+            //            int touchCount = Input.touchCount;
+            //            if (touchCount >= 2)      HandlePinchZoom();
+            //            else if (touchCount == 1) HandlePan();
+            //            else                      ApplyInertia();
+            //#endif
+            //        }
 
+            //ClampPosition();
+        }
         ClampPosition();
     }
 

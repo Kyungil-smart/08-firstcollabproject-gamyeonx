@@ -23,11 +23,6 @@ public class GuestDataRow
         _fatigue = ClampValue(int.Parse(cols[3]));
     }
 
-    public string GetDebugText()
-    {
-        return $"VisitorID={_visitorID}, Hunger={_hunger}, Thirst={_thirst}, Fatigue={_fatigue}";
-    }
-
     private int ClampValue(int value)
     {
         return Mathf.Clamp(value, 0, 100);

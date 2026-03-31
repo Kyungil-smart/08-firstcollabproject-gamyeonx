@@ -26,7 +26,7 @@ public class GuestWanderState : IGuestState
 
     public void Update()
     {
-        if (_controller.IsTurnEnding)
+        if(_controller.IsTurnEnding)
         {
             _controller.ChangeToExitState();
             return;
@@ -37,12 +37,12 @@ public class GuestWanderState : IGuestState
         _repathDelayTimer += Time.deltaTime;
 
         // 배회 중 Need 증가
-        if (_needTickTimer >= _controller.WanderNeedTickInterval)
+        if(_needTickTimer >= _controller.WanderNeedTickInterval)
         {
             _needTickTimer -= _controller.WanderNeedTickInterval;
             _controller.ApplyWanderNeedTick();
 
-            if (_controller.GuestStates.HasAnyNeedReachedMax())
+            if(_controller.GuestStates.HasAnyNeedReachedMax())
             {
                 _controller.MovementAgent.StopMove();
                 _controller.ChangeToDecideState();
@@ -51,18 +51,18 @@ public class GuestWanderState : IGuestState
         }
 
         // 배회 중 이벤트 판정
-        if (_eventCheckTimer >= _controller.WanderEventCheckInterval)
+        if(_eventCheckTimer >= _controller.WanderEventCheckInterval)
         {
             _eventCheckTimer -= _controller.WanderEventCheckInterval;
 
-            if (_controller.ShouldStartFacilitySearchNow())
+            if(_controller.ShouldStartFacilitySearchNow())
             {
                 _controller.MovementAgent.StopMove();
                 _controller.ChangeToDecideState();
                 return;
             }
 
-            if (_controller.ShouldExitFromWander())
+            if(_controller.ShouldExitFromWander())
             {
                 _controller.MovementAgent.StopMove();
                 _controller.ChangeToExitState();
@@ -71,7 +71,7 @@ public class GuestWanderState : IGuestState
         }
 
         // 이동이 끝났으면 다음 랜덤 길 목적지 선택
-        if (!_controller.MovementAgent.IsMoving && _repathDelayTimer >= 0.2f)
+        if(!_controller.MovementAgent.IsMoving && _repathDelayTimer >= 0.2f)
         {
             _repathDelayTimer = 0f;
             TryStartRandomWanderMove();
@@ -87,7 +87,7 @@ public class GuestWanderState : IGuestState
     {
         bool started = _controller.RequestRandomWanderMove();
 
-        if (!started)
+        if(!started)
         {
             Debug.Log("[GuestWanderState] 랜덤 배회 이동 시작 실패");
         }

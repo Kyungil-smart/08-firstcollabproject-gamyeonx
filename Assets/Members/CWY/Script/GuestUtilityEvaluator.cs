@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class GuestUtilityEvaluator
 {
-    public EGuestNeedType EvaluateHighestNeed(GuestStates guestStates)
+    public EFacilityType EvaluateTargetFacilityType(GuestStates guestStates)
     {
         if (guestStates == null)
         {
-            return EGuestNeedType.None;
+            return EFacilityType.None;
         }
 
         int hunger = guestStates.Hunger;
@@ -15,7 +15,6 @@ public class GuestUtilityEvaluator
         int fatigue = guestStates.Fatigue;
 
         int highestValue = Mathf.Max(hunger, thirst, fatigue);
-
         List<EGuestNeedType> candidates = new List<EGuestNeedType>();
 
         if (hunger == highestValue) candidates.Add(EGuestNeedType.Hunger);
@@ -24,20 +23,14 @@ public class GuestUtilityEvaluator
 
         if (candidates.Count == 0)
         {
-            return EGuestNeedType.None;
+            return EFacilityType.None;
         }
 
         EGuestNeedType selectedNeed = candidates[Random.Range(0, candidates.Count)];
 
         Debug.Log($"[GuestUtilityEvaluator] 최고 상태 선택 | Need={selectedNeed}, Value={highestValue}, CandidateCount={candidates.Count}");
-        return selectedNeed;
-    }
 
-    public EFacilityType EvaluateTargetFacilityType(GuestStates guestStates)
-    {
-        EGuestNeedType highestNeed = EvaluateHighestNeed(guestStates);
-
-        switch (highestNeed)
+        switch (selectedNeed)
         {
             case EGuestNeedType.Hunger:
                 return EFacilityType.Restaurant;

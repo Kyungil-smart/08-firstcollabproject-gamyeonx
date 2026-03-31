@@ -11,7 +11,7 @@ public class FacilityRegistry : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -25,11 +25,11 @@ public class FacilityRegistry : MonoBehaviour
     {
         _facilityMap.Clear();
 
-        for (int i = 0; i < _facilityList.Count; i++)
+        for(int i = 0; i < _facilityList.Count; i++)
         {
             FacilityRuntime facility = _facilityList[i];
 
-            if (facility == null)
+            if(facility == null)
             {
                 continue;
             }
@@ -40,7 +40,7 @@ public class FacilityRegistry : MonoBehaviour
 
     public FacilityRuntime GetFacility(int facilityID)
     {
-        if (_facilityMap.TryGetValue(facilityID, out FacilityRuntime facility))
+        if(_facilityMap.TryGetValue(facilityID, out FacilityRuntime facility))
         {
             return facility;
         }
@@ -50,10 +50,10 @@ public class FacilityRegistry : MonoBehaviour
     
     public void RegisterFacility(FacilityRuntime facility)
     {
-        if (facility == null) return;
+        if(facility == null) return;
         _facilityMap[facility.FacilityID] = facility;
     
-        if (!_facilityList.Contains(facility))
+        if(!_facilityList.Contains(facility))
             _facilityList.Add(facility);
     }
 }

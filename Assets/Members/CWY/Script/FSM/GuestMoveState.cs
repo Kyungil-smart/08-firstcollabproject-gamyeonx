@@ -1,12 +1,8 @@
 using UnityEngine;
 
-/// <summary>
-/// 목표 시설 입구 앞 Road 셀까지 A*로 이동하는 상태
-/// </summary>
 public class GuestMoveState : IGuestState
 {
     private readonly GuestController _controller;
-    private bool _requestedMove;
 
     public GuestMoveState(GuestController controller)
     {
@@ -15,19 +11,17 @@ public class GuestMoveState : IGuestState
 
     public void Enter()
     {
-
         if (_controller.IsTurnEnding)
         {
             _controller.ChangeToExitState();
             return;
         }
 
-        _requestedMove = false;
         _controller.ResetMovementAndFacilityFlags();
 
-        _requestedMove = _controller.RequestMoveToFacilityEntrance();
+        bool requestedMove = _controller.RequestMoveToFacilityEntrance();
 
-        if (!_requestedMove)
+        if (!requestedMove)
         {
             _controller.SetMovementFailed(true);
         }
@@ -47,7 +41,6 @@ public class GuestMoveState : IGuestState
             _controller.ChangeToWanderState();
             return;
         }
-
 
         if (!_controller.HasArrivedAtFacility)
         {

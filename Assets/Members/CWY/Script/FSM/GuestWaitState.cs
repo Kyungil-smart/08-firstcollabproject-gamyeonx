@@ -33,6 +33,7 @@ public class GuestWaitState : IGuestState
         if (_controller.CanUseFacility)
         {
             _controller.ChangeToUseState();
+            return;
         }
     }
 
