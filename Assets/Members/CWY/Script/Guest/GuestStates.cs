@@ -30,15 +30,14 @@ public class GuestStates
     public event Action OnStatesChanged;
 
     public void Initialize(
-        int visitorID, 
-        int hunger, 
+        int visitorID,
+        int hunger,
         int thirst,
-        int fatigue, 
-        bool canUseShop, 
+        int fatigue,
+        bool canUseShop,
         int shopNeed,
-        bool canUseTraining, 
-        int trainingNeed
-        )
+        bool canUseTraining,
+        int trainingNeed)
     {
         _visitorID = visitorID;
         _hunger = ClampValue(hunger);
@@ -65,10 +64,10 @@ public class GuestStates
                 return _thirst;
             case EGuestNeedType.Fatigue:
                 return _fatigue;
-            case EGuestNeedType.Training:
-                return _canUseTraining ? _trainingNeed : 0;
             case EGuestNeedType.Shop:
                 return _canUseShop ? _shopNeed : 0;
+            case EGuestNeedType.Training:
+                return _canUseTraining ? _trainingNeed : 0;
             default:
                 return 0;
         }
@@ -83,26 +82,31 @@ public class GuestStates
             case EGuestNeedType.Hunger:
                 _hunger = clampedValue;
                 break;
+
             case EGuestNeedType.Thirst:
                 _thirst = clampedValue;
                 break;
+
             case EGuestNeedType.Fatigue:
                 _fatigue = clampedValue;
                 break;
-            case EGuestNeedType.Training:
-                if (_canUseTraining)
-                {
-                    _trainingNeed = clampedValue;
-                }
-                break;
+
             case EGuestNeedType.Shop:
                 if (_canUseShop)
                 {
                     _shopNeed = clampedValue;
                 }
                 break;
+
+            case EGuestNeedType.Training:
+                if (_canUseTraining)
+                {
+                    _trainingNeed = clampedValue;
+                }
+                break;
+
             default:
-                Debug.Log($"[GuestStates] SetNeedValue 실패. 잘못된 needType={needType}");
+                Debug.LogWarning($"[GuestStates] SetNeedValue 실패 | 잘못된 needType={needType}");
                 return;
         }
 
@@ -115,12 +119,12 @@ public class GuestStates
         _thirst = ClampValue(_thirst + 1);
         _fatigue = ClampValue(_fatigue + 1);
 
-        if(_canUseShop)
+        if (_canUseShop)
         {
             _shopNeed = ClampValue(_shopNeed + 1);
         }
 
-        if(_canUseTraining)
+        if (_canUseTraining)
         {
             _trainingNeed = ClampValue(_trainingNeed + 1);
         }
@@ -130,7 +134,7 @@ public class GuestStates
 
     public bool HasAnyNeedReachedMax()
     {
-        if(_hunger >= 100 || _thirst >= 100 || _fatigue >= 100)
+        if (_hunger >= 100 || _thirst >= 100 || _fatigue >= 100)
         {
             return true;
         }
@@ -144,6 +148,7 @@ public class GuestStates
         {
             return true;
         }
+
         return false;
     }
 
@@ -151,6 +156,7 @@ public class GuestStates
     {
         if (effectRow == null)
         {
+            Debug.LogWarning("[GuestStates] ApplyFacilityEffect 실패 | effectRow가 null입니다.");
             return;
         }
 
@@ -158,15 +164,17 @@ public class GuestStates
         _thirst = ClampValue(_thirst + effectRow.ThirstEffectPerTick);
         _fatigue = ClampValue(_fatigue + effectRow.FatigueEffectPerTick);
 
-        if(_canUseShop)
+        if (_canUseShop)
         {
             _shopNeed = ClampValue(_shopNeed + effectRow.ShopEffectPerTick);
         }
-        if(_canUseTraining)
+
+        if (_canUseTraining)
         {
-            _trainingNeed = ClampValue(_trainingNeed + effectRow.ThirstEffectPerTick);
+            _trainingNeed = ClampValue(_trainingNeed + effectRow.TrainingEffectPerTick);
         }
 
+        Debug.Log($"[GuestStates] 시설 효과 적용 완료 | {GetDebugText()}, ShopNeed={_shopNeed}, TrainingNeed={_trainingNeed}");
         RaiseStatesChanged();
     }
 
