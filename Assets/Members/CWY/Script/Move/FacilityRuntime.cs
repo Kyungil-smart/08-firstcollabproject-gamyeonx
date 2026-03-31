@@ -7,6 +7,9 @@ public class FacilityRuntime : MonoBehaviour
     [SerializeField] private string _facilityID;
     [SerializeField] public EFacilityType _facilityType;
 
+    [Header("시설 데이터")]
+    [SerializeField] private FacilityEffectDatabaseSO _facilityEffectDatabase;
+
     [Header("외부 입구 정보")]
     [Tooltip("손님이 A*로 찾아올 입구 앞 Road")]
     [SerializeField] private GameObject _entranceRoadObject;
@@ -22,6 +25,7 @@ public class FacilityRuntime : MonoBehaviour
     [SerializeField] private bool _canUseImmediately = true;
     [SerializeField] private bool _supportsQueue = true;
 
+    [Header("건물 내부 데이터")]
     public InBuildingData _inBuildingData;
 
     [Header("시설 이용 가격")]
@@ -30,6 +34,47 @@ public class FacilityRuntime : MonoBehaviour
     private readonly Dictionary<Transform, GuestController> _slotUsers = new Dictionary<Transform, GuestController>();
     private readonly Dictionary<GuestController, Transform> _guestAssignedSlots = new Dictionary<GuestController, Transform>();
     private readonly Queue<GuestController> _waitQueue = new Queue<GuestController>();
+
+    public string FacilityID => _facilityID;
+    public EFacilityType FacilityType => _facilityType;
+
+    // 기존 다른 코드 호환용
+    public InBuildingData inBuildingData => _inBuildingData;
+
+    public Vector3Int EntranceRoadCell
+    {
+        get
+        {
+            if (_entranceRoadObject == null)
+            {
+                return Vector3Int.zero;
+            }
+
+            return GridBuildingSystem.Instance.gridLayout.WorldToCell(_entranceRoadObject.transform.position);
+        }
+    }
+
+    public Transform InteriorEntryPoint => _interiorEntryPoint;
+    public Transform WaitPoint => _waitPoint;
+    public List<Transform> UsePoints => _usePoints;
+    public Transform FacilityExitPoint => _facilityExitPoint;
+    public Transform OutsideExitPoint => _outsideExitPoint;
+
+    public bool CanUseImmediately => _canUseImmediately;
+    public bool SupportsQueue => _supportsQueue;
+
+    public int CurrentUsingGuestCount => _slotUsers.Count;
+    public int CurrentWaitingGuestCount => _waitQueue.Count;
+
+    private void Awake()
+    {
+        SyncFromFacilityRow();
+
+        if (FacilityRegistry.Instance != null)
+        {
+            FacilityRegistry.Instance.RegisterFacility(this);
+        }
+    }
 
     private void Start()
     {
@@ -58,7 +103,7 @@ public class FacilityRuntime : MonoBehaviour
 
         HandleUsePivotsChanged(_inBuildingData.GetUsePivots());
 
-        Debug.Log($"[FacilityRuntime] 초기화 완료 | FacilityID={_facilityID}, UseSlotCount={_usePoints.Count}");
+        Debug.Log($"[FacilityRuntime] 초기화 완료 | FacilityID={_facilityID}, FacilityType={_facilityType}, UseSlotCount={_usePoints.Count}");
     }
 
     private void OnDisable()
@@ -67,6 +112,45 @@ public class FacilityRuntime : MonoBehaviour
         {
             _inBuildingData.OnUsePivotsChanged -= HandleUsePivotsChanged;
         }
+    }
+
+    public void InitializeFacility(string facilityID)
+    {
+        _facilityID = facilityID;
+        SyncFromFacilityRow();
+
+        if (FacilityRegistry.Instance != null)
+        {
+            FacilityRegistry.Instance.RegisterFacility(this);
+        }
+
+        Debug.Log($"[FacilityRuntime] 시설 초기화 완료 | FacilityID={_facilityID}, FacilityType={_facilityType}, Gold={Gold}");
+    }
+
+    private void SyncFromFacilityRow()
+    {
+        if (_facilityEffectDatabase == null)
+        {
+            Debug.LogWarning($"[FacilityRuntime] FacilityEffectDatabaseSO가 없습니다. FacilityID={_facilityID}");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(_facilityID))
+        {
+            Debug.LogWarning("[FacilityRuntime] FacilityID가 비어 있습니다.");
+            return;
+        }
+
+        FacilityEffectRow row = _facilityEffectDatabase.GetEffectByFacilityID(_facilityID);
+
+        if (row == null)
+        {
+            Debug.LogWarning($"[FacilityRuntime] FacilityEffectRow를 찾지 못했습니다. FacilityID={_facilityID}");
+            return;
+        }
+
+        _facilityType = row.FacilityType;
+        Gold = row.UsageFee;
     }
 
     private void HandleUsePivotsChanged(List<Transform> pivots)
@@ -80,7 +164,7 @@ public class FacilityRuntime : MonoBehaviour
 
         CleanupInvalidSlotData();
 
-        Debug.Log($"[FacilityRuntime] 현재 좌석 수: {_usePoints.Count}");
+        Debug.Log($"[FacilityRuntime] 현재 좌석 수 | FacilityID={_facilityID}, Count={_usePoints.Count}");
     }
 
     private void CleanupInvalidSlotData()
@@ -284,6 +368,7 @@ public class FacilityRuntime : MonoBehaviour
         }
     }
 
+    // 기존 코드 호환용
     public int GetPrice()
     {
         return Gold;
@@ -298,32 +383,4 @@ public class FacilityRuntime : MonoBehaviour
     {
         Gold -= minPrice;
     }
-
-    public string FacilityID => _facilityID;
-    public EFacilityType FacilityType => _facilityType;
-
-    public Vector3Int EntranceRoadCell
-    {
-        get
-        {
-            if (_entranceRoadObject == null)
-            {
-                return Vector3Int.zero;
-            }
-
-            return GridBuildingSystem.Instance.gridLayout.WorldToCell(_entranceRoadObject.transform.position);
-        }
-    }
-
-    public Transform InteriorEntryPoint => _interiorEntryPoint;
-    public Transform WaitPoint => _waitPoint;
-    public List<Transform> UsePoints => _usePoints;
-    public Transform FacilityExitPoint => _facilityExitPoint;
-    public Transform OutsideExitPoint => _outsideExitPoint;
-
-    public bool CanUseImmediately => _canUseImmediately;
-    public bool SupportsQueue => _supportsQueue;
-
-    public int CurrentUsingGuestCount => _slotUsers.Count;
-    public int CurrentWaitingGuestCount => _waitQueue.Count;
 }

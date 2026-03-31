@@ -720,7 +720,7 @@ MonoBehaviour:
         m_MethodName: InitializeWithBuilding
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 7770095648758938427, guid: 35d9cb2dc96cc3a43a06a8d5562b0a20, type: 3}
+          m_ObjectArgument: {fileID: 7770095648758938427, guid: c1e873bb9f32dc646b70ebee9b3b5065, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -1010,6 +1010,8 @@ MonoBehaviour:
   - type: 4
     button: {fileID: 1748401109}
   _buildButton: {fileID: 6046245424736687093}
+  _goldTest: {fileID: 138611614}
+  _gameTime: {fileID: 138611613}
 --- !u!4 &138611612
 Transform:
   m_ObjectHideFlags: 0
@@ -1043,6 +1045,8 @@ MonoBehaviour:
   _time: {fileID: 1764740144}
   _nightImage: {fileID: 1734264312}
   _nightImageObject: {fileID: 1734264310}
+  _userTime: 0
+  _userWeek: 0
 --- !u!114 &138611614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3844,7 +3848,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00033093788}
+  m_AnchoredPosition: {x: 0, y: -0.000009571484}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &715593565
@@ -5053,7 +5057,7 @@ MonoBehaviour:
         m_MethodName: InitializeWithBuilding
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 7770095648758938427, guid: 13d127cfc8c0f1d42bda76312abb1924, type: 3}
+          m_ObjectArgument: {fileID: 7770095648758938427, guid: a3832cea159046b46acb15d7427b5750, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -10447,7 +10451,7 @@ MonoBehaviour:
         m_MethodName: InitializeWithBuilding
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 7770095648758938427, guid: 598ac30c6c5439c4496971623626f49c, type: 3}
+          m_ObjectArgument: {fileID: 7770095648758938427, guid: 99cd370cb533fb64daa599c7e026b486, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -11898,7 +11902,7 @@ MonoBehaviour:
         m_MethodName: InitializeWithBuilding
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 7770095648758938427, guid: 77a886d507a3f5845a5c82890a68870c, type: 3}
+          m_ObjectArgument: {fileID: 7770095648758938427, guid: f12f48946e6587240a44a9e6d61f82eb, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -12724,7 +12728,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 89115028}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999641
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13501,7 +13505,7 @@ MonoBehaviour:
         m_MethodName: InitializeWithBuilding
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 7770095648758938427, guid: 4d2656d61900b2940a4a0e6bab38048d, type: 3}
+          m_ObjectArgument: {fileID: 7770095648758938427, guid: 37c73ac00657c024e88fae104523c832, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
