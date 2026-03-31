@@ -96,6 +96,7 @@ public class SaveManager : MonoBehaviour
     public void Load()
     {
         if (!HasSave()) { Debug.LogWarning("세이브 파일 없음"); return; }
+        Debug.Log("SaveManager: Load() 함수가 호출되었습니다!");
 
         string json = File.ReadAllText(_savePath);
         data = JsonUtility.FromJson<SaveData>(json);
@@ -136,5 +137,11 @@ public class SaveManager : MonoBehaviour
     public void LoadMapChange()
     {
         LoadMap = !LoadMap;
+    }
+    
+    public void StartNewGame() {
+        LoadMap = false;
+        data = new SaveData();
+        SceneManager.LoadScene(1);
     }
 }

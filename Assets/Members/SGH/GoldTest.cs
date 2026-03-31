@@ -1,10 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class GoldTest : MonoBehaviour
 {
-    [SerializeField] private int _testGold;
+    public int _testGold;
     [SerializeField] private TextMeshProUGUI _goldText;
+    
+    private HashSet<string> _triggeredEvents = new HashSet<string>();
 
     public int TestGoldValue
     {
@@ -13,6 +16,12 @@ public class GoldTest : MonoBehaviour
         {
             _testGold = value;
             UpdateUI();
+            
+            if (_testGold >= 10 && !_triggeredEvents.Contains("WEEK_10_EVENT"))
+            {
+                dasfasdfEvent();
+                _triggeredEvents.Add("WEEK_10_EVENT");
+            }
         }
     }
 
@@ -30,4 +39,6 @@ public class GoldTest : MonoBehaviour
     {
         _goldText.text = $"{_testGold}G";
     }
+    
+    private void dasfasdfEvent() { /*이벤트 로직*/ }
 }

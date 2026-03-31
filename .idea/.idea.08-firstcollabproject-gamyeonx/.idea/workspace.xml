@@ -6,19 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Members/CWY/Script/Move/FacilityRuntime.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/CWY/Script/Move/FacilityRuntime.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Prefabs/Test Restaurant Inside.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Prefabs/Test Restaurant Inside.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scene/JJHMainScenes.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scene/JJHMainScenes.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/InBuildingData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/InBuildingData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/SaveData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/SaveData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scene/TitleScenes.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scene/TitleScenes.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/SaveManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/SaveManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/SGH/GoldTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/SGH/GoldTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Members/SGH/Scripts/Timer/GameTime.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/SGH/Scripts/Timer/GameTime.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Buildings/Test Restaurant Inside.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Buildings/Test Restaurant Inside.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/Buildings/Test Restaurant Inside.prefab.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/Buildings/Test Restaurant Inside.prefab.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/MainNotoSansKR-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/MainNotoSansKR-Bold SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maps/Building.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maps/Building.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/NotoSansKR-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/NotoSansKR-Bold SDF.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maps/GridBuildingSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maps/GridBuildingSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/BuildingUI/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/BuildingUI/UIManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -48,7 +42,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "JJH__Save&&Load",
+    "git-widget-placeholder": "JJH__EventSystem",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

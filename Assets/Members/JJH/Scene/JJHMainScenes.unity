@@ -864,7 +864,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   IsStop: 0
   _furnitureButtons: []
-  _buildButton: {fileID: 0}
+  _buildButton: {fileID: 1869937907}
   _goldTest: {fileID: 138611614}
   _gameTime: {fileID: 138611613}
 --- !u!4 &138611612
@@ -2305,7 +2305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00047862716}
+  m_AnchoredPosition: {x: 0, y: 0.000006697168}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &731388506
@@ -5625,7 +5625,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 89115028}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9998803
+  m_Size: 0.99997556
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
