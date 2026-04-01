@@ -481,6 +481,7 @@ public class FacilityRuntime : MonoBehaviour
         Gold -= minPrice;
     }
     */
+
 }
 
 
@@ -528,5 +529,9 @@ public class FacilityRuntime : MonoBehaviour
 
     public int CurrentUsingGuestCount => _slotUsers.Count;
     public int CurrentWaitingGuestCount => _waitQueue.Count;
-}
+
+
+
+
+
 
