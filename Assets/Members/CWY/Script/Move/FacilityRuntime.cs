@@ -452,12 +452,3 @@ public class FacilityRuntime : MonoBehaviour
     }
     */
 }
-
-/*
-유니티 적용 방법
-1. 기존 FacilityRuntime.cs를 이 코드로 교체합니다.
-2. 각 시설 프리팹/오브젝트의 FacilityID와 FacilityEffectDatabaseSO를 연결합니다.
-3. 이제 UsageFee, BuildCost, UpgradeCost, RefundAmount, UnlockRevenue는
-   모두 시트 -> SO -> FacilityRuntime 순서로 자동 반영됩니다.
-4. 업그레이드 시 가격을 직접 더하지 말고, 상위 시설 ID로 바꿔서 InitializeFacility()를 호출하는 방식으로 사용하세요.
-*/

@@ -100,10 +100,3 @@ public class FacilityEffectRow
         return EFacilityType.None;
     }
 }
-
-/*
-유니티 적용 방법
-1. 기존 FacilityEffectRow.cs를 이 코드로 교체합니다.
-2. 현재 시트 구조 기준으로 5, 10 컬럼은 무시합니다.
-3. 이제 비용/요금/효과 관련 값이 올바른 칼럼에서 읽힙니다.
-*/

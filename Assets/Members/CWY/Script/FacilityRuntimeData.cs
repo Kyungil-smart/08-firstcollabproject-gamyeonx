@@ -69,10 +69,3 @@ public class FacilityRuntimeData
         OnDataChanged?.Invoke();
     }
 }
-
-/*
-유니티 적용 방법
-1. 새 파일로 추가합니다.
-2. FacilityRuntime이 시트 데이터를 런타임에서 보관하는 전용 클래스입니다.
-3. 비용, 해금 조건, 틱 효과를 여기서 읽으면 됩니다.
-*/
