@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,9 +9,24 @@ public class FacilityEffectDatabaseSO : ScriptableObject
 
     public IReadOnlyList<FacilityEffectRow> EffectRowList => _effectRowList;
 
+    public event Action OnDatabaseChanged;
+
     public void Clear()
     {
         _effectRowList.Clear();
+    }
+
+    public void ReplaceAll(List<FacilityEffectRow> newRows)
+    {
+        _effectRowList.Clear();
+
+        if (newRows != null)
+        {
+            _effectRowList.AddRange(newRows);
+        }
+
+        Debug.Log($"[FacilityEffectDatabaseSO] 데이터 갱신 완료 | Count={_effectRowList.Count}");
+        OnDatabaseChanged?.Invoke();
     }
 
     public void AddEffectRow(FacilityEffectRow row)
@@ -72,87 +88,33 @@ public class FacilityEffectDatabaseSO : ScriptableObject
         return null;
     }
 
-    public List<FacilityEffectRow> GetAllEffectsByType(EFacilityType facilityType)
-    {
-        List<FacilityEffectRow> result = new List<FacilityEffectRow>();
-
-        for (int i = 0; i < _effectRowList.Count; i++)
-        {
-            FacilityEffectRow row = _effectRowList[i];
-
-            if (row == null)
-            {
-                continue;
-            }
-
-            if (row.FacilityType == facilityType)
-            {
-                result.Add(row);
-            }
-        }
-
-        return result;
-    }
-
     public int GetUsageFeeByFacilityID(string facilityID)
     {
         FacilityEffectRow row = GetEffectByFacilityID(facilityID);
-
-        if (row == null)
-        {
-            return 0;
-        }
-
-        return row.UsageFee;
+        return row != null ? row.UsageFee : 0;
     }
 
     public int GetBuildCostByFacilityID(string facilityID)
     {
         FacilityEffectRow row = GetEffectByFacilityID(facilityID);
-
-        if (row == null)
-        {
-            return 0;
-        }
-
-        return row.BuildCost;
+        return row != null ? row.BuildCost : 0;
     }
 
     public int GetUpgradeCostByFacilityID(string facilityID)
     {
         FacilityEffectRow row = GetEffectByFacilityID(facilityID);
-
-        if (row == null)
-        {
-            return 0;
-        }
-
-        return row.UpgradeCost;
+        return row != null ? row.UpgradeCost : 0;
     }
 
     public int GetRefundAmountByFacilityID(string facilityID)
     {
         FacilityEffectRow row = GetEffectByFacilityID(facilityID);
-
-        if (row == null)
-        {
-            return 0;
-        }
-
-        return row.RefundAmount;
+        return row != null ? row.RefundAmount : 0;
     }
 
     public int GetUnlockRevenueByFacilityID(string facilityID)
     {
         FacilityEffectRow row = GetEffectByFacilityID(facilityID);
-
-        if (row == null)
-        {
-            return 0;
-        }
-
-        return row.UnlockRevenue;
+        return row != null ? row.UnlockRevenue : 0;
     }
-
 }
-

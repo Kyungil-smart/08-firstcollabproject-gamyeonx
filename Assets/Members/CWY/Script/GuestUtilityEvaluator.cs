@@ -64,7 +64,7 @@ public class GuestUtilityEvaluator
             case EGuestNeedType.Thirst:
                 return EFacilityType.VendingMachine;
             case EGuestNeedType.Fatigue:
-                return EFacilityType.HotSpring;
+                return EFacilityType.Onsen;
             case EGuestNeedType.Shop:
                 return EFacilityType.Shop;
             case EGuestNeedType.Training:
