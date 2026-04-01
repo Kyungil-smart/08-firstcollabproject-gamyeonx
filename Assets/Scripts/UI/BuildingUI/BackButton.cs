@@ -17,6 +17,11 @@ public class BackButton : MonoBehaviour
 
     public void OnClickBackButton()
     {
+        if (GridBuildingSystem.Instance._temp != null && !GridBuildingSystem.Instance._temp.Placed)
+        {
+            // 아직 설치되지 않은 건물
+            GridBuildingSystem.Instance.CancelPlacement();
+        }
         //UIManager.Instance.IsStop = !UIManager.Instance.IsStop;
         //Time.timeScale = UIManager.Instance.IsStop ? 0f : 1f;
         _BuildButton.SetActive(true);

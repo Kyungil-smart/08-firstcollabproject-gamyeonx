@@ -29,7 +29,7 @@ public class CameraController : MonoBehaviour
     private bool _isPinching;
 
     // 건물 탭 감지
-    private bool _touchStartedOnBuilding;
+    public bool _touchStartedOnBuilding; // private -> public
     private bool _mouseDownOnUI;
     private Vector2 _touchBeganPos;
     private const float DragThreshold = 10f;
@@ -154,9 +154,14 @@ public class CameraController : MonoBehaviour
             _touchBeganPos = touch.position;
             _velocity = Vector3.zero;
             _isPanning = false;
+
             Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
             RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-            _touchStartedOnBuilding = hit.collider?.GetComponent<Building>() != null;
+            Building hitBuilding = hit.collider?.GetComponent<Building>();
+
+            // 설치 모드가 켜져 있으면 아무 건물도 터치하지 않음
+            _touchStartedOnBuilding = hitBuilding != null
+                                      && (GridBuildingSystem.Instance._temp == null);
         }
         else if (touch.phase == TouchPhase.Moved)
         {
@@ -171,7 +176,7 @@ public class CameraController : MonoBehaviour
                 Vector3 currWorld = _cam.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0));
                 Vector3 delta = (prevWorld - currWorld) * PanSpeed;
                 delta.z = 0;
-                if (Time.deltaTime > 0) _velocity = delta / Time.deltaTime;  // ← 수정
+                if (Time.deltaTime > 0) _velocity = delta / Time.deltaTime;
                 transform.position += delta;
                 _lastPanPos = touch.position;
             }
@@ -180,11 +185,20 @@ public class CameraController : MonoBehaviour
         {
             if (!_isPanning && _touchStartedOnBuilding)
             {
-                Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
-                RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-                hit.collider?.GetComponent<Building>()?.CanvasActive();
+                // 설치 모드가 켜져 있지 않은 경우만 메뉴 열기
+                if (GridBuildingSystem.Instance._temp == null || GridBuildingSystem.Instance._temp.Placed)
+                {
+                    Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
+                    RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+                    Building building = hit.collider?.GetComponent<Building>();
+                    if (building != null)
+                    {
+                        building.CanvasActive();
+                        building.IsMenuOpen = true;
+                    }
+                }
             }
-            _isPanning = _isPinching = _touchStartedOnBuilding = false;
+            _isPanning = _isPinching = false;
         }
     }
 
@@ -238,13 +252,17 @@ public class CameraController : MonoBehaviour
                 _mouseDownOnUI = false;
                 Vector2 worldPos = _cam.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-                _touchStartedOnBuilding = hit.collider?.GetComponent<Building>() != null;
+                Building hitBuilding = hit.collider?.GetComponent<Building>();
+
+                // 설치 모드가 켜져 있으면 아무 건물도 클릭 안 되게
+                _touchStartedOnBuilding = hitBuilding != null
+                                          && (GridBuildingSystem.Instance._temp == null);
             }
         }
         else if (Input.GetMouseButton(0))
         {
             if (_mouseDownOnUI) return;
-            
+
             if (Vector2.Distance(Input.mousePosition, _touchBeganPos) > DragThreshold)
             {
                 _isPanning = true;
@@ -256,7 +274,7 @@ public class CameraController : MonoBehaviour
                 Vector3 currWorld = _cam.ScreenToWorldPoint(Input.mousePosition);
                 Vector3 delta = (prevWorld - currWorld) * PanSpeed;
                 delta.z = 0;
-                if (Time.deltaTime > 0) _velocity = delta / Time.deltaTime;  // ← 수정
+                if (Time.deltaTime > 0) _velocity = delta / Time.deltaTime;
                 transform.position += delta;
                 _lastPanPos = Input.mousePosition;
             }
@@ -265,12 +283,17 @@ public class CameraController : MonoBehaviour
         {
             if (!_mouseDownOnUI && !_isPanning && _touchStartedOnBuilding)
             {
-                Vector2 worldPos = _cam.ScreenToWorldPoint(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-                hit.collider?.GetComponent<Building>()?.CanvasActive();
+                // 설치 모드가 켜져 있지 않은 경우만 메뉴 열기
+                if (GridBuildingSystem.Instance._temp == null || GridBuildingSystem.Instance._temp.Placed)
+                {
+                    Vector2 worldPos = _cam.ScreenToWorldPoint(Input.mousePosition);
+                    RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+                    hit.collider?.GetComponent<Building>()?.CanvasActive();
+                }
             }
             _isPanning = _touchStartedOnBuilding = _mouseDownOnUI = false;
         }
+
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (Mathf.Abs(scroll) > 0.001f) _cam.orthographicSize = Mathf.Clamp(_cam.orthographicSize - scroll * 5f, MinSize, MaxSize);
         if (!Input.GetMouseButton(0)) ApplyInertia();
@@ -287,4 +310,5 @@ public class CameraController : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireCube(CameraBounds.center, CameraBounds.size);
     }
+
 }
