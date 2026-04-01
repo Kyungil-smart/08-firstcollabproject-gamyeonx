@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class EventDataLoader : MonoBehaviour
 {
-    private const string SheetURL = "https://docs.google.com/spreadsheets/d/1GOnAJjcQV4ZlfeWOjQxG4L6o8uYbqgEyCePhL-jTcSw/edit?gid=61961225#gid=61961225";
+    private const string SheetURL = "https://docs.google.com/spreadsheets/d/1GOnAJjcQV4ZlfeWOjQxG4L6o8uYbqgEyCePhL-jTcSw/edit?gid=61961225#gid=61961225/export?format=csv";
 
     public IEnumerator LoadEvents(System.Action<List<EventData>> onComplete)
     {
