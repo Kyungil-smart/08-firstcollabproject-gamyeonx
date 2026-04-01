@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
+  - enabled: 0
     path: Assets/Members/JJH/Scene/TitleScenes.unity
     guid: 41f5aa00c9587c24abb4553847dabafb
   - enabled: 0
@@ -17,13 +17,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Members/JJH/Scene/JJHMainScenes.unity
     guid: 73b710d1c92848a41acc10e26ffee50a
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/TitleScenes.unity
     guid: e0f39092d4ebe4f4da827e06f865f62e
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MainScenes.unity
     guid: 72f5139e4e47be240939802a24ee3341
-  - enabled: 1
+  - enabled: 0
     path: Assets/Members/CWY/Scene/MainScene_Test.unity
     guid: 435c9dcd50d3e2342b829086a51b9aa0
   - enabled: 0

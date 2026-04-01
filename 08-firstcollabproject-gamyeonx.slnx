@@ -1,3 +1,5 @@
 ﻿<Solution>
   <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="FangAutoTile.csproj" />
+  <Project Path="FangAutoTile.Editor.csproj" />
 </Solution>

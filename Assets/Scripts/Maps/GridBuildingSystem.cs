@@ -24,7 +24,7 @@ public class GridBuildingSystem : MonoBehaviour
 
     private static Dictionary<ETileType, TileBase> _tileBases = new Dictionary<ETileType, TileBase>();
 
-    private Building _temp; // 현재 배치 중인 건물     
+    public Building _temp; // 현재 배치 중인 건물( private -> public 바꿈)
     private Vector3 _prevPos; // 이전 마우스 셀 위치
 
     private HashSet<Vector3Int> occupied = new HashSet<Vector3Int>(); // 점유된 타일 좌표
@@ -38,6 +38,9 @@ public class GridBuildingSystem : MonoBehaviour
     public List<Building> BuildingList = new List<Building>();
     public List<Vector3Int> OccupiedPositionList = new List<Vector3Int>();
     public List<TileType> TileTypes = new List<TileType>();
+
+    //===스마트폰 조작때 회전 제자리에 하는 불타입
+    private bool _skipFollowOnce = false;
 
     private void Awake()
     {
@@ -69,19 +72,43 @@ public class GridBuildingSystem : MonoBehaviour
 
     private void Update()
     {
-        if (_temp != null && !_temp.Placed)
+        //==================================================스마트폰
+        if (_temp != null && !_temp.Placed && Input.touchCount > 0)
         {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
+            Touch touch = Input.GetTouch(0);
 
-            if (_prevPos != cellPos)
+            if (touch.phase == TouchPhase.Ended)
             {
+                if (_skipFollowOnce)
+                {
+                    _skipFollowOnce = false;
+                    return;
+                }
+
+                Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                Vector3Int cellPos = gridLayout.LocalToCell(touchPos);
+
                 _temp.transform.localPosition =
                     gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
+
                 _prevPos = cellPos;
                 FollowBuilding();
             }
         }
+        //===================================================================
+        //if (_temp != null && !_temp.Placed)
+        //{
+        //    Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
+
+        //    if (_prevPos != cellPos)
+        //    {
+        //        _temp.transform.localPosition =
+        //            gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
+        //        _prevPos = cellPos;
+        //        FollowBuilding();
+        //    }
+        //}
 
         if (Input.GetMouseButtonDown(2) && !_isPlacing)
         {
@@ -101,45 +128,46 @@ public class GridBuildingSystem : MonoBehaviour
             }
         }
 
-        if (_temp != null)
-        {
-            bool shouldPlace = (_temp.buildType == BuildType.TileBrush || _temp.buildType == BuildType.Road)
-                ? Input.GetMouseButton(0)
-                : Input.GetMouseButtonDown(0);
+        // 마우스 설치
+        //if (_temp != null)
+        //{
+        //    bool shouldPlace = (_temp.buildType == BuildType.TileBrush || _temp.buildType == BuildType.Road)
+        //        ? Input.GetMouseButton(0)
+        //        : Input.GetMouseButtonDown(0);
 
-            if (shouldPlace && CanTakeArea(_temp.area))
-            {
-                TakeArea(_temp.area);
+        //    if (shouldPlace && CanTakeArea(_temp.area))
+        //    {
+        //        TakeArea(_temp.area);
 
-                if (_temp.buildType == BuildType.TileBrush)
-                {
-                    FollowBuilding();
-                }
-                else if (_temp.buildType == BuildType.Road)
-                {
-                    GameObject roadPrefab = _temp.gameObject;
-                    _temp.Place();
+        //        if (_temp.buildType == BuildType.TileBrush)
+        //        {
+        //            FollowBuilding();
+        //        }
+        //        else if (_temp.buildType == BuildType.Road)
+        //        {
+        //            GameObject roadPrefab = _temp.gameObject;
+        //            _temp.Place();
 
-                    // 현재 마우스 위치 계산
-                    Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
-                    Vector3 spawnPos = gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
+        //            // 현재 마우스 위치 계산
+        //            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //            Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
+        //            Vector3 spawnPos = gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
 
-                    // 마우스 위치에 바로 생성
-                    _temp = Instantiate(roadPrefab, spawnPos, Quaternion.identity).GetComponent<Building>();
-                    BuildingList.Add(_temp); // 세이브용
-                    _isPlacing = true;
-                    _prevPos = Vector3.zero;
-                    FollowBuilding();
-                }
-                else
-                {
-                    _temp.Place();
-                    _temp = null;
-                    _isPlacing = false;
-                }
-            }
-        }
+        //            // 마우스 위치에 바로 생성
+        //            _temp = Instantiate(roadPrefab, spawnPos, Quaternion.identity).GetComponent<Building>();
+        //            BuildingList.Add(_temp); // 세이브용
+        //            _isPlacing = true;
+        //            _prevPos = Vector3.zero;
+        //            FollowBuilding();
+        //        }
+        //        else
+        //        {
+        //            _temp.Place();
+        //            _temp = null;
+        //            _isPlacing = false;
+        //        }
+        //    }
+        //}
 
         if (_temp != null && Input.GetKeyDown(KeyCode.Escape))
         {
@@ -520,6 +548,7 @@ public class GridBuildingSystem : MonoBehaviour
         if (_temp == null) return;
 
         _temp.Rotate();
+        _skipFollowOnce = true; 
         FollowBuilding();
     }
     // 건설중 취소

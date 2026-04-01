@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7851466730219701409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7734583910431565148}
+  - component: {fileID: 2200117598892511792}
+  m_Layer: 0
+  m_Name: TouchInputHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7734583910431565148
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7851466730219701409}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 790.1221, y: 543.29443, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2200117598892511792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7851466730219701409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88dd3ef48c5c17740a9573453b7ce693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TouchInputHandler
+  _dragThreshold: 10
+  _pinchThreshold: 20
+  _onObjectSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  _onSelectionCleared:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDragDelta:
+    m_PersistentCalls:
+      m_Calls: []
+  _onPinchDelta:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDoubleTouchTap:
+    m_PersistentCalls:
+      m_Calls: []
+  _isTrackingTouchPos: 1
+  _debugFirstTouchPrefab: {fileID: 612252626750775743, guid: 59fc16fa9ecc16b448911597636b784a, type: 3}
+  _debugSecondTouchPrefab: {fileID: 8024970177379143666, guid: b37c43cb51947fd42a336726ca11d8d2, type: 3}
