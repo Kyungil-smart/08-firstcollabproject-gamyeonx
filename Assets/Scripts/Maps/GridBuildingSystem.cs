@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
+using static UnityEditor.Progress;
 
 public enum ETileType
 {
@@ -600,8 +601,11 @@ public class GridBuildingSystem : MonoBehaviour
         else if (building.buildType == BuildType.ProfitableFurniture)
             _currentInBuildingData.RemoveProfitableFurniture();
 
+        _temp.CloseMenu();
+
         building.DestroyBuilding();
         _temp = null;
         TempTilemap.ClearAllTiles();
+        
     }
 }

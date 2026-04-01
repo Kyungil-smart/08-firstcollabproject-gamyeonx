@@ -13,4 +13,9 @@ public class RestaurantUI : MonoBehaviour
             GridBuildingSystem.Instance._temp = null;
         }
     }
+
+    public void OnclickDemolish()
+    {
+        UIManager.Instance.OnClickSetBuildDoublecheckPanel();
+    }
 }
