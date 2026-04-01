@@ -1,8 +1,10 @@
 
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EventManager : MonoBehaviour
 {
@@ -13,6 +15,9 @@ public class EventManager : MonoBehaviour
     private Dictionary<string, Action> _actionHandlers = new Dictionary<string, Action>();
     
     public bool IsLoading { get; private set; }
+    
+    [Header("이벤트 캔버스")]
+    [SerializeField] private Transform _eventContentParent;
 
     private void Awake()
     {
@@ -32,23 +37,83 @@ public class EventManager : MonoBehaviour
     {
         _eventDataList = events;
         Debug.Log($"이벤트 {events.Count}개 로드 완료");
+        
+        StartCoroutine(WaitAndLoadEvents());
     }
     
     private void RegisterActionHandlers()
     {
-        _actionHandlers["SHOW_MESSAGE_WEEK10"] = () =>
+        _actionHandlers["TUTORIAL"] = () =>
         {
-            if (IsLoading) return;
-            Debug.Log("메시지 표시");
-            // 메세지 표시 로직
+            if (!IsLoading)
+            {
+                EventsCanvasActive("TUTORIAL");
+            }
+            Debug.Log("튜토리얼 실행");
         };
-        _actionHandlers["UNLOCK_BUILDING_asdf"] = () => 
+        
+        _actionHandlers["INCREASE_VISITOR_BASE"] = () =>
         {
-            Debug.Log("건물 해금");
+            if (!IsLoading)
+            {
+                EventsCanvasActive("INCREASE_VISITOR_BASE");
+            }
         };
-        _actionHandlers["SHOW_MESSAGE_GOLD10000"] = () => 
+        
+        _actionHandlers["ENABLE_MERCHANT_BUFF"] = () =>
         {
-            Debug.Log("");
+            if (!IsLoading)
+            {
+                EventsCanvasActive("ENABLE_MERCHANT_BUFF");
+            }
+        };     
+        
+        _actionHandlers["INCREASE_VISITOR_WEEKLY"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("INCREASE_VISITOR_WEEKLY");
+            }
+        };     
+        
+        _actionHandlers["INCREASE_UPKEEP_COST"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("INCREASE_UPKEEP_COST");
+            }
+        };      
+        
+        _actionHandlers["REPUTATION_BONUS_EVENT"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("REPUTATION_BONUS_EVENT");
+            }
+        };      
+        
+        _actionHandlers["INCREASE_RESOURCE_GAIN"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("INCREASE_RESOURCE_GAIN");
+            }
+        };
+                
+        _actionHandlers["HIGH_TIER_VISITOR_RATE_UP"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("HIGH_TIER_VISITOR_RATE_UP");
+            }
+        };
+                
+        _actionHandlers["HERO_VISIT_TRIGGER"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("HERO_VISIT_TRIGGER");
+            }
         };
     }
 
@@ -83,8 +148,8 @@ public class EventManager : MonoBehaviour
         if (eventData.isOneTime)
             UIManager.Instance._triggeredEvents.Add(eventData.eventId);
 
-        // 콤마로 구분된 액션 순차 실행
-        foreach (var action in eventData.actions.Split(','))
+        // ;로 구분된 액션 순차 실행
+        foreach (var action in eventData.actions.Split(';'))
         {
             string actionKey = action.Trim();
             if (_actionHandlers.TryGetValue(actionKey, out var handler))
@@ -96,6 +161,7 @@ public class EventManager : MonoBehaviour
 
     public void LoadTriggerEvents()
     {
+        Debug.Log("트리거 로딩 실행");
         IsLoading = true;
         var triggeredIds = UIManager.Instance._triggeredEvents; 
 
@@ -103,7 +169,7 @@ public class EventManager : MonoBehaviour
         {
             if (triggeredIds.Contains(eventData.eventId))
             {
-                foreach (var action in eventData.actions.Split(','))
+                foreach (var action in eventData.actions.Split(';'))
                 {
                     string actionKey = action.Trim();
                     if (_actionHandlers.TryGetValue(actionKey, out var handler))
@@ -115,5 +181,56 @@ public class EventManager : MonoBehaviour
         }
         
         IsLoading = false;
+    }
+    
+    private IEnumerator WaitAndLoadEvents()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        Debug.Log($"현재 실행된 이벤트 개수{UIManager.Instance._triggeredEvents.Count}");
+        
+        if (UIManager.Instance != null && UIManager.Instance._triggeredEvents.Count > 0)
+        {
+            LoadTriggerEvents();
+        }
+        
+        yield return new WaitForSeconds(2.0f);
+        
+        if (UIManager.Instance._triggeredEvents.Count == 0)
+        {
+            CheckWeekEvents(0);
+        }
+        
+    }
+
+    private void EventsCanvasActive(string eventName)
+    {
+        Transform eventObj = null;
+        
+        for (int i = 0; i < _eventContentParent.childCount; i++)
+        {
+            if (_eventContentParent.GetChild(i).name == eventName)
+            {
+                eventObj = _eventContentParent.GetChild(i);
+                break;
+            }
+        }
+
+        if (eventObj == null)
+        {
+            Debug.LogWarning($"[UI] {eventName} 이라는 이름의 이벤트를 찾을 수 없습니다.");
+            return;
+        }
+        
+        eventObj.gameObject.SetActive(true);
+        
+        Button enterBtn = eventObj.Find("Enter")?.GetComponent<Button>();
+        if (enterBtn != null)
+        {
+            enterBtn.onClick.RemoveAllListeners(); // 중복 방지
+            enterBtn.onClick.AddListener(() => {
+                eventObj.gameObject.SetActive(false); // 버튼 누르면 닫기
+            });
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -15,17 +16,22 @@ public class GoldTest : MonoBehaviour
         {
             _testGold = value;
             UpdateUI();
-            
-            if (IncreasedGold >= 10000)
-            {
-                EventManager.Instance.CheckGoldEvents(IncreasedGold);
-            }
+            EventManager.Instance.CheckGoldEvents(IncreasedGold);
         }
     }
 
     private void Awake()
     {
         UpdateUI();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PayMoney(1000);
+            Debug.Log($"현재 누적 수익 {IncreasedGold}");
+        }
     }
 
     public void PayMoney(int value)

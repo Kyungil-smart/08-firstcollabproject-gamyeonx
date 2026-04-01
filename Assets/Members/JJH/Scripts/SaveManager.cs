@@ -125,7 +125,7 @@ public class SaveManager : MonoBehaviour
             GridBuildingSystem.Instance.InitializeWithBuildingFromSave(prefab, bData);
         }
 
-        EventManager.Instance.LoadTriggerEvents(); // 이벤트 불러오기
+        // EventManager.Instance.LoadTriggerEvents(); // 이벤트 불러오기
         
         GridBuildingSystem.Instance.MainTilemap.RefreshAllTiles();
     }
