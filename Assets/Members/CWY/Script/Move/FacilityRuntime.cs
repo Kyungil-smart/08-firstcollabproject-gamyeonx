@@ -10,6 +10,9 @@ public class FacilityRuntime : MonoBehaviour
     [Header("시설 데이터")]
     [SerializeField] private FacilityEffectDatabaseSO _facilityEffectDatabase;
 
+    [Header("런타임 데이터")]
+    [SerializeField] private FacilityRuntimeData _runtimeData = new FacilityRuntimeData();
+
     [Header("외부 입구 정보")]
     [Tooltip("손님이 A*로 찾아올 입구 앞 Road")]
     [SerializeField] private GameObject _entranceRoadObject;
@@ -28,15 +31,29 @@ public class FacilityRuntime : MonoBehaviour
     [Header("건물 내부 데이터")]
     public InBuildingData _inBuildingData;
 
-    [Header("시설 이용 가격")]
-    public int Gold;
-
     private readonly Dictionary<Transform, GuestController> _slotUsers = new Dictionary<Transform, GuestController>();
     private readonly Dictionary<GuestController, Transform> _guestAssignedSlots = new Dictionary<GuestController, Transform>();
     private readonly Queue<GuestController> _waitQueue = new Queue<GuestController>();
 
     public string FacilityID => _facilityID;
     public EFacilityType FacilityType => _facilityType;
+
+    public FacilityRuntimeData RuntimeData => _runtimeData;
+
+    public string FacilityNameKo => _runtimeData.FacilityNameKo;
+    public string FacilityNameEn => _runtimeData.FacilityNameEn;
+
+    public int RefundAmount => _runtimeData.RefundAmount;
+    public int BuildCost => _runtimeData.BuildCost;
+    public int UpgradeCost => _runtimeData.UpgradeCost;
+    public int UnlockRevenue => _runtimeData.UnlockRevenue;
+    public int UsageFee => _runtimeData.UsageFee;
+
+    public int FatigueEffectPerTick => _runtimeData.FatigueEffectPerTick;
+    public int ThirstEffectPerTick => _runtimeData.ThirstEffectPerTick;
+    public int HungerEffectPerTick => _runtimeData.HungerEffectPerTick;
+    public int ShopEffectPerTick => _runtimeData.ShopEffectPerTick;
+    public int TrainingEffectPerTick => _runtimeData.TrainingEffectPerTick;
 
     // 기존 다른 코드 호환용
     public InBuildingData inBuildingData => _inBuildingData;
@@ -47,6 +64,12 @@ public class FacilityRuntime : MonoBehaviour
         {
             if (_entranceRoadObject == null)
             {
+                return Vector3Int.zero;
+            }
+
+            if (GridBuildingSystem.Instance == null || GridBuildingSystem.Instance.gridLayout == null)
+            {
+                Debug.LogWarning("[FacilityRuntime] GridBuildingSystem 또는 gridLayout이 없습니다.");
                 return Vector3Int.zero;
             }
 
@@ -68,6 +91,7 @@ public class FacilityRuntime : MonoBehaviour
 
     private void Awake()
     {
+        SubscribeDatabase();
         SyncFromFacilityRow();
 
         if (FacilityRegistry.Instance != null)
@@ -103,11 +127,13 @@ public class FacilityRuntime : MonoBehaviour
 
         HandleUsePivotsChanged(_inBuildingData.GetUsePivots());
 
-        Debug.Log($"[FacilityRuntime] 초기화 완료 | FacilityID={_facilityID}, FacilityType={_facilityType}, UseSlotCount={_usePoints.Count}");
+        Debug.Log($"[FacilityRuntime] 초기화 완료 | FacilityID={_facilityID}, FacilityType={_facilityType}, UsageFee={UsageFee}");
     }
 
     private void OnDisable()
     {
+        UnsubscribeDatabase();
+
         if (_inBuildingData != null)
         {
             _inBuildingData.OnUsePivotsChanged -= HandleUsePivotsChanged;
@@ -124,7 +150,33 @@ public class FacilityRuntime : MonoBehaviour
             FacilityRegistry.Instance.RegisterFacility(this);
         }
 
-        Debug.Log($"[FacilityRuntime] 시설 초기화 완료 | FacilityID={_facilityID}, FacilityType={_facilityType}, Gold={Gold}");
+        Debug.Log($"[FacilityRuntime] 시설 초기화 완료 | FacilityID={_facilityID}, FacilityType={_facilityType}, UsageFee={UsageFee}");
+    }
+
+    private void SubscribeDatabase()
+    {
+        if (_facilityEffectDatabase == null)
+        {
+            return;
+        }
+
+        _facilityEffectDatabase.OnDatabaseChanged -= HandleDatabaseChanged;
+        _facilityEffectDatabase.OnDatabaseChanged += HandleDatabaseChanged;
+    }
+
+    private void UnsubscribeDatabase()
+    {
+        if (_facilityEffectDatabase == null)
+        {
+            return;
+        }
+
+        _facilityEffectDatabase.OnDatabaseChanged -= HandleDatabaseChanged;
+    }
+
+    private void HandleDatabaseChanged()
+    {
+        SyncFromFacilityRow();
     }
 
     private void SyncFromFacilityRow()
@@ -149,8 +201,10 @@ public class FacilityRuntime : MonoBehaviour
             return;
         }
 
+        _runtimeData.ApplyRow(row);
         _facilityType = row.FacilityType;
-        Gold = row.UsageFee;
+
+        Debug.Log($"[FacilityRuntime] 시트 동기화 완료 | ID={_facilityID}, Refund={RefundAmount}, Build={BuildCost}, Upgrade={UpgradeCost}, Unlock={UnlockRevenue}, UsageFee={UsageFee}");
     }
 
     private void HandleUsePivotsChanged(List<Transform> pivots)
@@ -368,19 +422,42 @@ public class FacilityRuntime : MonoBehaviour
         }
     }
 
-    // 기존 코드 호환용
+    // ------------------------------
+    // 기존 테스트용 가격 조작 코드
+    // 최종 구조에서는 SO 기준으로만 사용하므로 주석 처리
+    // ------------------------------
+
+    /*
+    public int Gold;
+    */
+
+    /*
     public int GetPrice()
     {
         return Gold;
     }
+    */
 
+    /*
     public void UpgradePrice(int addPrice)
     {
         Gold += addPrice;
     }
+    */
 
+    /*
     public void DownGradePrice(int minPrice)
     {
         Gold -= minPrice;
     }
+    */
 }
+
+/*
+유니티 적용 방법
+1. 기존 FacilityRuntime.cs를 이 코드로 교체합니다.
+2. 각 시설 프리팹/오브젝트의 FacilityID와 FacilityEffectDatabaseSO를 연결합니다.
+3. 이제 UsageFee, BuildCost, UpgradeCost, RefundAmount, UnlockRevenue는
+   모두 시트 -> SO -> FacilityRuntime 순서로 자동 반영됩니다.
+4. 업그레이드 시 가격을 직접 더하지 말고, 상위 시설 ID로 바꿔서 InitializeFacility()를 호출하는 방식으로 사용하세요.
+*/

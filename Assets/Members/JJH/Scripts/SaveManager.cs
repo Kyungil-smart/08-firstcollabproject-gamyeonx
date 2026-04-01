@@ -64,7 +64,7 @@ public class SaveManager : MonoBehaviour
             {
                 level = b.InBuildingData.currentLevel;
                 useCount = b.InBuildingData._currentUseCount;
-                gold = b.InBuildingData.FacilityRuntime.GetPrice();
+                //gold = b.InBuildingData.FacilityRuntime.GetPrice();
             }
             
             BuildingSaveData bData = new BuildingSaveData {
