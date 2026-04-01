@@ -32,12 +32,12 @@ public class MoveWithWayPoints : MonoBehaviour
 
         _pathPoints.Add(facility.WaitPoint);
 
-        foreach (var way in facility.EnteranceWayPoints)
-        {
-            _pathPoints.Add(way);
-        }
+        // foreach (var way in facility.EnteranceWayPoints)
+        // {
+        //     _pathPoints.Add(way);
+        // }
 
-        _pathPoints.Add(facility.EnterancePoint);
+        // _pathPoints.Add(facility.EnterancePoint);
         
         DebugPath(_pathPoints, "Wait -> Entrance");
 
@@ -50,12 +50,12 @@ public class MoveWithWayPoints : MonoBehaviour
 
         FacilityRuntime facility = GuestController.CurrentFacilityRuntime;
 
-        _pathPoints.Add(facility.ExitPoint);
-
-        foreach (var way in facility.ExitWayPoints)
-        {
-            _pathPoints.Add(way);
-        }
+        // _pathPoints.Add(facility.ExitPoint);
+        //
+        // foreach (var way in facility.ExitWayPoints)
+        // {
+        //     _pathPoints.Add(way);
+        // }
 
         _pathPoints.Add(facility.FacilityExitPoint);
 
