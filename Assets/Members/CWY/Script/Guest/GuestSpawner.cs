@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 public class GuestSpawner : MonoBehaviour
@@ -13,9 +11,12 @@ public class GuestSpawner : MonoBehaviour
     [Header("입장 가능 시간")]
     [SerializeField] private float _spawnOpenDuration = 60f;
 
-    [Header("사이클별 목표 스폰 수")]
-    [Tooltip("0번 = 1사이클, 1번 = 2사이클, 2번 = 3사이클")]
-    [SerializeField] private int[] _spawnCountPerCycle;
+    [Header("턴 전체 시간 (GameTime 수정 없이 임시 사용)")]
+    [SerializeField] private float _turnDuration = 180f;
+
+    [Header("정규분포 예약 스폰 설정")]
+    [SerializeField] private float _spawnMean = 30f;
+    [SerializeField] private float _spawnStdDev = 12f;
 
     [Header("테스트 스폰 설정")]
     [SerializeField] private bool _useFixedVisitorIDForTest = false;
@@ -24,14 +25,11 @@ public class GuestSpawner : MonoBehaviour
     [Header("디버그")]
     [SerializeField] private bool _enableDebugLog = true;
 
-    private Coroutine _spawnRoutine;
-
-    private int _currentCycleIndex = 1;
     private bool _wasSpawnWindowOpen;
     private bool _wasTurnInitialized;
 
-    private FieldInfo _userTimeField;
-    private FieldInfo _userTimeUnitField;
+    private readonly List<float> _spawnTimes = new List<float>();
+    private int _nextSpawnIndex;
 
     private void Awake()
     {
@@ -39,8 +37,6 @@ public class GuestSpawner : MonoBehaviour
         {
             _gameTime = FindFirstObjectByType<GameTime>();
         }
-
-        CacheGameTimeFields();
     }
 
     private void Update()
@@ -50,8 +46,8 @@ public class GuestSpawner : MonoBehaviour
             return;
         }
 
-        float currentTurnTime = GetGameTimeValue("_userTime");
-        float currentTurnDuration = GetGameTimeValue("_userTimeUnit");
+        float currentTurnTime = _gameTime._userTime;
+        float currentTurnDuration = _turnDuration;
 
         if (currentTurnDuration <= 0f)
         {
@@ -67,31 +63,35 @@ public class GuestSpawner : MonoBehaviour
 
             if (isSpawnWindowOpen)
             {
-                StartSpawnForCurrentCycle();
+                StartSpawnPlanForCurrentWeek();
             }
 
-            Log($"[GuestSpawner] 초기화 완료 | Cycle={_currentCycleIndex}, TurnTime={currentTurnTime:F1}");
+           
             return;
         }
 
         if (!_wasSpawnWindowOpen && isSpawnWindowOpen)
         {
-            _currentCycleIndex++;
-            StartSpawnForCurrentCycle();
-
-            Log($"[GuestSpawner] 새 사이클 시작 감지 | Cycle={_currentCycleIndex}, TurnTime={currentTurnTime:F1}");
+            StartSpawnPlanForCurrentWeek();
+            
         }
 
         if (_wasSpawnWindowOpen && !isSpawnWindowOpen)
         {
-            StopSpawnRoutine();
-            Log($"[GuestSpawner] 스폰 가능 구간 종료 | Cycle={_currentCycleIndex}, TurnTime={currentTurnTime:F1}");
+            ClearSpawnPlan();
+           
+        }
+
+
+        if (isSpawnWindowOpen)
+        {
+            ProcessReservedSpawns(currentTurnTime);
         }
 
         _wasSpawnWindowOpen = isSpawnWindowOpen;
     }
 
-    private void CacheGameTimeFields()
+    private void StartSpawnPlanForCurrentWeek()
     {
         if (_gameTime == null)
         {
@@ -99,48 +99,13 @@ public class GuestSpawner : MonoBehaviour
             return;
         }
 
-        System.Type gameTimeType = typeof(GameTime);
-
-        _userTimeField = gameTimeType.GetField("_userTime", BindingFlags.NonPublic | BindingFlags.Instance);
-        _userTimeUnitField = gameTimeType.GetField("_userTimeUnit", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        if (_userTimeField == null || _userTimeUnitField == null)
+        if (_gameTime._userWeek <= 0)
         {
-            Debug.LogWarning("[GuestSpawner] GameTime의 private 필드를 찾지 못했습니다.");
-        }
-    }
-
-    private float GetGameTimeValue(string fieldName)
-    {
-        if (_gameTime == null)
-        {
-            return 0f;
+            ClearSpawnPlan();
+            Log($"[GuestSpawner] 0주차이므로 손님 스폰을 진행하지 않습니다. | Week={_gameTime._userWeek}");
+            return;
         }
 
-        FieldInfo field = fieldName switch
-        {
-            "_userTime" => _userTimeField,
-            "_userTimeUnit" => _userTimeUnitField,
-            _ => null
-        };
-
-        if (field == null)
-        {
-            return 0f;
-        }
-
-        object value = field.GetValue(_gameTime);
-
-        if (value is float floatValue)
-        {
-            return floatValue;
-        }
-
-        return 0f;
-    }
-
-    private void StartSpawnForCurrentCycle()
-    {
         if (_guestPrefab == null)
         {
             Debug.LogWarning("[GuestSpawner] Guest Prefab이 비어 있습니다.");
@@ -153,83 +118,96 @@ public class GuestSpawner : MonoBehaviour
             return;
         }
 
-        if (_spawnCountPerCycle == null || _spawnCountPerCycle.Length == 0)
-        {
-            Debug.LogWarning("[GuestSpawner] SpawnCountPerCycle이 비어 있습니다.");
-            return;
-        }
+        int currentWeek = _gameTime._userWeek;
+        int baseSpawnCount = GetBaseSpawnCount(currentWeek);
+        int eventBonusSpawnCount = GetEventVisitorBonusForCurrentWeek();
+        int finalSpawnCount = Mathf.Max(0, baseSpawnCount + eventBonusSpawnCount);
 
-        StopSpawnRoutine();
-        _spawnRoutine = StartCoroutine(SpawnRoutine());
+        Debug.Log(
+            $"[GuestSpawner] 스폰 수 계산 | " +
+            $"Week={currentWeek}, " +
+            $"Base={baseSpawnCount}, " +
+            $"EventBonus={eventBonusSpawnCount}, " +
+            $"Final={finalSpawnCount}");
+
+        CreateSpawnTimes(finalSpawnCount);
+        _nextSpawnIndex = 0;
+
+        Log($"[GuestSpawner] 스폰 계획 생성 | Week={currentWeek}, Base={baseSpawnCount}, Bonus={eventBonusSpawnCount}, Final={finalSpawnCount}");
     }
 
-    private void StopSpawnRoutine()
+    private int GetBaseSpawnCount(int week)
     {
-        if (_spawnRoutine != null)
-        {
-            StopCoroutine(_spawnRoutine);
-            _spawnRoutine = null;
-        }
+        return Mathf.RoundToInt(10f + 14.4f * (Mathf.Sqrt(week) - 1f));
     }
 
-    private IEnumerator SpawnRoutine()
+    private int GetEventVisitorBonusForCurrentWeek()
     {
-        int targetSpawnCount = GetTargetSpawnCountForCurrentCycle();
-
-        Log($"[GuestSpawner] 스폰 시작 | Cycle={_currentCycleIndex}, TargetSpawn={targetSpawnCount}");
-
-        if (targetSpawnCount <= 0)
+        if (EventManager.Instance == null)
         {
-            Log("[GuestSpawner] 이번 사이클 목표 스폰 수가 0이므로 생성하지 않습니다.");
-            yield break;
+            Debug.LogWarning("[GuestSpawner] EventManager가 없어 스폰 보너스를 0으로 처리합니다.");
+            return 0;
         }
 
-        float spawnInterval = _spawnOpenDuration / targetSpawnCount;
-        Log($"[GuestSpawner] 자동 스폰 간격 = {spawnInterval:F2}s");
+        Debug.Log($"[GuestSpawner] 현재 이벤트 스폰 보너스 사용 | Bonus={EventManager.Instance.CurrentCycleVisitorBonus}");
+        return EventManager.Instance.CurrentCycleVisitorBonus;
+    }
+
+    private void CreateSpawnTimes(int targetSpawnCount)
+    {
+        _spawnTimes.Clear();
 
         for (int i = 0; i < targetSpawnCount; i++)
         {
-            float currentTurnTime = GetGameTimeValue("_userTime");
+            float spawnTime;
 
-            if (currentTurnTime >= _spawnOpenDuration)
+            do
             {
-                Log("[GuestSpawner] 스폰 가능 시간이 종료되어 스폰을 중단합니다.");
-                yield break;
+                spawnTime = GetGaussianRandom(_spawnMean, _spawnStdDev);
             }
+            while (spawnTime < 0f || spawnTime > _spawnOpenDuration);
 
-            SpawnGuest();
-
-            if (i == targetSpawnCount - 1)
-            {
-                break;
-            }
-
-            yield return new WaitForSeconds(spawnInterval);
+            _spawnTimes.Add(spawnTime);
         }
 
-        Log($"[GuestSpawner] 스폰 완료 | Cycle={_currentCycleIndex}, Spawned={targetSpawnCount}");
+        _spawnTimes.Sort();
+
+        for (int i = 0; i < _spawnTimes.Count; i++)
+        {
+            Log($"[GuestSpawner] SpawnTimes[{i}] = {_spawnTimes[i]:F2}");
+        }
     }
 
-    private int GetTargetSpawnCountForCurrentCycle()
+    private float GetGaussianRandom(float mean, float stdDev)
     {
-        if (_spawnCountPerCycle == null || _spawnCountPerCycle.Length == 0)
+        float u1 = 1f - Random.value;
+        float u2 = 1f - Random.value;
+
+        float randStdNormal =
+            Mathf.Sqrt(-2f * Mathf.Log(u1)) *
+            Mathf.Sin(2f * Mathf.PI * u2);
+
+        return mean + stdDev * randStdNormal;
+    }
+
+    private void ProcessReservedSpawns(float currentTurnTime)
+    {
+        Log($"[GuestSpawner] ProcessReservedSpawns 진입 | TurnTime={currentTurnTime:F2}");
+
+        while (_nextSpawnIndex < _spawnTimes.Count &&
+               currentTurnTime >= _spawnTimes[_nextSpawnIndex] &&
+               currentTurnTime < _spawnOpenDuration)
         {
-            return 0;
+            Debug.Log($"[GuestSpawner] 실제 스폰 실행 | TurnTime={currentTurnTime:F2}, SpawnTime={_spawnTimes[_nextSpawnIndex]:F2}");
+            SpawnGuest();
+            _nextSpawnIndex++;
         }
+    }
 
-        int arrayIndex = _currentCycleIndex - 1;
-
-        if (arrayIndex < 0)
-        {
-            return 0;
-        }
-
-        if (arrayIndex >= _spawnCountPerCycle.Length)
-        {
-            return Mathf.Max(0, _spawnCountPerCycle[_spawnCountPerCycle.Length - 1]);
-        }
-
-        return Mathf.Max(0, _spawnCountPerCycle[arrayIndex]);
+    private void ClearSpawnPlan()
+    {
+        _spawnTimes.Clear();
+        _nextSpawnIndex = 0;
     }
 
     public GameObject SpawnGuest()
@@ -259,8 +237,6 @@ public class GuestSpawner : MonoBehaviour
         }
 
         guestController.SetupSpawn(visitorID);
-
-        Log($"[GuestSpawner] 손님 생성 완료 | Cycle={_currentCycleIndex}, VisitorID={visitorID}");
         return guestObject;
     }
 
@@ -284,7 +260,12 @@ public class GuestSpawner : MonoBehaviour
             return -1;
         }
 
+        int cBonus = EventManager.Instance != null ? EventManager.Instance.CurrentCycleAdventurerCBonusWeight : 0;
+        int bBonus = EventManager.Instance != null ? EventManager.Instance.CurrentCycleAdventurerBBonusWeight : 0;
+        int aBonus = EventManager.Instance != null ? EventManager.Instance.CurrentCycleAdventurerABonusWeight : 0;
+
         int totalWeight = 0;
+        List<int> finalWeights = new List<int>(rows.Count);
 
         for (int i = 0; i < rows.Count; i++)
         {
@@ -292,20 +273,23 @@ public class GuestSpawner : MonoBehaviour
 
             if (row == null)
             {
+                finalWeights.Add(0);
                 continue;
             }
 
-            if (row.SpawnWeight <= 0)
+            int finalWeight = Mathf.Max(0, row.SpawnWeight);
+
+            if (TryApplyAdventurerGradeBonus(row, ref finalWeight, cBonus, bBonus, aBonus))
             {
-                continue;
             }
 
-            totalWeight += row.SpawnWeight;
+            finalWeights.Add(finalWeight);
+            totalWeight += finalWeight;
         }
 
         if (totalWeight <= 0)
         {
-            Debug.LogWarning("[GuestSpawner] 모든 spawn_weight가 0 이하입니다.");
+            Debug.LogWarning("[GuestSpawner] 모든 최종 가중치가 0 이하입니다.");
             return -1;
         }
 
@@ -314,29 +298,59 @@ public class GuestSpawner : MonoBehaviour
 
         for (int i = 0; i < rows.Count; i++)
         {
-            GuestDataRow row = rows[i];
+            int weight = finalWeights[i];
 
-            if (row == null)
+            if (weight <= 0 || rows[i] == null)
             {
                 continue;
             }
 
-            if (row.SpawnWeight <= 0)
-            {
-                continue;
-            }
-
-            cumulativeWeight += row.SpawnWeight;
+            cumulativeWeight += weight;
 
             if (randomValue < cumulativeWeight)
             {
-                Log($"[GuestSpawner] 가중치 선택 완료 | VisitorID={row.VisitorID}, Weight={row.SpawnWeight}, Roll={randomValue}/{totalWeight}");
-                return row.VisitorID;
+                Log($"[GuestSpawner] 가중치 선택 완료 | VisitorID={rows[i].VisitorID}, FinalWeight={weight}, Roll={randomValue}/{totalWeight}");
+                return rows[i].VisitorID;
             }
         }
 
         Debug.LogWarning("[GuestSpawner] 가중치 선택 실패. 마지막 fallback 사용");
         return rows[rows.Count - 1] != null ? rows[rows.Count - 1].VisitorID : -1;
+    }
+
+    private bool TryApplyAdventurerGradeBonus(
+        GuestDataRow row,
+        ref int finalWeight,
+        int cBonus,
+        int bBonus,
+        int aBonus)
+    {
+        bool applied = false;
+
+        if (!row.IsAdventurer)
+        {
+            return false;
+        }
+
+        switch (row.AdventurerGrade)
+        {
+            case "C":
+                finalWeight += cBonus;
+                applied = true;
+                break;
+
+            case "B":
+                finalWeight += bBonus;
+                applied = true;
+                break;
+
+            case "A":
+                finalWeight += aBonus;
+                applied = true;
+                break;
+        }
+
+        return applied;
     }
 
     private void Log(string message)
