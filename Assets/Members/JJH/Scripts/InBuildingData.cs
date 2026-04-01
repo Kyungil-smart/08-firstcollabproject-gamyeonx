@@ -249,21 +249,24 @@ public class InBuildingData : MonoBehaviour
             return string.Empty;
         }
 
-        // 예:
-        // FAC_RESTAURANT_01 -> FAC_RESTAURANT_02
-        // FAC_ONSEN_01 -> FAC_ONSEN_02
-        if (currentFacilityID.EndsWith("_01"))
+        int lastUnderscoreIndex = currentFacilityID.LastIndexOf('_');
+        if (lastUnderscoreIndex < 0 || lastUnderscoreIndex >= currentFacilityID.Length - 1)
         {
-            return currentFacilityID.Substring(0, currentFacilityID.Length - 3) + "_02";
+            Debug.LogWarning($"[InBuildingData] FacilityID 형식이 올바르지 않습니다. ID={currentFacilityID}");
+            return string.Empty;
         }
 
-        // 이미 고급 시설이면 그대로 반환
-        if (currentFacilityID.EndsWith("_02"))
+        string prefix = currentFacilityID.Substring(0, lastUnderscoreIndex);
+        string levelText = currentFacilityID.Substring(lastUnderscoreIndex + 1);
+
+        if (!int.TryParse(levelText, out int currentFacilityLevel))
         {
-            return currentFacilityID;
+            Debug.LogWarning($"[InBuildingData] FacilityID 레벨 파싱 실패. ID={currentFacilityID}");
+            return string.Empty;
         }
 
-        return string.Empty;
+        int nextFacilityLevel = currentFacilityLevel + 1;
+        return $"{prefix}_{nextFacilityLevel:00}";
     }
 
     //public void BuildingLevelUp()
