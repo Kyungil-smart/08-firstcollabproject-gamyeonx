@@ -15,6 +15,7 @@ public class EventManager : MonoBehaviour
     private Dictionary<string, Action> _actionHandlers = new Dictionary<string, Action>();
     
     public bool IsLoading { get; private set; }
+    public bool IsTutorial = false;
     
     [Header("이벤트 캔버스")]
     [SerializeField] private Transform _eventContentParent;
@@ -47,6 +48,7 @@ public class EventManager : MonoBehaviour
         {
             if (!IsLoading)
             {
+                IsTutorial = true;
                 EventsCanvasActive("TUTORIAL");
             }
             Debug.Log("튜토리얼 실행");
@@ -224,12 +226,24 @@ public class EventManager : MonoBehaviour
         
         eventObj.gameObject.SetActive(true);
         
+        var conv = eventObj.GetComponent<EventUI>();
+        if (conv != null)
+        {
+            conv.StartConversation();
+        
+            // 투명 '다음' 버튼 연결 (스크립트 내 OnClickNext 호출)
+            // 이 버튼은 인스펙터에서 미리 연결해두거나 여기서 찾아서 등록합니다.
+        }
+    
+        // 마지막 확인 버튼(Enter) 로직
         Button enterBtn = eventObj.Find("Enter")?.GetComponent<Button>();
         if (enterBtn != null)
         {
-            enterBtn.onClick.RemoveAllListeners(); // 중복 방지
-            enterBtn.onClick.AddListener(() => {
-                eventObj.gameObject.SetActive(false); // 버튼 누르면 닫기
+            enterBtn.onClick.RemoveAllListeners();
+            enterBtn.onClick.AddListener(() => 
+            {
+                eventObj.gameObject.SetActive(false);
+                if (IsTutorial) IsTutorial = false;
             });
         }
     }
