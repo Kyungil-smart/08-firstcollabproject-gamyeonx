@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EventManager : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class EventManager : MonoBehaviour
     private Dictionary<string, Action> _actionHandlers = new Dictionary<string, Action>();
     
     public bool IsLoading { get; private set; }
+    
+    [Header("이벤트 캔버스")]
+    [SerializeField] private Transform _eventContentParent;
 
     private void Awake()
     {
@@ -41,9 +45,11 @@ public class EventManager : MonoBehaviour
     {
         _actionHandlers["SHOW_MESSAGE_WEEK10"] = () =>
         {
-            if (IsLoading) return;
+            if (!IsLoading)
+            {
+                EventsCanvasActive("SHOW_MESSAGE_WEEK10");
+            }
             Debug.Log("메시지 표시");
-            // 메세지 표시 로직
         };
         _actionHandlers["UNLOCK_BUILDING_asdf"] = () => 
         {
@@ -51,7 +57,10 @@ public class EventManager : MonoBehaviour
         };
         _actionHandlers["SHOW_MESSAGE_GOLD10000"] = () => 
         {
-            if (IsLoading) return;
+            if (!IsLoading)
+            {
+                EventsCanvasActive("SHOW_MESSAGE_GOLD10000");
+            }
             Debug.Log("누적 수익 10000골드 이벤트 발생");
         };
     }
@@ -131,6 +140,37 @@ public class EventManager : MonoBehaviour
         if (UIManager.Instance != null && UIManager.Instance._triggeredEvents.Count > 0)
         {
             LoadTriggerEvents();
+        }
+    }
+
+    private void EventsCanvasActive(string eventName)
+    {
+        Transform eventObj = null;
+        
+        for (int i = 0; i < _eventContentParent.childCount; i++)
+        {
+            if (_eventContentParent.GetChild(i).name == eventName)
+            {
+                eventObj = _eventContentParent.GetChild(i);
+                break;
+            }
+        }
+
+        if (eventObj == null)
+        {
+            Debug.LogWarning($"[UI] {eventName} 이라는 이름의 이벤트를 찾을 수 없습니다.");
+            return;
+        }
+        
+        eventObj.gameObject.SetActive(true);
+        
+        Button enterBtn = eventObj.Find("Enter")?.GetComponent<Button>();
+        if (enterBtn != null)
+        {
+            enterBtn.onClick.RemoveAllListeners(); // 중복 방지
+            enterBtn.onClick.AddListener(() => {
+                eventObj.gameObject.SetActive(false); // 버튼 누르면 닫기
+            });
         }
     }
 }
