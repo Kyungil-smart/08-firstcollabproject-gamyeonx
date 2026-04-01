@@ -41,6 +41,8 @@ public class CameraController : MonoBehaviour
     private Vector3 _prevCameraPos;
     private bool _isInBuilding = false; // 현재 건물 내부인지 체크하는 플래그
 
+    public GameObject RoadMenu; // 여기 수정했음 근형, 이거 길타입 전용으로 메뉴 셋팅부분 터치시 길타입전용으로 분기 갈라놨음
+
     void Awake()
     {
         _cam = GetComponent<Camera>();
@@ -185,7 +187,6 @@ public class CameraController : MonoBehaviour
         {
             if (!_isPanning && _touchStartedOnBuilding)
             {
-                // 설치 모드가 켜져 있지 않은 경우만 메뉴 열기
                 if (GridBuildingSystem.Instance._temp == null || GridBuildingSystem.Instance._temp.Placed)
                 {
                     Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
@@ -193,7 +194,11 @@ public class CameraController : MonoBehaviour
                     Building building = hit.collider?.GetComponent<Building>();
                     if (building != null)
                     {
-                        building.CanvasActive();
+                        if (building.buildType == BuildType.Road)
+                            RoadMenu.SetActive(true); // 길타입 전용 메뉴
+                        else
+                            building.CanvasActive(); // 기존 메뉴
+
                         building.IsMenuOpen = true;
                     }
                 }
@@ -283,12 +288,20 @@ public class CameraController : MonoBehaviour
         {
             if (!_mouseDownOnUI && !_isPanning && _touchStartedOnBuilding)
             {
-                // 설치 모드가 켜져 있지 않은 경우만 메뉴 열기
                 if (GridBuildingSystem.Instance._temp == null || GridBuildingSystem.Instance._temp.Placed)
                 {
                     Vector2 worldPos = _cam.ScreenToWorldPoint(Input.mousePosition);
                     RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-                    hit.collider?.GetComponent<Building>()?.CanvasActive();
+                    Building building = hit.collider?.GetComponent<Building>();
+                    if (building != null)
+                    {
+                        if (building.buildType == BuildType.Road)
+                            RoadMenu.SetActive(true); // 길타입 전용 메뉴
+                        else
+                            building.CanvasActive(); // 기존 메뉴
+
+                        building.IsMenuOpen = true;
+                    }
                 }
             }
             _isPanning = _touchStartedOnBuilding = _mouseDownOnUI = false;
