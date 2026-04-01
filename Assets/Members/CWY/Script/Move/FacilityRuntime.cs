@@ -139,19 +139,27 @@ public class FacilityRuntime : MonoBehaviour
             _exitPoint = _inBuildingData.ExitPivot.transform;
         }
 
+        _entranceWayPoints.Clear();
         if (_inBuildingData.EntranceWayPivots != null)
         {
             foreach (var way in _inBuildingData.EntranceWayPivots)
             {
-                _entranceWayPoints.Add(way.transform);
+                if (way != null)
+                {
+                    _entranceWayPoints.Add(way.transform);
+                }
             }
         }
 
+        _exitWayPoints.Clear();
         if (_inBuildingData.ExitWayPivots != null)
         {
             foreach (var way in _inBuildingData.ExitWayPivots)
             {
-                _exitWayPoints.Add(way.transform);
+                if (way != null)
+                {
+                    _exitWayPoints.Add(way.transform);
+                }
             }
         }
 
@@ -168,10 +176,28 @@ public class FacilityRuntime : MonoBehaviour
         {
             _inBuildingData.OnUsePivotsChanged -= HandleUsePivotsChanged;
         }
+
+        if (FacilityRegistry.Instance != null)
+        {
+            FacilityRegistry.Instance.UnregisterFacility(this);
+        }
     }
 
     public void InitializeFacility(string facilityID)
     {
+        if (string.IsNullOrWhiteSpace(facilityID))
+        {
+            Debug.LogWarning("[FacilityRuntime] InitializeFacility 실패 - facilityID가 비어 있습니다.");
+            return;
+        }
+
+        string oldFacilityID = _facilityID;
+
+        if (FacilityRegistry.Instance != null && string.IsNullOrWhiteSpace(oldFacilityID) == false)
+        {
+            FacilityRegistry.Instance.UnregisterFacilityByID(oldFacilityID, this);
+        }
+
         _facilityID = facilityID;
         SyncFromFacilityRow();
 
@@ -180,7 +206,7 @@ public class FacilityRuntime : MonoBehaviour
             FacilityRegistry.Instance.RegisterFacility(this);
         }
 
-        Debug.Log($"[FacilityRuntime] 시설 초기화 완료 | FacilityID={_facilityID}, FacilityType={_facilityType}, UsageFee={UsageFee}");
+        Debug.Log($"[FacilityRuntime] 시설 초기화 완료 | OldID={oldFacilityID}, NewID={_facilityID}, FacilityType={_facilityType}, UsageFee={UsageFee}");
     }
 
     private void SubscribeDatabase()

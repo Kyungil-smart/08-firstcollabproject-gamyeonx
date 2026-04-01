@@ -225,27 +225,27 @@ public class GuestController : MonoBehaviour
 
     public bool TryFindTargetFacility()
     {
-        if (_facilityEffectDatabase == null)
-        {
-            Debug.LogWarning("[GuestController] FacilityEffectDatabase가 없습니다.");
-            return false;
-        }
-
         if (CurrentTargetFacilityType == EFacilityType.None)
         {
             Debug.LogWarning("[GuestController] 목표 시설 타입이 None입니다.");
             return false;
         }
 
-        FacilityEffectRow targetRow = _facilityEffectDatabase.GetFirstMatchingEffectByType(CurrentTargetFacilityType);
-
-        if (targetRow == null)
+        if (FacilityRegistry.Instance == null)
         {
-            Log($"[GuestController] 목표 시설 데이터 없음 | FacilityType={CurrentTargetFacilityType}");
+            Debug.LogWarning("[GuestController] FacilityRegistry가 없습니다.");
             return false;
         }
 
-        SetCurrentTargetFacility(targetRow.FacilityID, targetRow.FacilityType);
+        FacilityRuntime targetFacility = FacilityRegistry.Instance.GetFirstFacilityByType(CurrentTargetFacilityType);
+
+        if (targetFacility == null)
+        {
+            Log($"[GuestController] 목표 시설 Runtime 없음 | FacilityType={CurrentTargetFacilityType}");
+            return false;
+        }
+
+        SetCurrentTargetFacility(targetFacility.FacilityID, targetFacility.FacilityType);
         return true;
     }
 
