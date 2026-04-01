@@ -68,6 +68,11 @@ public class Building : MonoBehaviour
         IsMenuOpen = false;
         _cameraController.SetInputLock(false);
         _cameraController._touchStartedOnBuilding = false;
+        if (GridBuildingSystem.Instance._temp != null)
+        {
+            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
+            GridBuildingSystem.Instance._temp = null;
+        }
     }
 
 
@@ -87,6 +92,11 @@ public class Building : MonoBehaviour
 
         InBuildingData.BuildingEntered();
         // _cameraController.SetInputLock(false);
+        if (GridBuildingSystem.Instance._temp != null)
+        {
+            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
+            GridBuildingSystem.Instance._temp = null;
+        }
     }
 
     public void BuildingLevelUp()
@@ -96,6 +106,11 @@ public class Building : MonoBehaviour
         InBuildingData.BuildingLevelUp();
         _canvas?.gameObject.SetActive(false);
         _cameraController.SetInputLock(false);
+        if (GridBuildingSystem.Instance._temp != null)
+        {
+            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
+            GridBuildingSystem.Instance._temp = null;
+        }
     }
     
     // 현재 위치에서 설치 가능여부 체크용 메서드

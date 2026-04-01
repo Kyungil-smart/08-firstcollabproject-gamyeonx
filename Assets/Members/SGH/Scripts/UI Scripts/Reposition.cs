@@ -14,5 +14,10 @@ public class Reposition : MonoBehaviour
     public void OnClickBackUI()
     {
         _demolishUiPanel.SetActive(false);
+        if (GridBuildingSystem.Instance._temp != null)
+        {
+            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
+            GridBuildingSystem.Instance._temp = null;
+        }
     }
 }
