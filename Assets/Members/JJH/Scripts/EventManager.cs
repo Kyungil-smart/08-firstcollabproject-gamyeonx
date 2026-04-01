@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,6 +33,8 @@ public class EventManager : MonoBehaviour
     {
         _eventDataList = events;
         Debug.Log($"이벤트 {events.Count}개 로드 완료");
+        
+        StartCoroutine(WaitAndLoadEvents());
     }
     
     private void RegisterActionHandlers()
@@ -48,7 +51,8 @@ public class EventManager : MonoBehaviour
         };
         _actionHandlers["SHOW_MESSAGE_GOLD10000"] = () => 
         {
-            Debug.Log("");
+            if (IsLoading) return;
+            Debug.Log("누적 수익 10000골드 이벤트 발생");
         };
     }
 
@@ -83,8 +87,8 @@ public class EventManager : MonoBehaviour
         if (eventData.isOneTime)
             UIManager.Instance._triggeredEvents.Add(eventData.eventId);
 
-        // 콤마로 구분된 액션 순차 실행
-        foreach (var action in eventData.actions.Split(','))
+        // ;로 구분된 액션 순차 실행
+        foreach (var action in eventData.actions.Split(';'))
         {
             string actionKey = action.Trim();
             if (_actionHandlers.TryGetValue(actionKey, out var handler))
@@ -96,6 +100,7 @@ public class EventManager : MonoBehaviour
 
     public void LoadTriggerEvents()
     {
+        Debug.Log("트리거 로딩 실행");
         IsLoading = true;
         var triggeredIds = UIManager.Instance._triggeredEvents; 
 
@@ -103,7 +108,7 @@ public class EventManager : MonoBehaviour
         {
             if (triggeredIds.Contains(eventData.eventId))
             {
-                foreach (var action in eventData.actions.Split(','))
+                foreach (var action in eventData.actions.Split(';'))
                 {
                     string actionKey = action.Trim();
                     if (_actionHandlers.TryGetValue(actionKey, out var handler))
@@ -115,5 +120,17 @@ public class EventManager : MonoBehaviour
         }
         
         IsLoading = false;
+    }
+    
+    private IEnumerator WaitAndLoadEvents()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        Debug.Log($"현재 실행된 이벤트 개수{UIManager.Instance._triggeredEvents.Count}");
+        
+        if (UIManager.Instance != null && UIManager.Instance._triggeredEvents.Count > 0)
+        {
+            LoadTriggerEvents();
+        }
     }
 }
