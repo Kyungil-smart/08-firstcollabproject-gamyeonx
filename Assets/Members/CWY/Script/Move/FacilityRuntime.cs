@@ -485,51 +485,6 @@ public class FacilityRuntime : MonoBehaviour
 }
 
 
-/*
-유니티 적용 방법
-1. 기존 FacilityRuntime.cs를 이 코드로 교체합니다.
-2. 각 시설 프리팹/오브젝트의 FacilityID와 FacilityEffectDatabaseSO를 연결합니다.
-3. 이제 UsageFee, BuildCost, UpgradeCost, RefundAmount, UnlockRevenue는
-   모두 시트 -> SO -> FacilityRuntime 순서로 자동 반영됩니다.
-4. 업그레이드 시 가격을 직접 더하지 말고, 상위 시설 ID로 바꿔서 InitializeFacility()를 호출하는 방식으로 사용하세요.
-*/
-
-    public int FacilityID => _facilityID;
-    public EFacilityType FacilityType => _facilityType;
-
-    public Vector3Int EntranceRoadCell
-    {
-        get
-        {
-            if (_entranceRoadObject == null)
-            {
-                return Vector3Int.zero;
-            }
-
-            return GridBuildingSystem.Instance.gridLayout.WorldToCell(_entranceRoadObject.transform.position);
-        }
-    }
-
-    public Transform InteriorEntryPoint => _interiorEntryPoint;
-    public Transform WaitPoint => _waitPoint;
-    public List<Transform> UsePoints => _usePoints;
-    public Transform FacilityExitPoint => _facilityExitPoint;
-    public Transform OutsideExitPoint => _outsideExitPoint;
-
-    public Transform EnterancePoint => _entrancePoint;
-    
-    public Transform ExitPoint => _exitPoint;
-
-    public List<Transform> EnteranceWayPoints => _entranceWayPoints;
-    
-    public List<Transform> ExitWayPoints => _exitWayPoints;
-
-    public bool CanUseImmediately => _canUseImmediately;
-    public bool SupportsQueue => _supportsQueue;
-
-    public int CurrentUsingGuestCount => _slotUsers.Count;
-    public int CurrentWaitingGuestCount => _waitQueue.Count;
-
 
 
 
