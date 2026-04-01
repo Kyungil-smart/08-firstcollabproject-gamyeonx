@@ -5,6 +5,7 @@ using TMPro;
 public class GoldTest : MonoBehaviour
 {
     public int _testGold;
+    public int IncreasedGold = 0;
     [SerializeField] private TextMeshProUGUI _goldText;
 
     public int TestGoldValue
@@ -15,10 +16,9 @@ public class GoldTest : MonoBehaviour
             _testGold = value;
             UpdateUI();
             
-            if (_testGold >= 10)
+            if (IncreasedGold >= 10000)
             {
-                string eventKey = "WEEK_10_EVENT";
-                EventManager.Instance.CheckGoldEvents(_testGold);
+                EventManager.Instance.CheckGoldEvents(IncreasedGold);
             }
         }
     }
@@ -31,6 +31,7 @@ public class GoldTest : MonoBehaviour
     public void PayMoney(int value)
     {
         TestGoldValue += value;
+        IncreasedGold += value;
     }
 
     private void UpdateUI()

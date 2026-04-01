@@ -41,5 +41,6 @@ public class SaveData
     public int MapLevel;
     public int UserWeek;
     public int Gold;
+    public int IncreasedGold;
     public List<string> TrigeredEvents = new List<string>();
 }

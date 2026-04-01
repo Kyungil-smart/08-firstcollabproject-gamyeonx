@@ -47,9 +47,13 @@ public class SaveManager : MonoBehaviour
             {
                 data.UserWeek = UIManager.Instance._gameTime._userWeek;
             }
-    
+
             if (UIManager.Instance._goldTest != null)
+            {
                 data.Gold = UIManager.Instance._goldTest.TestGoldValue;
+                data.IncreasedGold = UIManager.Instance._goldTest.IncreasedGold;
+            }
+                
             
             data.TrigeredEvents = new List<string>(UIManager.Instance._triggeredEvents);
         }
@@ -106,6 +110,7 @@ public class SaveManager : MonoBehaviour
         MapManager.Instance.MapLevel = data.MapLevel;
         UIManager.Instance._gameTime._userWeek = data.UserWeek;
         UIManager.Instance._goldTest.TestGoldValue = data.Gold;
+        UIManager.Instance._goldTest.IncreasedGold = data.IncreasedGold;
         UIManager.Instance._triggeredEvents = new HashSet<string>(data.TrigeredEvents);
         // 타일 생성
         for (int i = 0; i < data.OccupiedPositionList.Count; i++)
