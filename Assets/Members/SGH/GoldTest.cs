@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class GoldTest : MonoBehaviour
 {
-    [SerializeField] private int _testGold;
+    public int _testGold;
     [SerializeField] private TextMeshProUGUI _goldText;
 
     public int TestGoldValue
@@ -13,6 +14,12 @@ public class GoldTest : MonoBehaviour
         {
             _testGold = value;
             UpdateUI();
+            
+            if (_testGold >= 10)
+            {
+                string eventKey = "WEEK_10_EVENT";
+                EventManager.Instance.CheckGoldEvents(_testGold);
+            }
         }
     }
 

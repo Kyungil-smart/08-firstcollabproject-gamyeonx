@@ -58,7 +58,7 @@ public class GridBuildingSystem : MonoBehaviour
         _tileBases.Add(ETileType.Red, Resources.Load<TileBase>("SGH_Test/red"));
         _initialMapBounds = MainTilemap.cellBounds;
 
-        if (SaveManager.Instance.LoadMap == true)
+        if (SaveManager.Instance.LoadMap)
         {
             SaveManager.Instance.Load();
             SaveManager.Instance.LoadMapChange();
@@ -303,7 +303,7 @@ public class GridBuildingSystem : MonoBehaviour
                     SetTileType(pos, TileType.Road);
                 else if (_temp.buildType == BuildType.Building)
                     SetTileType(pos, TileType.Building);
-                else if (_temp.buildType == BuildType.ProfitableFurniture)
+                else if (_temp.buildType == BuildType.ProfitableFurniture) // 수익성 가구 오브젝트
                 {
                     if (_saveframeCount != Time.frameCount)
                     {
