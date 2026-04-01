@@ -43,6 +43,15 @@ public class EventManager : MonoBehaviour
     
     private void RegisterActionHandlers()
     {
+        _actionHandlers["TUTORIAL"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("TUTORIAL");
+            }
+            Debug.Log("튜토리얼 실행");
+        };
+        
         _actionHandlers["INCREASE_VISITOR_BASE"] = () =>
         {
             if (!IsLoading)
@@ -184,6 +193,14 @@ public class EventManager : MonoBehaviour
         {
             LoadTriggerEvents();
         }
+        
+        yield return new WaitForSeconds(2.0f);
+        
+        if (UIManager.Instance._triggeredEvents.Count == 0)
+        {
+            CheckWeekEvents(0);
+        }
+        
     }
 
     private void EventsCanvasActive(string eventName)
