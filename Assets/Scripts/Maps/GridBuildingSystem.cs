@@ -110,7 +110,7 @@ public class GridBuildingSystem : MonoBehaviour
             if (shouldPlace && CanTakeArea(_temp.area))
             {
                 TakeArea(_temp.area);
-                
+
                 if (_temp.buildType == BuildType.TileBrush)
                 {
                     FollowBuilding();
@@ -511,5 +511,41 @@ public class GridBuildingSystem : MonoBehaviour
     
         BuildingList.Add(_temp);
         _temp = null;
+    }
+
+    //===============================================버튼 UI 연동
+    // 회전
+    public void RotateBuilding()
+    {
+        if (_temp == null) return;
+
+        _temp.Rotate();
+        FollowBuilding();
+    }
+    // 건설중 취소
+    public void CancelPlacement()
+    {
+        if (_temp == null) return;
+
+        TempTilemap.ClearAllTiles();
+
+        if (!_temp.Placed)
+        {
+            _temp.DestroyBuilding();
+        }
+
+        _temp = null;
+        _isPlacing = false;
+    }
+    //설치
+    public void PlaceCurrentBuilding()
+    {
+        if (_temp == null) return;
+        if (!CanTakeArea(_temp.area)) return;
+
+        TakeArea(_temp.area);
+        _temp.Place();
+        _temp = null;
+        _isPlacing = false;
     }
 }
