@@ -37,11 +37,11 @@ public class EventDataLoader : MonoBehaviour
 
             result.Add(new EventData
             {
-                eventId = cols[0].Trim(),
-                triggerType = cols[1].Trim(),
-                triggerValue = int.TryParse(cols[2].Trim(), out int v) ? v : 0,
-                actions = cols[3].Trim(),
-                isOneTime = cols[4].Trim() == "TRUE"
+                eventId = cols[1].Trim(),
+                triggerType = cols[2].Trim(),
+                triggerValue = int.TryParse(cols[3].Trim(), out int v) ? v : 0,
+                actions = cols[4].Trim(),
+                isOneTime = cols[5].Trim() == "TRUE"
             });
         }
         return result;
