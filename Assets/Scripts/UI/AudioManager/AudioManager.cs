@@ -20,9 +20,13 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip victorySFX;
     [SerializeField] private AudioClip defeatSFX;
 
-    private float _masterVolume = 1f;
-    private float _bgmVolume = 0.1f;
-    private float _sfxVolume = 0.3f;
+    private const float DefaultMaster = 1f;
+    private const float DefaultBGM = 0.1f;
+    private const float DefaultSFX = 0.3f;
+
+    private float _masterVolume;
+    private float _bgmVolume;
+    private float _sfxVolume;
 
     private void Awake()
     {
@@ -30,19 +34,40 @@ public class AudioManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        _masterVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
-        _bgmVolume = PlayerPrefs.GetFloat("BGMVolume", 0.1f);
-        _sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 0.1f);
-        bgmSource.volume = _bgmVolume;
-        sfxSource.volume = _sfxVolume;
+        _masterVolume = PlayerPrefs.GetFloat("MasterVolume", DefaultMaster);
+        _bgmVolume = PlayerPrefs.GetFloat("BGMVolume", DefaultBGM);
+        _sfxVolume = PlayerPrefs.GetFloat("SFXVolume", DefaultSFX);
 
         ApplyVolume();
     }
 
     private void ApplyVolume()
     {
-        bgmSource.volume = _bgmVolume * _masterVolume;
+        if (bgmSource != null) bgmSource.volume = _bgmVolume * _masterVolume;
+        if (sfxSource != null) sfxSource.volume = _sfxVolume * _masterVolume;
     }
+
+    public void ResetVolume()
+    {
+        _masterVolume = DefaultMaster;
+        _bgmVolume = DefaultBGM;
+        _sfxVolume = DefaultSFX;
+
+        PlayerPrefs.SetFloat("MasterVolume", _masterVolume);
+        PlayerPrefs.SetFloat("BGMVolume", _bgmVolume);
+        PlayerPrefs.SetFloat("SFXVolume", _sfxVolume);
+        PlayerPrefs.Save();
+
+        ApplyVolume();
+    }
+
+    public void SetMasterVolume(float volume) { _masterVolume = volume; PlayerPrefs.SetFloat("MasterVolume", volume); PlayerPrefs.Save(); ApplyVolume(); }
+    public void SetBGMVolume(float volume) { _bgmVolume = volume; PlayerPrefs.SetFloat("BGMVolume", volume); PlayerPrefs.Save(); ApplyVolume(); }
+    public void SetSFXVolume(float volume) { _sfxVolume = volume; PlayerPrefs.SetFloat("SFXVolume", volume); PlayerPrefs.Save(); ApplyVolume(); }
+
+    public float MasterVolume => _masterVolume;
+    public float BGMVolume => _bgmVolume;
+    public float SFXVolume => _sfxVolume;
 
     public void PlayBGM(AudioClip clip)
     {
@@ -71,47 +96,6 @@ public class AudioManager : MonoBehaviour
         };
         if (clip != null) PlayBGM(clip);
     }
-
-    public void SetMasterVolume(float volume)
-    {
-        _masterVolume = volume;
-        PlayerPrefs.SetFloat("MasterVolume", volume);
-        PlayerPrefs.Save();
-        ApplyVolume();
-    }
-
-    public void SetBGMVolume(float volume)
-    {
-        _bgmVolume = volume;
-        bgmSource.volume = volume;
-        PlayerPrefs.SetFloat("BGMVolume", volume);
-        PlayerPrefs.Save();
-    }
-
-    public void SetSFXVolume(float volume)
-    {
-        _sfxVolume = volume;
-        PlayerPrefs.SetFloat("SFXVolume", volume);
-        PlayerPrefs.Save();
-    }
-
-    public void ResetVolume()
-    {
-        _masterVolume = 1f;
-        _bgmVolume = 0.1f;
-        _sfxVolume = 0.3f;
-
-        PlayerPrefs.SetFloat("MasterVolume", _masterVolume);
-        PlayerPrefs.SetFloat("BGMVolume", _bgmVolume);
-        PlayerPrefs.SetFloat("SFXVolume", _sfxVolume);
-        PlayerPrefs.Save();
-
-        ApplyVolume();
-    }
-
-    public float MasterVolume => _masterVolume;
-    public float BGMVolume => _bgmVolume;
-    public float SFXVolume => _sfxVolume;
 
     public void PlayButtonHoverSFX() => PlaySFX(buttonHoverSFX);
     public void PlayButtonPressSFX() => PlaySFX(buttonPressSFX);

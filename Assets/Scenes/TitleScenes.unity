@@ -1592,6 +1592,9 @@ MonoBehaviour:
   masterSlider: {fileID: 2119081404}
   bgmSlider: {fileID: 31159771}
   sfxSlider: {fileID: 1448795000}
+  masterText: {fileID: 1802802341}
+  bgmText: {fileID: 1504603369}
+  sfxText: {fileID: 974358053}
 --- !u!1 &305367823
 GameObject:
   m_ObjectHideFlags: 0
@@ -7123,7 +7126,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1639447583}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 298779649}
+        m_TargetAssemblyTypeName: SettingsPanel, Assembly-CSharp
+        m_MethodName: ResetAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1639447583
 MonoBehaviour:
   m_ObjectHideFlags: 0
