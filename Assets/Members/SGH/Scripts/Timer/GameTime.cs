@@ -65,15 +65,7 @@ public class GameTime : MonoBehaviour
         {
             _userWeek = value;
             UpdateWeekUI();
-            
-            if (_userWeek >= 10)
-            {
-                string eventKey = "WEEK_10_EVENT";
-                
-                if(!UIManager.Instance._triggeredEvents.Contains("WEEK_10_EVENT"))
-                UIManager.Instance._triggeredEvents.Add(eventKey); // 기록
-                EventManager.Instance.TriggerEvent(eventKey);    // 실행
-            }
+            EventManager.Instance.CheckWeekEvents(_userWeek);
         }
     }
 

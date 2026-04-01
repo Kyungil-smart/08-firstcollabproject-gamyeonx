@@ -1,62 +1,119 @@
+
+
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance { get; private set; }
-    public Dictionary<string, Action> Events = new Dictionary<string, Action>();
-    private bool _loadEvents = false; // 1회성 이벤트의 경우 false일때만 실행되게 해야함
     
+    private List<EventData> _eventDataList = new List<EventData>();
+    
+    private Dictionary<string, Action> _actionHandlers = new Dictionary<string, Action>();
+    
+    public bool IsLoading { get; private set; }
+
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        InitEvents();
-    }
-    
-    // 이벤트들 등록 (모든 이벤트 다 해줘야함)
-    private void InitEvents()
-    {
-        Events.Add("WEEK_10_EVENT", OnWeek10Event);
+        
+        RegisterActionHandlers();  // 실행 가능한 액션 미리 등록
     }
 
-    public void TriggerEvent(string eventName)
+    private void Start()
     {
-        if (Events.TryGetValue(eventName, out Action action))
-        {
-            action.Invoke();
-        }
-        else
-        {
-            Debug.Log($"{eventName}에 연결된 함수가 없습니다.");
-        }
+        StartCoroutine(GetComponent<EventDataLoader>().LoadEvents(OnEventsLoaded));
+    }
+
+    private void OnEventsLoaded(List<EventData> events)
+    {
+        _eventDataList = events;
+        Debug.Log($"이벤트 {events.Count}개 로드 완료");
     }
     
-    private void OnWeek10Event()
+    private void RegisterActionHandlers()
     {
-        Debug.Log("10주차 이벤트 발생! 특별 건물을 해금합니다.");
-        if (!_loadEvents)
+        _actionHandlers["SHOW_MESSAGE_WEEK10"] = () =>
         {
-            // 캔버스 활성화 해서 메세지 출력
-            // 버튼 클릭시 캔버스 비활성화
-        }
-        // 이후 건물 건설 Content 활성화 -> 이거 어케 저장/로드 할 것 인지? -> 나중에 로드할때 해시셋에 등록되어 있으면 자동으로 활성화 되게 해야할듯
-        // 위에 1회성 컨텐츠들 관련된 bool 타입 하나 선언해서 true 일때는 실행 안되게하고 밑에 이벤트들만 실행되게 해서 hashset에있는애들 순차적으로 다 활성화?
-        // 이때는 해시셋 contain 빼고 그냥 등록되어있는애들 순차적으로 싹 다 실행하는 방향으로 하면 되긴 할 듯
+            if (IsLoading) return;
+            Debug.Log("메시지 표시");
+            // 메세지 표시 로직
+        };
+        _actionHandlers["UNLOCK_BUILDING_asdf"] = () => 
+        {
+            Debug.Log("건물 해금");
+        };
+        _actionHandlers["SHOW_MESSAGE_GOLD10000"] = () => 
+        {
+            Debug.Log("");
+        };
     }
-    
-    // 해시셋 순회해서 하나씩 이벤트 활성화
-    public void LoadEvents()
+
+    // 조건 체크 - 주차 변경 시 호출
+    public void CheckWeekEvents(int currentWeek)
     {
-        _loadEvents = true;
-        foreach (string eventID in UIManager.Instance._triggeredEvents)
+        foreach (var eventData in _eventDataList)
         {
-            TriggerEvent(eventID);
+            if (eventData.triggerType != "WEEK") continue;
+            if (eventData.triggerValue != currentWeek) continue;
+            if (eventData.isOneTime && UIManager.Instance._triggeredEvents.Contains(eventData.eventId)) continue;
+
+            TriggerEvent(eventData);
         }
-        _loadEvents = false;
+    }
+
+    // 조건 체크 - 골드 변경 시 호출
+    public void CheckGoldEvents(int currentGold)
+    {
+        foreach (var eventData in _eventDataList)
+        {
+            if (eventData.triggerType != "GOLD") continue;
+            if (currentGold < eventData.triggerValue) continue;
+            if (eventData.isOneTime && UIManager.Instance._triggeredEvents.Contains(eventData.eventId)) continue;
+
+            TriggerEvent(eventData);
+        }
+    }
+
+    private void TriggerEvent(EventData eventData)
+    {
+        if (eventData.isOneTime)
+            UIManager.Instance._triggeredEvents.Add(eventData.eventId);
+
+        // 콤마로 구분된 액션 순차 실행
+        foreach (var action in eventData.actions.Split(','))
+        {
+            string actionKey = action.Trim();
+            if (_actionHandlers.TryGetValue(actionKey, out var handler))
+                handler.Invoke();
+            else
+                Debug.LogWarning($"등록되지 않은 액션: {actionKey}");
+        }
+    }
+
+    public void LoadTriggerEvents()
+    {
+        IsLoading = true;
+        var triggeredIds = UIManager.Instance._triggeredEvents; 
+
+        foreach (var eventData in _eventDataList)
+        {
+            if (triggeredIds.Contains(eventData.eventId))
+            {
+                foreach (var action in eventData.actions.Split(','))
+                {
+                    string actionKey = action.Trim();
+                    if (_actionHandlers.TryGetValue(actionKey, out var handler))
+                    {
+                        handler.Invoke();
+                    }
+                }
+            }
+        }
+        
+        IsLoading = false;
     }
 }
