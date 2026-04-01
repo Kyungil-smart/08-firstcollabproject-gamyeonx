@@ -43,25 +43,68 @@ public class EventManager : MonoBehaviour
     
     private void RegisterActionHandlers()
     {
-        _actionHandlers["SHOW_MESSAGE_WEEK10"] = () =>
+        _actionHandlers["INCREASE_VISITOR_BASE"] = () =>
         {
             if (!IsLoading)
             {
-                EventsCanvasActive("SHOW_MESSAGE_WEEK10");
+                EventsCanvasActive("INCREASE_VISITOR_BASE");
             }
-            Debug.Log("메시지 표시");
         };
-        _actionHandlers["UNLOCK_BUILDING_asdf"] = () => 
-        {
-            Debug.Log("건물 해금");
-        };
-        _actionHandlers["SHOW_MESSAGE_GOLD10000"] = () => 
+        
+        _actionHandlers["ENABLE_MERCHANT_BUFF"] = () =>
         {
             if (!IsLoading)
             {
-                EventsCanvasActive("SHOW_MESSAGE_GOLD10000");
+                EventsCanvasActive("ENABLE_MERCHANT_BUFF");
             }
-            Debug.Log("누적 수익 10000골드 이벤트 발생");
+        };     
+        
+        _actionHandlers["INCREASE_VISITOR_WEEKLY"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("INCREASE_VISITOR_WEEKLY");
+            }
+        };     
+        
+        _actionHandlers["INCREASE_UPKEEP_COST"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("INCREASE_UPKEEP_COST");
+            }
+        };      
+        
+        _actionHandlers["REPUTATION_BONUS_EVENT"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("REPUTATION_BONUS_EVENT");
+            }
+        };      
+        
+        _actionHandlers["INCREASE_RESOURCE_GAIN"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("INCREASE_RESOURCE_GAIN");
+            }
+        };
+                
+        _actionHandlers["HIGH_TIER_VISITOR_RATE_UP"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("HIGH_TIER_VISITOR_RATE_UP");
+            }
+        };
+                
+        _actionHandlers["HERO_VISIT_TRIGGER"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("HERO_VISIT_TRIGGER");
+            }
         };
     }
 
