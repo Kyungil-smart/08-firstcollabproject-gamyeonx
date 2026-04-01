@@ -23,7 +23,11 @@ public class FacilityRuntime : MonoBehaviour
     [SerializeField] private List<Transform> _usePoints = new List<Transform>();
     [SerializeField] private Transform _facilityExitPoint;
     [SerializeField] private Transform _outsideExitPoint;
-
+    [SerializeField] private Transform _entrancePoint;
+    [SerializeField] private Transform _exitPoint;
+    [SerializeField] private List<Transform> _entranceWayPoints = new List<Transform>();
+    [SerializeField] private List<Transform> _exitWayPoints = new List<Transform>();
+    
     [Header("시설 설정")]
     [SerializeField] private bool _canUseImmediately = true;
     [SerializeField] private bool _supportsQueue = true;
@@ -123,6 +127,32 @@ public class FacilityRuntime : MonoBehaviour
         if (_inBuildingData.FacilityExitPivot != null)
         {
             _facilityExitPoint = _inBuildingData.FacilityExitPivot.transform;
+        }
+
+        if (_inBuildingData.EntrancePivot != null)
+        {
+            _entrancePoint = _inBuildingData.EntrancePivot.transform;
+        }
+
+        if (_inBuildingData.ExitPivot != null)
+        {
+            _exitPoint = _inBuildingData.ExitPivot.transform;
+        }
+
+        if (_inBuildingData.EntranceWayPivots != null)
+        {
+            foreach (var way in _inBuildingData.EntranceWayPivots)
+            {
+                _entranceWayPoints.Add(way.transform);
+            }
+        }
+
+        if (_inBuildingData.ExitWayPivots != null)
+        {
+            foreach (var way in _inBuildingData.ExitWayPivots)
+            {
+                _exitWayPoints.Add(way.transform);
+            }
         }
 
         HandleUsePivotsChanged(_inBuildingData.GetUsePivots());
@@ -453,6 +483,7 @@ public class FacilityRuntime : MonoBehaviour
     */
 }
 
+
 /*
 유니티 적용 방법
 1. 기존 FacilityRuntime.cs를 이 코드로 교체합니다.
@@ -461,3 +492,41 @@ public class FacilityRuntime : MonoBehaviour
    모두 시트 -> SO -> FacilityRuntime 순서로 자동 반영됩니다.
 4. 업그레이드 시 가격을 직접 더하지 말고, 상위 시설 ID로 바꿔서 InitializeFacility()를 호출하는 방식으로 사용하세요.
 */
+
+    public int FacilityID => _facilityID;
+    public EFacilityType FacilityType => _facilityType;
+
+    public Vector3Int EntranceRoadCell
+    {
+        get
+        {
+            if (_entranceRoadObject == null)
+            {
+                return Vector3Int.zero;
+            }
+
+            return GridBuildingSystem.Instance.gridLayout.WorldToCell(_entranceRoadObject.transform.position);
+        }
+    }
+
+    public Transform InteriorEntryPoint => _interiorEntryPoint;
+    public Transform WaitPoint => _waitPoint;
+    public List<Transform> UsePoints => _usePoints;
+    public Transform FacilityExitPoint => _facilityExitPoint;
+    public Transform OutsideExitPoint => _outsideExitPoint;
+
+    public Transform EnterancePoint => _entrancePoint;
+    
+    public Transform ExitPoint => _exitPoint;
+
+    public List<Transform> EnteranceWayPoints => _entranceWayPoints;
+    
+    public List<Transform> ExitWayPoints => _exitWayPoints;
+
+    public bool CanUseImmediately => _canUseImmediately;
+    public bool SupportsQueue => _supportsQueue;
+
+    public int CurrentUsingGuestCount => _slotUsers.Count;
+    public int CurrentWaitingGuestCount => _waitQueue.Count;
+}
+
