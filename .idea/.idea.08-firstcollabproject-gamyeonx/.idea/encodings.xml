@@ -3,8 +3,11 @@
   <component name="Encoding" addBOMForNewFiles="with BOM under Windows, with no BOM otherwise">
     <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/FSM/GuestController.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/FSM/GuestDecideState.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/FSM/GuestExitState.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/FSM/GuestWaitState.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/FSM/GuestWanderState.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/Move/FacilityEntranceTrigger.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/Move/FacilityRuntime.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/Move/GuestMovementAgent.cs" charset="EUC-KR" />
   </component>
 </project>

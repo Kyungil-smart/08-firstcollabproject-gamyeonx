@@ -17,7 +17,11 @@ public class FacilityRuntime : MonoBehaviour
     [SerializeField] private List<Transform> _usePoints = new List<Transform>();
     [SerializeField] private Transform _facilityExitPoint;
     [SerializeField] private Transform _outsideExitPoint;
-
+    [SerializeField] private Transform _entrancePoint;
+    [SerializeField] private Transform _exitPoint;
+    [SerializeField] private List<Transform> _entranceWayPoints = new List<Transform>();
+    [SerializeField] private List<Transform> _exitWayPoints = new List<Transform>();
+    
     [Header("시설 설정")]
     [SerializeField] private bool _canUseImmediately = true;
     [SerializeField] private bool _supportsQueue = true;
@@ -54,6 +58,32 @@ public class FacilityRuntime : MonoBehaviour
         if (_inBuildingData.FacilityExitPivot != null)
         {
             _facilityExitPoint = _inBuildingData.FacilityExitPivot.transform;
+        }
+
+        if (_inBuildingData.EntrancePivot != null)
+        {
+            _entrancePoint = _inBuildingData.EntrancePivot.transform;
+        }
+
+        if (_inBuildingData.ExitPivot != null)
+        {
+            _exitPoint = _inBuildingData.ExitPivot.transform;
+        }
+
+        if (_inBuildingData.EntranceWayPivots != null)
+        {
+            foreach (var way in _inBuildingData.EntranceWayPivots)
+            {
+                _entranceWayPoints.Add(way.transform);
+            }
+        }
+
+        if (_inBuildingData.ExitWayPivots != null)
+        {
+            foreach (var way in _inBuildingData.ExitWayPivots)
+            {
+                _exitWayPoints.Add(way.transform);
+            }
         }
 
         HandleUsePivotsChanged(_inBuildingData.GetUsePivots());
@@ -320,6 +350,14 @@ public class FacilityRuntime : MonoBehaviour
     public List<Transform> UsePoints => _usePoints;
     public Transform FacilityExitPoint => _facilityExitPoint;
     public Transform OutsideExitPoint => _outsideExitPoint;
+
+    public Transform EnterancePoint => _entrancePoint;
+    
+    public Transform ExitPoint => _exitPoint;
+
+    public List<Transform> EnteranceWayPoints => _entranceWayPoints;
+    
+    public List<Transform> ExitWayPoints => _exitWayPoints;
 
     public bool CanUseImmediately => _canUseImmediately;
     public bool SupportsQueue => _supportsQueue;
