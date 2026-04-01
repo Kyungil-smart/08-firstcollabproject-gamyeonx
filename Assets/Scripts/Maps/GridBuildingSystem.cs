@@ -100,46 +100,46 @@ public class GridBuildingSystem : MonoBehaviour
                 }
             }
         }
+        
+        //if (_temp != null)
+        //{
+        //    bool shouldPlace = (_temp.buildType == BuildType.TileBrush || _temp.buildType == BuildType.Road)
+        //        ? Input.GetMouseButton(0)
+        //        : Input.GetMouseButtonDown(0);
 
-        if (_temp != null)
-        {
-            bool shouldPlace = (_temp.buildType == BuildType.TileBrush || _temp.buildType == BuildType.Road)
-                ? Input.GetMouseButton(0)
-                : Input.GetMouseButtonDown(0);
-
-            if (shouldPlace && CanTakeArea(_temp.area))
-            {
-                TakeArea(_temp.area);
+        //    if (shouldPlace && CanTakeArea(_temp.area))
+        //    {
+        //        TakeArea(_temp.area);
                 
-                if (_temp.buildType == BuildType.TileBrush)
-                {
-                    FollowBuilding();
-                }
-                else if (_temp.buildType == BuildType.Road)
-                {
-                    GameObject roadPrefab = _temp.gameObject;
-                    _temp.Place();
+        //        if (_temp.buildType == BuildType.TileBrush)
+        //        {
+        //            FollowBuilding();
+        //        }
+        //        else if (_temp.buildType == BuildType.Road)
+        //        {
+        //            GameObject roadPrefab = _temp.gameObject;
+        //            _temp.Place();
 
-                    // 현재 마우스 위치 계산
-                    Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
-                    Vector3 spawnPos = gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
+        //            // 현재 마우스 위치 계산
+        //            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //            Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
+        //            Vector3 spawnPos = gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
 
-                    // 마우스 위치에 바로 생성
-                    _temp = Instantiate(roadPrefab, spawnPos, Quaternion.identity).GetComponent<Building>();
-                    BuildingList.Add(_temp); // 세이브용
-                    _isPlacing = true;
-                    _prevPos = Vector3.zero;
-                    FollowBuilding();
-                }
-                else
-                {
-                    _temp.Place();
-                    _temp = null;
-                    _isPlacing = false;
-                }
-            }
-        }
+        //            // 마우스 위치에 바로 생성
+        //            _temp = Instantiate(roadPrefab, spawnPos, Quaternion.identity).GetComponent<Building>();
+        //            BuildingList.Add(_temp); // 세이브용
+        //            _isPlacing = true;
+        //            _prevPos = Vector3.zero;
+        //            FollowBuilding();
+        //        }
+        //        else
+        //        {
+        //            _temp.Place();
+        //            _temp = null;
+        //            _isPlacing = false;
+        //        }
+        //    }
+        //}
 
         if (_temp != null && Input.GetKeyDown(KeyCode.Escape))
         {
@@ -511,5 +511,41 @@ public class GridBuildingSystem : MonoBehaviour
     
         BuildingList.Add(_temp);
         _temp = null;
+    }
+
+    //===============================================버튼 UI 연동
+    // 회전
+    public void RotateBuilding()
+    {
+        if (_temp == null) return;
+
+        _temp.Rotate();
+        FollowBuilding();
+    }
+    // 건설중 취소
+    public void CancelPlacement()
+    {
+        if (_temp == null) return;
+
+        TempTilemap.ClearAllTiles();
+
+        if (!_temp.Placed)
+        {
+            _temp.DestroyBuilding();
+        }
+
+        _temp = null;
+        _isPlacing = false;
+    }
+    //설치
+    public void PlaceCurrentBuilding()
+    {
+        if (_temp == null) return;
+        if (!CanTakeArea(_temp.area)) return;
+
+        TakeArea(_temp.area);
+        _temp.Place();
+        _temp = null;
+        _isPlacing = false;
     }
 }
