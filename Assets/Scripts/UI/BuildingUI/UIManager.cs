@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
     
     public GoldTest _goldTest;
     public GameTime _gameTime;
+    
+    public HashSet<string> _triggeredEvents = new HashSet<string>();
 
     [System.Serializable]
     public class FurnitureButtonData

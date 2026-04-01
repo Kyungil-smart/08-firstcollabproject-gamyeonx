@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -17,13 +18,54 @@ public class GameTime : MonoBehaviour
     private float _userTimeUnit = 180f;
     private float _nightTime = 120f;
     public int _userWeek;
+    
 
     private void Awake()
     {
         _nightImageObject.SetActive(false);
-        if (SaveManager.Instance.LoadMap == true)
+        if (SaveManager.Instance.LoadMap)
         {
             _userWeek = SaveManager.Instance.data.UserWeek;
+            Debug.Log(_userWeek);
+        }
+        else _userWeek = 0;
+    }
+    
+    public float UserTime
+    {
+        get => _userTime;
+        set
+        {
+            _userTime = value;
+            
+            UpdateTimeUI();
+            
+            if (_userTime >= _nightTime && _userTime < _userTimeUnit)
+            {
+                if (!_nightImageObject.activeSelf) 
+                {
+                    _nightImageObject.SetActive(true);
+                }
+            }
+            
+            if (_userTime >= _userTimeUnit)
+            {
+                _userTime -= _userTimeUnit;
+                _nightImageObject.SetActive(false);
+                UserWeek++;
+                SaveManager.Instance.Save();
+            }
+        }
+    }
+
+    public int UserWeek
+    {
+        get => _userWeek;
+        set
+        {
+            _userWeek = value;
+            UpdateWeekUI();
+            EventManager.Instance.CheckWeekEvents(_userWeek);
         }
     }
 
@@ -35,7 +77,7 @@ public class GameTime : MonoBehaviour
         _time.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Second", new object[] { (int)_userTime });
     }
 
-    private void Update()
+    /*private void Update()
     {
         _userTime += Time.deltaTime;
         _time.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Second", new object[] { (int)_userTime });
@@ -65,6 +107,21 @@ public class GameTime : MonoBehaviour
             _month.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Month", new object[] { _userMonth });
             _userYear++;
             _year.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Year", new object[] { _userYear });
-        }*/
+        }#1#
+    }*/
+    
+    private void Update()
+    {
+        UserTime += Time.deltaTime;
+    }
+
+    private void UpdateTimeUI()
+    {
+        _time.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Second", new object[] { (int)_userTime });
+    }
+
+    private void UpdateWeekUI()
+    {
+        _week.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Week", new object[] { _userWeek });
     }
 }

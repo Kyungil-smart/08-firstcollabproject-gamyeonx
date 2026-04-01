@@ -50,6 +50,8 @@ public class SaveManager : MonoBehaviour
     
             if (UIManager.Instance._goldTest != null)
                 data.Gold = UIManager.Instance._goldTest.TestGoldValue;
+            
+            data.TrigeredEvents = new List<string>(UIManager.Instance._triggeredEvents);
         }
         // 건물 정보 저장
         foreach (Building b in GridBuildingSystem.Instance.BuildingList)
@@ -104,6 +106,7 @@ public class SaveManager : MonoBehaviour
         MapManager.Instance.MapLevel = data.MapLevel;
         UIManager.Instance._gameTime._userWeek = data.UserWeek;
         UIManager.Instance._goldTest.TestGoldValue = data.Gold;
+        UIManager.Instance._triggeredEvents = new HashSet<string>(data.TrigeredEvents);
         // 타일 생성
         for (int i = 0; i < data.OccupiedPositionList.Count; i++)
         {
@@ -116,6 +119,8 @@ public class SaveManager : MonoBehaviour
             GameObject prefab = Resources.Load<GameObject>($"Prefabs/Buildings/{bData.prefabName}");
             GridBuildingSystem.Instance.InitializeWithBuildingFromSave(prefab, bData);
         }
+
+        EventManager.Instance.LoadTriggerEvents(); // 이벤트 불러오기
         
         GridBuildingSystem.Instance.MainTilemap.RefreshAllTiles();
     }
@@ -136,5 +141,11 @@ public class SaveManager : MonoBehaviour
     public void LoadMapChange()
     {
         LoadMap = !LoadMap;
+    }
+    
+    public void StartNewGame() {
+        LoadMap = false;
+        data = new SaveData();
+        SceneManager.LoadScene(1);
     }
 }

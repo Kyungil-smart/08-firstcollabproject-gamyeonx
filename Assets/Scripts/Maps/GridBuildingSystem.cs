@@ -58,7 +58,7 @@ public class GridBuildingSystem : MonoBehaviour
         _tileBases.Add(ETileType.Red, Resources.Load<TileBase>("SGH_Test/red"));
         _initialMapBounds = MainTilemap.cellBounds;
 
-        if (SaveManager.Instance.LoadMap == true)
+        if (SaveManager.Instance.LoadMap)
         {
             SaveManager.Instance.Load();
             SaveManager.Instance.LoadMapChange();
