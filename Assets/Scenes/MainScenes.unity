@@ -2543,7 +2543,6 @@ MonoBehaviour:
     button: {fileID: 1748401109}
   _buildButton: {fileID: 6046245424736687093}
   BuildDoublecheckPanel: {fileID: 1532261923339657758}
-  FurnitureMenu: {fileID: 0}
   _goldTest: {fileID: 0}
   _gameTime: {fileID: 0}
 --- !u!4 &138611612
@@ -12783,7 +12782,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000662003}
+  m_AnchoredPosition: {x: 0, y: 0.0001446298}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &702330093
@@ -21360,6 +21359,7 @@ MonoBehaviour:
   _loadGameCanvas: {fileID: 0}
   _settingCanvas: {fileID: 1596945687509092534}
   _quitCanvas: {fileID: 4701880250433084452}
+  cameraController: {fileID: 1685894812}
 --- !u!1 &1196816603
 GameObject:
   m_ObjectHideFlags: 0
@@ -32029,6 +32029,7 @@ MonoBehaviour:
   _touchStartedOnBuilding: 0
   RoadMenu: {fileID: 471754922}
   IsCrapting: 0
+  canMove: 1
 --- !u!114 &1685894813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44027,6 +44028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameSettingUI
   _backButton: {fileID: 5745224890192319695}
+  cameraController: {fileID: 1685894812}
 --- !u!114 &3816670216562194104
 MonoBehaviour:
   m_ObjectHideFlags: 0
