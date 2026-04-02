@@ -17,7 +17,7 @@ public class GoldTest : MonoBehaviour
         {
             _testGold = value;
             UpdateUI();
-            EventManager.Instance.CheckGoldEvents(IncreasedGold);
+            // EventManager.Instance.CheckGoldEvents(IncreasedGold);
         }
     }
 
