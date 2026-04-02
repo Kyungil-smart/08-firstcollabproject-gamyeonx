@@ -13,8 +13,12 @@ public class EventManager : MonoBehaviour
 
     public bool IsLoading { get; private set; }
 
+    public bool IsTutorial = false;
+    
     [Header("이벤트 캔버스")]
     [SerializeField] private Transform _eventContentParent;
+    [Header("코루틴 실행 전 조작 방지 이미지")]
+    [SerializeField] private Transform _dontTouchImage;
 
     [Header("스폰 이벤트 수치")]
     [SerializeField] private int _increaseVisitorBaseAmount = 3;
@@ -45,7 +49,8 @@ public class EventManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        RegisterActionHandlers();
+        _dontTouchImage.gameObject.SetActive(true);
+        RegisterActionHandlers();  // 실행 가능한 액션 미리 등록
     }
 
     private void Start()
@@ -67,6 +72,7 @@ public class EventManager : MonoBehaviour
         {
             if (!IsLoading)
             {
+                IsTutorial = true;
                 EventsCanvasActive("TUTORIAL");
             }
 
@@ -288,6 +294,9 @@ public class EventManager : MonoBehaviour
         {
             CheckWeekEvents(0);
         }
+        
+        _dontTouchImage.gameObject.SetActive(false);
+        
     }
 
     private void EventsCanvasActive(string eventName)
@@ -317,13 +326,25 @@ public class EventManager : MonoBehaviour
 
         eventObj.gameObject.SetActive(true);
 
+        
+        var conv = eventObj.GetComponent<EventUI>();
+        if (conv != null)
+        {
+            conv.StartConversation();
+        
+            // 투명 '다음' 버튼 연결 (스크립트 내 OnClickNext 호출)
+            // 이 버튼은 인스펙터에서 미리 연결해두거나 여기서 찾아서 등록합니다.
+        }
+    
+        // 마지막 확인 버튼(Enter) 로직
         Button enterBtn = eventObj.Find("Enter")?.GetComponent<Button>();
         if (enterBtn != null)
         {
             enterBtn.onClick.RemoveAllListeners();
-            enterBtn.onClick.AddListener(() =>
+            enterBtn.onClick.AddListener(() => 
             {
                 eventObj.gameObject.SetActive(false);
+                if (IsTutorial) IsTutorial = false;
             });
         }
     }

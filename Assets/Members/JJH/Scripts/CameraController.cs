@@ -52,6 +52,8 @@ public class CameraController : MonoBehaviour
         _prevBounds = CameraBounds;
         _prevMinSize = MinSize;
         _prevMaxSize = MaxSize;
+        
+        _cam.orthographicSize = MaxSize;
     }
 
     void Update()
