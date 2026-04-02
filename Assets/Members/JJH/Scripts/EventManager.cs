@@ -32,11 +32,20 @@ public class EventManager : MonoBehaviour
     [Header("고등급 모험가 증가(A)")]
     [SerializeField] private int _highTierAdventurerABonusWeight = 20;
 
+    [Header("3주차 상인 버프 : 상점 이용시 추가 골드 획득")]
+    [SerializeField, Range(0,3f)] private float _merchantBUFF = 0.3f;
+
+    [Header("21주차 축체 이벤트 : 모든 시설 매출 상승")]
+    [SerializeField, Range(0,3f)] private float _festivalBUFF = 0.2f;
+
+
     // 이번 주차에 적용되는 보정값
-    public int CurrentCycleVisitorBonus { get; private set; }
-    public int CurrentCycleAdventurerCBonusWeight { get; private set; }
-    public int CurrentCycleAdventurerBBonusWeight { get; private set; }
-    public int CurrentCycleAdventurerABonusWeight { get; private set; }
+    public int CurrentCycleVisitorBonus { get; private set;}
+    public int CurrentCycleAdventurerCBonusWeight { get; private set;}
+    public int CurrentCycleAdventurerBBonusWeight { get; private set;}
+    public int CurrentCycleAdventurerABonusWeight { get; private set;}
+    public float CurrentCycleMerchantBonus { get; private set;}
+    public float CurrentCycleFestivalBonus { get; private set;}
 
     private void Awake()
     {
@@ -108,6 +117,7 @@ public class EventManager : MonoBehaviour
                 EventsCanvasActive("ENABLE_MERCHANT_BUFF");
             }
 
+            CurrentCycleMerchantBonus += _merchantBUFF;
             Debug.Log("[EventManager] 상인 버프 이벤트 실행");
         };
 
@@ -147,6 +157,8 @@ public class EventManager : MonoBehaviour
             {
                 EventsCanvasActive("REPUTATION_BONUS_EVENT");
             }
+
+            CurrentCycleFestivalBonus += _festivalBUFF;
 
             Debug.Log("[EventManager] 축제 이벤트 실행");
         };
@@ -196,6 +208,8 @@ public class EventManager : MonoBehaviour
         CurrentCycleAdventurerCBonusWeight = 0;
         CurrentCycleAdventurerBBonusWeight = 0;
         CurrentCycleAdventurerABonusWeight = 0;
+        CurrentCycleMerchantBonus = 0;
+        CurrentCycleFestivalBonus = 0;
 
 
         foreach (var eventData in _eventDataList)
@@ -333,22 +347,22 @@ public class EventManager : MonoBehaviour
 
         eventObj.gameObject.SetActive(true);
 
-        
+
         var conv = eventObj.GetComponent<EventUI>();
         if (conv != null)
         {
             conv.StartConversation();
-        
+
             // 투명 '다음' 버튼 연결 (스크립트 내 OnClickNext 호출)
             // 이 버튼은 인스펙터에서 미리 연결해두거나 여기서 찾아서 등록합니다.
         }
-    
+
         // 마지막 확인 버튼(Enter) 로직
         Button enterBtn = eventObj.Find("Enter")?.GetComponent<Button>();
         if (enterBtn != null)
         {
             enterBtn.onClick.RemoveAllListeners();
-            enterBtn.onClick.AddListener(() => 
+            enterBtn.onClick.AddListener(() =>
             {
                 eventObj.gameObject.SetActive(false);
                 CameraController cam = FindFirstObjectByType<CameraController>();

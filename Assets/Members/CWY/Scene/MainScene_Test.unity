@@ -1010,6 +1010,7 @@ MonoBehaviour:
   - type: 4
     button: {fileID: 1748401109}
   _buildButton: {fileID: 6046245424736687093}
+  BuildDoublecheckPanel: {fileID: 0}
   _goldTest: {fileID: 138611614}
   _gameTime: {fileID: 138611613}
 --- !u!4 &138611612
@@ -4026,7 +4027,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0005780519}
+  m_AnchoredPosition: {x: 0, y: 0.0000023623863}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &715593565
@@ -7258,13 +7259,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d82b17631e1f4b44d9bcd55e98704f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EventManager
+  IsTutorial: 0
   _eventContentParent: {fileID: 666630742}
+  _dontTouchImage: {fileID: 0}
   _increaseVisitorBaseAmount: 3
   _increaseVisitorWeeklyAmount: 5
   _weeklyAdventurerCBonusWeight: 15
   _weeklyAdventurerBBonusWeight: 10
   _weeklyAdventurerABonusWeight: 5
   _highTierAdventurerABonusWeight: 20
+  _merchantBUFF: 0.3
+  _festivalBUFF: 0.2
+  _useWeekDebugMode: 1
+  _debugWeek: 1
+  _debugWeekTestKey: 289
 --- !u!4 &1212623847
 Transform:
   m_ObjectHideFlags: 0
@@ -12841,6 +12849,8 @@ MonoBehaviour:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 10, y: 5, z: 0}
   IsInputLocked: 0
+  _touchStartedOnBuilding: 0
+  RoadMenu: {fileID: 0}
 --- !u!1 &1719801805
 GameObject:
   m_ObjectHideFlags: 0
@@ -13194,8 +13204,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 89115029}
   m_HandleRect: {fileID: 89115028}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.99999535
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16252,6 +16262,7 @@ MonoBehaviour:
   gridLayout: {fileID: 2123098989}
   MainTilemap: {fileID: 1277836837}
   TempTilemap: {fileID: 731388507}
+  _temp: {fileID: 0}
   _initialMapBounds:
     m_Position: {x: 0, y: 0, z: 0}
     m_Size: {x: 0, y: 0, z: 0}

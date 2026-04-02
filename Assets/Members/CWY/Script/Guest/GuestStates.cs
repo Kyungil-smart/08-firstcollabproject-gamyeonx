@@ -113,20 +113,20 @@ public class GuestStates
         RaiseStatesChanged();
     }
 
-    public void IncreaseAllNeedsByWanderTick()
+    public void ApplyRoadWanderEffect(FacilityEffectRow effectRow)
     {
-        _hunger = ClampValue(_hunger + 1);
-        _thirst = ClampValue(_thirst + 1);
-        _fatigue = ClampValue(_fatigue + 1);
+        _hunger = ClampValue(_hunger + effectRow.HungerEffectPerTick);
+        _thirst = ClampValue(_thirst + effectRow.ThirstEffectPerTick);
+        _fatigue = ClampValue(_fatigue + effectRow.FatigueEffectPerTick);
 
         if (_canUseShop)
         {
-            _shopNeed = ClampValue(_shopNeed + 1);
+            _shopNeed = ClampValue(_shopNeed + effectRow.ShopEffectPerTick);
         }
 
         if (_canUseTraining)
         {
-            _trainingNeed = ClampValue(_trainingNeed + 1);
+            _trainingNeed = ClampValue(_trainingNeed + effectRow.TrainingEffectPerTick);
         }
 
         RaiseStatesChanged();
