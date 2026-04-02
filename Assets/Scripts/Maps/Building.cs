@@ -157,7 +157,7 @@ public class Building : MonoBehaviour
     // 정사각형용 회전
     private void RotateSquareBuilding()
     {
-        pivot.Rotate(0, 0, 90);
+        pivot.Rotate(0, 0, -90);
         rotateCount = (rotateCount + 1) % 4;
 
         var size = area.size;

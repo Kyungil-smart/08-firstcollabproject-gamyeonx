@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.EventSystems;
 
 public enum ETileType
 {
@@ -75,10 +76,13 @@ public class GridBuildingSystem : MonoBehaviour
 
     private void Update()
     {
-        //==================================================스마트폰
         if (_temp != null && !_temp.Placed && Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
+
+            // UI 위면 무시
+            if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+                return;
 
             if (touch.phase == TouchPhase.Ended)
             {
@@ -97,128 +101,6 @@ public class GridBuildingSystem : MonoBehaviour
                 _prevPos = cellPos;
                 FollowBuilding();
             }
-        }
-        //===================================================================
-        //if (_temp != null && !_temp.Placed)
-        //{
-        //    Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //    Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
-
-        //    if (_prevPos != cellPos)
-        //    {
-        //        _temp.transform.localPosition =
-        //            gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
-        //        _prevPos = cellPos;
-        //        FollowBuilding();
-        //    }
-        //}
-
-        if (Input.GetMouseButtonDown(2) && !_isPlacing)
-        {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
-
-            foreach (var obj in FindObjectsOfType<Building>())
-            {
-                if (!obj.Placed) continue;
-                if (obj.area.Contains(cellPos))
-                {
-                    _temp = obj;
-                    _temp.StartMove();
-                    _isPlacing = true;
-                    break;
-                }
-            }
-        }
-
-        // 마우스 설치
-        //if (_temp != null)
-        //{
-        //    bool shouldPlace = (_temp.buildType == BuildType.TileBrush || _temp.buildType == BuildType.Road)
-        //        ? Input.GetMouseButton(0)
-        //        : Input.GetMouseButtonDown(0);
-
-        //    if (shouldPlace && CanTakeArea(_temp.area))
-        //    {
-        //        TakeArea(_temp.area);
-
-        //        if (_temp.buildType == BuildType.TileBrush)
-        //        {
-        //            FollowBuilding();
-        //        }
-        //        else if (_temp.buildType == BuildType.Road)
-        //        {
-        //            GameObject roadPrefab = _temp.gameObject;
-        //            _temp.Place();
-
-        //            // 현재 마우스 위치 계산
-        //            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //            Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
-        //            Vector3 spawnPos = gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
-
-        //            // 마우스 위치에 바로 생성
-        //            _temp = Instantiate(roadPrefab, spawnPos, Quaternion.identity).GetComponent<Building>();
-        //            BuildingList.Add(_temp); // 세이브용
-        //            _isPlacing = true;
-        //            _prevPos = Vector3.zero;
-        //            FollowBuilding();
-        //        }
-        //        else
-        //        {
-        //            _temp.Place();
-        //            _temp = null;
-        //            _isPlacing = false;
-        //        }
-        //    }
-        //}
-
-        if (_temp != null && Input.GetKeyDown(KeyCode.Escape))
-        {
-            TempTilemap.ClearAllTiles();
-            BuildingList.Remove(_temp); // 세이브용
-            _temp.DestroyBuilding();
-            _isPlacing = false;
-        }
-
-        if (Input.GetMouseButtonDown(1) && !_isPlacing)
-        {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
-
-            foreach (var obj in FindObjectsOfType<Building>())
-            {
-                if (!obj.Placed) continue;
-                if (obj.area.Contains(cellPos))
-                {
-                    BuildingList.Remove(obj);
-                    foreach (var pos in obj.area.allPositionsWithin)
-                    {
-                        occupied.Remove(pos);
-                        OccupiedPositionList.Remove(pos); // 세이브용
-                        // 연동준이 고침  
-                        SetTileType(pos, TileType.Tile);
-                    }
-
-                    if (obj.buildType == BuildType.CapacityFurniture)
-                    {
-                        _currentInBuildingData.RemoveCapacityFurniture();
-                    }
-                    else if (obj.buildType == BuildType.FeeFurniture)
-                    {
-                        _currentInBuildingData.RemoveProfitableFurniture();
-                    }
-
-                    MainTilemap.RefreshAllTiles();
-                    obj.DestroyBuilding();
-                    break;
-                }
-            }
-        }
-
-        if (_temp != null && Input.GetKeyDown(KeyCode.G))
-        {
-            _temp.Rotate();
-            FollowBuilding();
         }
     }
 
