@@ -5,6 +5,7 @@ using TMPro;
 
 public class GoldTest : MonoBehaviour
 {
+    public static GoldTest Instance;
     public int _testGold;
     public int IncreasedGold = 0;
     [SerializeField] private TextMeshProUGUI _goldText;
@@ -22,6 +23,14 @@ public class GoldTest : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        
         UpdateUI();
     }
 
@@ -38,6 +47,17 @@ public class GoldTest : MonoBehaviour
     {
         TestGoldValue += value;
         IncreasedGold += value;
+    }
+
+    public void PlayerUseMoney(int value)
+    {
+        if (TestGoldValue < value)
+        {
+            Debug.Log("골드 부족");
+            return;
+        }
+        
+        TestGoldValue -= value;
     }
 
     private void UpdateUI()

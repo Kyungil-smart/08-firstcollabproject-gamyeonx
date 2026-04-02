@@ -199,7 +199,7 @@ public class GridBuildingSystem : MonoBehaviour
                     {
                         _currentInBuildingData.RemoveCapacityFurniture();
                     }
-                    else if (obj.buildType == BuildType.ProfitableFurniture)
+                    else if (obj.buildType == BuildType.FeeFurniture)
                     {
                         _currentInBuildingData.RemoveProfitableFurniture();
                     }
@@ -330,11 +330,11 @@ public class GridBuildingSystem : MonoBehaviour
                     SetTileType(pos, TileType.Road);
                 else if (_temp.buildType == BuildType.Building)
                     SetTileType(pos, TileType.Building);
-                else if (_temp.buildType == BuildType.ProfitableFurniture) // 수익성 가구 오브젝트
+                else if (_temp.buildType == BuildType.FeeFurniture) // 수익성 가구 오브젝트
                 {
                     if (_saveframeCount != Time.frameCount)
                     {
-                        SetTileType(pos, TileType.ProfitableFurniture);
+                        SetTileType(pos, TileType.FeeFurniture);
                         _currentInBuildingData.TryAssignProfitableFurniture();
                         _saveframeCount = Time.frameCount;
                     }

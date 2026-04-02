@@ -39,6 +39,13 @@ public class FacilityRuntime : MonoBehaviour
     private readonly Dictionary<GuestController, Transform> _guestAssignedSlots = new Dictionary<GuestController, Transform>();
     private readonly Queue<GuestController> _waitQueue = new Queue<GuestController>();
 
+    public int FurnitureGold = 0;
+
+    public int TotalPay()
+    {
+        return FurnitureGold;
+    }
+
     public string FacilityID => _facilityID;
     public EFacilityType FacilityType => _facilityType;
 

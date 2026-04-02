@@ -5,5 +5,5 @@ public enum TileType
     Building,
     Tile,
     CapacityFurniture,
-    ProfitableFurniture
+    FeeFurniture
 }

@@ -7,7 +7,7 @@ public enum BuildType
     Building,
     TileBrush,
     CapacityFurniture,
-    ProfitableFurniture
+    FeeFurniture
 }
 
 public enum ETurnType

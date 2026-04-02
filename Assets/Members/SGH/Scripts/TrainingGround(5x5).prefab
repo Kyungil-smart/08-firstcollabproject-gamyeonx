@@ -450,6 +450,7 @@ MonoBehaviour:
   _canUseImmediately: 1
   _supportsQueue: 1
   _inBuildingData: {fileID: 0}
+  Gold: 0
 --- !u!1 &8711760362736447898
 GameObject:
   m_ObjectHideFlags: 0

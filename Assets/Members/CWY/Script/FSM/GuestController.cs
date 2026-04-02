@@ -623,7 +623,8 @@ public class GuestController : MonoBehaviour
                 ? _facilityEffectDatabase.GetUsageFeeByFacilityID(CurrentTargetFacilityID)
                 : 0;
 
-            _goldTest.PayMoney(gold);
+            gold += CurrentFacilityRuntime.TotalPay();
+            GoldTest.Instance.PayMoney(gold);
             Log($"[GuestController] 골드 지급 완료 | FacilityID={CurrentTargetFacilityID}, Gold={gold}");
         }
 
