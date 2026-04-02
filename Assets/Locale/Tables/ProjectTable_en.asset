@@ -1,0 +1,169 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: ProjectTable_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: bd7565f7459c5b84881840b36704fc2c, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 5086423950185988184
+  m_TableData:
+  - m_Id: 252764733440
+    m_Localized: New Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1035384111104
+    m_Localized: Load Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1284773232640
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1508539351040
+    m_Localized: Quit Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3031591796736
+    m_Localized: Dungeonfront Guild
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3917252640768
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4436952072192
+    m_Localized: Return to Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4760542625792
+    m_Localized: Save
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4950439739392
+    m_Localized: Load
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5180593782784
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5368628625408
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5585570611200
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6136815403008
+    m_Localized: Korea
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6392416288768
+    m_Localized: English
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7401721020416
+    m_Localized: Road
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7500329107456
+    m_Localized: Building
+    m_Metadata:
+      m_Items: []
+  - m_Id: 602119983054848
+    m_Localized: Start a New Game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 603212259508224
+    m_Localized: Save File
+    m_Metadata:
+      m_Items: []
+  - m_Id: 604172792872960
+    m_Localized: Quit Game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 604555204345856
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 605484137824256
+    m_Localized: Master Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 605838908833792
+    m_Localized: Sound Effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 612697363431424
+    m_Localized: Return
+    m_Metadata:
+      m_Items: []
+  - m_Id: 612980336345088
+    m_Localized: Restaurant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613090533294080
+    m_Localized: Guild
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613178374602752
+    m_Localized: Hot Spring
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613281864859648
+    m_Localized: Shop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613369576144896
+    m_Localized: Training Ground
+    m_Metadata:
+      m_Items: []
+  - m_Id: 613672656551936
+    m_Localized: Vending Machine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 617261651181568
+    m_Localized: '{0}s'
+    m_Metadata:
+      m_Items:
+      - rid: 5086423950185988184
+  - m_Id: 619016124350464
+    m_Localized: '{0}wk'
+    m_Metadata:
+      m_Items:
+      - rid: 5086423950185988184
+  - m_Id: 619018020175872
+    m_Localized: '{0}mo'
+    m_Metadata:
+      m_Items:
+      - rid: 5086423950185988184
+  - m_Id: 619020557729792
+    m_Localized: '{0}yr'
+    m_Metadata:
+      m_Items:
+      - rid: 5086423950185988184
+  references:
+    version: 2
+    RefIds:
+    - rid: 5086423950185988184
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 617261651181568
+        - id: 619016124350464
+        - id: 619018020175872
+        - id: 619020557729792
