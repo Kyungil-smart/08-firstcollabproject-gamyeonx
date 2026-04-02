@@ -57,6 +57,7 @@ public class EventUI : MonoBehaviour
 
         if (_currentIndex == 12)
         {
+            _buildGuideUI.gameObject.SetActive(true);
             _BackGround.SetActive(false);
             // 건물 생성 튜토리얼 관련 버튼 이미지 및 버튼 활성화
             // 버튼 클릭 시 다시 다른애들 활성화
@@ -64,6 +65,7 @@ public class EventUI : MonoBehaviour
         
         if (_currentIndex == 15)
         {
+            _upgradeGuideUI.gameObject.SetActive(true);
             _BackGround.SetActive(false);
             // 건물 업그레이드 튜토리얼 관련 버튼 이미지 및 버튼 활성화
             // 버튼 클릭 시 다시 다른애들 활성화

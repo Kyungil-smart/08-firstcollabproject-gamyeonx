@@ -19,13 +19,15 @@ public class EventManager : MonoBehaviour
     
     [Header("이벤트 캔버스")]
     [SerializeField] private Transform _eventContentParent;
+    [Header("코루틴 실행 전 조작 방지 이미지")]
+    [SerializeField] private Transform _dontTouchImage;
 
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        
+        _dontTouchImage.gameObject.SetActive(true);
         RegisterActionHandlers();  // 실행 가능한 액션 미리 등록
     }
 
@@ -202,6 +204,8 @@ public class EventManager : MonoBehaviour
         {
             CheckWeekEvents(0);
         }
+        
+        _dontTouchImage.gameObject.SetActive(false);
         
     }
 
