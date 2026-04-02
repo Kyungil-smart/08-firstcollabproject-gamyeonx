@@ -48,20 +48,24 @@ public class FacilityEffectRow
         _facilityNameKo = GetSafeValue(cols, 3);
         _facilityNameEn = GetSafeValue(cols, 4);
 
-        // 5번 컬럼(normal_guest_available) 사용 안 함
-        _refundAmount = ParseInt(GetSafeValue(cols, 6));
-        _buildCost = ParseInt(GetSafeValue(cols, 7));
-        _upgradeCost = ParseInt(GetSafeValue(cols, 8));
-        _unlockRevenue = ParseInt(GetSafeValue(cols, 9));
+        // 사용 안 하는 컬럼
+        // 5  = normal_guest_available
+        // 6  = basic_capacity
+        // 7  = max_capacity
+        // 18 = facility_prefab_id
+        // 19 = facility_icon_id
 
-        // 10번 컬럼(capacity) 사용 안 함
-        _usageFee = ParseInt(GetSafeValue(cols, 11));
+        _refundAmount = ParseInt(GetSafeValue(cols, 8));
+        _buildCost = ParseInt(GetSafeValue(cols, 9));
+        _upgradeCost = ParseInt(GetSafeValue(cols, 10));
+        _unlockRevenue = ParseInt(GetSafeValue(cols, 11));
+        _usageFee = ParseInt(GetSafeValue(cols, 12));
 
-        _fatigueEffectPerTick = ParseInt(GetSafeValue(cols, 12));
-        _thirstEffectPerTick = ParseInt(GetSafeValue(cols, 13));
-        _hungerEffectPerTick = ParseInt(GetSafeValue(cols, 14));
-        _shopEffectPerTick = ParseInt(GetSafeValue(cols, 15));
-        _trainingEffectPerTick = ParseInt(GetSafeValue(cols, 16));
+        _fatigueEffectPerTick = ParseInt(GetSafeValue(cols, 13));
+        _thirstEffectPerTick = ParseInt(GetSafeValue(cols, 14));
+        _hungerEffectPerTick = ParseInt(GetSafeValue(cols, 15));
+        _shopEffectPerTick = ParseInt(GetSafeValue(cols, 16));
+        _trainingEffectPerTick = ParseInt(GetSafeValue(cols, 17));
     }
 
     private string GetSafeValue(string[] cols, int index)
