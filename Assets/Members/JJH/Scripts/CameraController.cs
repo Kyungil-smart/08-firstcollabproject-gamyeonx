@@ -44,6 +44,8 @@ public class CameraController : MonoBehaviour
     public GameObject RoadMenu; // 여기 수정했음 근형, 이거 길타입 전용으로 메뉴 셋팅부분 터치시 길타입전용으로 분기 갈라놨음
     public bool IsCrapting;
 
+    public bool canMove = true; // 이거 근형 수정, 카메라 작동 막으려고 만듦
+
     void Awake()
     {
         _cam = GetComponent<Camera>();
@@ -59,6 +61,8 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        if (!canMove) return;
+
         if (!IsInputLocked && !IsCrapting)
         {
             int touchCount = Input.touchCount;

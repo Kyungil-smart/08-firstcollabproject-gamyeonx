@@ -157,7 +157,7 @@ public class Building : MonoBehaviour
     // 정사각형용 회전
     private void RotateSquareBuilding()
     {
-        pivot.Rotate(0, 0, 90);
+        pivot.Rotate(0, 0, -90);
         rotateCount = (rotateCount + 1) % 4;
 
         var size = area.size;
@@ -213,5 +213,11 @@ public class Building : MonoBehaviour
         if (InBuildingRoot != null)
             Destroy(InBuildingRoot);  // 루트 삭제
         Destroy(gameObject);
+    }
+
+    // Placed를 외부에서 true로 복원하는 메서드 추가
+    public void RestorePlaced()
+    {
+        Placed = true;
     }
 }

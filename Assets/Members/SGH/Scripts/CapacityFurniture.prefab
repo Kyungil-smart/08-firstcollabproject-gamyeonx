@@ -914,6 +914,7 @@ GameObject:
   - component: {fileID: 5386407708499311429}
   - component: {fileID: 4515432953137878291}
   - component: {fileID: 6933469259068330659}
+  - component: {fileID: 5238077885863530459}
   m_Layer: 0
   m_Name: CapacityFurniture
   m_TagString: OByO
@@ -960,6 +961,7 @@ MonoBehaviour:
   pivot: {fileID: 1254885943345794470}
   rotateCount: 0
   _facilityType: 0
+  IsMenuOpen: 0
 --- !u!61 &4515432953137878291
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1020,13 +1022,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FacilityRuntime
   _facilityID: 1001
   _facilityType: 0
+  _facilityEffectDatabase: {fileID: 0}
+  _runtimeData:
+    _facilityID: 
+    _facilityType: 0
+    _facilityNameKo: 
+    _facilityNameEn: 
+    _refundAmount: 0
+    _buildCost: 0
+    _upgradeCost: 0
+    _unlockRevenue: 0
+    _usageFee: 0
+    _fatigueEffectPerTick: 0
+    _thirstEffectPerTick: 0
+    _hungerEffectPerTick: 0
+    _shopEffectPerTick: 0
+    _trainingEffectPerTick: 0
   _entranceRoadObject: {fileID: 0}
   _interiorEntryPoint: {fileID: 0}
   _waitPoint: {fileID: 0}
   _usePoints: []
   _facilityExitPoint: {fileID: 0}
   _outsideExitPoint: {fileID: 0}
+  _entrancePoint: {fileID: 0}
+  _exitPoint: {fileID: 0}
+  _entranceWayPoints: []
+  _exitWayPoints: []
   _canUseImmediately: 1
   _supportsQueue: 1
   _inBuildingData: {fileID: 0}
-  Gold: 100
+  FurnitureGold: 0
+--- !u!114 &5238077885863530459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7770095648758938427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a276ee1e927384cac5b581989d61d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingClick
