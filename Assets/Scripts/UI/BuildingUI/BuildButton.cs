@@ -22,6 +22,8 @@ public class BuildButton : MonoBehaviour
         _uiBuildPanel.SetActive(true);
         _topUI.SetActive(false);
         gameObject.SetActive(false);
+        CameraController cam = FindFirstObjectByType<CameraController>();
+        cam.IsCrapting = true;
     }
 
     private void OnDestroy()

@@ -70,11 +70,11 @@ public class EventManager : MonoBehaviour
     {
         _actionHandlers["TUTORIAL"] = () =>
         {
-            /*if (!IsLoading)
+            if (!IsLoading)
             {
                 IsTutorial = true;
                 EventsCanvasActive("TUTORIAL");
-            }*/
+            }
 
             Debug.Log("[EventManager] 튜토리얼 실행");
         };

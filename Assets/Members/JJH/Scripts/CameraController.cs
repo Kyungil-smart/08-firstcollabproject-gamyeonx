@@ -42,6 +42,7 @@ public class CameraController : MonoBehaviour
     private bool _isInBuilding = false; // 현재 건물 내부인지 체크하는 플래그
 
     public GameObject RoadMenu; // 여기 수정했음 근형, 이거 길타입 전용으로 메뉴 셋팅부분 터치시 길타입전용으로 분기 갈라놨음
+    public bool IsCrapting;
 
     void Awake()
     {
@@ -58,21 +59,14 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (!IsInputLocked)
+        if (!IsInputLocked && !IsCrapting)
         {
-            HandleMouseInput();
-            //#if UNITY_EDITOR
-            //            HandleMouseInput();
-            //#else
-            //            int touchCount = Input.touchCount;
-            //            if (touchCount >= 2)      HandlePinchZoom();
-            //            else if (touchCount == 1) HandlePan();
-            //            else                      ApplyInertia();
-            //#endif
-            //        }
-
-            //ClampPosition();
+            int touchCount = Input.touchCount;
+            if (touchCount >= 2)      HandlePinchZoom();
+            else if (touchCount == 1) HandlePan();
+            else                      ApplyInertia();
         }
+        
         ClampPosition();
     }
 

@@ -27,6 +27,8 @@ public class BackButton : MonoBehaviour
         _BuildButton.SetActive(true);
         _topUI.SetActive(true);
         _uiBuildPanel.SetActive(false);
+        CameraController cam = FindFirstObjectByType<CameraController>();
+        cam.IsCrapting = false;
     }
 
     private void OnDestroy()
