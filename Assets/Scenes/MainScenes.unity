@@ -2542,7 +2542,7 @@ MonoBehaviour:
   - type: 4
     button: {fileID: 1748401109}
   _buildButton: {fileID: 6046245424736687093}
-  BuildDoublecheckPanel: {fileID: 0}
+  BuildDoublecheckPanel: {fileID: 1532261923339657758}
   _goldTest: {fileID: 0}
   _gameTime: {fileID: 0}
 --- !u!4 &138611612
@@ -12782,7 +12782,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00048273263}
+  m_AnchoredPosition: {x: 0, y: 0.000037965907}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &702330093
@@ -32025,7 +32025,7 @@ MonoBehaviour:
     m_Extent: {x: 15, y: 15, z: 0}
   IsInputLocked: 0
   _touchStartedOnBuilding: 0
-  RoadMenu: {fileID: 0}
+  RoadMenu: {fileID: 471754922}
   IsCrapting: 0
 --- !u!1 &1700181178
 GameObject:
@@ -32573,7 +32573,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 89115028}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.98579365
+  m_Size: 0.99999636
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
