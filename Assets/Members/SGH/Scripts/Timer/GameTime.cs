@@ -101,11 +101,3 @@ public class GameTime : MonoBehaviour
         _week.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Week", new object[] { _userWeek });
     }
 }
-
-/*
-[Unity 연결 방법]
-1. 기존 GameTime.cs를 이 코드로 교체한다.
-2. 180초 자동 주차 증가 코드는 제거했다.
-3. 이제 다음 주차 이동은 TurnGuestExitManager가 HandleTurnFinishedForTest()를 호출해서 처리한다.
-4. 테스트가 끝난 뒤 준비시간 UI가 생기면 이 함수를 준비시간 진입 함수로 바꾸면 된다.
-*/
