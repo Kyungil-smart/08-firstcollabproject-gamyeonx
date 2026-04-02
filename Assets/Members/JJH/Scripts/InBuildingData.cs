@@ -54,6 +54,14 @@ public class InBuildingData : MonoBehaviour
     [SerializeField] private int _maxCapacityFurnitureCount = 3;
     [SerializeField] private int _currentCapacityFurnitureCount = 0;
     public int currentCapacityFurnitureCount => _currentCapacityFurnitureCount;
+    
+    [Header("수익형 가구 개수")]
+    [SerializeField] private int _currentFeeFurnitureCount = 0;
+
+    [Header("가구 정보")]
+    [SerializeField] private FurnitureData _capacityFurnitureData; // 수용성 가구 데이터
+    [SerializeField] private FurnitureData _feeFurnitureData;      // 수익성 가구 데이터
+    
 
     private void Awake()
     {
@@ -69,6 +77,7 @@ public class InBuildingData : MonoBehaviour
 
     private void Start()
     {
+        InitFurnitureData();
         _returnButton.onClick.AddListener(ReturnButton);
         _cameraController = FindFirstObjectByType<CameraController>();
         InBuildingWhiteTilesCreate();
@@ -108,7 +117,8 @@ public class InBuildingData : MonoBehaviour
             return;
         }
 
-        _currentUseCount++;
+   
+        _currentUseCount += _capacityFurnitureData.interiorCapacityGrowth;
         UpdateUseVisual();
 
         OnUsePivotsChanged?.Invoke(GetUsePivots());
@@ -122,7 +132,7 @@ public class InBuildingData : MonoBehaviour
             return;
         }
 
-        _currentUseCount--;
+        _currentUseCount -= _capacityFurnitureData.interiorCapacityGrowth;
         UpdateUseVisual();
 
         OnUsePivotsChanged?.Invoke(GetUsePivots());
@@ -145,6 +155,7 @@ public class InBuildingData : MonoBehaviour
     }
 
     // 수용성 가구의 현재 개수를 늘리고 최대치를 초과하면 false 반환
+    
     public bool TryAssignCapacityFurniture()
     {
         if (_currentCapacityFurnitureCount >= _maxCapacityFurnitureCount)
@@ -155,6 +166,7 @@ public class InBuildingData : MonoBehaviour
 
         _currentCapacityFurnitureCount++;
         IncreaseUsePivots();
+        GoldTest.Instance.PlayerUseMoney(_capacityFurnitureData.interiorPrice);
         Debug.Log($"수용형 가구 설치 개수 : {_currentCapacityFurnitureCount}");
         return true;
     }
@@ -177,21 +189,65 @@ public class InBuildingData : MonoBehaviour
     // 비활성 예정
     public void TryAssignProfitableFurniture()
     {
-        Debug.Log("[InBuildingData] 수익형 가구 가격 증가 테스트 기능은 현재 사용하지 않습니다.");
-
-        /*
-        _facilityRuntime.UpgradePrice(30);
-        */
+        // Debug.Log("[InBuildingData] 수익형 가구 가격 증가 테스트 기능은 현재 사용하지 않습니다.");
+        
+        if (_currentFeeFurnitureCount >= 7)
+        {
+            _currentFeeFurnitureCount = 6;
+            return;
+        }
+        _currentFeeFurnitureCount++;
+        
+        
+        int totalPay = _feeFurnitureData.interiorFeeGrowth * _currentFeeFurnitureCount;
+        _facilityRuntime.FurnitureGold = totalPay;
+        
+        GoldTest.Instance.PlayerUseMoney(_feeFurnitureData.interiorPrice);
+        
+        Debug.Log($"수익형 가구 개수 {_currentFeeFurnitureCount}, 수익 증가값 : {_feeFurnitureData.interiorFeeGrowth} 총 수익 증가 값 : {totalPay}" );
     }
 
     //비활성 예정
     public void RemoveProfitableFurniture()
     {
-        Debug.Log("[InBuildingData] 수익형 가구 가격 감소 테스트 기능은 현재 사용하지 않습니다.");
+        // Debug.Log("[InBuildingData] 수익형 가구 가격 감소 테스트 기능은 현재 사용하지 않습니다.");
 
-        /*
-        _facilityRuntime.DownGradePrice(30);
-        */
+        if (_currentFeeFurnitureCount < 0)
+        {
+            _currentFeeFurnitureCount = 0;
+            return;
+        }
+        _currentFeeFurnitureCount--;
+
+        int totalPay = _feeFurnitureData.interiorFeeGrowth * _currentFeeFurnitureCount;
+        _facilityRuntime.FurnitureGold = totalPay;
+        
+        Debug.Log($"수익형 가구 개수 {_currentFeeFurnitureCount}, 수익 증가값 : {_feeFurnitureData.interiorFeeGrowth} 총 수익 증가 값 : {totalPay}" );
+        
+    }
+    
+    
+    //FurnitureSheetManager로부터 가구들의 정보를 받아오는 메서드 
+    public void InitFurnitureData()
+    {
+        // _facilityRuntime.FacilityID로 대조해서 그에 맞는 가구 정보를 List를 가져옴 
+        List<FurnitureData> furnitureDatas =
+            FurnitureSheetManager.Instance.GetFurnitureByFacility(_facilityRuntime.FacilityID);
+
+        // BuildType으로 비교하여 가져온 List에서 가져온 데이터를 _capacityFurnitureData, _feeFurnitureData에 대입
+        foreach (var data in furnitureDatas)
+        {
+            switch (data.interiorType)
+            {
+                case BuildType.CapacityFurniture:
+                    _capacityFurnitureData = data;
+                    break;
+                case BuildType.FeeFurniture:
+                    _feeFurnitureData = data;
+                    break;
+            }
+            Debug.Log($"[InBuildingData] 이 가구의 이름은 {data.interiorNameKo} 타입은 {data.interiorType}");
+        }
     }
 
     public void BuildingEntered()
