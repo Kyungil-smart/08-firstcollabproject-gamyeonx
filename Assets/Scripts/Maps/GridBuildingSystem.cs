@@ -81,7 +81,7 @@ public class GridBuildingSystem : MonoBehaviour
             Touch touch = Input.GetTouch(0);
 
             // UI 위면 무시
-            if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+            if (IsTouchOverUI(touch))
                 return;
 
             if (touch.phase == TouchPhase.Ended)
@@ -490,7 +490,7 @@ public class GridBuildingSystem : MonoBehaviour
         building.DestroyBuilding();
         _temp = null;
         TempTilemap.ClearAllTiles();
-        
+
     }
 
     // 건물내에서 클릭한 건물에 메뉴 뜨게하는 코드. (프리펩으로 되어 있어 싱글톤인 그리드 시스템 이용)
@@ -498,5 +498,24 @@ public class GridBuildingSystem : MonoBehaviour
     {
         _temp = buildingObj.GetComponent<Building>(); // 클릭한 건물의 정보를 삭제를 위해 담음
         FurnitureMenu.SetActive(true);
+    }
+
+    //=== UI 위인지 아닌지
+    private bool IsTouchOverUI(Touch touch)
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = touch.position;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        foreach (var result in results)
+        {
+            // UI Layer만 체크 (예: UI 레이어를 5로 설정했으면)
+            if (result.gameObject.layer == LayerMask.NameToLayer("UI"))
+                return true;
+        }
+
+        return false;
     }
 }
