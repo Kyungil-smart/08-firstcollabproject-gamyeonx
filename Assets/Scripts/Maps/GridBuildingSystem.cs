@@ -42,6 +42,11 @@ public class GridBuildingSystem : MonoBehaviour
     //가구 삭제용
     public GameObject FurnitureMenu;
 
+    // 길 설치용
+    private Vector3Int _roadStartCell;
+    private Vector3Int _roadEndCell;
+    private bool _isDrawingRoad = false;
+
     //===스마트폰 조작때 회전 제자리에 하는 불타입
     private bool _skipFollowOnce = false;
 
@@ -76,31 +81,61 @@ public class GridBuildingSystem : MonoBehaviour
 
     private void Update()
     {
-        if (_temp != null && !_temp.Placed && Input.touchCount > 0)
+        if (_temp == null) return;
+
+        if (_temp.buildType == BuildType.Road)
         {
-            Touch touch = Input.GetTouch(0);
+            HandleRoadTouch();
+        }
+        else if (!_temp.Placed)
+        {
+            HandleNormalBuildingTouch();
+        }
+    }
 
-            // UI 위면 무시
-            if (IsTouchOverUI(touch))
-                return;
+    // 길 전용 터치 처리
+    private void HandleRoadTouch()
+    {
+        if (Input.touchCount == 0) return;
+        Touch touch = Input.GetTouch(0);
+        if (IsTouchOverUI(touch)) return;
 
-            if (touch.phase == TouchPhase.Ended)
-            {
-                if (_skipFollowOnce)
+        Vector3Int cellPos = gridLayout.LocalToCell(Camera.main.ScreenToWorldPoint(touch.position));
+
+        switch (touch.phase)
+        {
+            case TouchPhase.Began:
+                _roadStartCell = cellPos;
+                _isDrawingRoad = true;
+                TempTilemap.ClearAllTiles();
+                break;
+            case TouchPhase.Moved:
+                if (_isDrawingRoad) DrawRoadPreview(_roadStartCell, cellPos);
+                break;
+            case TouchPhase.Ended:
+                if (_isDrawingRoad)
                 {
-                    _skipFollowOnce = false;
-                    return;
+                    DrawRoadPreview(_roadStartCell, cellPos); // 끝점 확정 프리뷰 유지
+                    _roadEndCell = cellPos; // 끝점 저장
+                    _isDrawingRoad = false;
                 }
+                break;
+        }
+    }
 
-                Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
-                Vector3Int cellPos = gridLayout.LocalToCell(touchPos);
+    // 기존 건물/가구 터치 처리
+    private void HandleNormalBuildingTouch()
+    {
+        if (Input.touchCount == 0) return;
+        Touch touch = Input.GetTouch(0);
+        if (IsTouchOverUI(touch)) return;
 
-                _temp.transform.localPosition =
-                    gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
-
-                _prevPos = cellPos;
-                FollowBuilding();
-            }
+        if (touch.phase == TouchPhase.Ended)
+        {
+            Vector3Int cellPos = gridLayout.LocalToCell(Camera.main.ScreenToWorldPoint(touch.position));
+            _temp.transform.localPosition = gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0));
+            _prevPos = cellPos;
+            FollowBuilding();
         }
     }
 
@@ -455,6 +490,13 @@ public class GridBuildingSystem : MonoBehaviour
     public void PlaceCurrentBuilding()
     {
         if (_temp == null) return;
+
+        if (_temp.buildType == BuildType.Road)
+        {
+            PlaceRoad(_roadStartCell, _roadEndCell);
+            return;
+        }
+
         if (!CanTakeArea(_temp.area)) return;
 
         TakeArea(_temp.area);
@@ -500,7 +542,65 @@ public class GridBuildingSystem : MonoBehaviour
         FurnitureMenu.SetActive(true);
     }
 
-    //=== UI 위인지 아닌지
+    // 길 설치 프리뷰
+    private void DrawRoadPreview(Vector3Int start, Vector3Int end)
+    {
+        TempTilemap.ClearAllTiles();
+        List<Vector3Int> positions = GetLinePositions(start, end);
+        foreach (var pos in positions)
+        {
+            bool canPlace = !occupied.Contains(pos) &&
+                            MainTilemap.GetTile(pos) == _tileBases[ETileType.White];
+
+            TempTilemap.SetTile(pos, canPlace ? _tileBases[ETileType.Green] : _tileBases[ETileType.Red]);
+        }
+    }
+
+    // 길 설치
+    private void PlaceRoad(Vector3Int start, Vector3Int end)
+    {
+        List<Vector3Int> positions = GetLinePositions(start, end);
+        foreach (var pos in positions)
+        {
+            // 이미 점유된 타일은 건너뜀
+            if (!CanTakeArea(new BoundsInt(pos.x, pos.y, 0, 1, 1, 1))) continue;
+
+            Building roadPiece = Instantiate(_temp, gridLayout.CellToWorld(pos) + new Vector3(0.5f, 0.5f, 0), Quaternion.identity).GetComponent<Building>();
+            roadPiece.Place();
+            TakeArea(roadPiece.area);
+            BuildingList.Add(roadPiece);
+        }
+
+        TempTilemap.ClearAllTiles();
+        Destroy(_temp.gameObject);
+        _temp = null;
+        _isPlacing = false;
+    }
+
+    // 두 점 사이 직선 좌표 반환 (x 또는 y 고정)
+    private List<Vector3Int> GetLinePositions(Vector3Int start, Vector3Int end)
+    {
+        List<Vector3Int> result = new List<Vector3Int>();
+
+        if (start.x == end.x) // 세로
+        {
+            int minY = Mathf.Min(start.y, end.y);
+            int maxY = Mathf.Max(start.y, end.y);
+            for (int y = minY; y <= maxY; y++)
+                result.Add(new Vector3Int(start.x, y, 0));
+        }
+        else // 가로
+        {
+            int minX = Mathf.Min(start.x, end.x);
+            int maxX = Mathf.Max(start.x, end.x);
+            for (int x = minX; x <= maxX; x++)
+                result.Add(new Vector3Int(x, start.y, 0));
+        }
+
+        return result;
+    }
+
+    //=== UI 위인지 아닌지 ===
     private bool IsTouchOverUI(Touch touch)
     {
         PointerEventData eventData = new PointerEventData(EventSystem.current);
