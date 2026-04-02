@@ -3,74 +3,130 @@ using UnityEngine;
 
 public class GuestUtilityEvaluator
 {
-    public EGuestNeedType EvaluateHighestNeed(GuestStates guestStates)
+    private struct NeedFacilityCandidate
     {
-        if (guestStates == null)
+        public EGuestNeedType NeedType;
+        public EFacilityType FacilityType;
+        public int Value;
+
+        public NeedFacilityCandidate(EGuestNeedType needType, EFacilityType facilityType, int value)
         {
-            return EGuestNeedType.None;
+            NeedType = needType;
+            FacilityType = facilityType;
+            Value = value;
+        }
+    }
+
+    public bool TryGetBestAvailableFacility(
+        GuestController controller,
+        FacilityRegistry facilityRegistry,
+        out EGuestNeedType selectedNeedType,
+        out FacilityRuntime selectedFacility)
+    {
+        selectedNeedType = EGuestNeedType.None;
+        selectedFacility = null;
+
+        if (controller == null || controller.GuestStates == null)
+        {
+            return false;
         }
 
-        List<(EGuestNeedType needType, int value)> candidates = new List<(EGuestNeedType, int)>
+        if (facilityRegistry == null)
         {
-            (EGuestNeedType.Hunger, guestStates.Hunger),
-            (EGuestNeedType.Thirst, guestStates.Thirst),
-            (EGuestNeedType.Fatigue, guestStates.Fatigue)
+            Debug.LogWarning("[GuestUtilityEvaluator] FacilityRegistry가 없습니다.");
+            return false;
+        }
+
+        List<NeedFacilityCandidate> candidates = BuildCandidates(controller.GuestStates);
+
+        if (candidates.Count == 0)
+        {
+            return false;
+        }
+
+        candidates.Sort((a, b) => b.Value.CompareTo(a.Value));
+
+        int index = 0;
+
+        while (index < candidates.Count)
+        {
+            int currentValue = candidates[index].Value;
+            List<NeedFacilityCandidate> sameValueGroup = new List<NeedFacilityCandidate>();
+
+            while (index < candidates.Count && candidates[index].Value == currentValue)
+            {
+                sameValueGroup.Add(candidates[index]);
+                index++;
+            }
+
+            List<(EGuestNeedType needType, FacilityRuntime facility)> availableFacilities =
+                new List<(EGuestNeedType, FacilityRuntime)>();
+
+            for (int i = 0; i < sameValueGroup.Count; i++)
+            {
+                NeedFacilityCandidate candidate = sameValueGroup[i];
+
+                FacilityRuntime facility = facilityRegistry.GetFirstFacilityByType(candidate.FacilityType);
+
+                if (facility == null)
+                {
+                    continue;
+                }
+
+                if (!controller.CanSelectFacilityType(candidate.FacilityType))
+                {
+                    continue;
+                }
+
+                availableFacilities.Add((candidate.NeedType, facility));
+            }
+
+            if (availableFacilities.Count > 0)
+            {
+                int randomIndex = Random.Range(0, availableFacilities.Count);
+                selectedNeedType = availableFacilities[randomIndex].needType;
+                selectedFacility = availableFacilities[randomIndex].facility;
+
+                Debug.Log(
+                    $"[GuestUtilityEvaluator] 시설 선택 완료 | " +
+                    $"Need={selectedNeedType}, FacilityID={selectedFacility.FacilityID}, " +
+                    $"Value={currentValue}, CandidateCount={availableFacilities.Count}");
+
+                return true;
+            }
+
+            Debug.Log($"[GuestUtilityEvaluator] Value={currentValue} 그룹에서 선택 가능한 시설이 없어 다음 우선순위 검사");
+        }
+
+        Debug.Log("[GuestUtilityEvaluator] 설치된 시설 또는 잠금 해제된 시설이 없어 선택 실패");
+        return false;
+    }
+
+    private List<NeedFacilityCandidate> BuildCandidates(GuestStates guestStates)
+    {
+        List<NeedFacilityCandidate> candidates = new List<NeedFacilityCandidate>
+        {
+            new NeedFacilityCandidate(EGuestNeedType.Hunger, EFacilityType.Restaurant, guestStates.Hunger),
+            new NeedFacilityCandidate(EGuestNeedType.Thirst, EFacilityType.VendingMachine, guestStates.Thirst),
+            new NeedFacilityCandidate(EGuestNeedType.Fatigue, EFacilityType.Onsen, guestStates.Fatigue)
         };
 
         if (guestStates.CanUseShop)
         {
-            candidates.Add((EGuestNeedType.Shop, guestStates.ShopNeed));
+            candidates.Add(new NeedFacilityCandidate(
+                EGuestNeedType.Shop,
+                EFacilityType.Shop,
+                guestStates.ShopNeed));
         }
 
         if (guestStates.CanUseTraining)
         {
-            candidates.Add((EGuestNeedType.Training, guestStates.TrainingNeed));
+            candidates.Add(new NeedFacilityCandidate(
+                EGuestNeedType.Training,
+                EFacilityType.TrainingGround,
+                guestStates.TrainingNeed));
         }
 
-        int highestValue = int.MinValue;
-        List<EGuestNeedType> highestCandidates = new List<EGuestNeedType>();
-
-        for (int i = 0; i < candidates.Count; i++)
-        {
-            if (candidates[i].value > highestValue)
-            {
-                highestValue = candidates[i].value;
-                highestCandidates.Clear();
-                highestCandidates.Add(candidates[i].needType);
-            }
-            else if (candidates[i].value == highestValue)
-            {
-                highestCandidates.Add(candidates[i].needType);
-            }
-        }
-
-        if (highestCandidates.Count == 0)
-        {
-            return EGuestNeedType.None;
-        }
-
-        EGuestNeedType selectedNeed = highestCandidates[Random.Range(0, highestCandidates.Count)];
-
-        Debug.Log($"[GuestUtilityEvaluator] 최고 Need 선택 | Need={selectedNeed}, Value={highestValue}, Count={highestCandidates.Count}");
-        return selectedNeed;
-    }
-
-    public EFacilityType EvaluateTargetFacilityType(EGuestNeedType highestNeed)
-    {
-        switch (highestNeed)
-        {
-            case EGuestNeedType.Hunger:
-                return EFacilityType.Restaurant;
-            case EGuestNeedType.Thirst:
-                return EFacilityType.VendingMachine;
-            case EGuestNeedType.Fatigue:
-                return EFacilityType.Onsen;
-            case EGuestNeedType.Shop:
-                return EFacilityType.Shop;
-            case EGuestNeedType.Training:
-                return EFacilityType.TrainingGround;
-            default:
-                return EFacilityType.None;
-        }
+        return candidates;
     }
 }

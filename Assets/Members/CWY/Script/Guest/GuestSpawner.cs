@@ -7,6 +7,7 @@ public class GuestSpawner : MonoBehaviour
     [SerializeField] private GameObject _guestPrefab;
     [SerializeField] private GameTime _gameTime;
     [SerializeField] private GuestDataDatabaseSO _guestDataDatabase;
+    [SerializeField] private TurnGuestExitManager _turnGuestExitManager;
 
     [Header("입장 가능 시간")]
     [SerializeField] private float _spawnOpenDuration = 60f;
@@ -61,27 +62,33 @@ public class GuestSpawner : MonoBehaviour
             _wasTurnInitialized = true;
             _wasSpawnWindowOpen = isSpawnWindowOpen;
 
+            if (_turnGuestExitManager != null)
+            {
+                _turnGuestExitManager.ResetTurnState();
+            }
+
             if (isSpawnWindowOpen)
             {
                 StartSpawnPlanForCurrentWeek();
             }
 
-           
             return;
         }
 
         if (!_wasSpawnWindowOpen && isSpawnWindowOpen)
         {
+            if (_turnGuestExitManager != null)
+            {
+                _turnGuestExitManager.ResetTurnState();
+            }
+
             StartSpawnPlanForCurrentWeek();
-            
         }
 
         if (_wasSpawnWindowOpen && !isSpawnWindowOpen)
         {
             ClearSpawnPlan();
-           
         }
-
 
         if (isSpawnWindowOpen)
         {
@@ -192,8 +199,6 @@ public class GuestSpawner : MonoBehaviour
 
     private void ProcessReservedSpawns(float currentTurnTime)
     {
-        Log($"[GuestSpawner] ProcessReservedSpawns 진입 | TurnTime={currentTurnTime:F2}");
-
         while (_nextSpawnIndex < _spawnTimes.Count &&
                currentTurnTime >= _spawnTimes[_nextSpawnIndex] &&
                currentTurnTime < _spawnOpenDuration)
@@ -237,6 +242,12 @@ public class GuestSpawner : MonoBehaviour
         }
 
         guestController.SetupSpawn(visitorID);
+
+        if (_turnGuestExitManager != null)
+        {
+            _turnGuestExitManager.RegisterGuest(guestController);
+        }
+
         return guestObject;
     }
 
@@ -279,9 +290,7 @@ public class GuestSpawner : MonoBehaviour
 
             int finalWeight = Mathf.Max(0, row.SpawnWeight);
 
-            if (TryApplyAdventurerGradeBonus(row, ref finalWeight, cBonus, bBonus, aBonus))
-            {
-            }
+            TryApplyAdventurerGradeBonus(row, ref finalWeight, cBonus, bBonus, aBonus);
 
             finalWeights.Add(finalWeight);
             totalWeight += finalWeight;

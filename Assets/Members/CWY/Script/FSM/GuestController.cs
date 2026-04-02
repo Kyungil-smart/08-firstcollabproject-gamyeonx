@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(GuestMovementAgent))]
@@ -27,11 +28,17 @@ public class GuestController : MonoBehaviour
     [Header("퇴장 설정")]
     [SerializeField, Range(0f, 100f)] private float _exitChanceIncreasePerUse = 3f;
 
+    [Header("재선택 잠금 설정")]
+    [SerializeField, Range(0, 100)] private int _reuseUnlockNeedValue = 30;
+
     [Header("디버그")]
     [SerializeField] private bool _enableDebugLog = true;
 
     [Header("골드")]
     [SerializeField] private GoldTest _goldTest;
+
+    // 손님이 완전히 제거되었을 때 외부 시스템에 알림
+    public static event Action<GuestController> OnGuestRemoved;
 
     public GuestStates GuestStates => _guestStates;
     public float WanderNeedTickInterval => _wanderNeedTickInterval;
@@ -66,6 +73,11 @@ public class GuestController : MonoBehaviour
 
     public bool HasEnteredGuild { get; private set; }
     public bool IsExitFlowRunning { get; private set; }
+    public bool IsRemoved { get; private set; }
+
+    public EFacilityType LastUsedFacilityType { get; private set; } = EFacilityType.None;
+    public EGuestNeedType LastUsedFacilityNeedType { get; private set; } = EGuestNeedType.None;
+    public int ReuseUnlockNeedValue => _reuseUnlockNeedValue;
 
     private GuestUtilityEvaluator _utilityEvaluator;
     private GuestStateMachine _stateMachine;
@@ -134,6 +146,7 @@ public class GuestController : MonoBehaviour
 
         HasEnteredGuild = false;
         IsExitFlowRunning = false;
+        IsRemoved = false;
 
         Log("[GuestController] 초기화 완료");
     }
@@ -174,8 +187,12 @@ public class GuestController : MonoBehaviour
         HasEnteredGuild = false;
         IsExitFlowRunning = false;
         IsTurnEnding = false;
+        IsRemoved = false;
         FacilityUseCount = 0;
         CurrentExitChancePercent = 0f;
+
+        LastUsedFacilityType = EFacilityType.None;
+        LastUsedFacilityNeedType = EGuestNeedType.None;
 
         ClearCurrentFacilityContext();
 
@@ -200,7 +217,7 @@ public class GuestController : MonoBehaviour
     public void HandleEntryFlowFailed()
     {
         Debug.LogWarning("[GuestController] 입장 연출 실패");
-        Destroy(gameObject);
+        ForceRemoveGuest();
     }
 
     public void HandleExitFlowCompleted()
@@ -212,22 +229,62 @@ public class GuestController : MonoBehaviour
     public void HandleExitFlowFailed()
     {
         IsExitFlowRunning = false;
-        CompleteExit();
+        //CompleteExit();
     }
 
     public void EvaluateCurrentNeed()
     {
-        CurrentNeedType = _utilityEvaluator.EvaluateHighestNeed(_guestStates);
-        CurrentTargetFacilityType = _utilityEvaluator.EvaluateTargetFacilityType(CurrentNeedType);
+        CurrentNeedType = EGuestNeedType.None;
+        CurrentTargetFacilityType = EFacilityType.None;
+        CurrentTargetFacilityID = string.Empty;
+        CurrentFacilityRuntime = null;
 
-        Log($"[GuestController] Need 평가 완료 | Need={CurrentNeedType}, FacilityType={CurrentTargetFacilityType}");
+        if (_utilityEvaluator == null)
+        {
+            Debug.LogWarning("[GuestController] UtilityEvaluator가 없습니다.");
+            return;
+        }
+
+        if (FacilityRegistry.Instance == null)
+        {
+            Debug.LogWarning("[GuestController] FacilityRegistry가 없습니다.");
+            return;
+        }
+
+        bool found = _utilityEvaluator.TryGetBestAvailableFacility(
+            this,
+            FacilityRegistry.Instance,
+            out EGuestNeedType selectedNeedType,
+            out FacilityRuntime selectedFacility);
+
+        if (!found || selectedFacility == null)
+        {
+            Log("[GuestController] 사용할 수 있는 설치 시설이 없어 배회 유지");
+            return;
+        }
+
+        CurrentNeedType = selectedNeedType;
+        CurrentTargetFacilityType = selectedFacility.FacilityType;
+        CurrentTargetFacilityID = selectedFacility.FacilityID;
+        CurrentFacilityRuntime = selectedFacility;
+
+        ResetMovementAndFacilityFlags();
+
+        Log(
+            $"[GuestController] Need/시설 선택 완료 | " +
+            $"Need={CurrentNeedType}, FacilityType={CurrentTargetFacilityType}, FacilityID={CurrentTargetFacilityID}");
     }
 
     public bool TryFindTargetFacility()
     {
-        if (CurrentTargetFacilityType == EFacilityType.None)
+        if (CurrentFacilityRuntime != null)
         {
-            Debug.LogWarning("[GuestController] 목표 시설 타입이 None입니다.");
+            return true;
+        }
+
+        if (string.IsNullOrWhiteSpace(CurrentTargetFacilityID))
+        {
+            Log("[GuestController] 선택된 목표 시설이 없습니다.");
             return false;
         }
 
@@ -237,16 +294,47 @@ public class GuestController : MonoBehaviour
             return false;
         }
 
-        FacilityRuntime targetFacility = FacilityRegistry.Instance.GetFirstFacilityByType(CurrentTargetFacilityType);
+        FacilityRuntime targetFacility = FacilityRegistry.Instance.GetFacility(CurrentTargetFacilityID);
 
         if (targetFacility == null)
         {
-            Log($"[GuestController] 목표 시설 Runtime 없음 | FacilityType={CurrentTargetFacilityType}");
+            Log($"[GuestController] 목표 시설 Runtime 없음 | FacilityID={CurrentTargetFacilityID}");
             return false;
         }
 
-        SetCurrentTargetFacility(targetFacility.FacilityID, targetFacility.FacilityType);
+        CurrentFacilityRuntime = targetFacility;
+        CurrentTargetFacilityType = targetFacility.FacilityType;
         return true;
+    }
+
+    public bool CanSelectFacilityType(EFacilityType facilityType)
+    {
+        if (facilityType == EFacilityType.None)
+        {
+            return false;
+        }
+
+        if (LastUsedFacilityType != facilityType)
+        {
+            return true;
+        }
+
+        if (LastUsedFacilityNeedType == EGuestNeedType.None)
+        {
+            return true;
+        }
+
+        int currentNeedValue = _guestStates.GetNeedValue(LastUsedFacilityNeedType);
+        bool canReuse = currentNeedValue >= _reuseUnlockNeedValue;
+
+        if (!canReuse)
+        {
+            Log(
+                $"[GuestController] 재선택 잠금 유지 | " +
+                $"FacilityType={facilityType}, Need={LastUsedFacilityNeedType}, Current={currentNeedValue}, Unlock={_reuseUnlockNeedValue}");
+        }
+
+        return canReuse;
     }
 
     public void SetCurrentTargetFacility(string facilityID, EFacilityType facilityType)
@@ -329,7 +417,7 @@ public class GuestController : MonoBehaviour
             return true;
         }
 
-        bool triggered = Random.Range(0f, 100f) < _facilityUseEventChancePercent;
+        bool triggered = UnityEngine.Random.Range(0f, 100f) < _facilityUseEventChancePercent;
 
         if (triggered)
         {
@@ -341,12 +429,17 @@ public class GuestController : MonoBehaviour
 
     public bool ShouldExitFromWander()
     {
+        if (IsTurnEnding)
+        {
+            return false;
+        }
+
         if (FacilityUseCount <= 0)
         {
             return false;
         }
 
-        bool triggered = Random.Range(0f, 100f) < CurrentExitChancePercent;
+        bool triggered = UnityEngine.Random.Range(0f, 100f) < CurrentExitChancePercent;
 
         if (triggered)
         {
@@ -408,11 +501,17 @@ public class GuestController : MonoBehaviour
             _guestStates.SetNeedValue(targetNeed, 0);
         }
 
+        LastUsedFacilityType = CurrentTargetFacilityType;
+        LastUsedFacilityNeedType = targetNeed;
+
         FacilityUseCount++;
         CurrentExitChancePercent = FacilityUseCount * _exitChanceIncreasePerUse;
         HasFinishedFacilityUse = true;
 
-        Log($"[GuestController] 시설 이용 종료 | FacilityID={CurrentTargetFacilityID}, ClearedNeed={targetNeed}, UseCount={FacilityUseCount}, ExitChance={CurrentExitChancePercent}%");
+        Log(
+            $"[GuestController] 시설 이용 종료 | " +
+            $"FacilityID={CurrentTargetFacilityID}, ClearedNeed={targetNeed}, ReuseUnlock={_reuseUnlockNeedValue}, " +
+            $"UseCount={FacilityUseCount}, ExitChance={CurrentExitChancePercent}%");
     }
 
     public EGuestNeedType GetNeedTypeByFacilityType(EFacilityType facilityType)
@@ -643,7 +742,13 @@ public class GuestController : MonoBehaviour
 
     public void NotifyTurnEnded()
     {
+        if (IsRemoved)
+        {
+            return;
+        }
+
         IsTurnEnding = true;
+        Log("[GuestController] 턴 종료 알림 수신");
 
         if (!IsCurrentStateUse())
         {
@@ -656,8 +761,28 @@ public class GuestController : MonoBehaviour
         return _stateMachine != null && _stateMachine.CurrentState == _useState;
     }
 
+    public void ForceRemoveGuest()
+    {
+        if (IsRemoved)
+        {
+            return;
+        }
+
+        Log("[GuestController] 강제 삭제 처리");
+        CleanupBeforeRemove();
+        NotifyRemoved();
+        Destroy(gameObject);
+    }
+
     public void CompleteExit()
     {
+        if (IsRemoved)
+        {
+            return;
+        }
+
+        CleanupBeforeRemove();
+        NotifyRemoved();
         Destroy(gameObject);
     }
 
@@ -693,6 +818,11 @@ public class GuestController : MonoBehaviour
 
     public void StartGuildExitFlow()
     {
+        if (IsRemoved)
+        {
+            return;
+        }
+
         if (IsExitFlowRunning)
         {
             return;
@@ -717,6 +847,26 @@ public class GuestController : MonoBehaviour
     private void HandleMoveFailed()
     {
         SetMovementFailed(true);
+    }
+
+    private void CleanupBeforeRemove()
+    {
+        MovementAgent?.StopMove();
+
+        if (CurrentFacilityRuntime != null)
+        {
+            CurrentFacilityRuntime.ReleaseGuest(this);
+        }
+
+        IsExitFlowRunning = false;
+        HasEnteredGuild = false;
+        ClearCurrentFacilityContext();
+    }
+
+    private void NotifyRemoved()
+    {
+        IsRemoved = true;
+        OnGuestRemoved?.Invoke(this);
     }
 
     private void Log(string message)

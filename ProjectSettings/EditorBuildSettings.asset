@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
+    path: Assets/Members/CWY/Scene/TitleScenes.unity
+    guid: 1d45276a3d5bf824b9e2c39f01f440a3
+  - enabled: 0
     path: Assets/Members/JJH/Scene/TitleScenes.unity
     guid: 41f5aa00c9587c24abb4553847dabafb
   - enabled: 0
