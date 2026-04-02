@@ -38,6 +38,9 @@ public class GridBuildingSystem : MonoBehaviour
     public List<Vector3Int> OccupiedPositionList = new List<Vector3Int>();
     public List<TileType> TileTypes = new List<TileType>();
 
+    //가구 삭제용
+    public GameObject FurnitureMenu;
+
     //===스마트폰 조작때 회전 제자리에 하는 불타입
     private bool _skipFollowOnce = false;
 
@@ -606,5 +609,12 @@ public class GridBuildingSystem : MonoBehaviour
         _temp = null;
         TempTilemap.ClearAllTiles();
         
+    }
+
+    // 건물내에서 클릭한 건물에 메뉴 뜨게하는 코드. (프리펩으로 되어 있어 싱글톤인 그리드 시스템 이용)
+    public void OnClickSetFurnitureMenu(GameObject buildingObj)
+    {
+        _temp = buildingObj.GetComponent<Building>(); // 클릭한 건물의 정보를 삭제를 위해 담음
+        FurnitureMenu.SetActive(true);
     }
 }
