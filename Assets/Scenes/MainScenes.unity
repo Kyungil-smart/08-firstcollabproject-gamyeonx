@@ -1796,7 +1796,7 @@ MonoBehaviour:
   - type: 4
     button: {fileID: 1748401109}
   _buildButton: {fileID: 6046245424736687093}
-  BuildDoublecheckPanel: {fileID: 1532261923339657758}
+  BuildDoublecheckPanel: {fileID: 0}
   _goldTest: {fileID: 0}
   _gameTime: {fileID: 0}
 --- !u!4 &138611612
@@ -6403,6 +6403,55 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd420277725931f4ba968611d2cc602a, type: 3}
+--- !u!1 &519617136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 519617138}
+  - component: {fileID: 519617137}
+  m_Layer: 0
+  m_Name: FurnitureSheetManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &519617137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519617136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78baa8754b90f0944beec7b93ba818de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FurnitureSheetManager
+  _furnitureSheet:
+    <Url>k__BackingField: https://docs.google.com/spreadsheets/d/1GOnAJjcQV4ZlfeWOjQxG4L6o8uYbqgEyCePhL-jTcSw/edit?gid=515325194#gid=515325194
+    <Type>k__BackingField: 1
+  _furnitureSO: {fileID: 11400000, guid: 325010070e5fb9f40bcd86ef313bc089, type: 2}
+  _furnitureDatas: []
+--- !u!4 &519617138
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519617136}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.80618, y: -0.17775, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &534906046
 GameObject:
   m_ObjectHideFlags: 0
@@ -23011,7 +23060,7 @@ MonoBehaviour:
     m_Extent: {x: 10, y: 5, z: 0}
   IsInputLocked: 0
   _touchStartedOnBuilding: 0
-  RoadMenu: {fileID: 471754922}
+  RoadMenu: {fileID: 0}
 --- !u!1 &1700181178
 GameObject:
   m_ObjectHideFlags: 0
@@ -23557,7 +23606,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 89115029}
   m_HandleRect: {fileID: 89115028}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -36016,6 +36065,7 @@ SceneRoots:
   - {fileID: 138611612}
   - {fileID: 2123098990}
   - {fileID: 218385192}
+  - {fileID: 519617138}
   - {fileID: 1723742367}
   - {fileID: 1326445484}
   - {fileID: 1564443714}
