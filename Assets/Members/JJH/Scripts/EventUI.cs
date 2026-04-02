@@ -15,16 +15,19 @@ public class EventUI : MonoBehaviour
     public List<TextMeshProUGUI> Texts = new List<TextMeshProUGUI>();
     
     [Header("튜토리얼 연출 오브젝트")]
-    [SerializeField] private GameObject _buildGuideUI;    // 건설 안내
-    [SerializeField] private GameObject _upgradeGuideUI;  // 업그레이드 안내
+    [SerializeField] private List<GameObject> _buildGuideUI;    // 건설 안내
+    [SerializeField] private List<GameObject> _roadGuideUI;  // 길 안내
     [SerializeField] private GameObject _BackGround;  // 안내시 백그라운드 삭제용
     private int _currentIndex = 0;
+    private int _currentGuideIndex = 0;
 
     public void StartConversation()
     {
         _currentIndex = 0;
         _enterButtonObj.SetActive(false); // 시작할 땐 확인 버튼 숨김
         _nextButton.gameObject.SetActive(true);
+        CameraController cam = FindFirstObjectByType<CameraController>();
+        cam.IsCrapting = true;
         
         UpdateUI();
     }
@@ -55,18 +58,20 @@ public class EventUI : MonoBehaviour
             UpdateUI();
         }
 
-        if (_currentIndex == 12)
+        if (_currentIndex == 11)
         {
-            _buildGuideUI.gameObject.SetActive(true);
+            _buildGuideUI[0].gameObject.SetActive(true);
             _BackGround.SetActive(false);
+            _nextButton.gameObject.SetActive(false);
             // 건물 생성 튜토리얼 관련 버튼 이미지 및 버튼 활성화
             // 버튼 클릭 시 다시 다른애들 활성화
         }
         
-        if (_currentIndex == 15)
+        if (_currentIndex == 13)
         {
-            _upgradeGuideUI.gameObject.SetActive(true);
+            _roadGuideUI[0].gameObject.SetActive(true);
             _BackGround.SetActive(false);
+            _nextButton.gameObject.SetActive(false);
             // 건물 업그레이드 튜토리얼 관련 버튼 이미지 및 버튼 활성화
             // 버튼 클릭 시 다시 다른애들 활성화
         }
@@ -92,11 +97,26 @@ public class EventUI : MonoBehaviour
     {
         if (EventManager.Instance.IsTutorial)
         {
-            _buildGuideUI.SetActive(false);
-            _upgradeGuideUI.SetActive(false);
+            foreach (var guide in _buildGuideUI) guide.SetActive(false);
+            foreach (var guide in _roadGuideUI) guide.SetActive(false);
             _BackGround.SetActive(true);
             _nextButton.gameObject.SetActive(true); // 다시 화면 클릭 가능하게
             TutorialOnClickNext(); // 다음 대사로 바로 넘겨줌
+        }
+    }
+    
+    public void ShowNextBuildGuide()
+    {
+        foreach (var guide in _buildGuideUI) guide.SetActive(false);
+        
+        if (_currentGuideIndex < _buildGuideUI.Count)
+        {
+            _buildGuideUI[_currentGuideIndex].SetActive(true);
+            _currentGuideIndex++; // 다음 호출을 위해 인덱스 증가
+        }
+        else
+        {
+
         }
     }
 }

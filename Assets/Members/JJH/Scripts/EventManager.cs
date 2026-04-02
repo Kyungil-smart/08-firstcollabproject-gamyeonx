@@ -351,6 +351,8 @@ public class EventManager : MonoBehaviour
             enterBtn.onClick.AddListener(() => 
             {
                 eventObj.gameObject.SetActive(false);
+                CameraController cam = FindFirstObjectByType<CameraController>();
+                cam.IsCrapting = false;
                 if (IsTutorial) IsTutorial = false;
             });
         }

@@ -6,7 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Locale/Tutorial/Tutorial_en.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Locale/Tutorial/Tutorial_en.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Locale/Tutorial/Tutorial_ko.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Locale/Tutorial/Tutorial_ko.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DungGeunMo SDF 1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DungGeunMo SDF 1.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DungGeunMo SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DungGeunMo SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/MainNotoSansKR-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/MainNotoSansKR-Bold SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/NotoSansKR-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/NotoSansKR-Bold SDF.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScenes.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScenes.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -112,7 +119,7 @@
       <workItem from="1774949424382" duration="741000" />
       <workItem from="1774965861405" duration="10334000" />
       <workItem from="1775001718436" duration="4934000" />
-      <workItem from="1775095200441" duration="8075000" />
+      <workItem from="1775095200441" duration="13563000" />
     </task>
     <servers />
   </component>
