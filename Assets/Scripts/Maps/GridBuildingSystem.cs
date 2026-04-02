@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 public enum ETileType
 {
@@ -24,7 +23,7 @@ public class GridBuildingSystem : MonoBehaviour
 
     private static Dictionary<ETileType, TileBase> _tileBases = new Dictionary<ETileType, TileBase>();
 
-    private Building _temp; // 현재 배치 중인 건물     
+    public Building _temp; // 현재 배치 중인 건물( private -> public 바꿈)
     private Vector3 _prevPos; // 이전 마우스 셀 위치
 
     private HashSet<Vector3Int> occupied = new HashSet<Vector3Int>(); // 점유된 타일 좌표
@@ -33,11 +32,14 @@ public class GridBuildingSystem : MonoBehaviour
     [SerializeField] private BoundsInt _initialMapBounds;
     private InBuildingData _currentInBuildingData; // 내부건물 정보 저장용
     private int _saveframeCount = -1;
-    
+
     //세이브용
     public List<Building> BuildingList = new List<Building>();
     public List<Vector3Int> OccupiedPositionList = new List<Vector3Int>();
     public List<TileType> TileTypes = new List<TileType>();
+
+    //===스마트폰 조작때 회전 제자리에 하는 불타입
+    private bool _skipFollowOnce = false;
 
     private void Awake()
     {
@@ -62,26 +64,50 @@ public class GridBuildingSystem : MonoBehaviour
         {
             SaveManager.Instance.Load();
             SaveManager.Instance.LoadMapChange();
-            if(MapManager.Instance.MapLevel == 2) LevelUpCameraBounds();
+            if (MapManager.Instance.MapLevel == 2) LevelUpCameraBounds();
         }
         else InitTileTypes();
     }
 
     private void Update()
     {
-        if (_temp != null && !_temp.Placed)
+        //==================================================스마트폰
+        if (_temp != null && !_temp.Placed && Input.touchCount > 0)
         {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
+            Touch touch = Input.GetTouch(0);
 
-            if (_prevPos != cellPos)
+            if (touch.phase == TouchPhase.Ended)
             {
+                if (_skipFollowOnce)
+                {
+                    _skipFollowOnce = false;
+                    return;
+                }
+
+                Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                Vector3Int cellPos = gridLayout.LocalToCell(touchPos);
+
                 _temp.transform.localPosition =
                     gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
+
                 _prevPos = cellPos;
                 FollowBuilding();
             }
         }
+        //===================================================================
+        //if (_temp != null && !_temp.Placed)
+        //{
+        //    Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
+
+        //    if (_prevPos != cellPos)
+        //    {
+        //        _temp.transform.localPosition =
+        //            gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
+        //        _prevPos = cellPos;
+        //        FollowBuilding();
+        //    }
+        //}
 
         if (Input.GetMouseButtonDown(2) && !_isPlacing)
         {
@@ -101,45 +127,46 @@ public class GridBuildingSystem : MonoBehaviour
             }
         }
 
-        if (_temp != null)
-        {
-            bool shouldPlace = (_temp.buildType == BuildType.TileBrush || _temp.buildType == BuildType.Road)
-                ? Input.GetMouseButton(0)
-                : Input.GetMouseButtonDown(0);
+        // 마우스 설치
+        //if (_temp != null)
+        //{
+        //    bool shouldPlace = (_temp.buildType == BuildType.TileBrush || _temp.buildType == BuildType.Road)
+        //        ? Input.GetMouseButton(0)
+        //        : Input.GetMouseButtonDown(0);
 
-            if (shouldPlace && CanTakeArea(_temp.area))
-            {
-                TakeArea(_temp.area);
+        //    if (shouldPlace && CanTakeArea(_temp.area))
+        //    {
+        //        TakeArea(_temp.area);
 
-                if (_temp.buildType == BuildType.TileBrush)
-                {
-                    FollowBuilding();
-                }
-                else if (_temp.buildType == BuildType.Road)
-                {
-                    GameObject roadPrefab = _temp.gameObject;
-                    _temp.Place();
+        //        if (_temp.buildType == BuildType.TileBrush)
+        //        {
+        //            FollowBuilding();
+        //        }
+        //        else if (_temp.buildType == BuildType.Road)
+        //        {
+        //            GameObject roadPrefab = _temp.gameObject;
+        //            _temp.Place();
 
-                    // 현재 마우스 위치 계산
-                    Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
-                    Vector3 spawnPos = gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
+        //            // 현재 마우스 위치 계산
+        //            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //            Vector3Int cellPos = gridLayout.LocalToCell(mousePos);
+        //            Vector3 spawnPos = gridLayout.CellToLocalInterpolated(cellPos + new Vector3(0.5f, 0.5f, 0f));
 
-                    // 마우스 위치에 바로 생성
-                    _temp = Instantiate(roadPrefab, spawnPos, Quaternion.identity).GetComponent<Building>();
-                    BuildingList.Add(_temp); // 세이브용
-                    _isPlacing = true;
-                    _prevPos = Vector3.zero;
-                    FollowBuilding();
-                }
-                else
-                {
-                    _temp.Place();
-                    _temp = null;
-                    _isPlacing = false;
-                }
-            }
-        }
+        //            // 마우스 위치에 바로 생성
+        //            _temp = Instantiate(roadPrefab, spawnPos, Quaternion.identity).GetComponent<Building>();
+        //            BuildingList.Add(_temp); // 세이브용
+        //            _isPlacing = true;
+        //            _prevPos = Vector3.zero;
+        //            FollowBuilding();
+        //        }
+        //        else
+        //        {
+        //            _temp.Place();
+        //            _temp = null;
+        //            _isPlacing = false;
+        //        }
+        //    }
+        //}
 
         if (_temp != null && Input.GetKeyDown(KeyCode.Escape))
         {
@@ -176,7 +203,7 @@ public class GridBuildingSystem : MonoBehaviour
                     {
                         _currentInBuildingData.RemoveProfitableFurniture();
                     }
-                    
+
                     MainTilemap.RefreshAllTiles();
                     obj.DestroyBuilding();
                     break;
@@ -207,15 +234,15 @@ public class GridBuildingSystem : MonoBehaviour
     {
         if (_isPlacing) return;
 
-        Building buildingType = building.GetComponent<Building>(); 
-        
+        Building buildingType = building.GetComponent<Building>();
+
         // BuildType이 수용성 가구고 개수가 3을 넘으면 버튼이 동작 안 함
         if (buildingType.buildType == BuildType.CapacityFurniture)
         {
             if (_currentInBuildingData.currentCapacityFurnitureCount >= 3)
             {
                 Debug.Log("더 이상 설치 불가!");
-                return; 
+                return;
             }
         }
 
@@ -226,7 +253,7 @@ public class GridBuildingSystem : MonoBehaviour
         MapManager.Instance.InstantiateInBuilding(_temp, index);
         _isPlacing = true;
         FollowBuilding();
-        
+
     }
 
     // Green/Red 표시
@@ -272,16 +299,16 @@ public class GridBuildingSystem : MonoBehaviour
             {
                 if (MainTilemap.GetTile(pos) != null) return false;
             }
-    
+
             return true;
         }
-    
+
         foreach (var pos in area.allPositionsWithin)
         {
             if (occupied.Contains(pos)) return false;
             if (MainTilemap.GetTile(pos) != _tileBases[ETileType.White]) return false;
         }
-    
+
         return true;
     }
 
@@ -316,19 +343,19 @@ public class GridBuildingSystem : MonoBehaviour
                 {
                     if (_saveframeCount != Time.frameCount) //TakeArea가 한 프레임 내에 두번 호출돼서 한 번만 하게끔
                     {
-                        if (_currentInBuildingData.TryAssignCapacityFurniture()) 
+                        if (_currentInBuildingData.TryAssignCapacityFurniture())
                             SetTileType(pos, TileType.CapacityFurniture);
-                        
+
                         _saveframeCount = Time.frameCount;
                     }
                 }
             }
         }
-    
+
         TempTilemap.ClearAllTiles();
         MainTilemap.RefreshAllTiles();
     }
-    
+
     // 오브젝트 재배치용 메서드
     public void ReleaseArea(BoundsInt area)
     {
@@ -371,7 +398,7 @@ public class GridBuildingSystem : MonoBehaviour
             MainTilemap.SetTile(pos, _tileBases[ETileType.White]);
             SetTileType(pos, TileType.Tile); // 전부 TileType.Empty(빈 상태)로 초기화
         }
-        
+
         MainTilemap.RefreshAllTiles();
     }
 
@@ -383,34 +410,34 @@ public class GridBuildingSystem : MonoBehaviour
 
         return (int)facilityRuntime._facilityType - 1;
     }
-    
+
     public void MapLevelUp()
     {
         if (MapManager.Instance.MapLevel != 1) return;
-        
+
         // 현재 타일맵 범위 가져오기
         BoundsInt currentBounds = _initialMapBounds;
-    
+
         int currentWidth = currentBounds.size.x;
         int currentHeight = currentBounds.size.y;
 
         // 우측으로 현재 너비만큼 확장
         BoundsInt rightArea = new BoundsInt(
-            currentBounds.max.x,     
-            currentBounds.min.y,      
+            currentBounds.max.x,
+            currentBounds.min.y,
             0,
-            currentWidth,           
-            currentHeight * 2, 
+            currentWidth,
+            currentHeight * 2,
             1
         );
 
         // 상단으로 현재 높이만큼 확장
         BoundsInt topArea = new BoundsInt(
-            currentBounds.min.x,    
-            currentBounds.max.y,    
+            currentBounds.min.x,
+            currentBounds.max.y,
             0,
-            currentWidth,            
-            currentHeight,            
+            currentWidth,
+            currentHeight,
             1
         );
 
@@ -441,23 +468,23 @@ public class GridBuildingSystem : MonoBehaviour
     {
         CameraController cam = FindFirstObjectByType<CameraController>();
         if (cam == null) return;
-        
+
         BoundsInt mapBounds = _initialMapBounds;
 
         cam.CameraBounds = new Bounds(
-            mapBounds.center,  
-            cam.CameraBounds.size * 2f  
+            mapBounds.center,
+            cam.CameraBounds.size * 2f
         );
-        
+
         cam.MaxSize *= 2f;
     }
-    
+
     // enter 시 내부건물 참조용
     public void SetCurrentInBuilding(InBuildingData data)
     {
         _currentInBuildingData = data;
     }
-    
+
     // ----------- 세이브 관련 -----------
 
     public void Save()
@@ -485,30 +512,30 @@ public class GridBuildingSystem : MonoBehaviour
                 if (occupied.Contains(pos)) occupied.Remove(pos);
             }
         }
-        else 
+        else
         {
-            MainTilemap.SetTile(pos, null); 
+            MainTilemap.SetTile(pos, null);
             if (occupied.Contains(pos)) occupied.Remove(pos);
         }
     }
-    
+
     public void InitializeWithBuildingFromSave(GameObject prefab, BuildingSaveData bData)
     {
         _temp = Instantiate(prefab).GetComponent<Building>();
-        
+
         _temp.transform.position = gridLayout.CellToWorld(bData.position) + new Vector3(0.5f, 0.5f, 0);
-        for(int i=0; i<bData.rotateCount; i++) _temp.Rotate(); 
-        
+        for (int i = 0; i < bData.rotateCount; i++) _temp.Rotate();
+
         int index = BuildingIndex(prefab);
         MapManager.Instance.InstantiateInBuilding(_temp, index);
-        
+
         if (_temp.InBuildingData != null)
         {
             _temp.InBuildingData.SetLevelPrice(bData.currentLevel, bData.BuildingGold);
             _temp.InBuildingData.SetCurrentUseCount(bData.CurrentUseCount);
         }
         _temp.Place();
-    
+
         BuildingList.Add(_temp);
         _temp = null;
     }
@@ -520,6 +547,7 @@ public class GridBuildingSystem : MonoBehaviour
         if (_temp == null) return;
 
         _temp.Rotate();
+        _skipFollowOnce = true;
         FollowBuilding();
     }
     // 건설중 취소
@@ -547,5 +575,35 @@ public class GridBuildingSystem : MonoBehaviour
         _temp.Place();
         _temp = null;
         _isPlacing = false;
+    }
+    // 건물 철거
+    public void DeleteSelectedBuilding()
+    {
+        if (_temp == null || !_temp.Placed) return;
+
+        Building building = _temp;
+
+        // occupied와 세이브 리스트 제거
+        foreach (var pos in building.area.allPositionsWithin)
+        {
+            occupied.Remove(pos);
+            OccupiedPositionList.Remove(pos); // 세이브용
+            SetTileType(pos, TileType.Tile);
+        }
+
+        BuildingList.Remove(building);
+
+        // 내부건물 데이터 연동 제거
+        if (building.buildType == BuildType.CapacityFurniture)
+            _currentInBuildingData.RemoveCapacityFurniture();
+        else if (building.buildType == BuildType.ProfitableFurniture)
+            _currentInBuildingData.RemoveProfitableFurniture();
+
+        _temp.CloseMenu();
+
+        building.DestroyBuilding();
+        _temp = null;
+        TempTilemap.ClearAllTiles();
+        
     }
 }

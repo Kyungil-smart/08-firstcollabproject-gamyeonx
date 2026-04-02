@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -6,6 +7,7 @@ public class GoldTest : MonoBehaviour
 {
     public static GoldTest Instance;
     public int _testGold;
+    public int IncreasedGold = 0;
     [SerializeField] private TextMeshProUGUI _goldText;
 
     public int TestGoldValue
@@ -15,12 +17,7 @@ public class GoldTest : MonoBehaviour
         {
             _testGold = value;
             UpdateUI();
-            
-            if (_testGold >= 10)
-            {
-                string eventKey = "WEEK_10_EVENT";
-                EventManager.Instance.CheckGoldEvents(_testGold);
-            }
+            EventManager.Instance.CheckGoldEvents(IncreasedGold);
         }
     }
 
@@ -37,9 +34,19 @@ public class GoldTest : MonoBehaviour
         UpdateUI();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PayMoney(1000);
+            Debug.Log($"현재 누적 수익 {IncreasedGold}");
+        }
+    }
+
     public void PayMoney(int value)
     {
         TestGoldValue += value;
+        IncreasedGold += value;
     }
 
     public void PlayerUseMoney(int value)

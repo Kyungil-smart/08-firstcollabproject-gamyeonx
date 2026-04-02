@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class EventDataLoader : MonoBehaviour
 {
-    private const string SheetURL = "https://docs.google.com/spreadsheets/d/1GOnAJjcQV4ZlfeWOjQxG4L6o8uYbqgEyCePhL-jTcSw/edit?gid=61961225#gid=61961225/export?format=csv";
+    private const string SheetURL = "https://docs.google.com/spreadsheets/d/1GOnAJjcQV4ZlfeWOjQxG4L6o8uYbqgEyCePhL-jTcSw/export?format=csv&gid=61961225";
 
     public IEnumerator LoadEvents(System.Action<List<EventData>> onComplete)
     {
@@ -33,7 +33,7 @@ public class EventDataLoader : MonoBehaviour
             if (string.IsNullOrWhiteSpace(lines[i])) continue;
 
             var cols = lines[i].Split(',');
-            if (cols.Length < 5) continue;
+            if (cols.Length < 6) continue;
 
             result.Add(new EventData
             {
@@ -41,7 +41,7 @@ public class EventDataLoader : MonoBehaviour
                 triggerType = cols[2].Trim(),
                 triggerValue = int.TryParse(cols[3].Trim(), out int v) ? v : 0,
                 actions = cols[4].Trim(),
-                isOneTime = cols[5].Trim() == "TRUE"
+                isOneTime = cols[5].Trim().ToUpper() == "TRUE"
             });
         }
         return result;
