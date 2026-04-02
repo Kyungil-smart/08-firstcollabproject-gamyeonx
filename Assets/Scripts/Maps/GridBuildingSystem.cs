@@ -596,7 +596,7 @@ public class GridBuildingSystem : MonoBehaviour
         // 내부건물 데이터 연동 제거
         if (building.buildType == BuildType.CapacityFurniture)
             _currentInBuildingData.RemoveCapacityFurniture();
-        else if (building.buildType == BuildType.ProfitableFurniture)
+        else if (building.buildType == BuildType.FeeFurniture)
             _currentInBuildingData.RemoveProfitableFurniture();
 
         _temp.CloseMenu();
