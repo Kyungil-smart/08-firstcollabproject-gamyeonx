@@ -38,6 +38,8 @@ public class Building : MonoBehaviour
     [Header("해당 건물과 건축버튼 매칭용")]
     [SerializeField] private EFacilityType _facilityType;
 
+    public bool IsMenuOpen = false; // 건물 내부 진입하는 창에서 창 닫았어도 다시 열리게 체크
+
     private void Awake()
     {
         _canvas = GetComponentInChildren<Canvas>(true);
@@ -59,6 +61,21 @@ public class Building : MonoBehaviour
         _canvas?.gameObject.SetActive(true);
     }
 
+    //=== 건물 업그레이드 및 버튼 눌렀을때 뒤로가기시 창닫힘(메서드로 안닫으면 문제 심각)
+    public void CloseMenu()
+    {
+        _canvas?.gameObject.SetActive(false);
+        IsMenuOpen = false;
+        _cameraController.SetInputLock(false);
+        _cameraController._touchStartedOnBuilding = false;
+        if (GridBuildingSystem.Instance._temp != null)
+        {
+            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
+            GridBuildingSystem.Instance._temp = null;
+        }
+    }
+
+
     public void BuildingEntered()
     {
         _cameraController.MoveToBuilding(
@@ -75,6 +92,11 @@ public class Building : MonoBehaviour
 
         InBuildingData.BuildingEntered();
         // _cameraController.SetInputLock(false);
+        if (GridBuildingSystem.Instance._temp != null)
+        {
+            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
+            GridBuildingSystem.Instance._temp = null;
+        }
     }
 
     public void BuildingLevelUp()
@@ -84,6 +106,11 @@ public class Building : MonoBehaviour
         InBuildingData.BuildingLevelUp();
         _canvas?.gameObject.SetActive(false);
         _cameraController.SetInputLock(false);
+        if (GridBuildingSystem.Instance._temp != null)
+        {
+            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
+            GridBuildingSystem.Instance._temp = null;
+        }
     }
     
     // 현재 위치에서 설치 가능여부 체크용 메서드

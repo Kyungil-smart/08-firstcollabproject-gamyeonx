@@ -155,6 +155,14 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 5086423950185988185
+  - m_Id: 1339480467554304
+    m_Localized: "\uC815\uB9D0 \uD574\uB2F9 \uC2DC\uC124\uC744 \uCCA0\uAC70\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1339782910427136
+    m_Localized: "\uD574\uB2F9 \uC120\uD0DD \uD6C4 \uB418\uB3CC\uB9B4 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

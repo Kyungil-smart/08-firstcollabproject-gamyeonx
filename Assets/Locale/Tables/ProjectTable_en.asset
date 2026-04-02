@@ -155,6 +155,14 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 5086423950185988184
+  - m_Id: 1339480467554304
+    m_Localized: Are you sure you want to demolish this building?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1339782910427136
+    m_Localized: This action cannot be undone
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

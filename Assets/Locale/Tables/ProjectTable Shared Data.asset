@@ -147,6 +147,14 @@ MonoBehaviour:
     m_Key: UI_Year
     m_Metadata:
       m_Items: []
+  - m_Id: 1339480467554304
+    m_Key: UI_Are_you_sure_you_want_to_demolish_this_building?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1339782910427136
+    m_Key: UI_This_action_cannot_be_undone
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
