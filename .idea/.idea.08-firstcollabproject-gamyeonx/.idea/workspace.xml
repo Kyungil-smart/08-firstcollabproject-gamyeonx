@@ -8,7 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Locale/Tutorial/Tutorial_en.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Locale/Tutorial/Tutorial_en.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Locale/Tutorial/Tutorial_ko.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Locale/Tutorial/Tutorial_ko.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scene/UITestScenes.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scene/UITestScenes.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventUI.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DungGeunMo SDF 1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DungGeunMo SDF 1.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DungGeunMo SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DungGeunMo SDF.asset" afterDir="false" />
@@ -46,21 +46,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "JJH-MainScene__Tutorial",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;JJH-MainScene__Tutorial&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Unity 에디터에 연결.Unity 에디터에 연결">
     <configuration name="유닛 테스트(배치 모드)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.9f1\Editor\Unity.exe" />
@@ -119,7 +119,8 @@
       <workItem from="1774949424382" duration="741000" />
       <workItem from="1774965861405" duration="10334000" />
       <workItem from="1775001718436" duration="4934000" />
-      <workItem from="1775095200441" duration="13563000" />
+      <workItem from="1775095200441" duration="15918000" />
+      <workItem from="1775116343061" duration="2186000" />
     </task>
     <servers />
   </component>

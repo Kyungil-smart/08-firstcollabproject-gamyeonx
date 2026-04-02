@@ -97,26 +97,38 @@ public class EventUI : MonoBehaviour
     {
         if (EventManager.Instance.IsTutorial)
         {
+            TutorialOnClickNext(); // 다음 대사로 바로 넘겨줌
             foreach (var guide in _buildGuideUI) guide.SetActive(false);
             foreach (var guide in _roadGuideUI) guide.SetActive(false);
             _BackGround.SetActive(true);
             _nextButton.gameObject.SetActive(true); // 다시 화면 클릭 가능하게
-            TutorialOnClickNext(); // 다음 대사로 바로 넘겨줌
+            _currentGuideIndex = 0;
         }
     }
     
     public void ShowNextBuildGuide()
     {
-        foreach (var guide in _buildGuideUI) guide.SetActive(false);
+        if (!EventManager.Instance.IsTutorial) return;
+        foreach (var guide in _buildGuideUI) 
+            guide.SetActive(false);
         
-        if (_currentGuideIndex < _buildGuideUI.Count)
+        if (_currentGuideIndex < _buildGuideUI.Count - 1)
         {
+            _currentGuideIndex++;
             _buildGuideUI[_currentGuideIndex].SetActive(true);
-            _currentGuideIndex++; // 다음 호출을 위해 인덱스 증가
         }
-        else
-        {
+    }
+    
+    public void ShowNextRoadGuide()
+    {
+        if (!EventManager.Instance.IsTutorial) return;
+        foreach (var guide in _roadGuideUI)
+            guide.SetActive(false);
 
+        if (_currentGuideIndex < _roadGuideUI.Count - 1)
+        {
+            _currentGuideIndex++;
+            _roadGuideUI[_currentGuideIndex].SetActive(true);
         }
     }
 }
