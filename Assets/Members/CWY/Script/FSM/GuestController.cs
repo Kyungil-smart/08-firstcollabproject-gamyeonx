@@ -405,8 +405,19 @@ public class GuestController : MonoBehaviour
 
     public void ApplyWanderNeedTick()
     {
-        _guestStates.IncreaseAllNeedsByWanderTick();
-        Log($"[GuestController] 배회 Need 증가 | {_guestStates.GetDebugText()}");
+        if (_facilityEffectDatabase == null)
+        {
+            return;
+        }
+
+        FacilityEffectRow roadEffectRow = _facilityEffectDatabase.GetFirstMatchingEffectByType(EFacilityType.Road);
+
+        if (roadEffectRow == null)
+        {
+            return;
+        }
+
+        _guestStates.ApplyRoadWanderEffect(roadEffectRow);
     }
 
     public bool ShouldStartFacilitySearchNow()
@@ -708,6 +719,7 @@ public class GuestController : MonoBehaviour
         if (CurrentFacilityRuntime != null)
         {
             CurrentFacilityRuntime.ReleaseGuest(this);
+
         }
 
         if (CurrentFacilityRuntime != null && CurrentFacilityRuntime.OutsideExitPoint != null)
@@ -723,6 +735,18 @@ public class GuestController : MonoBehaviour
                 : 0;
 
             gold += CurrentFacilityRuntime.TotalPay();
+            //3주차 이벤트 골드 보너스 적용
+            if (CurrentTargetFacilityType == EFacilityType.Shop && EventManager.Instance !=null)
+            {
+                int eventGold = Mathf.RoundToInt(gold * EventManager.Instance.CurrentCycleMerchantBonus);
+                gold += eventGold;
+            }
+            if(EventManager.Instance != null)
+            {
+                int _festivalBonusGold = Mathf.RoundToInt(gold * EventManager.Instance.CurrentCycleFestivalBonus);
+                gold += _festivalBonusGold;
+            }
+
             GoldTest.Instance.PayMoney(gold);
             Log($"[GuestController] 골드 지급 완료 | FacilityID={CurrentTargetFacilityID}, Gold={gold}");
         }
