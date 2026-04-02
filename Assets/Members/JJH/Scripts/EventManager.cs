@@ -55,7 +55,14 @@ public class EventManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(GetComponent<EventDataLoader>().LoadEvents(OnEventsLoaded));
+        var locLoader = GetComponent<LocalizationDataLoader>();
+        var eventLoader = GetComponent<EventDataLoader>();
+        
+        locLoader.UpdateLocalization(() => {
+            Debug.Log("[EventManager] 로컬라이제이션 로드 완료 -> 이벤트 데이터 로드 시작");
+            
+            StartCoroutine(eventLoader.LoadEvents(OnEventsLoaded));
+        });
     }
 
     private void OnEventsLoaded(List<EventData> events)

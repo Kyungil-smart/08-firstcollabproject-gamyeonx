@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="" />
+    <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScenes.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScenes.unity" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,8 +18,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3ea01e77be99618395f448b16bd7cc2bd4248bd9e5d8474964b2d97f39c5d74/System.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/JJH/Scripts/LevelUpBuildingData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Members/JJH/Scripts/LocalizationDataLoader.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/JJH/Scripts/SaveData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/JJH/Scripts/SaveManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/YDJ/Scripts/Customer/MoveWithWayPoints.cs" root0="FORCE_HIGHLIGHTING" />
@@ -108,7 +112,7 @@
       <workItem from="1774949424382" duration="741000" />
       <workItem from="1774965861405" duration="10334000" />
       <workItem from="1775001718436" duration="4934000" />
-      <workItem from="1775095200441" duration="5036000" />
+      <workItem from="1775095200441" duration="8075000" />
     </task>
     <servers />
   </component>
