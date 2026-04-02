@@ -47,6 +47,11 @@ public class GridBuildingSystem : MonoBehaviour
     private Vector3Int _roadEndCell;
     private bool _isDrawingRoad = false;
 
+    // 건물 재배치용
+    private Vector3 _savedPosition;
+    private BoundsInt _savedArea;
+    private int _savedRotateCount;
+
     //===스마트폰 조작때 회전 제자리에 하는 불타입
     private bool _skipFollowOnce = false;
 
@@ -567,7 +572,6 @@ public class GridBuildingSystem : MonoBehaviour
 
             Building roadPiece = Instantiate(_temp, gridLayout.CellToWorld(pos) + new Vector3(0.5f, 0.5f, 0), Quaternion.identity).GetComponent<Building>();
             roadPiece.Place();
-            TakeArea(roadPiece.area);
             BuildingList.Add(roadPiece);
         }
 
@@ -599,6 +603,50 @@ public class GridBuildingSystem : MonoBehaviour
 
         return result;
     }
+
+    // 재배치 시작
+    public void StartMoveCurrentBuilding()
+    {
+        if (_temp == null || !_temp.Placed) return;
+
+        // 재배치 시작 전 현재 상태 저장
+        _savedPosition = _temp.transform.position;
+        _savedArea = _temp.area;
+        _savedRotateCount = _temp.rotateCount;
+
+        _temp.StartMove();
+    }
+
+    // 재배치 취소 (원위치 복원)
+    public void CancelMoveBuilding()
+    {
+        if (_temp == null) return;
+
+        TempTilemap.ClearAllTiles();
+
+        // 회전 복원: 현재 rotateCount에서 저장된 rotateCount까지 역방향 회전
+        int currentRotate = _temp.rotateCount;
+        int targetRotate = _savedRotateCount;
+        int diff = (currentRotate - targetRotate + 4) % 4;
+        for (int i = 0; i < diff; i++) _temp.Rotate();
+
+        // 위치 복원
+        _temp.transform.position = _savedPosition;
+        _temp.area = _savedArea;
+
+        // 재점유
+        Vector3Int positionInt = gridLayout.LocalToCell(_temp.transform.position);
+        BoundsInt areaTemp = _temp.area;
+        areaTemp.position = positionInt;
+
+        TakeArea(areaTemp);
+        _temp.RestorePlaced(); // Placed = true 복원
+        OccupiedPositionList.Add(positionInt); // 세이브용
+
+        _temp = null;
+        _isPlacing = false;
+    }
+
 
     //=== UI 위인지 아닌지 ===
     private bool IsTouchOverUI(Touch touch)
