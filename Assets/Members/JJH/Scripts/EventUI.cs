@@ -63,6 +63,7 @@ public class EventUI : MonoBehaviour
             _buildGuideUI[0].gameObject.SetActive(true);
             _BackGround.SetActive(false);
             _nextButton.gameObject.SetActive(false);
+            Time.timeScale = 1f;
             // 건물 생성 튜토리얼 관련 버튼 이미지 및 버튼 활성화
             // 버튼 클릭 시 다시 다른애들 활성화
         }
@@ -72,6 +73,7 @@ public class EventUI : MonoBehaviour
             _roadGuideUI[0].gameObject.SetActive(true);
             _BackGround.SetActive(false);
             _nextButton.gameObject.SetActive(false);
+            Time.timeScale = 1f;
             // 건물 업그레이드 튜토리얼 관련 버튼 이미지 및 버튼 활성화
             // 버튼 클릭 시 다시 다른애들 활성화
         }
@@ -103,6 +105,7 @@ public class EventUI : MonoBehaviour
             _BackGround.SetActive(true);
             _nextButton.gameObject.SetActive(true); // 다시 화면 클릭 가능하게
             _currentGuideIndex = 0;
+            Time.timeScale = 0f;
         }
     }
     
@@ -129,6 +132,19 @@ public class EventUI : MonoBehaviour
         {
             _currentGuideIndex++;
             _roadGuideUI[_currentGuideIndex].SetActive(true);
+        }
+    }
+
+    public void TutorialSkip()
+    {
+        if (EventManager.Instance.IsTutorial)
+        {
+            gameObject.SetActive(false);
+            EventManager.Instance.IsTutorial = false;
+            CameraController cam = FindFirstObjectByType<CameraController>();
+            cam.IsCrapting = false;
+            _currentGuideIndex = 0;
+            Time.timeScale = 1f;
         }
     }
 }

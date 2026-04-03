@@ -356,6 +356,8 @@ public class EventManager : MonoBehaviour
             // 투명 '다음' 버튼 연결 (스크립트 내 OnClickNext 호출)
             // 이 버튼은 인스펙터에서 미리 연결해두거나 여기서 찾아서 등록합니다.
         }
+        
+        Time.timeScale = 0f;
 
         // 마지막 확인 버튼(Enter) 로직
         Button enterBtn = eventObj.Find("Enter")?.GetComponent<Button>();
@@ -368,6 +370,7 @@ public class EventManager : MonoBehaviour
                 CameraController cam = FindFirstObjectByType<CameraController>();
                 cam.IsCrapting = false;
                 if (IsTutorial) IsTutorial = false;
+                Time.timeScale = 1f;
             });
         }
     }
