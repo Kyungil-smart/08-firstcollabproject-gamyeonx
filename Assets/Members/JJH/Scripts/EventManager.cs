@@ -198,6 +198,103 @@ public class EventManager : MonoBehaviour
 
             Debug.Log("[EventManager] 영웅 방문 이벤트 실행");
         };
+        
+        _actionHandlers["GOLD_2000_BuildingUnlock"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("GOLD_2000_BuildingUnlock");
+            }
+        };
+        
+        _actionHandlers["GOLD_3000_BuildingUnlock"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("GOLD_3000_BuildingUnlock");
+            }
+        };
+        
+        _actionHandlers["GOLD_4000_BuildingUnlock"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("GOLD_4000_BuildingUnlock");
+            }
+        };
+        
+        _actionHandlers["GOLD_6000_BuildingUnlock"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("GOLD_6000_BuildingUnlock");
+            }
+        };
+        
+        _actionHandlers["GOLD_8000_BuildingUnlock"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("GOLD_8000_BuildingUnlock");
+            }
+        };
+        
+        _actionHandlers["GOLD_9000_BuildingUnlock"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("GOLD_9000_BuildingUnlock");
+            }
+        };
+        
+        _actionHandlers["GOLD_10000_BuildingUnlock"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("GOLD_10000_BuildingUnlock");
+            }
+        };
+        
+        _actionHandlers["GOLD_12000_BuildingUnlock"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("GOLD_12000_BuildingUnlock");
+            }
+        };
+        
+        _actionHandlers["GOLD_14000_BuildingUnlock"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("GOLD_14000_BuildingUnlock");
+            }
+        };
+        
+        _actionHandlers["GOLD_16000_BuildingUnlock"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("GOLD_16000_BuildingUnlock");
+            }
+        };
+        
+        _actionHandlers["GOLD_18000_BuildingUnlock"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("GOLD_18000_BuildingUnlock");
+            }
+        };
+        
+        _actionHandlers["GOLD_20000_BuildingUnlock"] = () =>
+        {
+            if (!IsLoading)
+            {
+                EventsCanvasActive("GOLD_20000_BuildingUnlock");
+            }
+        };
+
     }
 
     // 조건 체크 - 주차 변경 시 호출
