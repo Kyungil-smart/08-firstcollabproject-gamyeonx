@@ -55,75 +55,86 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 441432821760
-    m_Localized: 
+    m_Localized: Athus, an unconquered dungeon deep within a remote mountain.
     m_Metadata:
       m_Items: []
   - m_Id: 7361887621120
-    m_Localized: 
+    m_Localized: Right in front of the dungeon lies a guild established to support
+      adventurers.
     m_Metadata:
       m_Items: []
   - m_Id: 7454170697728
-    m_Localized: 
+    m_Localized: Sigh... At this rate, how could I ever face the past Guild Masters...?
     m_Metadata:
       m_Items: []
   - m_Id: 7635096195072
-    m_Localized: 
+    m_Localized: Just as Sherry Athus, the current manager of the guild, let out
+      a deep sigh...
     m_Metadata:
       m_Items: []
   - m_Id: 7637562445824
-    m_Localized: 
+    m_Localized: (RUMBLE...!)
     m_Metadata:
       m_Items: []
   - m_Id: 7639613460480
-    m_Localized: 
+    m_Localized: A hot spring suddenly erupted in the guild's front yard!
     m_Metadata:
       m_Items: []
   - m_Id: 7641760944128
-    m_Localized: 
+    m_Localized: I-it's a miracle! With this hot spring, we can definitely draw people
+      back!
     m_Metadata:
       m_Items: []
   - m_Id: 7674396823552
-    m_Localized: 
+    m_Localized: Sherry Athus immediately fired off a business proposal to headquarters
+      to remodel the guild into a 'Hot Spring Inn'.
     m_Metadata:
       m_Items: []
   - m_Id: 7676976320512
-    m_Localized: 
+    m_Localized: I've been waiting for you! You must be the one dispatched from headquarters.
     m_Metadata:
       m_Items: []
   - m_Id: 7679610343424
-    m_Localized: 
+    m_Localized: I'm Sherry Athus, the manager of this guild and a descendant of
+      the Athus family. I can't wait to work with you!
     m_Metadata:
       m_Items: []
   - m_Id: 7681250316288
-    m_Localized: 
+    m_Localized: We don't have much time, so let's get right to it. First, shall
+      we tap the [Build] button to construct our first 'onsen' facility?
     m_Metadata:
       m_Items: []
   - m_Id: 7686904238080
-    m_Localized: 
+    m_Localized: Perfect! To think I'd get to see a hot spring in person that I've
+      only ever seen on paper...!
     m_Metadata:
       m_Items: []
   - m_Id: 7688015728640
-    m_Localized: 
+    m_Localized: But we can't just leave it sitting there by itself, right? Please
+      build a 'road' leading to the 'onsen' so our guests can get around comfortably.
     m_Metadata:
       m_Items: []
   - m_Id: 7688955252736
-    m_Localized: 
+    m_Localized: Great, the basic preparations for welcoming our guests are complete!
     m_Metadata:
       m_Items: []
   - m_Id: 7689882193920
-    m_Localized: 
+    m_Localized: Don't worry if you accidentally place a facility in the wrong spot.
+      You can always move or demolish it by long-pressing it. I'll handle all the
+      pesky paperwork!
     m_Metadata:
       m_Items: []
   - m_Id: 7690813329408
-    m_Localized: 
+    m_Localized: Oh, and did you check the [Upgrade] button in the facility info?
     m_Metadata:
       m_Items: []
   - m_Id: 7691715104768
-    m_Localized: 
+    m_Localized: Once the guild gathers enough resources, you can upgrade your facilities.
     m_Metadata:
       m_Items: []
   - m_Id: 7692713349120
-    m_Localized: 
+    m_Localized: The better the facilities, the higher the guild's revenue and reputation
+      will soar! Let's make upgrading everything our first goal.
     m_Metadata:
       m_Items: []
   - m_Id: 20567943172096
@@ -288,6 +299,29 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 412016434106368
     m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 419071987531776
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 422307897262080
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 433941831204864
+    m_Localized: If we keep our reputation top-notch... a legendary hero who can
+      clear the unconquered dungeon just might come visiting!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 437869360693248
+    m_Localized: If we keep our reputation top-notch... a legendary hero who can
+      clear the unconquered dungeon just might come visiting!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 439171310403584
+    m_Localized: If we keep our reputation top-notch... a legendary hero who can
+      clear the unconquered dungeon just might come visiting!
     m_Metadata:
       m_Items: []
   references:

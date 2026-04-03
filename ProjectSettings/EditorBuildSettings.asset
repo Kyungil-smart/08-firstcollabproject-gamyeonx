@@ -20,7 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TitleScenes.unity
     guid: e0f39092d4ebe4f4da827e06f865f62e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainScenes.unity
     guid: 72f5139e4e47be240939802a24ee3341
   - enabled: 0
@@ -32,6 +32,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Members/CWY/Scene/MainScenes_TestBuild.unity
     guid: b8dfd8f0fd3a2bd4ba0c324208e936f2
+  - enabled: 1
+    path: Assets/Members/SGH/TestScenes/TestScenes/TestMainScenes.unity
+    guid: 040336be917849c4ca2d68b83fed4330
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 4d4b862bda85c934ebe032ad408ed6f0, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
