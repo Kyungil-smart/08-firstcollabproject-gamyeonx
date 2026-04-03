@@ -169,7 +169,6 @@ public class GridBuildingSystem : MonoBehaviour
         //BuildType.Building이라면 필요 누적 수익도 UnlockRevenue에 저장
         switch (buildingType.buildType) 
         { 
-            
             case BuildType.CapacityFurniture:
                 GoldAmount = _currentInBuildingData.CapacityFurnitureData.interiorPrice;
                 Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {GoldAmount}");
