@@ -40,20 +40,6 @@ public class GuestDataRow
 
     public void SetData(string[] cols)
     {
-        // 현재 시트 기준
-        // 0 : 번호
-        // 1 : visitor_id
-        // 2 : is_adventurer
-        // 3 : adventurer_grade
-        // 4 : fatigue
-        // 5 : thirst
-        // 6 : hunger
-        // 7 : use_shop
-        // 8 : shop_need
-        // 9 : use_training
-        // 10 : training_need
-        // 11 : spawn_weight
-
         _visitorID = ParseVisitorID(cols[1]);
         _isAdventurer = ParseBool(cols[3]);
         _adventurerGrade = cols[4].Trim();
