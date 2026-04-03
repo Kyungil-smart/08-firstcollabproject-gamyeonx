@@ -558,6 +558,7 @@ public class GridBuildingSystem : MonoBehaviour
         if (_temp == null || !_temp.Placed) return;
 
         Building building = _temp;
+        building.area.position = gridLayout.WorldToCell(building.transform.position);
 
         // occupied와 세이브 리스트 제거
         foreach (var pos in building.area.allPositionsWithin)
