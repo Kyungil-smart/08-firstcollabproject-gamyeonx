@@ -50,11 +50,18 @@ public class LocalizationDataLoader : MonoBehaviour
             string key = cols[1].Trim();
             string engValue = cols[2].Trim();
             string korValue = cols[3].Trim();
+            
+            string nameKey = key + "_Name"; // 예: TutorialText0_Name
+            string korName = (cols.Length > 4) ? cols[4].Trim() : ""; // E열
+            string engName = (cols.Length > 5) ? cols[5].Trim() : ""; // F열
 
             if (string.IsNullOrEmpty(key)) continue;
 
             koTable.AddEntry(key, korValue);
             enTable.AddEntry(key, engValue);
+            
+            koTable.AddEntry(nameKey, korName);
+            enTable.AddEntry(nameKey, engName);
              Debug.Log($"[Localize] {key} 로드 완료: {korValue}");
         }
 

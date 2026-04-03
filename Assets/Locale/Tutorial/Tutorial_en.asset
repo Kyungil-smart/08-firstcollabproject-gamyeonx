@@ -55,75 +55,90 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 441432821760
-    m_Localized: 
+    m_Localized: Deep in a remote mountain region lies Athus, an unconquered dungeon.
     m_Metadata:
       m_Items: []
   - m_Id: 7361887621120
-    m_Localized: 
+    m_Localized: Right in front of it stands a guild built to support adventurers.
     m_Metadata:
       m_Items: []
   - m_Id: 7454170697728
-    m_Localized: 
+    m_Localized: "(Sigh...)At this rate, I\u2019ll have no excuse when I face the
+      previous Guild Masters..."
     m_Metadata:
       m_Items: []
   - m_Id: 7635096195072
-    m_Localized: 
+    m_Localized: "(Just then, as Sherry Athus, the guild\u2019s current manager,
+      let out a deep sigh...)"
     m_Metadata:
       m_Items: []
   - m_Id: 7637562445824
-    m_Localized: 
+    m_Localized: (RUMBLE...!)
     m_Metadata:
       m_Items: []
   - m_Id: 7639613460480
-    m_Localized: 
+    m_Localized: "(A hot spring suddenly burst forth from the guild\u2019s front
+      yard!)"
     m_Metadata:
       m_Items: []
   - m_Id: 7641760944128
-    m_Localized: 
+    m_Localized: "I-it\u2019s a miracle! With this hot spring, we can bring people
+      back here!"
     m_Metadata:
       m_Items: []
   - m_Id: 7674396823552
-    m_Localized: 
+    m_Localized: (Sherry Athus immediately sent a proposal to headquarters to renovate
+      the guild into an onsen inn.)
     m_Metadata:
       m_Items: []
   - m_Id: 7676976320512
-    m_Localized: 
+    m_Localized: "You must be the one dispatched from headquarters. I\u2019ve been
+      expecting you!"
     m_Metadata:
       m_Items: []
   - m_Id: 7679610343424
-    m_Localized: 
+    m_Localized: "I\u2019m Sherry Athus, the manager of this guild and a descendant
+      of the Athus family. I look forward to working with you."
     m_Metadata:
       m_Items: []
   - m_Id: 7681250316288
-    m_Localized: 
+    m_Localized: "We don\u2019t have much time, so let\u2019s get started right away.
+      First, let\u2019s tap the [Build] button and construct our first onsen facility."
     m_Metadata:
       m_Items: []
   - m_Id: 7686904238080
-    m_Localized: 
+    m_Localized: "Perfect! I can\u2019t believe I\u2019m seeing a real hot spring
+      with my own eyes after only reading about it in reports...!"
     m_Metadata:
       m_Items: []
   - m_Id: 7688015728640
-    m_Localized: 
+    m_Localized: "But we can\u2019t just leave it there on its own, can we? Please
+      build a road leading to the onsen so our guests can move around comfortably."
     m_Metadata:
       m_Items: []
   - m_Id: 7688955252736
-    m_Localized: 
+    m_Localized: Great. Now the basic preparations for welcoming guests are complete.
     m_Metadata:
       m_Items: []
   - m_Id: 7689882193920
-    m_Localized: 
+    m_Localized: "And don\u2019t worry if you place a facility in the wrong spot.
+      You can always move or demolish an existing facility by long-pressing it. I\u2019ll
+      make sure all the paperwork is handled properly."
     m_Metadata:
       m_Items: []
   - m_Id: 7690813329408
-    m_Localized: 
+    m_Localized: Oh, and have you checked the [Upgrade] button in the facility info?
     m_Metadata:
       m_Items: []
   - m_Id: 7691715104768
-    m_Localized: 
+    m_Localized: Once the guild has gathered enough resources, you can upgrade your
+      facilities.
     m_Metadata:
       m_Items: []
   - m_Id: 7692713349120
-    m_Localized: 
+    m_Localized: "The better your facilities become, the more the guild\u2019s revenue
+      and reputation will grow. Let\u2019s make upgrading every facility our first
+      goal."
     m_Metadata:
       m_Items: []
   - m_Id: 20567943172096
@@ -288,6 +303,87 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 412016434106368
     m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 425658776965120
+    m_Localized: And if we can maintain an excellent reputation... a legendary hero
+      capable of conquering the dungeon may one day pay us a visit.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441342168813568
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441345801080832
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441347801763840
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441348971974656
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441350297374720
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441360812494848
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441620196642816
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441638303453184
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441650114613248
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441663070818304
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441676236738560
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441689369104384
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441701566140416
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441713192751104
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441728338382848
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441737737818112
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441747263082496
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441756427636736
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441767982944256
+    m_Localized: Sherry Athus
     m_Metadata:
       m_Items: []
   references:
