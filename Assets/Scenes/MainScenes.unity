@@ -11983,7 +11983,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &615338507
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13211,7 +13211,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00027655275}
+  m_AnchoredPosition: {x: 0, y: 0.00034958203}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &702330093
@@ -33858,7 +33858,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 89115028}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9983841
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -42154,6 +42154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8f8a04822bb05a4799138ab50100f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridBuildingSystem
+  EffectDatabase: {fileID: 0}
   gridLayout: {fileID: 2123098989}
   MainTilemap: {fileID: 1277836837}
   TempTilemap: {fileID: 731388507}
