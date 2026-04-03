@@ -4902,7 +4902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoadTouchUI
   _uiBuildPanel: {fileID: 1328325571}
   _roadTouchUIPanel: {fileID: 199421168}
-  _gridBuildingSystem: {fileID: 0}
+  _gridBuildingSystem: {fileID: 2123098988}
 --- !u!114 &199421171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15221,7 +15221,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000022796912}
+  m_AnchoredPosition: {x: 0, y: 0.0008446336}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &702330093
@@ -39810,7 +39810,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 89115028}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999154
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -46340,7 +46340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoadTouchUI
   _uiBuildPanel: {fileID: 413016945}
   _roadTouchUIPanel: {fileID: 1939851917}
-  _gridBuildingSystem: {fileID: 0}
+  _gridBuildingSystem: {fileID: 2123098988}
 --- !u!114 &1939851920
 MonoBehaviour:
   m_ObjectHideFlags: 0
