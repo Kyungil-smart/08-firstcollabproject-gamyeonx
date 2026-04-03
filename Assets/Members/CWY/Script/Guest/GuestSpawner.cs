@@ -4,7 +4,6 @@ using UnityEngine;
 public class GuestSpawner : MonoBehaviour
 {
     [Header("참조")]
-    [SerializeField] private GameObject _guestPrefab;
     [SerializeField] private GameTime _gameTime;
     [SerializeField] private GuestDataDatabaseSO _guestDataDatabase;
     [SerializeField] private TurnGuestExitManager _turnGuestExitManager;
@@ -113,15 +112,15 @@ public class GuestSpawner : MonoBehaviour
             return;
         }
 
-        if (_guestPrefab == null)
-        {
-            Debug.LogWarning("[GuestSpawner] Guest Prefab이 비어 있습니다.");
-            return;
-        }
-
         if (_guestDataDatabase == null)
         {
             Debug.LogWarning("[GuestSpawner] GuestDataDatabaseSO가 비어 있습니다.");
+            return;
+        }
+
+        if (GuestPoolManager.Instance == null)
+        {
+            Debug.LogWarning("[GuestSpawner] GuestPoolManager.Instance가 없습니다.");
             return;
         }
 
@@ -217,9 +216,9 @@ public class GuestSpawner : MonoBehaviour
 
     public GameObject SpawnGuest()
     {
-        if (_guestPrefab == null)
+        if (GuestPoolManager.Instance == null)
         {
-            Debug.LogWarning("[GuestSpawner] Guest Prefab이 비어 있어 스폰할 수 없습니다.");
+            Debug.LogWarning("[GuestSpawner] GuestPoolManager.Instance가 없어 스폰할 수 없습니다.");
             return null;
         }
 
@@ -231,13 +230,20 @@ public class GuestSpawner : MonoBehaviour
             return null;
         }
 
-        GameObject guestObject = Instantiate(_guestPrefab, transform.position, Quaternion.identity);
+        GameObject guestObject = GuestPoolManager.Instance.GetGuest(transform.position, Quaternion.identity);
+
+        if (guestObject == null)
+        {
+            Debug.LogWarning("[GuestSpawner] 풀에서 Guest를 가져오지 못했습니다.");
+            return null;
+        }
+
         GuestController guestController = guestObject.GetComponent<GuestController>();
 
         if (guestController == null)
         {
-            Debug.LogWarning("[GuestSpawner] 생성된 오브젝트에 GuestController가 없습니다.");
-            Destroy(guestObject);
+            Debug.LogWarning("[GuestSpawner] 풀에서 꺼낸 오브젝트에 GuestController가 없습니다.");
+            GuestPoolManager.Instance.ReturnGuest(guestObject);
             return null;
         }
 
@@ -248,6 +254,7 @@ public class GuestSpawner : MonoBehaviour
             _turnGuestExitManager.RegisterGuest(guestController);
         }
 
+        Log($"[GuestSpawner] 풀 스폰 완료 | VisitorID={visitorID}, Name={guestObject.name}");
         return guestObject;
     }
 

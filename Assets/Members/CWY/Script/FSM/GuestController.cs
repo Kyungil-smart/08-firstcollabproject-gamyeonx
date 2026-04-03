@@ -27,6 +27,11 @@ public class GuestController : MonoBehaviour
 
     [Header("퇴장 설정")]
     [SerializeField, Range(0f, 100f)] private float _exitChanceIncreasePerUse = 3f;
+    
+    //추가
+    [Header("런타임 디버그")]
+    [SerializeField, Range(0f, 100f)] private float _currentExitChancePercent = 0f;
+    public float CurrentExitChancePercent => _currentExitChancePercent;
 
     [Header("재선택 잠금 설정")]
     [SerializeField, Range(0, 100)] private int _reuseUnlockNeedValue = 30;
@@ -37,7 +42,7 @@ public class GuestController : MonoBehaviour
     [Header("골드")]
     [SerializeField] private GoldTest _goldTest;
 
-    // 손님이 완전히 제거되었을 때 외부 시스템에 알림
+
     public static event Action<GuestController> OnGuestRemoved;
 
     public GuestStates GuestStates => _guestStates;
@@ -57,7 +62,7 @@ public class GuestController : MonoBehaviour
 
     public bool IsTurnEnding { get; private set; }
     public int FacilityUseCount { get; private set; }
-    public float CurrentExitChancePercent { get; private set; }
+    //public float CurrentExitChancePercent { get; private set; }
 
     public bool IsInsideFacility { get; private set; }
     public bool IsLeavingFacility { get; private set; }
@@ -142,8 +147,6 @@ public class GuestController : MonoBehaviour
         _useState = new GuestUseState(this);
         _exitState = new GuestExitState(this);
 
-        LoadGuestData();
-
         HasEnteredGuild = false;
         IsExitFlowRunning = false;
         IsRemoved = false;
@@ -181,29 +184,53 @@ public class GuestController : MonoBehaviour
 
     public void SetupSpawn(int visitorID)
     {
+        ResetForReuse();
+
         _visitorID = visitorID;
         LoadGuestData();
+
+        if (EntryFlowHandler == null)
+        {
+            Debug.LogWarning("[GuestController] EntryFlowHandler가 없습니다.");
+            ReturnToPool();
+            return;
+        }
+
+        EntryFlowHandler.BeginEntryFlow();
+        Log($"[GuestController] 스폰 세팅 완료 | VisitorID={_visitorID}");
+    }
+
+    private void ResetForReuse()
+    {
+        MovementAgent?.StopMove();
+
+        if (CurrentFacilityRuntime != null)
+        {
+            CurrentFacilityRuntime.ReleaseGuest(this);
+        }
 
         HasEnteredGuild = false;
         IsExitFlowRunning = false;
         IsTurnEnding = false;
         IsRemoved = false;
+
         FacilityUseCount = 0;
-        CurrentExitChancePercent = 0f;
+        //CurrentExitChancePercent = 0f;
+        _currentExitChancePercent = 0;
 
         LastUsedFacilityType = EFacilityType.None;
         LastUsedFacilityNeedType = EGuestNeedType.None;
 
         ClearCurrentFacilityContext();
 
-        if (EntryFlowHandler == null)
+        if (_stateMachine == null)
         {
-            Debug.LogWarning("[GuestController] EntryFlowHandler가 없습니다.");
-            return;
+            _stateMachine = new GuestStateMachine();
         }
 
-        EntryFlowHandler.BeginEntryFlow();
-        Log($"[GuestController] 스폰 세팅 완료 | VisitorID={_visitorID}");
+        _stateMachine.ChangeState(null);
+
+        Log("[GuestController] 풀 재사용 초기화 완료");
     }
 
     public void HandleEntryFlowCompleted()
@@ -229,7 +256,6 @@ public class GuestController : MonoBehaviour
     public void HandleExitFlowFailed()
     {
         IsExitFlowRunning = false;
-        //CompleteExit();
     }
 
     public void EvaluateCurrentNeed()
@@ -516,8 +542,10 @@ public class GuestController : MonoBehaviour
         LastUsedFacilityNeedType = targetNeed;
 
         FacilityUseCount++;
-        CurrentExitChancePercent = FacilityUseCount * _exitChanceIncreasePerUse;
+        _currentExitChancePercent = FacilityUseCount * _exitChanceIncreasePerUse;
+        //CurrentExitChancePercent = FacilityUseCount * _exitChanceIncreasePerUse;
         HasFinishedFacilityUse = true;
+
 
         Log(
             $"[GuestController] 시설 이용 종료 | " +
@@ -719,7 +747,6 @@ public class GuestController : MonoBehaviour
         if (CurrentFacilityRuntime != null)
         {
             CurrentFacilityRuntime.ReleaseGuest(this);
-
         }
 
         if (CurrentFacilityRuntime != null && CurrentFacilityRuntime.OutsideExitPoint != null)
@@ -735,16 +762,17 @@ public class GuestController : MonoBehaviour
                 : 0;
 
             gold += CurrentFacilityRuntime.TotalPay();
-            //3주차 이벤트 골드 보너스 적용
-            if (CurrentTargetFacilityType == EFacilityType.Shop && EventManager.Instance !=null)
+
+            if (CurrentTargetFacilityType == EFacilityType.Shop && EventManager.Instance != null)
             {
                 int eventGold = Mathf.RoundToInt(gold * EventManager.Instance.CurrentCycleMerchantBonus);
                 gold += eventGold;
             }
-            if(EventManager.Instance != null)
+
+            if (EventManager.Instance != null)
             {
-                int _festivalBonusGold = Mathf.RoundToInt(gold * EventManager.Instance.CurrentCycleFestivalBonus);
-                gold += _festivalBonusGold;
+                int festivalBonusGold = Mathf.RoundToInt(gold * EventManager.Instance.CurrentCycleFestivalBonus);
+                gold += festivalBonusGold;
             }
 
             GoldTest.Instance.PayMoney(gold);
@@ -793,10 +821,10 @@ public class GuestController : MonoBehaviour
             return;
         }
 
-        Log("[GuestController] 강제 삭제 처리");
+        Log("[GuestController] 강제 제거 처리");
         CleanupBeforeRemove();
         NotifyRemoved();
-        Destroy(gameObject);
+        ReturnToPool();
     }
 
     public void CompleteExit()
@@ -808,7 +836,7 @@ public class GuestController : MonoBehaviour
 
         CleanupBeforeRemove();
         NotifyRemoved();
-        Destroy(gameObject);
+        ReturnToPool();
     }
 
     public void ChangeToWanderState()
@@ -886,12 +914,29 @@ public class GuestController : MonoBehaviour
         IsExitFlowRunning = false;
         HasEnteredGuild = false;
         ClearCurrentFacilityContext();
+
+        if (_stateMachine != null)
+        {
+            _stateMachine.ChangeState(null);
+        }
     }
 
     private void NotifyRemoved()
     {
         IsRemoved = true;
         OnGuestRemoved?.Invoke(this);
+    }
+
+    private void ReturnToPool()
+    {
+        if (GuestPoolManager.Instance == null)
+        {
+            Debug.LogWarning("[GuestController] GuestPoolManager.Instance가 없어 비활성화만 수행합니다.");
+            gameObject.SetActive(false);
+            return;
+        }
+
+        GuestPoolManager.Instance.ReturnGuest(gameObject);
     }
 
     private void Log(string message)
