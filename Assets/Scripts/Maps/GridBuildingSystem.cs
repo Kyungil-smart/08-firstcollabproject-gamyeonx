@@ -45,8 +45,7 @@ public class GridBuildingSystem : MonoBehaviour
     public GameObject FurnitureMenu;
 
     // 길 설치용
-    private Vector3Int _roadStartCell;
-    private Vector3Int _roadEndCell;
+    private HashSet<Vector3Int> _roadPathPositions = new HashSet<Vector3Int>();
     private bool _isDrawingRoad = false;
 
     // 건물 재배치용
@@ -108,24 +107,31 @@ public class GridBuildingSystem : MonoBehaviour
         if (IsTouchOverUI(touch)) return;
 
         Vector3Int cellPos = gridLayout.LocalToCell(Camera.main.ScreenToWorldPoint(touch.position));
+        _temp.transform.position = gridLayout.CellToWorld(cellPos) + new Vector3(0.5f, 0.5f, 0);
 
         switch (touch.phase)
         {
             case TouchPhase.Began:
-                _roadStartCell = cellPos;
                 _isDrawingRoad = true;
+                _roadPathPositions.Clear(); // 새로운 드래그 시작 시 초기화
                 TempTilemap.ClearAllTiles();
+            
+                _roadPathPositions.Add(cellPos);
+                UpdateRoadPreview();
                 break;
+
             case TouchPhase.Moved:
-                if (_isDrawingRoad) DrawRoadPreview(_roadStartCell, cellPos);
-                break;
-            case TouchPhase.Ended:
                 if (_isDrawingRoad)
                 {
-                    DrawRoadPreview(_roadStartCell, cellPos); // 끝점 확정 프리뷰 유지
-                    _roadEndCell = cellPos; // 끝점 저장
-                    _isDrawingRoad = false;
+                    if (_roadPathPositions.Add(cellPos))
+                    {
+                        UpdateRoadPreview();
+                    }
                 }
+                break;
+
+            case TouchPhase.Ended:
+                _isDrawingRoad = false;
                 break;
         }
     }
@@ -539,7 +545,7 @@ public class GridBuildingSystem : MonoBehaviour
 
         if (_temp.buildType == BuildType.Road)
         {
-            PlaceRoad(_roadStartCell, _roadEndCell);
+            PlaceRoad();
             return;
         }
 
@@ -592,11 +598,10 @@ public class GridBuildingSystem : MonoBehaviour
     }
 
     // 길 설치 프리뷰
-    private void DrawRoadPreview(Vector3Int start, Vector3Int end)
+    private void UpdateRoadPreview()
     {
         TempTilemap.ClearAllTiles();
-        List<Vector3Int> positions = GetLinePositions(start, end);
-        foreach (var pos in positions)
+        foreach (var pos in _roadPathPositions)
         {
             bool canPlace = !occupied.Contains(pos) &&
                             MainTilemap.GetTile(pos) == _tileBases[ETileType.White];
@@ -606,20 +611,24 @@ public class GridBuildingSystem : MonoBehaviour
     }
 
     // 길 설치
-    private void PlaceRoad(Vector3Int start, Vector3Int end)
+    private void PlaceRoad()
     {
-        List<Vector3Int> positions = GetLinePositions(start, end);
-        foreach (var pos in positions)
+        foreach (var pos in _roadPathPositions)
         {
-            // 이미 점유된 타일은 건너뜀
+            // 설치 가능한 칸(초록색으로 표시되었던 칸)인지 최종 체크
             if (!CanTakeArea(new BoundsInt(pos.x, pos.y, 0, 1, 1, 1))) continue;
 
             Building roadPiece = Instantiate(_temp, gridLayout.CellToWorld(pos) + new Vector3(0.5f, 0.5f, 0), Quaternion.identity).GetComponent<Building>();
             roadPiece.Place();
             BuildingList.Add(roadPiece);
+        
+            // 데이터 등록 (TakeArea 로직 일부 수행)
+            occupied.Add(pos);
+            SetTileType(pos, TileType.Road);
         }
 
         TempTilemap.ClearAllTiles();
+        _roadPathPositions.Clear(); // 좌표 데이터 초기화
         Destroy(_temp.gameObject);
         _temp = null;
         _isPlacing = false;
@@ -752,5 +761,7 @@ public class GridBuildingSystem : MonoBehaviour
     //     GoldTest.Instance.PlayerUseMoney(goldAmount);
     //     Debug.Log($"시설 설치 비용 : {goldAmount}");
     // }
+    
+    
 }
 
