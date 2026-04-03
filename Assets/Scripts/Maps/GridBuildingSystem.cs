@@ -171,8 +171,8 @@ public class GridBuildingSystem : MonoBehaviour
                 break;
             case BuildType.Building:
                 FacilityRuntime facilityRuntime = building.GetComponent<FacilityRuntime>();
-                //goldAmount = EffectDatabase.GetBuildCostByFacilityID(facilityRuntime.FacilityID);
-                //unlockRevenue = EffectDatabase.GetUnlockRevenueByFacilityID(facilityRuntime.FacilityID);
+                goldAmount = EffectDatabase.GetBuildCostByFacilityID(facilityRuntime.FacilityID);
+                unlockRevenue = EffectDatabase.GetUnlockRevenueByFacilityID(facilityRuntime.FacilityID);
                 Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {goldAmount}");
                 break;
         }
