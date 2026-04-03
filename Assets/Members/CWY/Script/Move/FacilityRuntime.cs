@@ -45,7 +45,8 @@ public class FacilityRuntime : MonoBehaviour
     {
         return FurnitureGold;
     }
-
+    
+    
     public string FacilityID => _facilityID;
     public EFacilityType FacilityType => _facilityType;
 

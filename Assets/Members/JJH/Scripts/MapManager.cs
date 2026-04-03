@@ -12,12 +12,28 @@ public class MapManager : MonoBehaviour
     [SerializeField] private float BuildingPivotDistance = 5f; // 빌딩 생성용 임시 함수 추후 제거
 
     [Header("내부 건물 생성")] 
+    [Header("Level1")] 
     [SerializeField] private GameObject Guild;
     [SerializeField] private GameObject HotSpring;
     [SerializeField] private GameObject Restaurant;
     [SerializeField] private GameObject VendingMachine;
     [SerializeField] private GameObject Shop;
     [SerializeField] private GameObject TrainingGround;
+    
+    // [Header("Level2")] 
+    // [SerializeField] private GameObject HotSpringLevel2;
+    // [SerializeField] private GameObject RestaurantLevel2;
+    // [SerializeField] private GameObject VendingMachineLevel2;
+    // [SerializeField] private GameObject ShopLevel2;
+    // [SerializeField] private GameObject TrainingGroundLevel2;
+    //
+    // [Header("Level3")] 
+    // [SerializeField] private GameObject HotSpringLevel3;
+    // [SerializeField] private GameObject RestaurantLevel3;
+    // [SerializeField] private GameObject VendingMachineLevel3;
+    // [SerializeField] private GameObject ShopLevel3;
+    // [SerializeField] private GameObject TrainingGroundLevel3;
+    
     [SerializeField] private GameObject InBuildingPivot;
     [SerializeField] private float InBuildingPivotDistance = 50f;
     [SerializeField] private int CurrentInBuildingNum = 0;

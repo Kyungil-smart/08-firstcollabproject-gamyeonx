@@ -6,8 +6,10 @@
     <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/FSM/GuestExitState.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/FSM/GuestWaitState.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/FSM/GuestWanderState.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/Facility/FacilityEffectDatabaseSO.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/Facility/FacilityEffectRow.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/Move/FacilityEntranceTrigger.cs" charset="EUC-KR" />
+    <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/Move/FacilityRegistry.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/Move/FacilityRuntime.cs" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/Assets/Members/CWY/Script/Move/GuestMovementAgent.cs" charset="EUC-KR" />
   </component>

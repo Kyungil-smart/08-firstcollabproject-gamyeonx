@@ -62,6 +62,8 @@ public class InBuildingData : MonoBehaviour
     [SerializeField] private FurnitureData _capacityFurnitureData; // 수용성 가구 데이터
     [SerializeField] private FurnitureData _feeFurnitureData;      // 수익성 가구 데이터
     
+    public FurnitureData CapacityFurnitureData => _capacityFurnitureData;
+    public FurnitureData FeeFurnitureData => _feeFurnitureData;
 
     private void Awake()
     {
@@ -88,15 +90,15 @@ public class InBuildingData : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            IncreaseUsePivots();
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            DecreaseUsePivots();
-        }
+        // if (Input.GetKeyDown(KeyCode.A))
+        // {
+        //     IncreaseUsePivots();
+        // }
+        //
+        // if (Input.GetKeyDown(KeyCode.S))
+        // {
+        //     DecreaseUsePivots();
+        // }
     }
 
     // 현재 늘어난 이용 공간을 시각적으로 보여주는 메서드
@@ -276,6 +278,7 @@ public class InBuildingData : MonoBehaviour
                 _whiteAreaPivots.Add(_upgradeWhiteAreaPivots[i]);
             }
 
+            GoldTest.Instance.PlayerUseMoney(FacilityRuntime.UpgradeCost);
             InBuildingWhiteTilesCreate();
 
             // 일반 시설 -> 고급 시설 ID로 변경
@@ -293,6 +296,27 @@ public class InBuildingData : MonoBehaviour
                     Debug.LogWarning("[InBuildingData] 업그레이드 대상 FacilityID를 만들지 못했습니다.");
                 }
             }
+        }
+
+        if (currentLevel == 2)
+        {
+            GoldTest.Instance.PlayerUseMoney(FacilityRuntime.UpgradeCost);
+            
+            if (_facilityRuntime != null)
+            {
+                string upgradedFacilityID = GetUpgradedFacilityID(_facilityRuntime.FacilityID);
+
+                if (string.IsNullOrWhiteSpace(upgradedFacilityID) == false)
+                {
+                    _facilityRuntime.InitializeFacility(upgradedFacilityID);
+                    Debug.Log($"[InBuildingData] 시설 업그레이드 완료 | OldID={_facilityRuntime.FacilityID}, NewID={upgradedFacilityID}");
+                }
+                else
+                {
+                    Debug.LogWarning("[InBuildingData] 업그레이드 대상 FacilityID를 만들지 못했습니다.");
+                }
+            }
+            Debug.Log($"이용 요금 증가 {_facilityRuntime.UsageFee}");
         }
 
         currentLevel++;

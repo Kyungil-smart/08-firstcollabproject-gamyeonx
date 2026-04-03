@@ -14,6 +14,8 @@ public enum ETileType
 public class GridBuildingSystem : MonoBehaviour
 {
     public static GridBuildingSystem Instance { get; private set; }
+    
+    public FacilityEffectDatabaseSO EffectDatabase;
 
     // grid 좌표에 Tile상태를 저장
     private Dictionary<Vector3Int, TileType> tileTypes = new Dictionary<Vector3Int, TileType>();
@@ -147,6 +149,45 @@ public class GridBuildingSystem : MonoBehaviour
     public void InitializeWithBuilding(GameObject building)
     {
         if (_isPlacing) return;
+        
+        Building buildingType = building.GetComponent<Building>();
+        
+
+        int goldAmount = 0;
+        int unlockRevenue = 0;
+        
+        //선택한 버튼이 어떤 buildType인지에 따라 goldAmount에 설치비용 저장
+        //BuildType.Building이라면 필요 누적 수익도 unlockRevenue에 저장
+        switch (buildingType.buildType) 
+        { 
+            
+            case BuildType.CapacityFurniture:
+                goldAmount = _currentInBuildingData.CapacityFurnitureData.interiorPrice;
+                Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {goldAmount}");
+                break;
+            case  BuildType.FeeFurniture:
+                goldAmount = _currentInBuildingData.FeeFurnitureData.interiorPrice;
+                Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {goldAmount}");
+                break;
+            case BuildType.Building:
+                FacilityRuntime facilityRuntime = building.GetComponent<FacilityRuntime>();
+                goldAmount = EffectDatabase.GetBuildCostByFacilityID(facilityRuntime.FacilityID);
+                unlockRevenue = EffectDatabase.GetUnlockRevenueByFacilityID(facilityRuntime.FacilityID);
+                Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {goldAmount}");
+                break;
+        }
+        if (goldAmount > GoldTest.Instance._testGold) // 소지한 Gold가 설치비용보다 작다면 return
+        {
+            Debug.Log($"시설 / 가구 비용 : {goldAmount}");
+            Debug.Log("시설 / 가구 설치 불가");
+            return;
+        }
+
+        if (unlockRevenue > GoldTest.Instance.IncreasedGold)
+        {
+            Debug.Log($"누적 수익 부족 / 현재 누적 수익{GoldTest.Instance.IncreasedGold} / 목표 누적 수익 {unlockRevenue}");
+            return;
+        }
 
         int index = BuildingIndex(building);
 
@@ -503,12 +544,14 @@ public class GridBuildingSystem : MonoBehaviour
         }
 
         if (!CanTakeArea(_temp.area)) return;
-
+        
         TakeArea(_temp.area);
         _temp.Place();
+        PayFacilityGold(_temp);
         _temp = null;
         _isPlacing = false;
     }
+    
     // 건물 철거
     public void DeleteSelectedBuilding()
     {
@@ -523,7 +566,7 @@ public class GridBuildingSystem : MonoBehaviour
             OccupiedPositionList.Remove(pos); // 세이브용
             SetTileType(pos, TileType.Tile);
         }
-
+        
         BuildingList.Remove(building);
 
         // 내부건물 데이터 연동 제거
@@ -533,7 +576,7 @@ public class GridBuildingSystem : MonoBehaviour
             _currentInBuildingData.RemoveProfitableFurniture();
 
         _temp.CloseMenu();
-
+        GetFacilityRefundGold(building);
         building.DestroyBuilding();
         _temp = null;
         TempTilemap.ClearAllTiles();
@@ -666,4 +709,47 @@ public class GridBuildingSystem : MonoBehaviour
 
         return false;
     }
+
+    public void PayFacilityGold(Building building) // 건물 설치시 비용 지불 메서드
+    {
+        if (building.buildType == BuildType.Building)
+        {
+            int goldAmount = building.InBuildingData.FacilityRuntime.BuildCost;
+            if (goldAmount > GoldTest.Instance._testGold)
+            {
+                Debug.Log("비용 부족 건물 설치 불가!");
+                return;
+            }
+            GoldTest.Instance.PlayerUseMoney(goldAmount);
+        }
+    }
+
+    public void GetFacilityRefundGold(Building building) // 건물 철거시 비용 환급 메서드
+    {
+        if (building.buildType == BuildType.Building)
+        {
+            int goldAmount = building.InBuildingData.FacilityRuntime.RefundAmount;
+            GoldTest.Instance.GetFacilityRefundAmount(goldAmount);
+        }
+    }
+
+    // public void PayFacilityGold(Building building)
+    // {
+    //     int goldAmount = 0;
+    //     switch (building.buildType)
+    //     {
+    //         case BuildType.Building:
+    //             goldAmount = building.InBuildingData.FacilityRuntime.BuildCost;
+    //             break;
+    //         case BuildType.CapacityFurniture:
+    //             goldAmount = _currentInBuildingData.CapacityFurnitureData.interiorPrice;
+    //             break;
+    //         case BuildType.FeeFurniture:
+    //             goldAmount = _currentInBuildingData.FeeFurnitureData.interiorPrice;
+    //             break;
+    //     }
+    //     GoldTest.Instance.PlayerUseMoney(goldAmount);
+    //     Debug.Log($"시설 설치 비용 : {goldAmount}");
+    // }
 }
+
