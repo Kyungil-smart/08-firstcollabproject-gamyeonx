@@ -268,7 +268,13 @@ public class InBuildingData : MonoBehaviour
         {
             return;
         }
-
+        
+        if (GoldTest.Instance._testGold < FacilityRuntime.UpgradeCost)
+        {
+            Debug.Log($"골드 부족 업그레이드 불가능");
+            return;
+        }
+        
         if (currentLevel == 1)
         {
             _UpgradeExpandArea.SetActive(true);
@@ -278,6 +284,7 @@ public class InBuildingData : MonoBehaviour
                 _whiteAreaPivots.Add(_upgradeWhiteAreaPivots[i]);
             }
 
+            
             GoldTest.Instance.PlayerUseMoney(FacilityRuntime.UpgradeCost);
             InBuildingWhiteTilesCreate();
 
@@ -300,6 +307,12 @@ public class InBuildingData : MonoBehaviour
 
         if (currentLevel == 2)
         {
+            if (GoldTest.Instance._testGold < FacilityRuntime.UpgradeCost)
+            {
+                Debug.Log($"골드 부족 업그레이드 불가능");
+                return;
+            }
+            
             GoldTest.Instance.PlayerUseMoney(FacilityRuntime.UpgradeCost);
             
             if (_facilityRuntime != null)
