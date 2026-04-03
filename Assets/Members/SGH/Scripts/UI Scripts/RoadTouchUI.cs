@@ -4,9 +4,15 @@ public class RoadTouchUI : MonoBehaviour
 {
     [SerializeField] private GameObject _uiBuildPanel;
     [SerializeField] private GameObject _roadTouchUIPanel;
+    [SerializeField] private GridBuildingSystem _gridBuildingSystem;
 
     public void OnClicSetRoadTouchUI()
     {
+        // if (_gridBuildingSystem.GoldAmount > GoldTest.Instance._testGold)
+        // {
+        //     Debug.Log($"[BuildTouchUI]골드가 부족합니다 {_gridBuildingSystem.GoldAmount}");
+        //     return;
+        // }
         //UIManager.Instance.IsStop = !UIManager.Instance.IsStop;
         //Time.timeScale = UIManager.Instance.IsStop ? 0f : 1f;
         _uiBuildPanel.SetActive(false);
