@@ -7,9 +7,22 @@
     <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Members/YDJ/Scene/MainScenes_TestBuild 1.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Members/YDJ/Scene/MainScenes_TestBuild 1.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/CWY/Prefabs/HotSpring(5x5)_Test.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/CWY/Prefabs/HotSpring(5x5)_Test.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/CWY/Prefabs/Restaurant(5x5)_Test.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/CWY/Prefabs/Restaurant(5x5)_Test.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/CWY/Prefabs/Shop(5x5)_Test.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/CWY/Prefabs/Shop(5x5)_Test.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/CWY/Prefabs/TrainingGround(5x5)_Test.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/CWY/Prefabs/TrainingGround(5x5)_Test.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/CWY/Prefabs/VendingMachine(5x5)_Test.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/CWY/Prefabs/VendingMachine(5x5)_Test.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/CWY/Script/Move/FacilityRuntime.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/CWY/Script/Move/FacilityRuntime.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Prefabs/Test Restaurant Inside.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Prefabs/Test Restaurant Inside.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/InBuildingData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/InBuildingData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/MapManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/MapManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/SGH/GoldTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/SGH/GoldTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/YDJ/Scene/MainScenes 2_YDJ.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/YDJ/Scene/MainScenes 2_YDJ.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/MainNotoSansKR-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/MainNotoSansKR-Bold SDF.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/NotoSansKR-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/NotoSansKR-Bold SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maps/GridBuildingSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maps/GridBuildingSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,21 +54,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "YDJ__branch",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;YDJ__branch&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Unity 에디터에 연결.Unity 에디터에 연결">
     <configuration name="유닛 테스트(배치 모드)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.9f1\Editor\Unity.exe" />
@@ -115,6 +128,7 @@
       <workItem from="1774949424382" duration="741000" />
       <workItem from="1774965861405" duration="10334000" />
       <workItem from="1775001718436" duration="4934000" />
+      <workItem from="1775139773185" duration="2083000" />
     </task>
     <servers />
   </component>

@@ -49,6 +49,11 @@ public class GoldTest : MonoBehaviour
         IncreasedGold += value;
     }
 
+    public void GetFacilityRefundAmount(int value)
+    {
+        TestGoldValue += value;
+    }
+
     public void PlayerUseMoney(int value)
     {
         if (TestGoldValue < value)
