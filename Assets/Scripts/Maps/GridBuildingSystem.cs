@@ -183,6 +183,9 @@ public class GridBuildingSystem : MonoBehaviour
                 UnlockRevenue = EffectDatabase.GetUnlockRevenueByFacilityID(facilityRuntime.FacilityID);
                 Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {GoldAmount}");
                 break;
+            default:
+                GoldAmount = 0;
+                break;
         }
         if (GoldAmount > GoldTest.Instance._testGold) // 소지한 Gold가 설치비용보다 작다면 return
         {
