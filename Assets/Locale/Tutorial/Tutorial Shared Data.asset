@@ -87,6 +87,86 @@ MonoBehaviour:
     m_Key: TutorialText17
     m_Metadata:
       m_Items: []
+  - m_Id: 425658776965120
+    m_Key: TutorialText18
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441342168813568
+    m_Key: TutorialText0_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441345801080832
+    m_Key: TutorialText1_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441347801763840
+    m_Key: TutorialText2_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441348971974656
+    m_Key: TutorialText3_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441350297374720
+    m_Key: TutorialText4_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441360812494848
+    m_Key: TutorialText5_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441620196642816
+    m_Key: TutorialText6_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441638303453184
+    m_Key: TutorialText7_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441650114613248
+    m_Key: TutorialText8_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441663070818304
+    m_Key: TutorialText9_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441676236738560
+    m_Key: TutorialText10_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441689369104384
+    m_Key: TutorialText11_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441701566140416
+    m_Key: TutorialText12_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441713192751104
+    m_Key: TutorialText13_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441728338382848
+    m_Key: TutorialText14_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441737737818112
+    m_Key: TutorialText15_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441747263082496
+    m_Key: TutorialText16_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441756427636736
+    m_Key: TutorialText17_Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441767982944256
+    m_Key: TutorialText18_Name
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

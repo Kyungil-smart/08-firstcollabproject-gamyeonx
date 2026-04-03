@@ -305,9 +305,85 @@ MonoBehaviour:
     m_Localized: 
     m_Metadata:
       m_Items: []
-  - m_Id: 416841704005632
+  - m_Id: 425658776965120
     m_Localized: And if we can maintain an excellent reputation... a legendary hero
       capable of conquering the dungeon may one day pay us a visit.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441342168813568
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441345801080832
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441347801763840
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441348971974656
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441350297374720
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441360812494848
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441620196642816
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441638303453184
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441650114613248
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441663070818304
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441676236738560
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441689369104384
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441701566140416
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441713192751104
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441728338382848
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441737737818112
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441747263082496
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441756427636736
+    m_Localized: Sherry Athus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 441767982944256
+    m_Localized: Sherry Athus
     m_Metadata:
       m_Items: []
   references:

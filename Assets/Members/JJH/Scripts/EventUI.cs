@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.Localization.Settings;
 using UnityEngine.Serialization;
 
 public class EventUI : MonoBehaviour
@@ -18,6 +19,8 @@ public class EventUI : MonoBehaviour
     [SerializeField] private List<GameObject> _buildGuideUI;    // 건설 안내
     [SerializeField] private List<GameObject> _roadGuideUI;  // 길 안내
     [SerializeField] private GameObject _BackGround;  // 안내시 백그라운드 삭제용
+    [SerializeField] private GameObject _namePlateGroup; // 이름표 배경
+    [SerializeField] private TextMeshProUGUI _nameText; // 화자 이름표
     private int _currentIndex = 0;
     private int _currentGuideIndex = 0;
 
@@ -92,6 +95,23 @@ public class EventUI : MonoBehaviour
         if (_currentIndex < Texts.Count)
         {
             Texts[_currentIndex].gameObject.SetActive(true);
+        }
+        
+        string nameKey = $"TutorialText{_currentIndex}_Name";
+        
+        var table = LocalizationSettings.StringDatabase.GetTable("Tutorial");
+        var entry = table?.GetEntry(nameKey);
+        
+        if (entry == null || string.IsNullOrWhiteSpace(entry.GetLocalizedString()))
+        {
+            // 이름 데이터가 아예 없거나 비어있으면 이름표 숨기기
+            _namePlateGroup.SetActive(false);
+        }
+        else
+        {
+            // 이름이 있으면 텍스트 내용을 갈아끼우고 보여주기
+            _nameText.text = entry.GetLocalizedString(); 
+            _namePlateGroup.SetActive(true);
         }
     }
     
