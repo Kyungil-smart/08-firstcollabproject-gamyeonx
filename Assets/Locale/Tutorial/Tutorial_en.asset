@@ -63,13 +63,13 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7454170697728
-    m_Localized: "(Sigh...)At this rate, I\u2019ll have no excuse when I face the
-      previous Guild Masters..."
+    m_Localized: (Sigh...) At this rate, how could I ever face the Guild Masters
+      who came before me...?
     m_Metadata:
       m_Items: []
   - m_Id: 7635096195072
     m_Localized: "(Just then, as Sherry Athus, the guild\u2019s current manager,
-      let out a deep sigh...)"
+      lets out a deep sigh...)"
     m_Metadata:
       m_Items: []
   - m_Id: 7637562445824
@@ -77,7 +77,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7639613460480
-    m_Localized: "(A hot spring suddenly burst forth from the guild\u2019s front
+    m_Localized: "(A hot spring suddenly bursts forth from the guild\u2019s front
       yard!)"
     m_Metadata:
       m_Items: []
@@ -306,6 +306,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 416841704005632
+    m_Localized: And if we can maintain an excellent reputation... a legendary hero
+      capable of conquering the dungeon may one day pay us a visit.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 444474189799424
     m_Localized: And if we can maintain an excellent reputation... a legendary hero
       capable of conquering the dungeon may one day pay us a visit.
     m_Metadata:

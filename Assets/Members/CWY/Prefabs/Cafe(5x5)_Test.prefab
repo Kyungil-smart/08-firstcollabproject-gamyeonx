@@ -315,7 +315,7 @@ GameObject:
   - component: {fileID: 4515432953137878291}
   - component: {fileID: 6933469259068330659}
   m_Layer: 0
-  m_Name: VendingMachine(5x5)_Test
+  m_Name: Cafe(5x5)_Test
   m_TagString: OByO
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -419,7 +419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1c44a9a59fd35c4fab45c33e0d3bef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FacilityRuntime
-  _facilityID: FAC_VENDINGMACHINE_01
+  _facilityID: FAC_CAFE_01
   _facilityType: 4
   _facilityEffectDatabase: {fileID: 11400000, guid: ee5c3ee1d12a12c4198c3921e997fe65, type: 2}
   _runtimeData:
