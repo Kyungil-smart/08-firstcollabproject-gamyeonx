@@ -9,6 +9,8 @@ public class GoldTest : MonoBehaviour
     public int _testGold;
     public int IncreasedGold = 0;
     [SerializeField] private TextMeshProUGUI _goldText;
+    //========= 밑 삭제
+    [SerializeField] private TextMeshProUGUI _increasedGoldText;
 
     public int TestGoldValue
     {
@@ -32,6 +34,7 @@ public class GoldTest : MonoBehaviour
         Instance = this;
         
         UpdateUI();
+        UpdateIncreasedGoldUI();
     }
 
     private void Update()
@@ -47,6 +50,8 @@ public class GoldTest : MonoBehaviour
     {
         TestGoldValue += value;
         IncreasedGold += value;
+        //===========밑 삭제
+        UpdateIncreasedGoldUI();
     }
 
     public void GetFacilityRefundAmount(int value)
@@ -68,5 +73,11 @@ public class GoldTest : MonoBehaviour
     private void UpdateUI()
     {
         _goldText.text = $"{_testGold}G";
+    }
+
+    //===========밑 삭제
+    private void UpdateIncreasedGoldUI()
+    {
+        _increasedGoldText.text = $"{ IncreasedGold }누적골드";
     }
 }
