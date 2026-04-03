@@ -559,7 +559,7 @@ public class GuestController : MonoBehaviour
         {
             case EFacilityType.Restaurant:
                 return EGuestNeedType.Hunger;
-            case EFacilityType.VendingMachine:
+            case EFacilityType.Cafe:
                 return EGuestNeedType.Thirst;
             case EFacilityType.Onsen:
                 return EGuestNeedType.Fatigue;

@@ -107,7 +107,7 @@ public class GuestUtilityEvaluator
         List<NeedFacilityCandidate> candidates = new List<NeedFacilityCandidate>
         {
             new NeedFacilityCandidate(EGuestNeedType.Hunger, EFacilityType.Restaurant, guestStates.Hunger),
-            new NeedFacilityCandidate(EGuestNeedType.Thirst, EFacilityType.VendingMachine, guestStates.Thirst),
+            new NeedFacilityCandidate(EGuestNeedType.Thirst, EFacilityType.Cafe, guestStates.Thirst),
             new NeedFacilityCandidate(EGuestNeedType.Fatigue, EFacilityType.Onsen, guestStates.Fatigue)
         };
 
