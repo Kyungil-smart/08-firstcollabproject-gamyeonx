@@ -56,6 +56,11 @@ public class GridBuildingSystem : MonoBehaviour
 
     //===스마트폰 조작때 회전 제자리에 하는 불타입
     private bool _skipFollowOnce = false;
+    
+    // 시설 설치 비용
+    public int GoldAmount { get; private set; }
+    public int UnlockRevenue { get; private set; }
+    
 
     private void Awake()
     {
@@ -152,40 +157,36 @@ public class GridBuildingSystem : MonoBehaviour
         
         Building buildingType = building.GetComponent<Building>();
         
-
-        int goldAmount = 0;
-        int unlockRevenue = 0;
-        
-        //선택한 버튼이 어떤 buildType인지에 따라 goldAmount에 설치비용 저장
-        //BuildType.Building이라면 필요 누적 수익도 unlockRevenue에 저장
+        //선택한 버튼이 어떤 buildType인지에 따라 GoldAmount에 설치비용 저장
+        //BuildType.Building이라면 필요 누적 수익도 UnlockRevenue에 저장
         switch (buildingType.buildType) 
         { 
             
             case BuildType.CapacityFurniture:
-                goldAmount = _currentInBuildingData.CapacityFurnitureData.interiorPrice;
-                Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {goldAmount}");
+                GoldAmount = _currentInBuildingData.CapacityFurnitureData.interiorPrice;
+                Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {GoldAmount}");
                 break;
             case  BuildType.FeeFurniture:
-                goldAmount = _currentInBuildingData.FeeFurnitureData.interiorPrice;
-                Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {goldAmount}");
+                GoldAmount = _currentInBuildingData.FeeFurnitureData.interiorPrice;
+                Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {GoldAmount}");
                 break;
             case BuildType.Building:
                 FacilityRuntime facilityRuntime = building.GetComponent<FacilityRuntime>();
-                goldAmount = EffectDatabase.GetBuildCostByFacilityID(facilityRuntime.FacilityID);
-                unlockRevenue = EffectDatabase.GetUnlockRevenueByFacilityID(facilityRuntime.FacilityID);
-                Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {goldAmount}");
+                GoldAmount = EffectDatabase.GetBuildCostByFacilityID(facilityRuntime.FacilityID);
+                UnlockRevenue = EffectDatabase.GetUnlockRevenueByFacilityID(facilityRuntime.FacilityID);
+                Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {GoldAmount}");
                 break;
         }
-        if (goldAmount > GoldTest.Instance._testGold) // 소지한 Gold가 설치비용보다 작다면 return
+        if (GoldAmount > GoldTest.Instance._testGold) // 소지한 Gold가 설치비용보다 작다면 return
         {
-            Debug.Log($"시설 / 가구 비용 : {goldAmount}");
+            Debug.Log($"시설 / 가구 비용 : {GoldAmount}");
             Debug.Log("시설 / 가구 설치 불가");
             return;
         }
 
-        if (unlockRevenue > GoldTest.Instance.IncreasedGold)
+        if (UnlockRevenue > GoldTest.Instance.IncreasedGold)
         {
-            Debug.Log($"누적 수익 부족 / 현재 누적 수익{GoldTest.Instance.IncreasedGold} / 목표 누적 수익 {unlockRevenue}");
+            Debug.Log($"누적 수익 부족 / 현재 누적 수익{GoldTest.Instance.IncreasedGold} / 목표 누적 수익 {UnlockRevenue}");
             return;
         }
 
