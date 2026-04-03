@@ -13,6 +13,9 @@ public class MainCanvasButton : MonoBehaviour
     [SerializeField] private GameObject _settingCanvas;
     [SerializeField] private GameObject _quitCanvas;
 
+    [Header("셋팅창에서 카메라 멈추기 위한 참조")]
+    [SerializeField] private CameraController cameraController;
+
     public void OnClickNewGame()
     {
         _newGameCanvas.SetActive(true);
@@ -26,6 +29,8 @@ public class MainCanvasButton : MonoBehaviour
     public void OnClickSettingCanvas()
     {
         _settingCanvas.SetActive(true);
+        if (cameraController != null) cameraController.canMove = false;
+        Time.timeScale = 0f;
     }
 
     public void OnClickSettingQuit()
