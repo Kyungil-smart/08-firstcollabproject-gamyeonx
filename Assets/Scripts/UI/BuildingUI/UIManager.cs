@@ -21,6 +21,43 @@ public class UIManager : MonoBehaviour
     
     public HashSet<string> _triggeredEvents = new HashSet<string>();
 
+    [Header("모든 UI 최대한 등록")]
+    [SerializeField] private GameObject _restaurantBuildButton;
+    [SerializeField] private GameObject _hotSpringBuildButton;
+    [SerializeField] private GameObject _trainingGround_Build_Button;
+    [SerializeField] private GameObject _shopBuildButton;
+    [SerializeField] private GameObject _vendingMachineBuildButton;
+    [SerializeField] private GameObject _buildPanel;
+    [SerializeField] private GameObject _roadSubScrollView;
+    [SerializeField] private GameObject _buildSubScrollView;
+    [SerializeField] private GameObject _restaurantBuildPanel;
+    [SerializeField] private GameObject _hotSpringBuildPanel;
+    [SerializeField] private GameObject _trainingGroundBuildPanel;
+    [SerializeField] private GameObject _shopBuildPanel;
+    [SerializeField] private GameObject _vendingMachineBuildPanel;
+    [SerializeField] private GameObject _topUIPanel;
+    [SerializeField] private GameObject _roadTouchUIPanel;
+    [SerializeField] private GameObject _roadRemoveTouchUIPanel;
+    [SerializeField] private GameObject _restaurantRemoveTouchUIPanel;
+    [SerializeField] private GameObject _hotSpringRemoveTouchUIPanel;
+    [SerializeField] private GameObject _trainingGroundRemoveTouchUIPanel;
+    [SerializeField] private GameObject _shopRemoveTouchUIPanel;
+    [SerializeField] private GameObject _vendingMachineRemoveTouchUIPanel;
+    [SerializeField] private GameObject _buildingRemoveTouchUIPanel;
+    [SerializeField] private GameObject _restaurantTouchUIPanel;
+    [SerializeField] private GameObject _hotSpringTouchUIPanel;
+    [SerializeField] private GameObject _trainingGroundTouchUIPanel;
+    [SerializeField] private GameObject _shopTouchUIPanel;
+    [SerializeField] private GameObject _vendingMachineTouchUIPanel;
+    [SerializeField] private GameObject _roadDemolishUIPanel;
+    [SerializeField] private GameObject _restaurantDemolishUIPanel;
+    [SerializeField] private GameObject _hotSpringDemolishUIPanel;
+    [SerializeField] private GameObject _trainingGroundDemolishUIPanel;
+    [SerializeField] private GameObject _shopDemolishUIPanel;
+    [SerializeField] private GameObject _vendingMachineBuildPanelDemolishUIPanel;
+    [SerializeField] private GameObject _buildTouchUIPanel;
+    [SerializeField] private GameObject _buildDemolishdoublecheckPanel;
+
     [System.Serializable]
     public class FurnitureButtonData
     {
@@ -69,4 +106,8 @@ public class UIManager : MonoBehaviour
     {
         GridBuildingSystem.Instance.DeleteSelectedBuilding();
     }
+
+    //=================여기서 부터는 UI관련 함수들==========================
+
+    //public void OnClickBuild
 }
