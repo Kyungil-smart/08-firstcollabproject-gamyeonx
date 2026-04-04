@@ -5640,12 +5640,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   bgmSource: {fileID: 0}
   titleBGM: {fileID: 8300000, guid: 522117933398a7c419026844b4a653a9, type: 3}
-  mapBGM: {fileID: 0}
+  mapBGM: {fileID: 8300000, guid: 0e5477aa512f85b4b98248d367293800, type: 3}
   battleBGM: {fileID: 0}
   shopBGM: {fileID: 0}
   eventBGM: {fileID: 0}
   sfxSource: {fileID: 0}
-  buttonHoverSFX: {fileID: 8300000, guid: 0e5477aa512f85b4b98248d367293800, type: 3}
+  buttonHoverSFX: {fileID: 0}
   buttonPressSFX: {fileID: 0}
   mouseClickSFX: {fileID: 0}
   victorySFX: {fileID: 0}
