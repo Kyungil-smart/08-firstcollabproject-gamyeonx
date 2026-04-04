@@ -824,21 +824,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2659469577650796649, guid: 2eb7c515e6ec6274b9a4f43ed6cf166d, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5386407708499311429}
-    - target: {fileID: 2659469577650796649, guid: 2eb7c515e6ec6274b9a4f43ed6cf166d, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CloseMenu
-      objectReference: {fileID: 0}
     - target: {fileID: 7041887122725895397, guid: 2eb7c515e6ec6274b9a4f43ed6cf166d, type: 3}
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 7041887122725895397, guid: 2eb7c515e6ec6274b9a4f43ed6cf166d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8488758764452803237, guid: 2eb7c515e6ec6274b9a4f43ed6cf166d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 115
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
