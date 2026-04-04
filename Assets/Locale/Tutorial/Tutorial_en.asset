@@ -63,13 +63,13 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7454170697728
-    m_Localized: "(Sigh...)At this rate, I\u2019ll have no excuse when I face the
-      previous Guild Masters..."
+    m_Localized: (Sigh...) At this rate, how could I ever face the Guild Masters
+      who came before me...?
     m_Metadata:
       m_Items: []
   - m_Id: 7635096195072
     m_Localized: "(Just then, as Sherry Athus, the guild\u2019s current manager,
-      let out a deep sigh...)"
+      lets out a deep sigh...)"
     m_Metadata:
       m_Items: []
   - m_Id: 7637562445824
@@ -77,7 +77,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7639613460480
-    m_Localized: "(A hot spring suddenly burst forth from the guild\u2019s front
+    m_Localized: "(A hot spring suddenly bursts forth from the guild\u2019s front
       yard!)"
     m_Metadata:
       m_Items: []
@@ -87,33 +87,32 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7674396823552
-    m_Localized: (Sherry Athus immediately sent a proposal to headquarters to renovate
+    m_Localized: (Sherry Athus immediately sends a proposal to headquarters to renovate
       the guild into an onsen inn.)
     m_Metadata:
       m_Items: []
   - m_Id: 7676976320512
-    m_Localized: "You must be the one dispatched from headquarters. I\u2019ve been
-      expecting you!"
+    m_Localized: I've been waiting for you! You must be the one dispatched from headquarters.
     m_Metadata:
       m_Items: []
   - m_Id: 7679610343424
-    m_Localized: "I\u2019m Sherry Athus, the manager of this guild and a descendant
-      of the Athus family. I look forward to working with you."
+    m_Localized: I'm Sherry Athus, the manager of this guild and a descendant of
+      the Athus family. I can't wait to work with you!
     m_Metadata:
       m_Items: []
   - m_Id: 7681250316288
-    m_Localized: "We don\u2019t have much time, so let\u2019s get started right away.
-      First, let\u2019s tap the [Build] button and construct our first onsen facility."
+    m_Localized: We don't have much time, so let's get started right away. First,
+      let's tap the [Build] button and construct our first onsen facility.
     m_Metadata:
       m_Items: []
   - m_Id: 7686904238080
-    m_Localized: "Perfect! I can\u2019t believe I\u2019m seeing a real hot spring
-      with my own eyes after only reading about it in reports...!"
+    m_Localized: Perfect! To think I'd get to see a real hot spring with my own eyes
+      after only reading about it in reports...!
     m_Metadata:
       m_Items: []
   - m_Id: 7688015728640
-    m_Localized: "But we can\u2019t just leave it there on its own, can we? Please
-      build a road leading to the onsen so our guests can move around comfortably."
+    m_Localized: But we can't just leave it there on its own, can we? Please build
+      a road leading to the onsen so our guests can move around comfortably.
     m_Metadata:
       m_Items: []
   - m_Id: 7688955252736
@@ -121,9 +120,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7689882193920
-    m_Localized: "And don\u2019t worry if you place a facility in the wrong spot.
-      You can always move or demolish an existing facility by long-pressing it. I\u2019ll
-      make sure all the paperwork is handled properly."
+    m_Localized: And don't worry if you place a facility in the wrong spot. You can
+      always move or demolish an existing facility by long-pressing it. Leave all
+      the tricky paperwork to me!
     m_Metadata:
       m_Items: []
   - m_Id: 7690813329408
@@ -136,9 +135,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7692713349120
-    m_Localized: "The better your facilities become, the more the guild\u2019s revenue
-      and reputation will grow. Let\u2019s make upgrading every facility our first
-      goal."
+    m_Localized: The better your facilities become, the higher the guild's revenue
+      and reputation will soar! Let's make upgrading every facility our first goal.
     m_Metadata:
       m_Items: []
   - m_Id: 20567943172096
