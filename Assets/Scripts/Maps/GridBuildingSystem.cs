@@ -57,9 +57,12 @@ public class GridBuildingSystem : MonoBehaviour
     //===스마트폰 조작때 회전 제자리에 하는 불타입
     private bool _skipFollowOnce = false;
     
-    // 시설 설치 비용
+    // 시설, 가구 설치 비용
     public int GoldAmount { get; private set; }
+    // 누적 수익
     public int UnlockRevenue { get; private set; }
+    // 수용성 가구용 boolType
+    public bool IsCanPlacing { get; private set; }
     
 
     private void Awake()
@@ -173,7 +176,7 @@ public class GridBuildingSystem : MonoBehaviour
                 GoldAmount = _currentInBuildingData.CapacityFurnitureData.interiorPrice;
                 Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {GoldAmount}");
                 break;
-            case  BuildType.FeeFurniture:
+            case BuildType.FeeFurniture:
                 GoldAmount = _currentInBuildingData.FeeFurnitureData.interiorPrice;
                 Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {GoldAmount}");
                 break;
@@ -194,7 +197,7 @@ public class GridBuildingSystem : MonoBehaviour
             return;
         }
 
-        if (UnlockRevenue > GoldTest.Instance.IncreasedGold)
+        if (UnlockRevenue > GoldTest.Instance.IncreasedGold) // 누적 수익이 설치비용보다 작다면 return
         {
             Debug.Log($"누적 수익 부족 / 현재 누적 수익{GoldTest.Instance.IncreasedGold} / 목표 누적 수익 {UnlockRevenue}");
             return;
@@ -218,10 +221,24 @@ public class GridBuildingSystem : MonoBehaviour
         // BuildType이 수용성 가구고 개수가 3을 넘으면 버튼이 동작 안 함
         if (buildingType.buildType == BuildType.CapacityFurniture)
         {
-            if (_currentInBuildingData.currentCapacityFurnitureCount >= 3)
+            GoldAmount = _currentInBuildingData.CapacityFurnitureData.interiorPrice;
+            Debug.Log($"가구 비용 : {GoldAmount}");
+            if (GoldAmount > GoldTest.Instance._testGold) // 소지한 Gold가 설치비용보다 작다면 return
             {
+                Debug.Log($"가구 설치 불가 / 가구 비용 {GoldAmount}");
+                return;
+            }
+            
+            // 수용성 가구가 MaxCapacityFurnitureCount 3개를 초과할 경우 return
+            if (_currentInBuildingData.currentCapacityFurnitureCount >= _currentInBuildingData.MaxCapacityFurnitureCount)
+            {
+                IsCanPlacing = false;
                 Debug.Log("더 이상 설치 불가!");
                 return;
+            }
+            else
+            {
+                IsCanPlacing = true;
             }
         }
 

@@ -50,20 +50,23 @@ public class InBuildingData : MonoBehaviour
     private List<Transform> _usePivotsTransformsList = new List<Transform>();
     public event Action<List<Transform>> OnUsePivotsChanged;
 
-    [Header("수용형 가구 개수 최대치")]
-    [SerializeField] private int _maxCapacityFurnitureCount = 3;
-    [SerializeField] private int _currentCapacityFurnitureCount = 0;
-    public int currentCapacityFurnitureCount => _currentCapacityFurnitureCount;
-    
-    [Header("수익형 가구 개수")]
-    [SerializeField] private int _currentFeeFurnitureCount = 0;
-
     [Header("가구 정보")]
     [SerializeField] private FurnitureData _capacityFurnitureData; // 수용성 가구 데이터
     [SerializeField] private FurnitureData _feeFurnitureData;      // 수익성 가구 데이터
+    [SerializeField] private int _currentFurnitureCount = 0;
+    [SerializeField] private int _MaxFurnitureCount = 6;
+    
+    [Header("수용형 가구 개수 최대치")]
+    [SerializeField] private int _maxCapacityFurnitureCount = 3;
+    [SerializeField] private int _currentCapacityFurnitureCount = 0;
+    
+    [Header("수익형 가구 개수")]
+    [SerializeField] private int _currentFeeFurnitureCount = 0;
     
     public FurnitureData CapacityFurnitureData => _capacityFurnitureData;
     public FurnitureData FeeFurnitureData => _feeFurnitureData;
+    public int MaxCapacityFurnitureCount => _maxCapacityFurnitureCount;
+    public int currentCapacityFurnitureCount => _currentCapacityFurnitureCount;
 
     private void Awake()
     {
@@ -87,20 +90,7 @@ public class InBuildingData : MonoBehaviour
         UpdateUseVisual();
         OnUsePivotsChanged?.Invoke(GetUsePivots());
     }
-
-    private void Update()
-    {
-        // if (Input.GetKeyDown(KeyCode.A))
-        // {
-        //     IncreaseUsePivots();
-        // }
-        //
-        // if (Input.GetKeyDown(KeyCode.S))
-        // {
-        //     DecreaseUsePivots();
-        // }
-    }
-
+    
     // 현재 늘어난 이용 공간을 시각적으로 보여주는 메서드
     public void UpdateUseVisual()
     {
@@ -118,8 +108,6 @@ public class InBuildingData : MonoBehaviour
         {
             return;
         }
-
-   
         _currentUseCount += _capacityFurnitureData.interiorCapacityGrowth;
         UpdateUseVisual();
 
@@ -167,6 +155,7 @@ public class InBuildingData : MonoBehaviour
         }
 
         _currentCapacityFurnitureCount++;
+        _currentFurnitureCount++;
         IncreaseUsePivots();
         GoldTest.Instance.PlayerUseMoney(_capacityFurnitureData.interiorPrice);
         Debug.Log($"수용형 가구 설치 개수 : {_currentCapacityFurnitureCount}");
@@ -177,28 +166,38 @@ public class InBuildingData : MonoBehaviour
     public void RemoveCapacityFurniture()
     {
         _currentCapacityFurnitureCount--;
+        _currentFurnitureCount--;
 
         if (_currentCapacityFurnitureCount <= 0)
         {
             _currentCapacityFurnitureCount = 0;
         }
 
+        if (_currentFurnitureCount <= 0)
+        {
+            _currentFurnitureCount = 0;
+        }
+
         DecreaseUsePivots();
         Debug.Log($"수용형 가구 설치 개수 : {_currentCapacityFurnitureCount}");
     }
 
-
-    // 비활성 예정
+    
     public void TryAssignProfitableFurniture()
     {
-        // Debug.Log("[InBuildingData] 수익형 가구 가격 증가 테스트 기능은 현재 사용하지 않습니다.");
-        
-        if (_currentFeeFurnitureCount >= 7)
+        if (_currentFeeFurnitureCount > 6)
         {
             _currentFeeFurnitureCount = 6;
             return;
         }
+
+        if (_currentFeeFurnitureCount > _MaxFurnitureCount)
+        {
+            _currentFeeFurnitureCount = _MaxFurnitureCount;
+            return;
+        }
         _currentFeeFurnitureCount++;
+        _currentFurnitureCount++;
         
         
         int totalPay = _feeFurnitureData.interiorFeeGrowth * _currentFeeFurnitureCount;
@@ -208,19 +207,17 @@ public class InBuildingData : MonoBehaviour
         
         Debug.Log($"수익형 가구 개수 {_currentFeeFurnitureCount}, 수익 증가값 : {_feeFurnitureData.interiorFeeGrowth} 총 수익 증가 값 : {totalPay}" );
     }
-
-    //비활성 예정
+    
     public void RemoveProfitableFurniture()
     {
-        // Debug.Log("[InBuildingData] 수익형 가구 가격 감소 테스트 기능은 현재 사용하지 않습니다.");
-
         if (_currentFeeFurnitureCount < 0)
         {
             _currentFeeFurnitureCount = 0;
             return;
         }
         _currentFeeFurnitureCount--;
-
+        _currentFurnitureCount++;
+        
         int totalPay = _feeFurnitureData.interiorFeeGrowth * _currentFeeFurnitureCount;
         _facilityRuntime.FurnitureGold = totalPay;
         
