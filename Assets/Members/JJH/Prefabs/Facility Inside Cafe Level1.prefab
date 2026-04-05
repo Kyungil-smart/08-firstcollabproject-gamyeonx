@@ -6475,7 +6475,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5313169746427827285}
   m_Layer: 0
-  m_Name: Facility Inside Level1
+  m_Name: Facility Inside Cafe Level1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
