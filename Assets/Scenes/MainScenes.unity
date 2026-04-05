@@ -14790,6 +14790,16 @@ Tilemap:
   m_GameObject: {fileID: 629217109}
   m_Enabled: 1
   m_Tiles:
+  - first: {x: -15, y: -20, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 18
+      m_TileSpriteIndex: 0
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: -16, y: -19, z: 0}
     second:
       serializedVersion: 2
@@ -15008,11 +15018,11 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 6900f14e87defc34eb695a70fc46d9b9, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 7f1391cb7f7ff3a4eafd2eeaacb3787c, type: 2}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 6a019d0b6cd8bbc41977d4251bd78745, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 6408756520832868522, guid: afda4cedd10beb942a0a9fcb40a307b0, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 3455805697249650204, guid: afda4cedd10beb942a0a9fcb40a307b0, type: 3}
   - m_RefCount: 1
@@ -15050,7 +15060,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 7378782722969345610, guid: afda4cedd10beb942a0a9fcb40a307b0, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 18
+  - m_RefCount: 19
     m_Data:
       e00: 1
       e01: 0
@@ -15069,13 +15079,13 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 18
+  - m_RefCount: 19
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -16, y: -19, z: 0}
-  m_Size: {x: 16, y: 21, z: 1}
+  m_Origin: {x: -16, y: -20, z: 0}
+  m_Size: {x: 16, y: 22, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -49806,7 +49816,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 6
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
 --- !u!212 &1534455988
@@ -52279,7 +52289,7 @@ PrefabInstance:
       objectReference: {fileID: 1339305554}
     - target: {fileID: 4151024486365231485, guid: 58a36f3fd1a155c4a899888a1439ae84, type: 3}
       propertyPath: m_Color.a
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5330758203926994662, guid: 58a36f3fd1a155c4a899888a1439ae84, type: 3}
       propertyPath: m_Name
@@ -59400,8 +59410,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1380006621}
   - {fileID: 72898768}
+  - {fileID: 1380006621}
   - {fileID: 910329023}
   - {fileID: 1762311544}
   - {fileID: 1629753080}
@@ -66787,7 +66797,6 @@ MonoBehaviour:
   _eventContentParent: {fileID: 554198839}
   _dontTouchImage: {fileID: 2066836364}
   _increaseVisitorBaseAmount: 3
-  _increaseVisitorWeeklyAmount: 5
   _weeklyAdventurerCBonusWeight: 15
   _weeklyAdventurerBBonusWeight: 10
   _weeklyAdventurerABonusWeight: 5
