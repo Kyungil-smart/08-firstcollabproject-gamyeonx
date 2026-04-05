@@ -333,6 +333,7 @@ MonoBehaviour:
   pivot: {fileID: 1254885943345794470}
   rotateCount: 0
   _facilityType: 0
+  furnitureTouchType: 3
   IsMenuOpen: 0
 --- !u!61 &4515432953137878291
 BoxCollider2D:
@@ -436,3 +437,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8a276ee1e927384cac5b581989d61d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingClick
+  furnitureTouchType: 3

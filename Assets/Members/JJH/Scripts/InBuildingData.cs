@@ -399,6 +399,8 @@ public class InBuildingData : MonoBehaviour
 
     public void ReturnButton()
     {
+        if (UIManager.Instance.OpenMenu == true) return;
+
         _cameraController.ReturnToWorld();
         _canvas.gameObject.SetActive(false);
 
