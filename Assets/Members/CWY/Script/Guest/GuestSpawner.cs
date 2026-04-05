@@ -281,7 +281,7 @@ public class GuestSpawner : MonoBehaviour
         int cBonus = EventManager.Instance != null ? EventManager.Instance.CurrentCycleAdventurerCBonusWeight : 0;
         int bBonus = EventManager.Instance != null ? EventManager.Instance.CurrentCycleAdventurerBBonusWeight : 0;
         int aBonus = EventManager.Instance != null ? EventManager.Instance.CurrentCycleAdventurerABonusWeight : 0;
-
+        int aHightierBouns = EventManager.Instance != null ? EventManager.Instance.CurrentHighTierAdventurerABounsWeight : 0;
         int totalWeight = 0;
         List<int> finalWeights = new List<int>(rows.Count);
 
@@ -297,7 +297,7 @@ public class GuestSpawner : MonoBehaviour
 
             int finalWeight = Mathf.Max(0, row.SpawnWeight);
 
-            TryApplyAdventurerGradeBonus(row, ref finalWeight, cBonus, bBonus, aBonus);
+            TryApplyAdventurerGradeBonus(row, ref finalWeight, cBonus, bBonus, aBonus, aHightierBouns);
 
             finalWeights.Add(finalWeight);
             totalWeight += finalWeight;
@@ -339,7 +339,8 @@ public class GuestSpawner : MonoBehaviour
         ref int finalWeight,
         int cBonus,
         int bBonus,
-        int aBonus)
+        int aBonus,
+        int aHightierBouns)
     {
         bool applied = false;
 
@@ -361,7 +362,14 @@ public class GuestSpawner : MonoBehaviour
                 break;
 
             case "A":
-                finalWeight += aBonus;
+                if(aHightierBouns > 0)
+                {
+                    finalWeight += aHightierBouns;
+                }
+                else
+                {
+                    finalWeight += aBonus;
+                }
                 applied = true;
                 break;
         }
