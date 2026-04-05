@@ -17,9 +17,9 @@ public class SettingsPanel : MonoBehaviour
     private void Start()
     {
         // 슬라이더 최대/최소 값 설정
-        if (masterSlider != null) { masterSlider.minValue = 0; masterSlider.maxValue = 100; }
-        if (bgmSlider != null) { bgmSlider.minValue = 0; bgmSlider.maxValue = 100; }
-        if (sfxSlider != null) { sfxSlider.minValue = 0; sfxSlider.maxValue = 100; }
+        if (masterSlider != null) { masterSlider.minValue = 1; masterSlider.maxValue = 100; }
+        if (bgmSlider != null) { bgmSlider.minValue = 0.1f; bgmSlider.maxValue = 100; }
+        if (sfxSlider != null) { sfxSlider.minValue = 0.3f; sfxSlider.maxValue = 100; }
 
         // 초기화 및 이벤트 등록
         InitializeSlider(masterSlider, AudioManager.Instance.MasterVolume * 100, masterText, AudioManager.Instance.SetMasterVolume);
@@ -30,6 +30,8 @@ public class SettingsPanel : MonoBehaviour
     private void InitializeSlider(Slider slider, float startValue, TextMeshProUGUI text, System.Action<float> setVolume)
     {
         if (slider == null) return;
+
+        slider.onValueChanged.RemoveAllListeners();
 
         slider.SetValueWithoutNotify(startValue);
         UpdateText(text, startValue);

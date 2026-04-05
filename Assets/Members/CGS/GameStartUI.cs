@@ -10,11 +10,11 @@ public class GameStartUI : MonoBehaviour
     public void OnClickYesButton()
     {
         SceneManager.LoadScene(1);
+        AudioManager.Instance.PlaySceneBGM("MapScene");
     }
     
     public void OnClickNoButton()
     {
         gameObject.SetActive(false);
     }
-
 }

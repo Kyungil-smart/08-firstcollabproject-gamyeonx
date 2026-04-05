@@ -73,6 +73,10 @@ public class Building : MonoBehaviour
             GridBuildingSystem.Instance._temp.IsMenuOpen = false;
             GridBuildingSystem.Instance._temp = null;
         }
+        UIManager.Instance._buildButton.SetActive(true);
+        UIManager.Instance._topUIPanel.SetActive(true);
+        UIManager.Instance.OpenMenu = false;
+        Time.timeScale = 1f;
     }
 
 
@@ -97,6 +101,10 @@ public class Building : MonoBehaviour
             GridBuildingSystem.Instance._temp.IsMenuOpen = false;
             GridBuildingSystem.Instance._temp = null;
         }
+        //UIManager.Instance._buildButton.SetActive(true);
+        UIManager.Instance._topUIPanel.SetActive(true);
+        UIManager.Instance.OpenMenu = false;
+        Time.timeScale = 1f;
     }
 
     public void BuildingLevelUp()
@@ -111,6 +119,10 @@ public class Building : MonoBehaviour
             GridBuildingSystem.Instance._temp.IsMenuOpen = false;
             GridBuildingSystem.Instance._temp = null;
         }
+        UIManager.Instance._buildButton.SetActive(true);
+        UIManager.Instance._topUIPanel.SetActive(true);
+        UIManager.Instance.OpenMenu = false;
+        Time.timeScale = 1f;
     }
     
     // 현재 위치에서 설치 가능여부 체크용 메서드

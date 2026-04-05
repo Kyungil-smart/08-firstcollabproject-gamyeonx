@@ -9719,6 +9719,7 @@ GameObject:
   - component: {fileID: 8723515595826236525}
   - component: {fileID: 7120522615004009817}
   - component: {fileID: 7071408701860079218}
+  - component: {fileID: 866805491154546191}
   m_Layer: 5
   m_Name: Return
   m_TagString: Untagged
@@ -9840,6 +9841,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &866805491154546191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7432463387469152753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3baf642f8f75c4d428b25015b6275b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSFX
 --- !u!1 &7434687596766424944
 GameObject:
   m_ObjectHideFlags: 0

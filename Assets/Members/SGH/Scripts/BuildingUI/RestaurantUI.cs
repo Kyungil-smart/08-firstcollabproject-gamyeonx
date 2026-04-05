@@ -12,10 +12,17 @@ public class RestaurantUI : MonoBehaviour
             GridBuildingSystem.Instance._temp.IsMenuOpen = false;
             GridBuildingSystem.Instance._temp = null;
         }
+        UIManager.Instance._buildButton.SetActive(true);
+        UIManager.Instance._topUIPanel.SetActive(true);
+        UIManager.Instance.OpenMenu = false;
+        Time.timeScale = 1f;
     }
 
     public void OnclickDemolish()
     {
         UIManager.Instance.OnClickSetBuildDoublecheckPanel();
+        UIManager.Instance._buildButton.SetActive(true);
+        UIManager.Instance._topUIPanel.SetActive(true);
+        UIManager.Instance.OpenMenu = false;
     }
 }
