@@ -22,7 +22,7 @@ public class EventManager : MonoBehaviour
 
     [Header("스폰 이벤트 수치")]
     [SerializeField] private int _increaseVisitorBaseAmount = 3;
-    [SerializeField] private int _increaseVisitorWeeklyAmount = 5;
+    //[SerializeField] private int _increaseVisitorWeeklyAmount = 5;
 
     [Header("모험가 증가 주간(C, B, A)")]
     [SerializeField] private int _weeklyAdventurerCBonusWeight = 15;
@@ -44,6 +44,7 @@ public class EventManager : MonoBehaviour
     public int CurrentCycleAdventurerCBonusWeight { get; private set;}
     public int CurrentCycleAdventurerBBonusWeight { get; private set;}
     public int CurrentCycleAdventurerABonusWeight { get; private set;}
+    public int CurrentHighTierAdventurerABounsWeight { get; private set; }
     public float CurrentCycleMerchantBonus { get; private set;}
     public float CurrentCycleFestivalBonus { get; private set;}
 
@@ -128,14 +129,12 @@ public class EventManager : MonoBehaviour
                 EventsCanvasActive("INCREASE_VISITOR_WEEKLY");
             }
 
-            CurrentCycleVisitorBonus += _increaseVisitorWeeklyAmount;
             CurrentCycleAdventurerCBonusWeight += _weeklyAdventurerCBonusWeight;
             CurrentCycleAdventurerBBonusWeight += _weeklyAdventurerBBonusWeight;
             CurrentCycleAdventurerABonusWeight += _weeklyAdventurerABonusWeight;
 
             Debug.Log(
                 $"[EventManager] 모험가 증가 주간 적용 | " +
-                $"Visitor+={_increaseVisitorWeeklyAmount}, " +
                 $"C+={_weeklyAdventurerCBonusWeight}, " +
                 $"B+={_weeklyAdventurerBBonusWeight}, " +
                 $"A+={_weeklyAdventurerABonusWeight}");
@@ -180,13 +179,13 @@ public class EventManager : MonoBehaviour
                 EventsCanvasActive("HIGH_TIER_VISITOR_RATE_UP");
             }
 
-            CurrentCycleAdventurerABonusWeight += _highTierAdventurerABonusWeight;
+            CurrentHighTierAdventurerABounsWeight += _highTierAdventurerABonusWeight;
 
             Debug.Log(
                 $"[EventManager] 고등급 모험가 증가 이벤트 실행 완료 | " +
                 $"Action=HIGH_TIER_VISITOR_RATE_UP, " +
                 $"A+={_highTierAdventurerABonusWeight}, " +
-                $"CurrentCycleAdventurerABonusWeight={CurrentCycleAdventurerABonusWeight}");
+                $"CurrentCycleAdventurerABonusWeight={CurrentHighTierAdventurerABounsWeight}");
         };
 
         _actionHandlers["HERO_VISIT_TRIGGER"] = () =>
@@ -305,6 +304,7 @@ public class EventManager : MonoBehaviour
         CurrentCycleAdventurerCBonusWeight = 0;
         CurrentCycleAdventurerBBonusWeight = 0;
         CurrentCycleAdventurerABonusWeight = 0;
+        CurrentHighTierAdventurerABounsWeight = 0;
         CurrentCycleMerchantBonus = 0;
         CurrentCycleFestivalBonus = 0;
 

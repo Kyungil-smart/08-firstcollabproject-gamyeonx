@@ -52,6 +52,8 @@ public class GoldTest : MonoBehaviour
         IncreasedGold += value;
         //===========밑 삭제
         UpdateIncreasedGoldUI();
+
+        //EventManager.Instance.CheckGoldEvents(IncreasedGold);
     }
 
     public void GetFacilityRefundAmount(int value)
