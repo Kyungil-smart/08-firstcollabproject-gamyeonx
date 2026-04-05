@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public class BuildingClick : MonoBehaviour, IPointerClickHandler
 {
+    public FurnitureTouchType furnitureTouchType;
 
     // Physics 2D Raycaster 있어야 작동함.
     public void OnPointerClick(PointerEventData eventData)

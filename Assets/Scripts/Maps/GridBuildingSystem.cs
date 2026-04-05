@@ -3,6 +3,15 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
 
+public enum FurnitureTouchType
+{
+    Restaurant,
+    HotSpring,
+    TrainingGround,
+    Shop,
+    VendingMachine
+}
+
 public enum ETileType
 {
     Empty,
@@ -41,10 +50,17 @@ public class GridBuildingSystem : MonoBehaviour
     public List<Vector3Int> OccupiedPositionList = new List<Vector3Int>();
     public List<TileType> TileTypes = new List<TileType>();
 
+    [Header("클릭시 메뉴(재건축용)")]
     //가구 삭제용
-    public GameObject FurnitureMenu;
+    public GameObject RestaurantDelMenu;
+    public GameObject HotSpringDelMenu;
+    public GameObject TrainingGroundDelMenu;
+    public GameObject ShopDelMenu;
+    public GameObject VendingMachineDelMenu;
     //길 메뉴 셋팅용
-    public GameObject RoadMenu;
+    public GameObject RoadDelMenu;
+    FurnitureTouchType furnitureTouchType;
+
 
     // 길 설치용
     private HashSet<Vector3Int> _roadPathPositions = new HashSet<Vector3Int>();
@@ -76,6 +92,8 @@ public class GridBuildingSystem : MonoBehaviour
         }
 
         Instance = this;
+
+        furnitureTouchType = new FurnitureTouchType();
     }
 
     private void Start()
@@ -603,14 +621,45 @@ public class GridBuildingSystem : MonoBehaviour
     // 건물내에서 클릭한 건물에 메뉴 뜨게하는 코드. (프리펩으로 되어 있어 싱글톤인 그리드 시스템 이용)
     public void OnClickSetFurnitureMenu(GameObject buildingObj)
     {
+        if (UIManager.Instance.OpenMenu == true) return;
         _temp = buildingObj.GetComponent<Building>(); // 클릭한 건물의 정보를 삭제를 위해 담음
-        FurnitureMenu.SetActive(true);
+        furnitureTouchType = _temp.furnitureTouchType;
+
+        switch (furnitureTouchType)
+        {
+            case FurnitureTouchType.Restaurant:
+                RestaurantDelMenu.SetActive(true);
+                UIManager.Instance.OpenMenu = true;
+                break;
+
+            case FurnitureTouchType.HotSpring:
+                HotSpringDelMenu.SetActive(true);
+                UIManager.Instance.OpenMenu = true;
+                break;
+
+            case FurnitureTouchType.VendingMachine:
+                VendingMachineDelMenu.SetActive(true);
+                UIManager.Instance.OpenMenu = true;
+                break;
+
+            case FurnitureTouchType.TrainingGround:
+                TrainingGroundDelMenu.SetActive(true);
+                UIManager.Instance.OpenMenu = true;
+                break;
+
+            case FurnitureTouchType.Shop:
+                ShopDelMenu.SetActive(true);
+                UIManager.Instance.OpenMenu = true;
+                break;
+        }
     }
 
     public void OnClickSetRoadMenu(GameObject buildingObj)
     {
+        if (UIManager.Instance.OpenMenu == true) return;
         _temp = buildingObj.GetComponent<Building>(); // 클릭한 건물의 정보를 삭제를 위해 담음
-        RoadMenu.SetActive(true);
+        RoadDelMenu.SetActive(true);
+        UIManager.Instance.OpenMenu = true;
     }
 
     // 길 설치 프리뷰

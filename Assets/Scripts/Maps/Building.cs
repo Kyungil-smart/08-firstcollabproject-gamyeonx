@@ -38,6 +38,8 @@ public class Building : MonoBehaviour
     [Header("해당 건물과 건축버튼 매칭용")]
     [SerializeField] private EFacilityType _facilityType;
 
+    public FurnitureTouchType furnitureTouchType;
+
     public bool IsMenuOpen = false; // 건물 내부 진입하는 창에서 창 닫았어도 다시 열리게 체크
 
     private void Awake()

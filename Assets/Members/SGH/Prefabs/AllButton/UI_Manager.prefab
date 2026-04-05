@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4078908529008481675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3684744267702929858}
+  - component: {fileID: 7917520848276295609}
+  - component: {fileID: 1945096530563407225}
+  - component: {fileID: 5071534010219451901}
+  m_Layer: 0
+  m_Name: UI_Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3684744267702929858
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078908529008481675}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2436.1006, y: -544.19073, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7917520848276295609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078908529008481675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45dfe6642cd458f4b82fbbeadafa1083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  IsStop: 0
+  _furnitureButtons:
+  - type: 3
+    button: {fileID: 0}
+  - type: 2
+    button: {fileID: 0}
+  - type: 6
+    button: {fileID: 0}
+  - type: 5
+    button: {fileID: 0}
+  - type: 4
+    button: {fileID: 0}
+  _buildButton: {fileID: 0}
+  BuildDoublecheckPanel: {fileID: 0}
+  _goldTest: {fileID: 5071534010219451901}
+  _gameTime: {fileID: 1945096530563407225}
+  _restaurantBuildButton: {fileID: 0}
+  _hotSpringBuildButton: {fileID: 0}
+  _trainingGround_Build_Button: {fileID: 0}
+  _shopBuildButton: {fileID: 0}
+  _vendingMachineBuildButton: {fileID: 0}
+  _buildPanel: {fileID: 0}
+  _roadSubScrollView: {fileID: 0}
+  _buildSubScrollView: {fileID: 0}
+  _restaurantBuildPanel: {fileID: 0}
+  _hotSpringBuildPanel: {fileID: 0}
+  _trainingGroundBuildPanel: {fileID: 0}
+  _shopBuildPanel: {fileID: 0}
+  _vendingMachineBuildPanel: {fileID: 0}
+  _topUIPanel: {fileID: 0}
+  _roadTouchUIPanel: {fileID: 0}
+  _roadRemoveTouchUIPanel: {fileID: 0}
+  _restaurantRemoveTouchUIPanel: {fileID: 0}
+  _hotSpringRemoveTouchUIPanel: {fileID: 0}
+  _trainingGroundRemoveTouchUIPanel: {fileID: 0}
+  _shopRemoveTouchUIPanel: {fileID: 0}
+  _vendingMachineRemoveTouchUIPanel: {fileID: 0}
+  _buildingRemoveTouchUIPanel: {fileID: 0}
+  _restaurantTouchUIPanel: {fileID: 0}
+  _hotSpringTouchUIPanel: {fileID: 0}
+  _trainingGroundTouchUIPanel: {fileID: 0}
+  _shopTouchUIPanel: {fileID: 0}
+  _vendingMachineTouchUIPanel: {fileID: 0}
+  _roadDemolishUIPanel: {fileID: 0}
+  _restaurantDemolishUIPanel: {fileID: 0}
+  _hotSpringDemolishUIPanel: {fileID: 0}
+  _trainingGroundDemolishUIPanel: {fileID: 0}
+  _shopDemolishUIPanel: {fileID: 0}
+  _vendingMachineBuildPanelDemolishUIPanel: {fileID: 0}
+  _buildTouchUIPanel: {fileID: 0}
+  _RoadDemolishdoublecheckPanel: {fileID: 0}
+  _RestaurantDemolishdoublecheckPanel: {fileID: 0}
+  _VendingMachineDemolishdoublecheckPanel: {fileID: 0}
+  _ShopDemolishdoublecheckPanel: {fileID: 0}
+  _TrainingGroundDemolishdoublecheckPanel: {fileID: 0}
+  _HotSpringDemolishdoublecheckPanel: {fileID: 0}
+  _gridBuildingSystem: {fileID: 0}
+  OpenMenu: 0
+--- !u!114 &1945096530563407225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078908529008481675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab55c990517e274291135b7edef4dd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameTime
+  _year: {fileID: 0}
+  _month: {fileID: 0}
+  _week: {fileID: 0}
+  _time: {fileID: 0}
+  _nightImage: {fileID: 0}
+  _nightImageObject: {fileID: 0}
+  _userTime: 0
+  _userWeek: 1
+--- !u!114 &5071534010219451901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4078908529008481675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e171ad1c84abbc04ab71a8caceba0eb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GoldTest
+  _testGold: 10000
+  IncreasedGold: 0
+  _goldText: {fileID: 0}
+  _increasedGoldText: {fileID: 0}
