@@ -24,9 +24,9 @@ public class BackButton : MonoBehaviour
         }
         //UIManager.Instance.IsStop = !UIManager.Instance.IsStop;
         //Time.timeScale = UIManager.Instance.IsStop ? 0f : 1f;
-        _BuildButton.SetActive(true);
-        _topUI.SetActive(true);
-        _uiBuildPanel.SetActive(false);
+        //_BuildButton.SetActive(true);
+        //_topUI.SetActive(true);
+        //_uiBuildPanel.SetActive(false);
         CameraController cam = FindFirstObjectByType<CameraController>();
         cam.IsCrapting = false;
     }

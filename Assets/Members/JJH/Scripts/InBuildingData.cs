@@ -412,6 +412,10 @@ public class InBuildingData : MonoBehaviour
 
         UIManager.Instance._buildButton.SetActive(true);
         GridBuildingSystem.Instance.SetCurrentInBuilding(null);
+
+        UIManager.Instance.OpenMenu = false;
+        UIManager.Instance._topUIPanel.SetActive(true);
+        Time.timeScale = 1f;
     }
 
     private void InBuildingWhiteTilesCreate()

@@ -43,6 +43,8 @@ public class GridBuildingSystem : MonoBehaviour
 
     //가구 삭제용
     public GameObject FurnitureMenu;
+    //길 메뉴 셋팅용
+    public GameObject RoadMenu;
 
     // 길 설치용
     private HashSet<Vector3Int> _roadPathPositions = new HashSet<Vector3Int>();
@@ -586,6 +588,12 @@ public class GridBuildingSystem : MonoBehaviour
     {
         _temp = buildingObj.GetComponent<Building>(); // 클릭한 건물의 정보를 삭제를 위해 담음
         FurnitureMenu.SetActive(true);
+    }
+
+    public void OnClickSetRoadMenu(GameObject buildingObj)
+    {
+        _temp = buildingObj.GetComponent<Building>(); // 클릭한 건물의 정보를 삭제를 위해 담음
+        RoadMenu.SetActive(true);
     }
 
     // 길 설치 프리뷰

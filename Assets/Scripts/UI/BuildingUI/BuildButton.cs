@@ -19,9 +19,9 @@ public class BuildButton : MonoBehaviour
     {
         //UIManager.Instance.IsStop = !UIManager.Instance.IsStop;
         //Time.timeScale = UIManager.Instance.IsStop ? 0f : 1f;
-        _uiBuildPanel.SetActive(true);
-        _topUI.SetActive(false);
-        gameObject.SetActive(false);
+        //_uiBuildPanel.SetActive(true);
+        //_topUI.SetActive(false);
+        //gameObject.SetActive(false);
         CameraController cam = FindFirstObjectByType<CameraController>();
         cam.IsCrapting = true;
     }

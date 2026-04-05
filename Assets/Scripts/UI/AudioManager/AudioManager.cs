@@ -19,6 +19,11 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip mouseClickSFX;
     [SerializeField] private AudioClip victorySFX;
     [SerializeField] private AudioClip defeatSFX;
+    [SerializeField] private AudioClip buildSFX;
+    [SerializeField] private AudioClip deleteSFX;
+    [SerializeField] private AudioClip upgradeSFX;
+    [SerializeField] private AudioClip enterSFX;
+
 
     private const float DefaultMaster = 1f;
     private const float DefaultBGM = 0.1f;
@@ -102,4 +107,8 @@ public class AudioManager : MonoBehaviour
     public void PlayMouseClickSFX() => PlaySFX(mouseClickSFX);
     public void PlayVictorySFX() => PlaySFX(victorySFX);
     public void PlayDefeatSFX() => PlaySFX(defeatSFX);
+    public void PlayBuildButtonSFX() => PlaySFX(buildSFX); 
+    public void PlayDeleteButtonSFX() => PlaySFX(deleteSFX); 
+    public void PlayUpgradeButtonSFX() => PlaySFX(upgradeSFX); 
+    public void PlayEnterButtonSFX() => PlaySFX(enterSFX);
 }

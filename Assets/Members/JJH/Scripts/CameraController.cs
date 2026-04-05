@@ -203,11 +203,19 @@ public class CameraController : MonoBehaviour
                     // 새 건물 선택
                     GridBuildingSystem.Instance._temp = building;
 
-                    if (building.buildType == BuildType.Road)
-                        RoadMenu.SetActive(true); // 길타입 전용 메뉴
-                    else
-                        building.CanvasActive();   // 기존 메뉴
+                    //if (building.buildType == BuildType.Road)
+                    //{
+                    //    if (UIManager.Instance.OpenMenu = true) return;
+                    //    RoadMenu.SetActive(true); // 길타입 전용 메뉴
+                    //    UIManager.Instance.OpenMenu = true;
+                    //}
 
+                    //else
+                        building.CanvasActive();   // 기존 메뉴
+                    UIManager.Instance._buildButton.SetActive(false);
+                    UIManager.Instance._topUIPanel.SetActive(false);
+                    UIManager.Instance.OpenMenu = true;
+                    Time.timeScale = 0f;
                     building.IsMenuOpen = true;
                 }
             }
@@ -311,9 +319,9 @@ public class CameraController : MonoBehaviour
 
                     GridBuildingSystem.Instance._temp = building;
 
-                    if (building.buildType == BuildType.Road)
-                        RoadMenu.SetActive(true);
-                    else
+                    //if (building.buildType == BuildType.Road)
+                    //    RoadMenu.SetActive(true);
+                    //else
                         building.CanvasActive();
 
                     building.IsMenuOpen = true;

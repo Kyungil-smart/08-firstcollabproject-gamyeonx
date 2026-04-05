@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4892147743894825654}
   - component: {fileID: 8928826287227777565}
   - component: {fileID: 1723013865157989830}
+  - component: {fileID: 8910834921691894210}
   m_Layer: 5
   m_Name: Demolish
   m_TagString: Untagged
@@ -132,6 +133,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8910834921691894210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146459636297724713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3baf642f8f75c4d428b25015b6275b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSFX
 --- !u!1 &993968465618114299
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,6 +232,7 @@ GameObject:
   - component: {fileID: 2093674890318010780}
   - component: {fileID: 3211299698298358539}
   - component: {fileID: 2659469577650796649}
+  - component: {fileID: 1791843865253617798}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -339,6 +353,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1791843865253617798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2654617842521251590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3baf642f8f75c4d428b25015b6275b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSFX
 --- !u!1 &7041887122725895397
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +384,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1076802299603268228
 RectTransform:
   m_ObjectHideFlags: 0
@@ -472,6 +498,7 @@ GameObject:
   - component: {fileID: 5437693795750401223}
   - component: {fileID: 915200990669372411}
   - component: {fileID: 3879282275627366672}
+  - component: {fileID: 3087641942550840285}
   m_Layer: 5
   m_Name: Enter
   m_TagString: Untagged
@@ -592,6 +619,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3087641942550840285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7814128446615677756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e070dc0bb7d65444ea718065657048fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayEnterButtonSFX
 --- !u!1 &8499775261369318127
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,6 +643,7 @@ GameObject:
   - component: {fileID: 6014067823233637565}
   - component: {fileID: 7450993408380802620}
   - component: {fileID: 3742153527162272470}
+  - component: {fileID: 9022193422015920269}
   m_Layer: 5
   m_Name: Reposition
   m_TagString: Untagged
@@ -724,6 +764,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9022193422015920269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8499775261369318127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3baf642f8f75c4d428b25015b6275b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSFX
 --- !u!1 &8723117496232022034
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +788,7 @@ GameObject:
   - component: {fileID: 62978496636389950}
   - component: {fileID: 530855905443444184}
   - component: {fileID: 3113764455148399944}
+  - component: {fileID: 323192602256335344}
   m_Layer: 5
   m_Name: LevelUp
   m_TagString: Untagged
@@ -856,3 +909,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &323192602256335344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8723117496232022034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e30e745300da32449388b81ff738794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayUpgradeButtonSFX
