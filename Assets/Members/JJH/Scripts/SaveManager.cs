@@ -147,6 +147,7 @@ public class SaveManager : MonoBehaviour
         if (!HasSave()) { Debug.LogWarning("세이브 파일 없음"); return; }
         LoadMapChange();
         SceneManager.LoadScene(1);
+        AudioManager.Instance.PlaySceneBGM("MapScene");
     }
 
     public void LoadMapChange()
