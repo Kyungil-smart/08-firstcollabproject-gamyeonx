@@ -10,6 +10,12 @@ public class GuestMovementAgent : MonoBehaviour
     [Header("내부 이동 속도")]
     [SerializeField] private float _insideMoveSpeed = 1.5f;
 
+    [Header("애니메이션")]
+    [SerializeField] private CharacterAnimatorController _characterAnimatorController;
+
+    [Header("디버그")]
+    [SerializeField] private bool _showLog = false;
+
     private Vector3 _targetWorldPos;
     private bool _isMoving;
     private bool _isInsideMove;
@@ -23,33 +29,56 @@ public class GuestMovementAgent : MonoBehaviour
     public event Action OnMoveCompleted;
     public event Action OnMoveFailed;
 
+    private void Reset()
+    {
+        _characterAnimatorController = GetComponentInChildren<CharacterAnimatorController>();
+    }
+
     private void Awake()
     {
         _pathQueue = new Queue<Vector3Int>();
         _pathfinder = new AStarPathfinder();
+
+        if (_characterAnimatorController == null)
+        {
+            _characterAnimatorController = GetComponentInChildren<CharacterAnimatorController>();
+        }
     }
 
     private void Update()
     {
-        if(!_isMoving)
+        if (!_isMoving)
         {
+            UpdateAnimation(Vector2.zero);
             return;
         }
+
+        Vector3 moveDirection3D = _targetWorldPos - transform.position;
+        Vector2 moveDirection = new Vector2(moveDirection3D.x, moveDirection3D.y).normalized;
+
+        UpdateAnimation(moveDirection);
 
         float speed = _isInsideMove ? _insideMoveSpeed : _outsideMoveSpeed;
         transform.position = Vector3.MoveTowards(transform.position, _targetWorldPos, speed * Time.deltaTime);
 
-        if(Vector3.Distance(transform.position, _targetWorldPos) > 0.01f)
+        if (Vector3.Distance(transform.position, _targetWorldPos) > 0.01f)
         {
             return;
         }
 
         transform.position = _targetWorldPos;
 
-        if(_isInsideMove)
+        if (_isInsideMove)
         {
             _isMoving = false;
+            UpdateAnimation(Vector2.zero);
             OnMoveCompleted?.Invoke();
+
+            if (_showLog)
+            {
+                Debug.Log("[GuestMovementAgent] 내부 이동 완료");
+            }
+
             return;
         }
 
@@ -58,39 +87,43 @@ public class GuestMovementAgent : MonoBehaviour
 
     public bool MoveToRoadCell(Vector3Int targetCell)
     {
-        if(GridBuildingSystem.Instance == null)
+        if (GridBuildingSystem.Instance == null)
         {
+            Debug.LogWarning("[GuestMovementAgent] GridBuildingSystem.Instance가 없습니다.");
             OnMoveFailed?.Invoke();
             return false;
         }
 
         Vector3Int startCell = GridBuildingSystem.Instance.gridLayout.WorldToCell(transform.position);
 
-        if(GridBuildingSystem.Instance.GetTileType(startCell) != TileType.Road)
+        if (GridBuildingSystem.Instance.GetTileType(startCell) != TileType.Road)
         {
+            Debug.LogWarning($"[GuestMovementAgent] 시작 셀이 Road가 아닙니다. startCell={startCell}");
             OnMoveFailed?.Invoke();
             return false;
         }
 
-        if(GridBuildingSystem.Instance.GetTileType(targetCell) != TileType.Road)
+        if (GridBuildingSystem.Instance.GetTileType(targetCell) != TileType.Road)
         {
+            Debug.LogWarning($"[GuestMovementAgent] 목표 셀이 Road가 아닙니다. targetCell={targetCell}");
             OnMoveFailed?.Invoke();
             return false;
         }
 
         List<Vector3Int> path = _pathfinder.FindPath(startCell, targetCell);
 
-        if(path == null || path.Count == 0)
+        if (path == null || path.Count == 0)
         {
+            Debug.LogWarning($"[GuestMovementAgent] 길찾기 실패. targetCell={targetCell}");
             OnMoveFailed?.Invoke();
             return false;
         }
 
         _pathQueue.Clear();
 
-        for(int i = 0; i < path.Count; i++)
+        for (int i = 0; i < path.Count; i++)
         {
-            if(path[i] == startCell)
+            if (path[i] == startCell)
             {
                 continue;
             }
@@ -100,13 +133,15 @@ public class GuestMovementAgent : MonoBehaviour
 
         _isInsideMove = false;
         MoveNextOutsideCell();
+
         return true;
     }
 
     public void MoveInsideTo(Transform targetPoint)
     {
-        if(targetPoint == null)
+        if (targetPoint == null)
         {
+            Debug.LogWarning("[GuestMovementAgent] 내부 이동 실패 | targetPoint가 null입니다.");
             OnMoveFailed?.Invoke();
             return;
         }
@@ -115,18 +150,19 @@ public class GuestMovementAgent : MonoBehaviour
         _isMoving = true;
         _targetWorldPos = targetPoint.position;
         _targetWorldPos.z = 0f;
+
+        Vector3 moveDirection3D = _targetWorldPos - transform.position;
+        Vector2 moveDirection = new Vector2(moveDirection3D.x, moveDirection3D.y).normalized;
+        UpdateAnimation(moveDirection);
     }
 
     public void TeleportTo(Transform targetPoint)
     {
-        if(targetPoint == null)
-        {
-            return;
-        }
-
         Vector3 pos = targetPoint.position;
         pos.z = 0f;
         transform.position = pos;
+
+        UpdateAnimation(Vector2.zero);
     }
 
     public void StopMove()
@@ -134,22 +170,28 @@ public class GuestMovementAgent : MonoBehaviour
         _isMoving = false;
         _isInsideMove = false;
         _pathQueue.Clear();
+
+        UpdateAnimation(Vector2.zero);
     }
 
     private void MoveNextOutsideCell()
     {
-        if(_pathQueue.Count == 0)
+        if (_pathQueue.Count == 0)
         {
             _isMoving = false;
+            UpdateAnimation(Vector2.zero);
             OnMoveCompleted?.Invoke();
+
             return;
         }
 
         Vector3Int nextCell = _pathQueue.Dequeue();
 
-        if(GridBuildingSystem.Instance.GetTileType(nextCell) != TileType.Road)
+        if (GridBuildingSystem.Instance.GetTileType(nextCell) != TileType.Road)
         {
             _isMoving = false;
+            UpdateAnimation(Vector2.zero);
+ 
             OnMoveFailed?.Invoke();
             return;
         }
@@ -160,5 +202,19 @@ public class GuestMovementAgent : MonoBehaviour
         _targetWorldPos.z = 0f;
 
         _isMoving = true;
+
+        Vector3 moveDirection3D = _targetWorldPos - transform.position;
+        Vector2 moveDirection = new Vector2(moveDirection3D.x, moveDirection3D.y).normalized;
+        UpdateAnimation(moveDirection);
+    }
+
+    private void UpdateAnimation(Vector2 moveInput)
+    {
+        if (_characterAnimatorController == null)
+        {
+            return;
+        }
+
+        _characterAnimatorController.UpdateAnimation(moveInput);
     }
 }
