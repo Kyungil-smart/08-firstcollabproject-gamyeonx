@@ -201,10 +201,12 @@ public class GridBuildingSystem : MonoBehaviour
         { 
             case BuildType.CapacityFurniture:
                 GoldAmount = _currentInBuildingData.CapacityFurnitureData.interiorPrice;
+                UnlockRevenue = 0;
                 Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {GoldAmount}");
                 break;
             case BuildType.FeeFurniture:
                 GoldAmount = _currentInBuildingData.FeeFurnitureData.interiorPrice;
+                UnlockRevenue = 0;
                 Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {GoldAmount}");
                 break;
             case BuildType.Building:
@@ -249,6 +251,7 @@ public class GridBuildingSystem : MonoBehaviour
         if (buildingType.buildType == BuildType.CapacityFurniture)
         {
             GoldAmount = _currentInBuildingData.CapacityFurnitureData.interiorPrice;
+            UnlockRevenue = 0;
             Debug.Log($"가구 비용 : {GoldAmount}");
             if (GoldAmount > GoldTest.Instance._testGold) // 소지한 Gold가 설치비용보다 작다면 return
             {
