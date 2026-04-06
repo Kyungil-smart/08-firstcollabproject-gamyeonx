@@ -97,7 +97,7 @@ public class Building : MonoBehaviour
         UIManager.Instance.SetFurnitureButtonActive(_facilityType, true);
 
         InBuildingData.BuildingEntered();
-        // _cameraController.SetInputLock(false);
+        _cameraController.SetInputLock(false);
         if (GridBuildingSystem.Instance._temp != null)
         {
             GridBuildingSystem.Instance._temp.IsMenuOpen = false;
