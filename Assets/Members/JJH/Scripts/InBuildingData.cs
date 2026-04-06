@@ -61,7 +61,7 @@ public class InBuildingData : MonoBehaviour
     public int _currentCapacityFurnitureCount = 0;
     
     [Header("수익형 가구 개수")]
-    [SerializeField] private int _currentFeeFurnitureCount = 0;
+    public int _currentFeeFurnitureCount = 0;
     
     public FurnitureData CapacityFurnitureData => _capacityFurnitureData;
     public FurnitureData FeeFurnitureData => _feeFurnitureData;
@@ -486,7 +486,7 @@ public class InBuildingData : MonoBehaviour
     public void SetCurrentCount(int useCount, int furnitureCount, int capacityFurnitureCount)
     {
         _currentUseCount = useCount;
-        _currentFurnitureCount = furnitureCount;
+        _currentFeeFurnitureCount = furnitureCount;
         _currentCapacityFurnitureCount = capacityFurnitureCount;
     }
 }

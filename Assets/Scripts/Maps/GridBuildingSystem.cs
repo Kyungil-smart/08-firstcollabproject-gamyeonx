@@ -573,7 +573,7 @@ public class GridBuildingSystem : MonoBehaviour
         if (_temp.InBuildingData != null)
         {
             _temp.InBuildingData.SetLevelPrice(bData.currentLevel, bData.BuildingGold);
-            _temp.InBuildingData.SetCurrentCount(bData.CurrentUseCount, bData.FurnitureCount, bData.CapacityFurnitureCount);
+            _temp.InBuildingData.SetCurrentCount(bData.CurrentUseCount, bData.FeeFurnitureCount, bData.CapacityFurnitureCount);
         }
 
         _temp.Place();
