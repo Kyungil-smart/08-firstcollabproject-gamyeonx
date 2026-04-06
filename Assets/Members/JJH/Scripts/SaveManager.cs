@@ -114,7 +114,7 @@ public class SaveManager : MonoBehaviour
         
         GridBuildingSystem.Instance.MainTilemap.ClearAllTiles();
         MapManager.Instance.MapLevel = data.MapLevel;
-        UIManager.Instance._gameTime._userWeek = data.UserWeek;
+        UIManager.Instance._gameTime.UserWeek = data.UserWeek;
         UIManager.Instance._goldTest.TestGoldValue = data.Gold;
         UIManager.Instance._goldTest.IncreasedGold = data.IncreasedGold;
         UIManager.Instance._triggeredEvents = new HashSet<string>(data.TrigeredEvents);
