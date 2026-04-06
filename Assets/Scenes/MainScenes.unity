@@ -25149,6 +25149,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 138611611}
+    - target: {fileID: 476904389195538673, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: m_text
+      value: Profitable Furniture
+      objectReference: {fileID: 0}
     - target: {fileID: 493595471344749205, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -25304,6 +25308,10 @@ PrefabInstance:
     - target: {fileID: 1605806283831099570, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718716318141686978, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: m_text
+      value: Capacity Furniture
       objectReference: {fileID: 0}
     - target: {fileID: 1937184340420545015, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -25465,6 +25473,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 138611611}
+    - target: {fileID: 3209329985949993694, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: m_text
+      value: Capacity Furniture
+      objectReference: {fileID: 0}
     - target: {fileID: 3218531019976248707, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -25537,6 +25549,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 615338508}
+    - target: {fileID: 3616140026249393004, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3638161361472639702, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -147
@@ -25641,6 +25657,10 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4168221530129862430, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: m_text
+      value: Profitable Furniture
+      objectReference: {fileID: 0}
     - target: {fileID: 4215454081990428979, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -25653,6 +25673,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 138611611}
+    - target: {fileID: 4469053784180869590, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: m_text
+      value: Profitable Furniture
+      objectReference: {fileID: 0}
     - target: {fileID: 4493761536103124058, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -25985,6 +26009,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 138611611}
+    - target: {fileID: 5724265675801522350, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: m_text
+      value: Capacity Furniture
+      objectReference: {fileID: 0}
     - target: {fileID: 5754702293365925426, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -26081,6 +26109,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 138611611}
+    - target: {fileID: 6281192756163913397, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: m_text
+      value: Capacity Furniture
+      objectReference: {fileID: 0}
     - target: {fileID: 6285311138602109833, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -26097,6 +26129,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 87.7
       objectReference: {fileID: 0}
+    - target: {fileID: 6430833485957875263, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: m_text
+      value: Profitable Furniture
+      objectReference: {fileID: 0}
     - target: {fileID: 6575404135767152825, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -26110,8 +26146,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 138611611}
     - target: {fileID: 6691739721260137140, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: m_Name
+      value: Cafe_Build_Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691739721260137140, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6805886989548167342, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_fontAsset
@@ -26260,6 +26300,10 @@ PrefabInstance:
     - target: {fileID: 7450585536893465225, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575189170873808797, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: m_text
+      value: Capacity Furniture
       objectReference: {fileID: 0}
     - target: {fileID: 7593567508588591949, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -26460,6 +26504,10 @@ PrefabInstance:
     - target: {fileID: 8414518640432554974, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8444575925868817170, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: m_text
+      value: Profitable Furniture
       objectReference: {fileID: 0}
     - target: {fileID: 8514102202932376414, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_fontAsset

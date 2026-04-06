@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 6933469259068330659}
   - component: {fileID: 4556057289574230973}
   m_Layer: 0
-  m_Name: ProfitableFurniture 1
+  m_Name: Flower Vase
   m_TagString: OByO
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
