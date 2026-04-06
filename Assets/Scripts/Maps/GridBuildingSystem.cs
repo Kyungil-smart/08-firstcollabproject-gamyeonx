@@ -374,10 +374,12 @@ public class GridBuildingSystem : MonoBehaviour
                         if (SaveManager.Instance.LoadMap)
                         {
                             SetTileType(pos, TileType.FeeFurniture);
-                            _saveframeCount = Time.frameCount;
+                            // _saveframeCount = Time.frameCount;
                             continue;
                         }
                         _currentInBuildingData.TryAssignProfitableFurniture();
+                        SetTileType(pos, TileType.FeeFurniture);
+                        _saveframeCount = Time.frameCount;
                     }
                 }
                 else if (_temp.buildType == BuildType.CapacityFurniture) // 수용성 가구 오브젝트
