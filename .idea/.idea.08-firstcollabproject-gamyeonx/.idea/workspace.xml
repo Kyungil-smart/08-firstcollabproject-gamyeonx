@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="" />
+    <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/CameraController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventUI.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +17,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3ea01e77be99618395f448b16bd7cc2bd4248bd9e5d8474964b2d97f39c5d74/System.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/31f3cd5c2a074982a9d5664e7709cac1212400/2f/54c1ce4d/Transform.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/JJH/Scripts/LevelUpBuildingData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/JJH/Scripts/SaveData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/JJH/Scripts/SaveManager.cs" root0="FORCE_HIGHLIGHTING" />
@@ -41,7 +44,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "JJH__Road",
+    "git-widget-placeholder": "JJH__Tutorial",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

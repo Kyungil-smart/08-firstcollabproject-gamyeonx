@@ -67,6 +67,8 @@ public class EventUI : MonoBehaviour
             _BackGround.SetActive(false);
             _nextButton.gameObject.SetActive(false);
             Time.timeScale = 1f;
+            CameraController cam = FindFirstObjectByType<CameraController>();
+            cam.TutorialCameraMove();
             // 건물 생성 튜토리얼 관련 버튼 이미지 및 버튼 활성화
             // 버튼 클릭 시 다시 다른애들 활성화
         }
