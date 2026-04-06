@@ -347,4 +347,11 @@ public class CameraController : MonoBehaviour
         Gizmos.DrawWireCube(CameraBounds.center, CameraBounds.size);
     }
 
+    public void TutorialCameraMove()
+    {
+        _cam.orthographicSize = 8f;
+        Vector3 CameraPos = new Vector3(-7.5f, -8.5f, -10f);
+        _cam.transform.position = CameraPos;
+    }
+
 }
