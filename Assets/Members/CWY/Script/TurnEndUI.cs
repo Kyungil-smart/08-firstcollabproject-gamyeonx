@@ -68,6 +68,7 @@ public class TurnEndUI : MonoBehaviour
     private void HandleClickNextWeekButton()
     {
         Time.timeScale = 1f;
+
         if (_root != null)
         {
             _root.SetActive(false);
