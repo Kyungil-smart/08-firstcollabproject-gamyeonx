@@ -73,4 +73,5 @@ public class CharacterAnimatorController : MonoBehaviour
 
         return moveInput.y > 0f ? Direction.North : Direction.South;
     }
+    /////
 }
