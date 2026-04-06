@@ -148,6 +148,7 @@ MonoBehaviour:
   pivot: {fileID: 0}
   rotateCount: 0
   _facilityType: 0
+  furnitureTouchType: 0
   IsMenuOpen: 0
 --- !u!61 &6098650717847420250
 BoxCollider2D:
@@ -452,6 +453,7 @@ MonoBehaviour:
   pivot: {fileID: 1254885943345794470}
   rotateCount: 0
   _facilityType: 4
+  furnitureTouchType: 0
   IsMenuOpen: 0
 --- !u!61 &4515432953137878291
 BoxCollider2D:
@@ -690,6 +692,7 @@ MonoBehaviour:
   pivot: {fileID: 0}
   rotateCount: 0
   _facilityType: 0
+  furnitureTouchType: 0
   IsMenuOpen: 0
 --- !u!61 &5342572930882078739
 BoxCollider2D:
