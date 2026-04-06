@@ -70,7 +70,7 @@ public class FacilityRegistry : MonoBehaviour
 
         if (string.IsNullOrWhiteSpace(facility.FacilityID))
         {
-            Debug.LogWarning($"[FacilityRegistry] 등록 실패 - FacilityID가 비어 있습니다. name={facility.name}");
+            Debug.LogWarning($"FacilityID가 비어 있습니다. name={facility.name}");
             return;
         }
 
@@ -81,7 +81,7 @@ public class FacilityRegistry : MonoBehaviour
             _facilityList.Add(facility);
         }
 
-        Debug.Log($"[FacilityRegistry] 시설 등록 | FacilityID={facility.FacilityID}, name={facility.name}");
+        Debug.Log($"시설 등록 | FacilityID={facility.FacilityID}, name={facility.name}");
     }
 
     public void UnregisterFacility(FacilityRuntime facility)
@@ -112,9 +112,6 @@ public class FacilityRegistry : MonoBehaviour
         Debug.Log($"[FacilityRegistry] 시설 해제 | FacilityID={facility.FacilityID}, name={facility.name}");
     }
 
-    /// <summary>
-    /// 업그레이드 시 이전 ID 키만 제거할 때 사용
-    /// </summary>
     public void UnregisterFacilityByID(string facilityID, FacilityRuntime facility)
     {
         if (string.IsNullOrWhiteSpace(facilityID))

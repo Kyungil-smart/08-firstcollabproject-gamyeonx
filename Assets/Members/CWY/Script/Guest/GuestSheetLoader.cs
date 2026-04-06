@@ -9,20 +9,17 @@ public class GuestSheetLoader : MonoBehaviour
     [SerializeField] private GuestDataDatabaseSO _guestDataDatabase;
 
     [Header("Sheet Row Settings")]
-    [Tooltip("현재 시트는 실제 데이터가 5번째 줄부터 시작하므로 4 사용")]
     [SerializeField] private int _startRowIndex = 4;
 
     private void Start()
     {
         if (string.IsNullOrWhiteSpace(_guestSheet.Url))
         {
-            Debug.LogError("[GuestSheetLoader] GuestSheet Url is missing.");
             return;
         }
 
         if (_guestDataDatabase == null)
         {
-            Debug.LogError("[GuestSheetLoader] GuestDataDatabase is missing.");
             return;
         }
 

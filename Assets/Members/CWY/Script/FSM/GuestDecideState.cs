@@ -12,8 +12,6 @@ public class GuestDecideState : IGuestState
 
     public void Enter()
     {
-        Debug.Log("[GuestDecideState] Enter");
-
         if(_controller.IsTurnEnding)
         {
             _controller.ChangeToExitState();
@@ -47,6 +45,6 @@ public class GuestDecideState : IGuestState
 
     public void Exit()
     {
-        Debug.Log("[GuestDecideState] Exit");
+        Debug.Log("[GuestDecideState] Επΐε");
     }
 }

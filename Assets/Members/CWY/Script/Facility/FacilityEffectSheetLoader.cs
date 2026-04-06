@@ -10,7 +10,7 @@ public class FacilityEffectSheetLoader : MonoBehaviour
     [SerializeField] private FacilityEffectDatabaseSO _facilityEffectDatabase;
 
     [Header("Sheet Row Settings")]
-    [Tooltip("데이터 시작 줄 인덱스. 예: 1이면 두 번째 줄부터 읽음")]
+    [Tooltip("데이터 시작 줄 인덱스")]
     [SerializeField] private int _startRowIndex = 4;
 
     private void Start()
