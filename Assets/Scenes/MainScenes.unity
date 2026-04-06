@@ -3236,7 +3236,6 @@ MonoBehaviour:
   _forceCloseTime: 240
   _gameTime: {fileID: 138611613}
   _guestSpawner: {fileID: 142770134}
-  _turnEndUI: {fileID: 643166929}
 --- !u!4 &242990211
 Transform:
   m_ObjectHideFlags: 0

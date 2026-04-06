@@ -42,6 +42,8 @@ public class GuestController : MonoBehaviour
     [Header("°ñµå")]
     [SerializeField] private GoldTest _goldTest;
 
+    [SerializeField] private TurnEndUI _turnEndUI;
+
 
     public static event Action<GuestController> OnGuestRemoved;
 
@@ -776,6 +778,8 @@ public class GuestController : MonoBehaviour
             }
 
             GoldTest.Instance.PayMoney(gold);
+            //Ãß°¡
+            _turnEndUI.AddIncome(gold);
             Log($"[GuestController] °ñµå Áö±Þ ¿Ï·á | FacilityID={CurrentTargetFacilityID}, Gold={gold}");
         }
 

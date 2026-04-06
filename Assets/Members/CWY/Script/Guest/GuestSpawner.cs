@@ -31,6 +31,7 @@ public class GuestSpawner : MonoBehaviour
     private readonly List<float> _spawnTimes = new List<float>();
     private int _nextSpawnIndex;
 
+    [SerializeField] private TurnEndUI _turnEndUI;
     private void Awake()
     {
         if (_gameTime == null)
@@ -248,6 +249,8 @@ public class GuestSpawner : MonoBehaviour
         }
 
         guestController.SetupSpawn(visitorID);
+        //Ãß°¡
+        _turnEndUI.AddVisitor();
 
         if (_turnGuestExitManager != null)
         {

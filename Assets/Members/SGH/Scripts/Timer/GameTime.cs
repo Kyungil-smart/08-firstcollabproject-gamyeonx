@@ -100,4 +100,12 @@ public class GameTime : MonoBehaviour
     {
         _week.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Week", new object[] { _userWeek });
     }
+
+    public void AdvanceToNextWeek()
+    {
+        _userTime = 0f;
+        _nightImageObject.SetActive(false);
+        UserWeek++;
+        SaveManager.Instance.Save();
+    }
 }
