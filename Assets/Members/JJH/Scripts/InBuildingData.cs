@@ -471,11 +471,3 @@ public class InBuildingData : MonoBehaviour
         _currentUseCount = count;
     }
 }
-
-/*
-유니티 적용 방법
-1. 기존 InBuildingData.cs를 이 코드로 교체합니다.
-2. Gold / UpgradePrice / DownGradePrice 관련 테스트 코드는 모두 막아둔 상태입니다.
-3. 이제 가격 관련 정보는 FacilityRuntime.UsageFee를 통해서만 확인하세요.
-4. 이후 업그레이드는 가격 증가가 아니라, 상위 시설 ID로 교체하는 방식으로 연결하면 됩니다.
-*/

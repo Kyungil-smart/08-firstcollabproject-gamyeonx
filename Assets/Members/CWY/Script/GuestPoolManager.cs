@@ -28,7 +28,6 @@ public class GuestPoolManager : MonoBehaviour
     {
         if (_guestPrefab == null)
         {
-            Debug.LogError("[GuestPoolManager] Guest Prefab이 비어 있습니다.");
             return;
         }
 
@@ -64,7 +63,6 @@ public class GuestPoolManager : MonoBehaviour
             return null;
         }
 
-        //guest.transform.SetParent(null);
         guest.transform.SetPositionAndRotation(position, rotation);
         guest.SetActive(true);
 

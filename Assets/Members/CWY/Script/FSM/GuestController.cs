@@ -42,6 +42,8 @@ public class GuestController : MonoBehaviour
     [Header("골드")]
     [SerializeField] private GoldTest _goldTest;
 
+    private TurnEndUI _turnEndUI;
+
 
     public static event Action<GuestController> OnGuestRemoved;
 
@@ -191,13 +193,12 @@ public class GuestController : MonoBehaviour
 
         if (EntryFlowHandler == null)
         {
-            Debug.LogWarning("[GuestController] EntryFlowHandler가 없습니다.");
             ReturnToPool();
             return;
         }
 
         EntryFlowHandler.BeginEntryFlow();
-        Log($"[GuestController] 스폰 세팅 완료 | VisitorID={_visitorID}");
+        Log($"VisitorID={_visitorID}");
     }
 
     private void ResetForReuse()
@@ -776,6 +777,7 @@ public class GuestController : MonoBehaviour
             }
 
             GoldTest.Instance.PayMoney(gold);
+            _turnEndUI.AddIncome(gold);
             Log($"[GuestController] 골드 지급 완료 | FacilityID={CurrentTargetFacilityID}, Gold={gold}");
         }
 
@@ -801,7 +803,6 @@ public class GuestController : MonoBehaviour
         }
 
         IsTurnEnding = true;
-        Log("[GuestController] 턴 종료 알림 수신");
 
         if (!IsCurrentStateUse())
         {
@@ -821,7 +822,6 @@ public class GuestController : MonoBehaviour
             return;
         }
 
-        Log("[GuestController] 강제 제거 처리");
         CleanupBeforeRemove();
         NotifyRemoved();
         ReturnToPool();
@@ -931,7 +931,6 @@ public class GuestController : MonoBehaviour
     {
         if (GuestPoolManager.Instance == null)
         {
-            Debug.LogWarning("[GuestController] GuestPoolManager.Instance가 없어 비활성화만 수행합니다.");
             gameObject.SetActive(false);
             return;
         }

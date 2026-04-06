@@ -19,8 +19,6 @@ public class GuestWanderState : IGuestState
         _eventCheckTimer = 0f;
         _repathDelayTimer = 0f;
 
-        Debug.Log("[GuestWanderState] Enter");
-
         TryStartRandomWanderMove();
     }
 
@@ -80,7 +78,7 @@ public class GuestWanderState : IGuestState
 
     public void Exit()
     {
-        Debug.Log("[GuestWanderState] Exit");
+        Debug.Log("[GuestWanderState] Επΐε");
     }
 
     private void TryStartRandomWanderMove()

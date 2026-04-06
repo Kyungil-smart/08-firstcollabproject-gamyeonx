@@ -16,7 +16,7 @@ public class FacilityEntranceTrigger : MonoBehaviour
 
         if(_facilityRuntime == null)
         {
-            Debug.Log("[FacilityEntranceTrigger] FacilityRuntime이 연결되지 않았습니다.");
+            Debug.Log("연결되지 않았습니다.");
             return;
         }
 
