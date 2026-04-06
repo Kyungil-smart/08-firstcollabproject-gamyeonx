@@ -16173,6 +16173,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5330758203926994662, guid: 58a36f3fd1a155c4a899888a1439ae84, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1624605432}
+    - targetCorrespondingSourceObject: {fileID: 7221942961563479846, guid: 58a36f3fd1a155c4a899888a1439ae84, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1624605435}
   m_SourcePrefab: {fileID: 100100000, guid: 58a36f3fd1a155c4a899888a1439ae84, type: 3}
 --- !u!1 &1624605431 stripped
 GameObject:
@@ -16192,6 +16195,29 @@ SortingGroup:
   m_SortingOrder: 2
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
+--- !u!1 &1624605433 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7221942961563479846, guid: 58a36f3fd1a155c4a899888a1439ae84, type: 3}
+  m_PrefabInstance: {fileID: 1624605430}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1624605434 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1893358178320919907, guid: 58a36f3fd1a155c4a899888a1439ae84, type: 3}
+  m_PrefabInstance: {fileID: 1624605430}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1624605435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624605433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ca0b7202f907904d8af2b324ef94343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimatorController
+  _animator: {fileID: 1624605434}
 --- !u!1 &1632370890
 GameObject:
   m_ObjectHideFlags: 0
