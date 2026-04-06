@@ -17,6 +17,7 @@ public class TurnGuestExitManager : MonoBehaviour
 
     private readonly HashSet<GuestController> _aliveGuests = new HashSet<GuestController>();
 
+    [SerializeField] private TurnEndUI _turnEndUI;
     private void Awake()
     {
         if (_gameTime == null)
@@ -164,9 +165,9 @@ public class TurnGuestExitManager : MonoBehaviour
         _hasFinishedTurn = true;
         Debug.Log("[TurnGuestExitManager] 영업 종료 -> 다음 주차 테스트 시작");
 
-        if (_gameTime != null)
+        if (_turnEndUI != null)
         {
-            _gameTime.HandleTurnFinishedForTest();
+            _turnEndUI.Show();
         }
     }
 }
