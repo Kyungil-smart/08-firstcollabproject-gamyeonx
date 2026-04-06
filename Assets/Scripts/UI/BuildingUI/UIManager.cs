@@ -333,7 +333,7 @@ public class UIManager : MonoBehaviour
         OpenMenu = true;
         _restaurantBuildPanel.SetActive(true);
         _restaurantBuildButton.SetActive(false);
-        if (cameraController != null) cameraController.canMove = true;
+        if (cameraController != null) cameraController.canMove = false;
         Time.timeScale = 0f;
     }
 
@@ -366,7 +366,7 @@ public class UIManager : MonoBehaviour
         OpenMenu = false;
         _restaurantBuildPanel.SetActive(false);
         _restaurantBuildButton.SetActive(true);
-        if (cameraController != null) cameraController.canMove = false;
+        if (cameraController != null) cameraController.canMove = true;
         Time.timeScale = 1f;
         if (GridBuildingSystem.Instance._temp != null && !GridBuildingSystem.Instance._temp.Placed)
         {
@@ -479,7 +479,7 @@ public class UIManager : MonoBehaviour
         OpenMenu = true;
         _hotSpringBuildPanel.SetActive(true);
         _hotSpringBuildButton.SetActive(false);
-        if (cameraController != null) cameraController.canMove = true;
+        if (cameraController != null) cameraController.canMove = false;
         Time.timeScale = 0f;
     }
 
@@ -512,7 +512,7 @@ public class UIManager : MonoBehaviour
         OpenMenu = false;
         _hotSpringBuildPanel.SetActive(false);
         _hotSpringBuildButton.SetActive(true);
-        if (cameraController != null) cameraController.canMove = false;
+        if (cameraController != null) cameraController.canMove = true;
         Time.timeScale = 1f;
         if (GridBuildingSystem.Instance._temp != null && !GridBuildingSystem.Instance._temp.Placed)
         {
@@ -624,7 +624,7 @@ public class UIManager : MonoBehaviour
         OpenMenu = true;
         _trainingGroundBuildPanel.SetActive(true);
         _trainingGround_Build_Button.SetActive(false);
-        if (cameraController != null) cameraController.canMove = true;
+        if (cameraController != null) cameraController.canMove = false;
         Time.timeScale = 0f;
     }
 
@@ -657,7 +657,7 @@ public class UIManager : MonoBehaviour
         OpenMenu = false;
         _trainingGroundBuildPanel.SetActive(false);
         _trainingGround_Build_Button.SetActive(true);
-        if (cameraController != null) cameraController.canMove = false;
+        if (cameraController != null) cameraController.canMove = true;
         Time.timeScale = 1f;
         if (GridBuildingSystem.Instance._temp != null && !GridBuildingSystem.Instance._temp.Placed)
         {
@@ -768,7 +768,7 @@ public class UIManager : MonoBehaviour
         OpenMenu = true;
         _shopBuildPanel.SetActive(true);
         _shopBuildButton.SetActive(false);
-        if (cameraController != null) cameraController.canMove = true;
+        if (cameraController != null) cameraController.canMove = false;
         Time.timeScale = 0f;
     }
 
@@ -801,7 +801,7 @@ public class UIManager : MonoBehaviour
         OpenMenu = false;
         _shopBuildPanel.SetActive(false);
         _shopBuildButton.SetActive(true);
-        if (cameraController != null) cameraController.canMove = false;
+        if (cameraController != null) cameraController.canMove = true;
         Time.timeScale = 1f;
         if (GridBuildingSystem.Instance._temp != null && !GridBuildingSystem.Instance._temp.Placed)
         {
@@ -912,7 +912,7 @@ public class UIManager : MonoBehaviour
         OpenMenu = true;
         _vendingMachineBuildPanel.SetActive(true);
         _vendingMachineBuildButton.SetActive(false);
-        if (cameraController != null) cameraController.canMove = true;
+        if (cameraController != null) cameraController.canMove = false;
         Time.timeScale = 0f;
     }
 
@@ -946,7 +946,7 @@ public class UIManager : MonoBehaviour
         OpenMenu = false;
         _vendingMachineBuildPanel.SetActive(false);
         _vendingMachineBuildButton.SetActive(true);
-        if (cameraController != null) cameraController.canMove = false;
+        if (cameraController != null) cameraController.canMove = true;
         Time.timeScale = 1f;
         if (GridBuildingSystem.Instance._temp != null && !GridBuildingSystem.Instance._temp.Placed)
         {
