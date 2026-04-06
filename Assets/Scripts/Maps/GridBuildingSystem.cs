@@ -689,11 +689,8 @@ public class GridBuildingSystem : MonoBehaviour
 
     public void OnClickSetRoadMenu(GameObject buildingObj)
     {
-        if (UIManager.Instance.OpenMenu)
-        {
-            RoadDelMenu.SetActive(false);
-            UIManager.Instance.OpenMenu = false;
-        }
+        if (UIManager.Instance.OpenMenu == true) return;
+       
         _temp = buildingObj.GetComponent<Building>(); // 클릭한 건물의 정보를 삭제를 위해 담음
         RoadDelMenu.SetActive(true);
         UIManager.Instance.OpenMenu = true;
