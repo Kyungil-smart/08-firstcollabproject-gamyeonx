@@ -8,6 +8,7 @@ public class RoadClick : MonoBehaviour, IPointerClickHandler
     {
         if (UIManager.Instance.OpenMenu == true) return;
         GridBuildingSystem.Instance.OnClickSetRoadMenu(this.gameObject);
-        // UIManager.Instance.OpenMenu = true;
+        UIManager.Instance.OpenMenu = true;
+        Time.timeScale = 0;
     }
 }

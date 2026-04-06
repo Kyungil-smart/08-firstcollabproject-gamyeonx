@@ -73,7 +73,7 @@ public class SaveManager : MonoBehaviour
                 level = b.InBuildingData.currentLevel;
                 useCount = b.InBuildingData._currentUseCount;
                 gold = b.InBuildingData.FacilityRuntime.FurnitureGold;
-                furnitureCount = b.InBuildingData._currentFurnitureCount;
+                furnitureCount = b.InBuildingData._currentFeeFurnitureCount;
                 capacityFurnitureCount = b.InBuildingData._currentCapacityFurnitureCount;
             }
             
@@ -84,7 +84,7 @@ public class SaveManager : MonoBehaviour
                 currentLevel = level,
                 CurrentUseCount = useCount,
                 BuildingGold = gold,
-                FurnitureCount = furnitureCount,
+                FeeFurnitureCount = furnitureCount,
                 CapacityFurnitureCount = capacityFurnitureCount
                 // currentStat = b.InBuildingData.stat; // 필요시 스탯 추가
             };

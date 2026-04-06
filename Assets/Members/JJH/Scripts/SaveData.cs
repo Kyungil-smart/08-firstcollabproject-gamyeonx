@@ -29,7 +29,7 @@ public class BuildingSaveData
 
     public int BuildingGold;
 
-    public int FurnitureCount;
+    public int FeeFurnitureCount;
 
     public int CapacityFurnitureCount;
     // public float currentStat; // 필요시 스탯 추가
