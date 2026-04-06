@@ -35,6 +35,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Members/SGH/TestScenes/TestScenes/TestMainScenes.unity
     guid: 040336be917849c4ca2d68b83fed4330
+  - enabled: 1
+    path: Assets/Scenes/Ending/Ending Scene.unity
+    guid: dae78060f7ec20f4d9b534eda542646a
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 4d4b862bda85c934ebe032ad408ed6f0, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
