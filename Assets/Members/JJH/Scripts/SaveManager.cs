@@ -65,12 +65,16 @@ public class SaveManager : MonoBehaviour
             int level = 1;
             int useCount = 4;
             int gold = 100;
+            int furnitureCount = 0;
+            int capacityFurnitureCount = 0;
             
             if (b.InBuildingData != null)
             {
                 level = b.InBuildingData.currentLevel;
                 useCount = b.InBuildingData._currentUseCount;
-                //gold = b.InBuildingData.FacilityRuntime.GetPrice();
+                gold = b.InBuildingData.FacilityRuntime.FurnitureGold;
+                furnitureCount = b.InBuildingData._currentFurnitureCount;
+                capacityFurnitureCount = b.InBuildingData._currentCapacityFurnitureCount;
             }
             
             BuildingSaveData bData = new BuildingSaveData {
@@ -79,7 +83,9 @@ public class SaveManager : MonoBehaviour
                 rotateCount = b.rotateCount,
                 currentLevel = level,
                 CurrentUseCount = useCount,
-                BuildingGold = gold
+                BuildingGold = gold,
+                FurnitureCount = furnitureCount,
+                CapacityFurnitureCount = capacityFurnitureCount
                 // currentStat = b.InBuildingData.stat; // 필요시 스탯 추가
             };
             data.Buildings.Add(bData);

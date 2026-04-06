@@ -53,12 +53,12 @@ public class InBuildingData : MonoBehaviour
     [Header("가구 정보")]
     [SerializeField] private FurnitureData _capacityFurnitureData; // 수용성 가구 데이터
     [SerializeField] private FurnitureData _feeFurnitureData;      // 수익성 가구 데이터
-    [SerializeField] private int _currentFurnitureCount = 0;
+    public int _currentFurnitureCount = 0;
     [SerializeField] private int _MaxFurnitureCount = 6;
     
     [Header("수용형 가구 개수 최대치")]
     [SerializeField] private int _maxCapacityFurnitureCount = 3;
-    [SerializeField] private int _currentCapacityFurnitureCount = 0;
+    public int _currentCapacityFurnitureCount = 0;
     
     [Header("수익형 가구 개수")]
     [SerializeField] private int _currentFeeFurnitureCount = 0;
@@ -458,17 +458,19 @@ public class InBuildingData : MonoBehaviour
             _UpgradeExpandArea.SetActive(true);
         }
 
-        /*
-        _facilityRuntime.Gold = price;
-        */
+
+        _facilityRuntime.FurnitureGold = price;
+
 
         Debug.Log("[InBuildingData] SetLevelPrice의 price 직접 대입 기능은 사용하지 않습니다. 가격은 SO 기준입니다.");
         InBuildingWhiteTilesCreate();
     }
 
-    public void SetCurrentUseCount(int count)
+    public void SetCurrentCount(int useCount, int furnitureCount, int capacityFurnitureCount)
     {
-        _currentUseCount = count;
+        _currentUseCount = useCount;
+        _currentFurnitureCount = furnitureCount;
+        _currentCapacityFurnitureCount = capacityFurnitureCount;
     }
 }
 
