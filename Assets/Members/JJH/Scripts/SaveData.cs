@@ -28,6 +28,10 @@ public class BuildingSaveData
     public int CurrentUseCount; // 내부 건물 UseCount
 
     public int BuildingGold;
+
+    public int FurnitureCount;
+
+    public int CapacityFurnitureCount;
     // public float currentStat; // 필요시 스탯 추가
 }
 

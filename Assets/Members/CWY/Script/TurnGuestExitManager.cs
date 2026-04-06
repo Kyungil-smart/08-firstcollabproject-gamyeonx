@@ -18,7 +18,6 @@ public class TurnGuestExitManager : MonoBehaviour
     private readonly HashSet<GuestController> _aliveGuests = new HashSet<GuestController>();
 
     [SerializeField] private TurnEndUI _turnEndUI;
-
     private void Awake()
     {
         if (_gameTime == null)
@@ -69,7 +68,7 @@ public class TurnGuestExitManager : MonoBehaviour
         _hasFinishedTurn = false;
         _aliveGuests.Clear();
 
-        Debug.Log("턴 상태 초기화");
+        Debug.Log("[TurnGuestExitManager] 턴 상태 초기화");
     }
 
     public void RegisterGuest(GuestController guest)
@@ -85,13 +84,13 @@ public class TurnGuestExitManager : MonoBehaviour
         }
 
         _aliveGuests.Add(guest);
-        Debug.Log($"손님 등록 | Count={_aliveGuests.Count}");
+        Debug.Log($"[TurnGuestExitManager] 손님 등록 | Count={_aliveGuests.Count}");
     }
 
     private void StartTurnEnding()
     {
         _hasTurnEnded = true;
-        Debug.Log("3분 도달 -> 턴 종료 시작");
+        Debug.Log("[TurnGuestExitManager] 3분 도달 -> 턴 종료 시작");
 
         foreach (GuestController guest in _aliveGuests)
         {
@@ -109,7 +108,7 @@ public class TurnGuestExitManager : MonoBehaviour
     private void ForceCloseTurn()
     {
         _hasForceClosed = true;
-        Debug.Log("4분 도달 -> 강제 종료");
+        Debug.Log("[TurnGuestExitManager] 4분 도달 -> 강제 종료");
 
         List<GuestController> guests = new List<GuestController>(_aliveGuests);
 
@@ -135,7 +134,7 @@ public class TurnGuestExitManager : MonoBehaviour
 
         if (_aliveGuests.Remove(guest))
         {
-            Debug.Log($"손님 제거 감지 | Count={_aliveGuests.Count}");
+            Debug.Log($"[TurnGuestExitManager] 손님 제거 감지 | Count={_aliveGuests.Count}");
         }
 
         TryFinishTurn();
@@ -164,6 +163,7 @@ public class TurnGuestExitManager : MonoBehaviour
         }
 
         _hasFinishedTurn = true;
+        Debug.Log("[TurnGuestExitManager] 영업 종료 -> 다음 주차 테스트 시작");
 
         if (_turnEndUI != null)
         {

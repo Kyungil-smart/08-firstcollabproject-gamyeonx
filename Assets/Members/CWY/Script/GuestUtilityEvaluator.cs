@@ -33,6 +33,7 @@ public class GuestUtilityEvaluator
 
         if (facilityRegistry == null)
         {
+            Debug.LogWarning("[GuestUtilityEvaluator] FacilityRegistry가 없습니다.");
             return false;
         }
 
@@ -94,9 +95,10 @@ public class GuestUtilityEvaluator
                 return true;
             }
 
+            Debug.Log($"[GuestUtilityEvaluator] Value={currentValue} 그룹에서 선택 가능한 시설이 없어 다음 우선순위 검사");
         }
 
-        Debug.Log("설치된 시설 또는 잠금 해제된 시설이 없어 선택 실패");
+        Debug.Log("[GuestUtilityEvaluator] 설치된 시설 또는 잠금 해제된 시설이 없어 선택 실패");
         return false;
     }
 

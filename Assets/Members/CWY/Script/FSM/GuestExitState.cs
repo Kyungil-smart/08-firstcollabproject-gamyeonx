@@ -44,6 +44,6 @@ public class GuestExitState : IGuestState
 
     public void Exit()
     {
-        Debug.Log("[GuestExitState] Επΐε");
+        Debug.Log("[GuestExitState] Exit");
     }
 }

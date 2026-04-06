@@ -49,6 +49,10 @@ public class GameTime : MonoBehaviour
                     _nightImageObject.SetActive(true);
                 }
             }
+
+            // 중요:
+            // 기존처럼 180초에 자동으로 다음 주차로 넘기지 않는다.
+            // 턴 종료 및 다음 주차 이동은 TurnGuestExitManager가 담당한다.
         }
     }
 
@@ -74,6 +78,9 @@ public class GameTime : MonoBehaviour
         UserTime += Time.deltaTime;
     }
 
+    // 테스트용:
+    // 손님이 모두 퇴장했거나 4분 강제 종료가 끝나면
+    // TurnGuestExitManager가 이 함수를 호출해서 다음 주차로 넘긴다.
     public void HandleTurnFinishedForTest()
     {
         _userTime = 0f;
@@ -100,6 +107,5 @@ public class GameTime : MonoBehaviour
         _nightImageObject.SetActive(false);
         UserWeek++;
         SaveManager.Instance.Save();
-        Debug.Log($"[GameTime] 다음 주차로 이동 | CurrentWeek={_userWeek}");
     }
 }

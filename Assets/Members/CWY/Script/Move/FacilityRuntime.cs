@@ -81,6 +81,7 @@ public class FacilityRuntime : MonoBehaviour
 
             if (GridBuildingSystem.Instance == null || GridBuildingSystem.Instance.gridLayout == null)
             {
+                Debug.LogWarning("[FacilityRuntime] GridBuildingSystem 또는 gridLayout이 없습니다.");
                 return Vector3Int.zero;
             }
 
@@ -115,6 +116,7 @@ public class FacilityRuntime : MonoBehaviour
     {
         if (_inBuildingData == null)
         {
+            Debug.LogWarning($"[FacilityRuntime] InBuildingData가 비어 있습니다. name={name}");
             return;
         }
 
@@ -171,7 +173,7 @@ public class FacilityRuntime : MonoBehaviour
 
         HandleUsePivotsChanged(_inBuildingData.GetUsePivots());
 
-        Debug.Log($"FacilityID={_facilityID}, FacilityType={_facilityType}, UsageFee={UsageFee}");
+        Debug.Log($"[FacilityRuntime] 초기화 완료 | FacilityID={_facilityID}, FacilityType={_facilityType}, UsageFee={UsageFee}");
     }
 
     private void OnDisable()
@@ -193,7 +195,7 @@ public class FacilityRuntime : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(facilityID))
         {
-            Debug.LogWarning("facilityID가 비어 있습니다.");
+            Debug.LogWarning("[FacilityRuntime] InitializeFacility 실패 - facilityID가 비어 있습니다.");
             return;
         }
 
@@ -211,6 +213,8 @@ public class FacilityRuntime : MonoBehaviour
         {
             FacilityRegistry.Instance.RegisterFacility(this);
         }
+
+        Debug.Log($"[FacilityRuntime] 시설 초기화 완료 | OldID={oldFacilityID}, NewID={_facilityID}, FacilityType={_facilityType}, UsageFee={UsageFee}");
     }
 
     private void SubscribeDatabase()
@@ -243,11 +247,13 @@ public class FacilityRuntime : MonoBehaviour
     {
         if (_facilityEffectDatabase == null)
         {
+            Debug.LogWarning($"[FacilityRuntime] FacilityEffectDatabaseSO가 없습니다. FacilityID={_facilityID}");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(_facilityID))
         {
+            Debug.LogWarning("[FacilityRuntime] FacilityID가 비어 있습니다.");
             return;
         }
 
@@ -255,6 +261,7 @@ public class FacilityRuntime : MonoBehaviour
 
         if (row == null)
         {
+            Debug.LogWarning($"[FacilityRuntime] FacilityEffectRow를 찾지 못했습니다. FacilityID={_facilityID}");
             return;
         }
 
@@ -318,6 +325,7 @@ public class FacilityRuntime : MonoBehaviour
 
         if (guest == null)
         {
+            Debug.LogWarning("[FacilityRuntime] TryRequestUse 실패 - guest가 null입니다.");
             return false;
         }
 
@@ -334,6 +342,7 @@ public class FacilityRuntime : MonoBehaviour
             AssignSlot(guest, emptySlot);
             assignedUsePoint = emptySlot;
 
+            Debug.Log($"[FacilityRuntime] 즉시 이용 배정 | Guest={guest.name}, Slot={emptySlot.name}");
             return true;
         }
 
@@ -342,12 +351,14 @@ public class FacilityRuntime : MonoBehaviour
             if (!IsGuestAlreadyQueued(guest))
             {
                 _waitQueue.Enqueue(guest);
+                Debug.Log($"[FacilityRuntime] 대기열 등록 | Guest={guest.name}, QueueCount={_waitQueue.Count}");
             }
 
             isQueued = true;
             return true;
         }
 
+        Debug.Log($"[FacilityRuntime] 이용 실패 | Guest={guest.name}");
         return false;
     }
 
@@ -474,6 +485,11 @@ public class FacilityRuntime : MonoBehaviour
             emptySlot = GetEmptyUseSlot();
         }
     }
+
+    // ------------------------------
+    // 기존 테스트용 가격 조작 코드
+    // 최종 구조에서는 SO 기준으로만 사용하므로 주석 처리
+    // ------------------------------
 
     /*
     public int Gold;

@@ -371,9 +371,13 @@ public class GridBuildingSystem : MonoBehaviour
                 {
                     if (_saveframeCount != Time.frameCount)
                     {
-                        SetTileType(pos, TileType.FeeFurniture);
+                        if (SaveManager.Instance.LoadMap)
+                        {
+                            SetTileType(pos, TileType.FeeFurniture);
+                            _saveframeCount = Time.frameCount;
+                            continue;
+                        }
                         _currentInBuildingData.TryAssignProfitableFurniture();
-                        _saveframeCount = Time.frameCount;
                     }
                 }
                 else if (_temp.buildType == BuildType.CapacityFurniture) // 수용성 가구 오브젝트
@@ -569,7 +573,7 @@ public class GridBuildingSystem : MonoBehaviour
         if (_temp.InBuildingData != null)
         {
             _temp.InBuildingData.SetLevelPrice(bData.currentLevel, bData.BuildingGold);
-            _temp.InBuildingData.SetCurrentUseCount(bData.CurrentUseCount);
+            _temp.InBuildingData.SetCurrentCount(bData.CurrentUseCount, bData.FurnitureCount, bData.CapacityFurnitureCount);
         }
 
         _temp.Place();

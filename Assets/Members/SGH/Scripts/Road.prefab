@@ -240,6 +240,7 @@ MonoBehaviour:
   pivot: {fileID: 9083954952997580163}
   rotateCount: 0
   _facilityType: 0
+  furnitureTouchType: 0
   IsMenuOpen: 0
 --- !u!61 &-3246199821296216655
 BoxCollider2D:
@@ -272,7 +273,7 @@ BoxCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}

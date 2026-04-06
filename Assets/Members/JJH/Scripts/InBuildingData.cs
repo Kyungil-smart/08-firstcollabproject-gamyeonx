@@ -58,7 +58,7 @@ public class InBuildingData : MonoBehaviour
     
     [Header("수용형 가구 개수 최대치")]
     [SerializeField] private int _maxCapacityFurnitureCount = 3;
-    [SerializeField] private int _currentCapacityFurnitureCount = 0;
+    public int _currentCapacityFurnitureCount = 0;
     
     [Header("수익형 가구 개수")]
     [SerializeField] private int _currentFeeFurnitureCount = 0;
@@ -475,16 +475,26 @@ public class InBuildingData : MonoBehaviour
             _UpgradeExpandArea.SetActive(true);
         }
 
-        /*
-        _facilityRuntime.Gold = price;
-        */
+
+        _facilityRuntime.FurnitureGold = price;
+
 
         Debug.Log("[InBuildingData] SetLevelPrice의 price 직접 대입 기능은 사용하지 않습니다. 가격은 SO 기준입니다.");
         InBuildingWhiteTilesCreate();
     }
 
-    public void SetCurrentUseCount(int count)
+    public void SetCurrentCount(int useCount, int furnitureCount, int capacityFurnitureCount)
     {
-        _currentUseCount = count;
+        _currentUseCount = useCount;
+        _currentFurnitureCount = furnitureCount;
+        _currentCapacityFurnitureCount = capacityFurnitureCount;
     }
 }
+
+/*
+유니티 적용 방법
+1. 기존 InBuildingData.cs를 이 코드로 교체합니다.
+2. Gold / UpgradePrice / DownGradePrice 관련 테스트 코드는 모두 막아둔 상태입니다.
+3. 이제 가격 관련 정보는 FacilityRuntime.UsageFee를 통해서만 확인하세요.
+4. 이후 업그레이드는 가격 증가가 아니라, 상위 시설 ID로 교체하는 방식으로 연결하면 됩니다.
+*/

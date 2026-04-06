@@ -90,7 +90,7 @@ public class GuestDataRow
             return parsedID;
         }
 
-        Debug.LogWarning($"[GuestDataRow] VisitorID 실패 | value={value}");
+        Debug.LogWarning($"[GuestDataRow] VisitorID 파싱 실패 | value={value}");
         return 0;
     }
 
@@ -101,7 +101,7 @@ public class GuestDataRow
             return result;
         }
 
-        Debug.LogWarning($"[GuestDataRow] int 실패 | value={value}");
+        Debug.LogWarning($"[GuestDataRow] int 파싱 실패 | value={value}");
         return 0;
     }
 

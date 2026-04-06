@@ -11,7 +11,7 @@ public class GuestSpawner : MonoBehaviour
     [Header("입장 가능 시간")]
     [SerializeField] private float _spawnOpenDuration = 60f;
 
-    [Header("턴 전체 시간")]
+    [Header("턴 전체 시간 (GameTime 수정 없이 임시 사용)")]
     [SerializeField] private float _turnDuration = 180f;
 
     [Header("정규분포 예약 스폰 설정")]
@@ -25,14 +25,13 @@ public class GuestSpawner : MonoBehaviour
     [Header("디버그")]
     [SerializeField] private bool _enableDebugLog = true;
 
-    [SerializeField] private TurnEndUI _turnEndUI;
-
     private bool _wasSpawnWindowOpen;
     private bool _wasTurnInitialized;
 
     private readonly List<float> _spawnTimes = new List<float>();
     private int _nextSpawnIndex;
 
+    [SerializeField] private TurnEndUI _turnEndUI;
     private void Awake()
     {
         if (_gameTime == null)
@@ -116,13 +115,13 @@ public class GuestSpawner : MonoBehaviour
 
         if (_guestDataDatabase == null)
         {
-            Debug.LogWarning("GuestDataDatabaseSO가 비어 있습니다.");
+            Debug.LogWarning("[GuestSpawner] GuestDataDatabaseSO가 비어 있습니다.");
             return;
         }
 
         if (GuestPoolManager.Instance == null)
         {
-            Debug.LogWarning("없습니다.");
+            Debug.LogWarning("[GuestSpawner] GuestPoolManager.Instance가 없습니다.");
             return;
         }
 
@@ -153,6 +152,7 @@ public class GuestSpawner : MonoBehaviour
     {
         if (EventManager.Instance == null)
         {
+            Debug.LogWarning("[GuestSpawner] EventManager가 없어 스폰 보너스를 0으로 처리합니다.");
             return 0;
         }
 
@@ -219,7 +219,7 @@ public class GuestSpawner : MonoBehaviour
     {
         if (GuestPoolManager.Instance == null)
         {
-            Debug.LogWarning("스폰할 수 없습니다.");
+            Debug.LogWarning("[GuestSpawner] GuestPoolManager.Instance가 없어 스폰할 수 없습니다.");
             return null;
         }
 
@@ -227,7 +227,7 @@ public class GuestSpawner : MonoBehaviour
 
         if (visitorID <= 0)
         {
-            Debug.LogWarning("VisitorID를 찾지 못했습니다.");
+            Debug.LogWarning("[GuestSpawner] 유효한 VisitorID를 찾지 못했습니다.");
             return null;
         }
 
@@ -235,7 +235,7 @@ public class GuestSpawner : MonoBehaviour
 
         if (guestObject == null)
         {
-            Debug.LogWarning("Guest를 가져오지 못했습니다.");
+            Debug.LogWarning("[GuestSpawner] 풀에서 Guest를 가져오지 못했습니다.");
             return null;
         }
 
@@ -243,13 +243,13 @@ public class GuestSpawner : MonoBehaviour
 
         if (guestController == null)
         {
-            Debug.LogWarning("GuestController가 없습니다.");
+            Debug.LogWarning("[GuestSpawner] 풀에서 꺼낸 오브젝트에 GuestController가 없습니다.");
             GuestPoolManager.Instance.ReturnGuest(guestObject);
             return null;
         }
 
         guestController.SetupSpawn(visitorID);
-
+        //추가
         _turnEndUI.AddVisitor();
 
         if (_turnGuestExitManager != null)
@@ -277,6 +277,7 @@ public class GuestSpawner : MonoBehaviour
 
         if (rows == null || rows.Count == 0)
         {
+            Debug.LogWarning("[GuestSpawner] GuestDataRows가 비어 있습니다.");
             return -1;
         }
 
