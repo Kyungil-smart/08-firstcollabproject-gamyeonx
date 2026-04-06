@@ -351,6 +351,7 @@ public class GridBuildingSystem : MonoBehaviour
 
     // 설치 관련 메서드
     public void TakeArea(BoundsInt area)
+    
     {
         foreach (var pos in area.allPositionsWithin)
         {
@@ -386,6 +387,12 @@ public class GridBuildingSystem : MonoBehaviour
                 {
                     if (_saveframeCount != Time.frameCount) //TakeArea가 한 프레임 내에 두번 호출돼서 한 번만 하게끔
                     {
+                        if (SaveManager.Instance.LoadMap)
+                        {
+                            SetTileType(pos, TileType.CapacityFurniture);
+                            continue;
+                        }
+                        
                         if (_currentInBuildingData.TryAssignCapacityFurniture())
                             SetTileType(pos, TileType.CapacityFurniture);
 
