@@ -283,6 +283,14 @@ MonoBehaviour:
     m_Localized: This action cannot be undone
     m_Metadata:
       m_Items: []
+  - m_Id: 2901399758422016
+    m_Localized: Are you sure you want to demolish this building?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2901399800365056
+    m_Localized: This action cannot be undone
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
