@@ -81,6 +81,10 @@ public class GridBuildingSystem : MonoBehaviour
     public int UnlockRevenue { get; private set; }
     // 수용성 가구용 boolType
     public bool IsCanPlacing { get; private set; }
+    // 최대 가구 배치 가능 개수
+    public int MaxFurnitureCount { get; private set; }
+    // 현재 가구 개수
+    public int CurrentFurnitureCount { get; private set; }
     
 
     private void Awake()
@@ -202,17 +206,23 @@ public class GridBuildingSystem : MonoBehaviour
             case BuildType.CapacityFurniture:
                 GoldAmount = _currentInBuildingData.CapacityFurnitureData.interiorPrice;
                 UnlockRevenue = 0;
+                MaxFurnitureCount = _currentInBuildingData.MaxFurnitureCount;
+                CurrentFurnitureCount = _currentInBuildingData.CurrentFurnitureCount;
                 Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {GoldAmount}");
                 break;
             case BuildType.FeeFurniture:
                 GoldAmount = _currentInBuildingData.FeeFurnitureData.interiorPrice;
                 UnlockRevenue = 0;
+                MaxFurnitureCount = _currentInBuildingData.MaxFurnitureCount;
+                CurrentFurnitureCount = _currentInBuildingData.CurrentFurnitureCount;
+                IsCanPlacing = true;
                 Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {GoldAmount}");
                 break;
             case BuildType.Building:
                 FacilityRuntime facilityRuntime = building.GetComponent<FacilityRuntime>();
                 GoldAmount = EffectDatabase.GetBuildCostByFacilityID(facilityRuntime.FacilityID);
                 UnlockRevenue = EffectDatabase.GetUnlockRevenueByFacilityID(facilityRuntime.FacilityID);
+                IsCanPlacing = true;
                 Debug.Log($"체크 스위치 문 : 시설 / 가구 비용 : {GoldAmount}");
                 break;
             default:
@@ -251,6 +261,8 @@ public class GridBuildingSystem : MonoBehaviour
         if (buildingType.buildType == BuildType.CapacityFurniture)
         {
             GoldAmount = _currentInBuildingData.CapacityFurnitureData.interiorPrice;
+            MaxFurnitureCount = _currentInBuildingData.MaxFurnitureCount;
+            CurrentFurnitureCount = _currentInBuildingData.CurrentFurnitureCount;
             UnlockRevenue = 0;
             Debug.Log($"가구 비용 : {GoldAmount}");
             if (GoldAmount > GoldTest.Instance._testGold) // 소지한 Gold가 설치비용보다 작다면 return
