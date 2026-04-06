@@ -249,7 +249,7 @@ public class GuestSpawner : MonoBehaviour
         }
 
         guestController.SetupSpawn(visitorID);
-
+        //Ãß°¡
         _turnEndUI.AddVisitor();
 
         if (_turnGuestExitManager != null)

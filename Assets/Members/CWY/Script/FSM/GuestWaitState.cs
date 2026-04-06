@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class GuestWaitState : IGuestState
 {
-    // 상태 전환 및 데이터 접근용 컨트롤러 참조
     private readonly GuestController _controller;
 
     public GuestWaitState(GuestController controller)

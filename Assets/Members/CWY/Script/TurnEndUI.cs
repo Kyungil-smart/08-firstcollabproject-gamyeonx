@@ -13,11 +13,9 @@ public class TurnEndUI : MonoBehaviour
 
     [Header("참조 스크립트")]
     [SerializeField] private GameTime _gameTime;
-    [SerializeField] private TurnGuestExitManager _turnGuestExitManager;
 
     private int _todayVisitorCount; // 이번 턴에 방문한 손님 수
     private int _turnIncome; // 이번 턴에 얻은 수입
-    private int _totalIncome; // 게임 전체에서 얻은 수입
 
     private void Awake()
     {
@@ -52,17 +50,16 @@ public class TurnEndUI : MonoBehaviour
         }
 
         _turnIncome += amount;
-        _totalIncome += amount;
-
-        Debug.Log("수익 증가 | Turn Income=" + _turnIncome + " | Total Income=" + _totalIncome);
     }
 
     public void Show()
     {
+        int totalIncome = GoldTest.Instance != null ? GoldTest.Instance.IncreasedGold : 0;
         _turnVisitorText.text = $"이번 턴 방문자 수: {_todayVisitorCount}";
         _turnInComeText.text = $"이번 턴 수입: {_turnIncome}원";
-        _TotalcomeText.text = $"총 수입: {_totalIncome}원";
+        _TotalcomeText.text = $"총 수입: {totalIncome}원";
 
+        Time.timeScale = 0f;
         _root.SetActive(true);
 
         Debug.Log("턴 종료 UI 표시");
@@ -70,7 +67,8 @@ public class TurnEndUI : MonoBehaviour
 
     private void HandleClickNextWeekButton()
     {
-        if(_root != null)
+        Time.timeScale = 1f;
+        if (_root != null)
         {
             _root.SetActive(false);
         }
