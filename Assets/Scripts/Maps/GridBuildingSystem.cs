@@ -585,7 +585,11 @@ public class GridBuildingSystem : MonoBehaviour
             return;
         }
 
-        if (!CanTakeArea(_temp.area)) return;
+        if (!CanTakeArea(_temp.area))
+        {
+            UIManager.Instance.OnClickBuildTouchUICancel();
+            return;
+        }
 
         TakeArea(_temp.area);
         _temp.Place();
