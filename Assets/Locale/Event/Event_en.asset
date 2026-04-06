@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Event_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 9705a7deceacdd04db08bbc56f6aff49, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 3022234210304
+    m_Localized: OK!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 145428205568
+    m_Localized: You've got a great merchant. This week's sales buffs will be activated!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 233265319936
+    m_Localized: The facility inspection period is back. During this week, the maintenance
+      costs of the building will temporarily increase.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 451708866560
+    m_Localized: The Village Festival begins! All cases' sales go up.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 549507452928
+    m_Localized: What a thriving town! There is a huge increase in the chances of
+      high-tier visitors coming.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 670173384704
+    m_Localized: The base is open normally! Now visitors are coming!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 834766262272
+    m_Localized: Village Operations Are Back on a Steady Track! The volume of goods
+      acquired increases.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 915020075008
+    m_Localized: It's been rumored among adventurers! Visitors are increasing this
+      week.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1002764914688
+    m_Localized: It has gained worldwide fame! The legendary warrior is visiting!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1152056971264
+    m_Localized: "The Village Has Grown! The construction of the new building [caf\xE9]
+      has been unlocked."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1210689146880
+    m_Localized: "Customers want a better store. [Caf\xE9] can be upgraded to level
+      2."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1256037961728
+    m_Localized: "Customers want a better store. [Caf\xE9] can be upgraded to level
+      3."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1417275396096
+    m_Localized: Don't spare your investment! [Hot Spring Level 2] Upgrade and new
+      building [Restaurant] has been lifted.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1543951765504
+    m_Localized: Don't spare your investment! [Hot Spring] Level 3 upgrade has been
+      lifted,
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2022362468352
+    m_Localized: Customers want a better restaurant. You can upgrade your [restaurant]
+      to level 2!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2103924903936
+    m_Localized: Let's sell various items. The construction of the new building [store]
+      has been unlocked.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2182870093824
+    m_Localized: Professional services are available! [Store] Level 2 upgrades and
+      [Restaurant] Level 3 upgrades have been lifted.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2710362542080
+    m_Localized: Professional service is available! [Shop] Level 3 upgrade is lifted!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2797713117184
+    m_Localized: You can get a powerful adventurer as a guest! [Training ground]
+      is newly released!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2847101046784
+    m_Localized: More adventurer visits! [Training ground] Level 2 upgrades lifted!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2900247072768
+    m_Localized: Word of mouth has spread among adventurers! [Training ground] Level
+      3 upgrade is lifted!
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

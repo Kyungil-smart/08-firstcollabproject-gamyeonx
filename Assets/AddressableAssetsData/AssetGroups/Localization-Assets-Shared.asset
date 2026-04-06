@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9705a7deceacdd04db08bbc56f6aff49
+    m_Address: Assets/Locale/Event/Event Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 98679971aad463f44b192884d905812a
     m_Address: Assets/Locale/Tables/ProjectAssetTable Shared Data.asset
     m_ReadOnly: 1
