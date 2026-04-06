@@ -237,16 +237,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 71295430}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1147981949}
+  m_Father: {fileID: 594270759}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 776, y: -100}
+  m_AnchoredPosition: {x: 100, y: -100}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &71295432
@@ -1311,7 +1311,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 298779648}
+      - m_Target: {fileID: 1147981951}
         m_TargetAssemblyTypeName: LocaleManager, Assembly-CSharp
         m_MethodName: ChangeLocale
         m_Mode: 3
@@ -1386,7 +1386,6 @@ GameObject:
   - component: {fileID: 298779644}
   - component: {fileID: 298779643}
   - component: {fileID: 298779647}
-  - component: {fileID: 298779648}
   - component: {fileID: 298779649}
   m_Layer: 5
   m_Name: Setting Canvas
@@ -1493,18 +1492,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameSettingUI
   _backButton: {fileID: 1267160615}
   cameraController: {fileID: 0}
---- !u!114 &298779648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 298779642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c2c81f433cb2554788ed62c1d63579e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LocaleManager
 --- !u!114 &298779649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2460,6 +2447,7 @@ RectTransform:
   - {fileID: 1242963443}
   - {fileID: 1691745662}
   - {fileID: 962580174}
+  - {fileID: 71295431}
   m_Father: {fileID: 1147981949}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3734,7 +3722,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 298779648}
+      - m_Target: {fileID: 1147981951}
         m_TargetAssemblyTypeName: LocaleManager, Assembly-CSharp
         m_MethodName: ChangeLocale
         m_Mode: 3
@@ -4316,6 +4304,8 @@ GameObject:
   - component: {fileID: 1147981947}
   - component: {fileID: 1147981946}
   - component: {fileID: 1147981950}
+  - component: {fileID: 1147981951}
+  - component: {fileID: 1147981952}
   m_Layer: 5
   m_Name: Main Canvas
   m_TagString: Untagged
@@ -4400,7 +4390,6 @@ RectTransform:
   m_Children:
   - {fileID: 449646076}
   - {fileID: 594270759}
-  - {fileID: 71295431}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4429,6 +4418,31 @@ MonoBehaviour:
   _settingCanvas: {fileID: 298779642}
   _quitCanvas: {fileID: 789691058304269126}
   cameraController: {fileID: 0}
+--- !u!114 &1147981951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147981945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c2c81f433cb2554788ed62c1d63579e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocaleManager
+--- !u!114 &1147981952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147981945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2988aa99721319541817307c2b1abc4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TitleUIForLocale
+  uiRoot: {fileID: 594270758}
 --- !u!1 &1165715894
 GameObject:
   m_ObjectHideFlags: 0
@@ -6816,7 +6830,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 267.81, y: -233}
+  m_AnchoredPosition: {x: 320, y: -233}
   m_SizeDelta: {x: 365, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1639447582

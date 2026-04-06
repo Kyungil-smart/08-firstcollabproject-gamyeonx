@@ -15,8 +15,8 @@ MonoBehaviour:
   m_StartupSelectors:
   - rid: 5086423911948353725
   - rid: 5086423911948353726
-  - rid: 5086423911948353749
   - rid: 5086423911948353727
+  - rid: 5086423911948353749
   m_AvailableLocales:
     rid: 5086423911948353728
   m_AssetDatabase:
@@ -26,9 +26,9 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_ProjectLocaleIdentifier:
-    m_Code: en
-  m_PreloadBehavior: 1
-  m_InitializeSynchronously: 0
+    m_Code: ko
+  m_PreloadBehavior: 3
+  m_InitializeSynchronously: 1
   references:
     version: 2
     RefIds:
