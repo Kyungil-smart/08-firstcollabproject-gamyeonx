@@ -120,7 +120,8 @@ public class GridBuildingSystem : MonoBehaviour
 
         if (_temp.buildType == BuildType.Road)
         {
-            HandleRoadTouch();
+            if (!_temp.Placed)
+                HandleRoadTouch();
         }
         else if (!_temp.Placed)
         {
@@ -142,17 +143,23 @@ public class GridBuildingSystem : MonoBehaviour
         {
             case TouchPhase.Began:
                 _isDrawingRoad = true;
-                ClearTempRoads(); // 시작 전 이전 프리뷰 삭제
+                ClearTempRoads();
                 _roadPathPositions.Clear();
 
-                if (_roadPathPositions.Add(cellPos))
+                bool canPlaceBegan = !occupied.Contains(cellPos) &&
+                                     MainTilemap.GetTile(cellPos) == _tileBases[ETileType.White];
+
+                if (canPlaceBegan && _roadPathPositions.Add(cellPos))
                     CreateRoadPreview(cellPos);
                 break;
 
             case TouchPhase.Moved:
                 if (_isDrawingRoad)
                 {
-                    if (_roadPathPositions.Add(cellPos)) // 새로운 칸에 진입했다면
+                    bool canPlace = !occupied.Contains(cellPos) &&
+                                    MainTilemap.GetTile(cellPos) == _tileBases[ETileType.White];
+
+                    if (canPlace && _roadPathPositions.Add(cellPos))
                     {
                         CreateRoadPreview(cellPos);
                     }
@@ -578,7 +585,11 @@ public class GridBuildingSystem : MonoBehaviour
             return;
         }
 
-        if (!CanTakeArea(_temp.area)) return;
+        if (!CanTakeArea(_temp.area))
+        {
+            UIManager.Instance.OnClickBuildTouchUICancel();
+            return;
+        }
 
         TakeArea(_temp.area);
         _temp.Place();
@@ -616,6 +627,7 @@ public class GridBuildingSystem : MonoBehaviour
         building.DestroyBuilding();
         _temp = null;
         TempTilemap.ClearAllTiles();
+        MainTilemap.RefreshAllTiles();
     }
 
     // 건물내에서 클릭한 건물에 메뉴 뜨게하는 코드. (프리펩으로 되어 있어 싱글톤인 그리드 시스템 이용)
@@ -656,7 +668,11 @@ public class GridBuildingSystem : MonoBehaviour
 
     public void OnClickSetRoadMenu(GameObject buildingObj)
     {
-        if (UIManager.Instance.OpenMenu == true) return;
+        if (UIManager.Instance.OpenMenu)
+        {
+            RoadDelMenu.SetActive(false);
+            UIManager.Instance.OpenMenu = false;
+        }
         _temp = buildingObj.GetComponent<Building>(); // 클릭한 건물의 정보를 삭제를 위해 담음
         RoadDelMenu.SetActive(true);
         UIManager.Instance.OpenMenu = true;
