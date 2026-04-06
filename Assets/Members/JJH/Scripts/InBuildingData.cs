@@ -53,20 +53,22 @@ public class InBuildingData : MonoBehaviour
     [Header("가구 정보")]
     [SerializeField] private FurnitureData _capacityFurnitureData; // 수용성 가구 데이터
     [SerializeField] private FurnitureData _feeFurnitureData;      // 수익성 가구 데이터
-    public int _currentFurnitureCount = 0;
-    [SerializeField] private int _MaxFurnitureCount = 6;
+    [SerializeField] private int _currentFurnitureCount = 0;
+    [SerializeField] private int _maxFurnitureCount = 3;
     
     [Header("수용형 가구 개수 최대치")]
     [SerializeField] private int _maxCapacityFurnitureCount = 3;
     public int _currentCapacityFurnitureCount = 0;
     
     [Header("수익형 가구 개수")]
-    [SerializeField] private int _currentFeeFurnitureCount = 0;
+    public int _currentFeeFurnitureCount = 0;
     
     public FurnitureData CapacityFurnitureData => _capacityFurnitureData;
     public FurnitureData FeeFurnitureData => _feeFurnitureData;
     public int MaxCapacityFurnitureCount => _maxCapacityFurnitureCount;
     public int currentCapacityFurnitureCount => _currentCapacityFurnitureCount;
+    public int MaxFurnitureCount => _maxFurnitureCount;
+    public int CurrentFurnitureCount => _currentFurnitureCount;
 
     private void Awake()
     {
@@ -145,12 +147,17 @@ public class InBuildingData : MonoBehaviour
     }
 
     // 수용성 가구의 현재 개수를 늘리고 최대치를 초과하면 false 반환
-    
     public bool TryAssignCapacityFurniture()
     {
         if (_currentCapacityFurnitureCount >= _maxCapacityFurnitureCount)
         {
             _currentCapacityFurnitureCount = _maxCapacityFurnitureCount;
+            return false;
+        }
+
+        if (_currentFurnitureCount >= _maxFurnitureCount)
+        {
+            _currentFurnitureCount = _maxFurnitureCount;
             return false;
         }
 
@@ -177,7 +184,7 @@ public class InBuildingData : MonoBehaviour
         {
             _currentFurnitureCount = 0;
         }
-
+        
         DecreaseUsePivots();
         Debug.Log($"수용형 가구 설치 개수 : {_currentCapacityFurnitureCount}");
     }
@@ -185,17 +192,18 @@ public class InBuildingData : MonoBehaviour
     
     public void TryAssignProfitableFurniture()
     {
-        if (_currentFeeFurnitureCount > 6)
+        if (_currentFeeFurnitureCount > _maxFurnitureCount)
         {
-            _currentFeeFurnitureCount = 6;
+            _currentFeeFurnitureCount = _maxFurnitureCount;
             return;
         }
 
-        if (_currentFeeFurnitureCount > _MaxFurnitureCount)
+        if (_currentFurnitureCount > _maxFurnitureCount)
         {
-            _currentFeeFurnitureCount = _MaxFurnitureCount;
+            _currentFurnitureCount = _maxFurnitureCount;
             return;
         }
+        
         _currentFeeFurnitureCount++;
         _currentFurnitureCount++;
         
@@ -215,8 +223,15 @@ public class InBuildingData : MonoBehaviour
             _currentFeeFurnitureCount = 0;
             return;
         }
+
+        if (_currentFurnitureCount < 0)
+        {
+            _currentFurnitureCount = 0;
+            return;
+        }
+        
         _currentFeeFurnitureCount--;
-        _currentFurnitureCount++;
+        _currentFurnitureCount--;
         
         int totalPay = _feeFurnitureData.interiorFeeGrowth * _currentFeeFurnitureCount;
         _facilityRuntime.FurnitureGold = totalPay;
@@ -275,6 +290,7 @@ public class InBuildingData : MonoBehaviour
         if (currentLevel == 1)
         {
             _UpgradeExpandArea.SetActive(true);
+            _maxFurnitureCount = 6;
 
             for (int i = 0; i < _upgradeWhiteAreaPivots.Count; i++)
             {
@@ -330,6 +346,7 @@ public class InBuildingData : MonoBehaviour
         }
 
         currentLevel++;
+        
     }
 
     private string GetUpgradedFacilityID(string currentFacilityID)
@@ -469,7 +486,7 @@ public class InBuildingData : MonoBehaviour
     public void SetCurrentCount(int useCount, int furnitureCount, int capacityFurnitureCount)
     {
         _currentUseCount = useCount;
-        _currentFurnitureCount = furnitureCount;
+        _currentFeeFurnitureCount = furnitureCount;
         _currentCapacityFurnitureCount = capacityFurnitureCount;
     }
 }

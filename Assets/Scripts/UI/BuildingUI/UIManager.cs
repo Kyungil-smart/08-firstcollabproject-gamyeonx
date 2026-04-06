@@ -335,6 +335,23 @@ public class UIManager : MonoBehaviour
 
     public void OnClickRestaurantBuildObjectButton()
     {
+        if (_gridBuildingSystem.GoldAmount > GoldTest.Instance._testGold)
+        {
+            Debug.Log($"[BuildTouchUI]골드가 부족합니다 {_gridBuildingSystem.GoldAmount}");
+            return;
+        }
+
+        if (!_gridBuildingSystem.IsCanPlacing)
+        {
+            Debug.Log("[BuildTouchUI]수용성 가구가 3개를 초과했습니다.");
+            return;
+        }
+
+        if (_gridBuildingSystem.CurrentFurnitureCount >= _gridBuildingSystem.MaxFurnitureCount)
+        {
+            Debug.Log($"[UIManagers]가구 배치 불가능 / 가구가 {_gridBuildingSystem.CurrentFurnitureCount}개 입니다.");
+            return;
+        }
         _restaurantBuildPanel.SetActive(false);
         _topUIPanel.SetActive(false);
         _restaurantTouchUIPanel.SetActive(true);
@@ -462,6 +479,23 @@ public class UIManager : MonoBehaviour
 
     public void OnClickHotSpringBuildObjectButton()
     {
+        if (_gridBuildingSystem.GoldAmount > GoldTest.Instance._testGold)
+        {
+            Debug.Log($"[BuildTouchUI]골드가 부족합니다 {_gridBuildingSystem.GoldAmount}");
+            return;
+        }
+
+        if (!_gridBuildingSystem.IsCanPlacing)
+        {
+            Debug.Log("[BuildTouchUI]수용성 가구가 3개를 초과했습니다.");
+            return;
+        }
+        
+        if (_gridBuildingSystem.CurrentFurnitureCount >= _gridBuildingSystem.MaxFurnitureCount)
+        {
+            Debug.Log($"[UIManagers]가구 배치 불가능 / 가구가 {_gridBuildingSystem.CurrentFurnitureCount}개 입니다.");
+            return;
+        }
         _hotSpringBuildPanel.SetActive(false);
         _topUIPanel.SetActive(false);
         _hotSpringTouchUIPanel.SetActive(true);
@@ -588,6 +622,23 @@ public class UIManager : MonoBehaviour
 
     public void OnClickTrainingGroundBuildObjectButton()
     {
+        if (_gridBuildingSystem.GoldAmount > GoldTest.Instance._testGold)
+        {
+            Debug.Log($"[BuildTouchUI]골드가 부족합니다 {_gridBuildingSystem.GoldAmount}");
+            return;
+        }
+
+        if (!_gridBuildingSystem.IsCanPlacing)
+        {
+            Debug.Log("[BuildTouchUI]수용성 가구가 3개를 초과했습니다.");
+            return;
+        }
+        
+        if (_gridBuildingSystem.CurrentFurnitureCount >= _gridBuildingSystem.MaxFurnitureCount)
+        {
+            Debug.Log($"[UIManagers]가구 배치 불가능 / 가구가 {_gridBuildingSystem.CurrentFurnitureCount}개 입니다.");
+            return;
+        }
         _trainingGroundBuildPanel.SetActive(false);
         _topUIPanel.SetActive(false);
         _trainingGroundTouchUIPanel.SetActive(true);
@@ -713,6 +764,23 @@ public class UIManager : MonoBehaviour
 
     public void OnClickShopBuildObjectButton()
     {
+        if (_gridBuildingSystem.GoldAmount > GoldTest.Instance._testGold)
+        {
+            Debug.Log($"[BuildTouchUI]골드가 부족합니다 {_gridBuildingSystem.GoldAmount}");
+            return;
+        }
+
+        if (!_gridBuildingSystem.IsCanPlacing)
+        {
+            Debug.Log("[BuildTouchUI]수용성 가구가 3개를 초과했습니다.");
+            return;
+        }
+        
+        if (_gridBuildingSystem.CurrentFurnitureCount >= _gridBuildingSystem.MaxFurnitureCount)
+        {
+            Debug.Log($"[UIManagers]가구 배치 불가능 / 가구가 {_gridBuildingSystem.CurrentFurnitureCount}개 입니다.");
+            return;
+        }
         _shopBuildPanel.SetActive(false);
         _topUIPanel.SetActive(false);
         _shopTouchUIPanel.SetActive(true);
@@ -838,6 +906,24 @@ public class UIManager : MonoBehaviour
 
     public void OnClickVendingMachineBuildObjectButton()
     {
+        if (_gridBuildingSystem.GoldAmount > GoldTest.Instance._testGold)
+        {
+            Debug.Log($"[BuildTouchUI]골드가 부족합니다 {_gridBuildingSystem.GoldAmount}");
+            return;
+        }
+
+        if (!_gridBuildingSystem.IsCanPlacing)
+        {
+            Debug.Log("[BuildTouchUI]수용성 가구가 3개를 초과했습니다.");
+            return;
+        }
+        
+        if (_gridBuildingSystem.CurrentFurnitureCount >= _gridBuildingSystem.MaxFurnitureCount)
+        {
+            Debug.Log($"[UIManagers]가구 배치 불가능 / 가구가 {_gridBuildingSystem.CurrentFurnitureCount}개 입니다.");
+            return;
+        }
+        
         _vendingMachineBuildPanel.SetActive(false);
         _topUIPanel.SetActive(false);
         _vendingMachineTouchUIPanel.SetActive(true);
