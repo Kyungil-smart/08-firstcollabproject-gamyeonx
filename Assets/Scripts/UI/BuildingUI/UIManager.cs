@@ -216,21 +216,23 @@ public class UIManager : MonoBehaviour
     public void OnClickRoadDemolishUIDemolish()
     {
         _roadDemolishUIPanel.SetActive(false);
-        // 치명적 버그 발견
-        //_RoadDemolishdoublecheckPanel.SetActive(true);
-        OpenMenu = false;
+        _RoadDemolishdoublecheckPanel.SetActive(true);
     }
 
     public void OnClickRoadDemolishUIBack()
     {
         _roadDemolishUIPanel.SetActive(false);
+        _buildButton.SetActive(true);
+        _topUIPanel.SetActive(true);
         OpenMenu = false;
+        Time.timeScale = 1;
     }
 
     public void OnClickRoadDemolishYes()
     {
         _RoadDemolishdoublecheckPanel.SetActive(false);
         OpenMenu = false;
+        Time.timeScale = 1;
     }
     public void OnClickRoadDemolishNo()
     {  
