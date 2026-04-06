@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 6933469259068330659}
   - component: {fileID: 5238077885863530459}
   m_Layer: 0
-  m_Name: CapacityFurniture 1
+  m_Name: Coffee Machine
   m_TagString: OByO
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

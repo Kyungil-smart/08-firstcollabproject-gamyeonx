@@ -326,13 +326,14 @@ MonoBehaviour:
   area:
     m_Position: {x: 0, y: 0, z: 0}
     m_Size: {x: 1, y: 1, z: 1}
-  buildType: 3
+  buildType: 4
   InBuildingData: {fileID: 0}
   InBuildingRoot: {fileID: 0}
   turnType: 0
   pivot: {fileID: 1254885943345794470}
   rotateCount: 0
   _facilityType: 0
+  furnitureTouchType: 0
   IsMenuOpen: 0
 --- !u!61 &4515432953137878291
 BoxCollider2D:
@@ -436,3 +437,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8a276ee1e927384cac5b581989d61d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingClick
+  furnitureTouchType: 0
