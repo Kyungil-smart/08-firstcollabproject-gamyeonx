@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Locale/Tables/ProjectTable_en.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Locale/Tables/ProjectTable_en.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Locale/Tables/ProjectTable_ko.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Locale/Tables/ProjectTable_ko.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/EventUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DungGeunMo SDF 1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DungGeunMo SDF 1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DungGeunMo SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DungGeunMo SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/MainUIText.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/MainUIText.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/NotoSansKR-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/NotoSansKR-Bold SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScenes.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScenes.unity" afterDir="false" />
-    </list>
+    <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
