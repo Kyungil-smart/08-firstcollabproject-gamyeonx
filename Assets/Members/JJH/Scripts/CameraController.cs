@@ -185,6 +185,29 @@ public class CameraController : MonoBehaviour
         }
         else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
         {
+            // ───────────── 길타일 우선 처리 ─────────────
+            if (!_isPanning)
+            {
+                Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
+                RaycastHit2D[] hits = Physics2D.RaycastAll(worldPos, Vector2.zero);
+
+                foreach (var hit in hits)
+                {
+                    var road = hit.collider?.GetComponent<Building>();
+                    if (road != null && road.buildType == BuildType.Road)
+                    {
+                        GridBuildingSystem.Instance._temp = road;
+                        if (!UIManager.Instance.OpenMenu)
+                        {
+                            RoadMenu.SetActive(true);
+                            UIManager.Instance.OpenMenu = true;
+                        }
+                        break; // 길타일 메뉴만 처리
+                    }
+                }
+            }
+
+            // ───────────── 기존 빌딩 로직은 그대로 ─────────────
             if (!_isPanning && _touchStartedOnBuilding)
             {
                 Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
@@ -192,26 +215,15 @@ public class CameraController : MonoBehaviour
                 Building building = hit.collider?.GetComponent<Building>();
                 if (building != null)
                 {
-                    // 이전 선택 건물 메뉴 닫기
                     Building previous = GridBuildingSystem.Instance._temp;
                     if (previous != null && previous != building && previous.IsMenuOpen)
                     {
                         previous.CloseMenu();
-                        GridBuildingSystem.Instance._temp = null; // 이전 메뉴 닫힌 후 초기화
+                        GridBuildingSystem.Instance._temp = null;
                     }
 
-                    // 새 건물 선택
                     GridBuildingSystem.Instance._temp = building;
-
-                    //if (building.buildType == BuildType.Road)
-                    //{
-                    //    if (UIManager.Instance.OpenMenu = true) return;
-                    //    RoadMenu.SetActive(true); // 길타입 전용 메뉴
-                    //    UIManager.Instance.OpenMenu = true;
-                    //}
-
-                    //else
-                        building.CanvasActive();   // 기존 메뉴
+                    building.CanvasActive();
                     UIManager.Instance._buildButton.SetActive(false);
                     UIManager.Instance._topUIPanel.SetActive(false);
                     UIManager.Instance.OpenMenu = true;
@@ -219,6 +231,7 @@ public class CameraController : MonoBehaviour
                     building.IsMenuOpen = true;
                 }
             }
+
             _isPanning = _isPinching = false;
         }
     }

@@ -775,6 +775,58 @@ MonoBehaviour:
     m_Localized: Flowervase
     m_Metadata:
       m_Items: []
+  - m_Id: 3241441534132224
+    m_Localized: Cafe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3241441580269568
+    m_Localized: Are you sure you want to demolish this building?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3241441580269569
+    m_Localized: This action cannot be undone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3241441580269570
+    m_Localized: Table
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3241441580269571
+    m_Localized: Lamp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3241441584463872
+    m_Localized: Locker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3241441584463873
+    m_Localized: Stool
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3241441584463874
+    m_Localized: Cashier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3241441584463875
+    m_Localized: Display Stand
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3241441584463876
+    m_Localized: Scarecrow
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3241441584463877
+    m_Localized: Haybale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3241441584463878
+    m_Localized: Coffee Machine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3241441584463879
+    m_Localized: Flowervase
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

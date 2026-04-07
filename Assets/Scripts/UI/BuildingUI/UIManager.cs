@@ -241,12 +241,23 @@ public class UIManager : MonoBehaviour
 
     public void OnClickRoadDemolishYes()
     {
+        CameraController _cameraController = FindFirstObjectByType<CameraController>();
+        _cameraController.SetInputLock(false);
+        _cameraController._touchStartedOnBuilding = false;
+        if (GridBuildingSystem.Instance._temp != null)
+        {
+            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
+            GridBuildingSystem.Instance._temp = null;
+        }
         _RoadDemolishdoublecheckPanel.SetActive(false);
         OpenMenu = false;
         Time.timeScale = 1;
     }
     public void OnClickRoadDemolishNo()
-    {  
+    {
+        CameraController _cameraController = FindFirstObjectByType<CameraController>();
+        _cameraController.SetInputLock(false);
+        _cameraController._touchStartedOnBuilding = false;
         _roadDemolishUIPanel.SetActive(true);
         _RoadDemolishdoublecheckPanel.SetActive(false);
     }
