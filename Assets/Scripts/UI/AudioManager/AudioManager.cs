@@ -26,8 +26,8 @@ public class AudioManager : MonoBehaviour
 
 
     private const float DefaultMaster = 1f;
-    private const float DefaultBGM = 0.1f;
-    private const float DefaultSFX = 0.3f;
+    private const float DefaultBGM = 1f;
+    private const float DefaultSFX = 1f;
 
     private float _masterVolume;
     private float _bgmVolume;
