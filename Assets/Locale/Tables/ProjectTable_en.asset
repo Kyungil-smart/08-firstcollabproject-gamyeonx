@@ -1243,6 +1243,74 @@ MonoBehaviour:
     m_Localized: Flowervase
     m_Metadata:
       m_Items: []
+  - m_Id: 3349990759649280
+    m_Localized: Cafe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203712
+    m_Localized: Are you sure you want to demolish this building?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203713
+    m_Localized: This action cannot be undone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203714
+    m_Localized: Table
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203715
+    m_Localized: Lamp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203716
+    m_Localized: Locker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203717
+    m_Localized: Stool
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203718
+    m_Localized: Cashier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398016
+    m_Localized: Display Stand
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398017
+    m_Localized: Scarecrow
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398018
+    m_Localized: Haybale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398019
+    m_Localized: Coffee Machine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398020
+    m_Localized: Flowervase
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3351454085206016
+    m_Localized: Weekly Summary
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3351454085206017
+    m_Localized: 'Visitors This Turn: {0}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3351454089400320
+    m_Localized: 'Revenue This Turn: {0} Gold'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3351454089400321
+    m_Localized: 'Total Revenue: {0} Gold'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

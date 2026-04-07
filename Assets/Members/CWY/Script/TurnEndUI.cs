@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class TurnEndUI : MonoBehaviour
@@ -8,7 +9,7 @@ public class TurnEndUI : MonoBehaviour
     [SerializeField] private GameObject _root;
     [SerializeField] private TextMeshProUGUI _turnVisitorText; //이 턴에 방문한 손님 수
     [SerializeField] private TextMeshProUGUI _turnInComeText; // 이 턴에 얻은 수입
-    [SerializeField] private TextMeshProUGUI _TotalcomeText; // 총 수입
+    [SerializeField] private TextMeshProUGUI _totalcomeText; // 총 수입
     [SerializeField] private Button _nextWeekButton;
 
     [Header("참조 스크립트")]
@@ -55,9 +56,16 @@ public class TurnEndUI : MonoBehaviour
     public void Show()
     {
         int totalIncome = GoldTest.Instance != null ? GoldTest.Instance.IncreasedGold : 0;
-        _turnVisitorText.text = $"이번 턴 방문자 수: {_todayVisitorCount}";
-        _turnInComeText.text = $"이번 턴 수입: {_turnIncome}원";
-        _TotalcomeText.text = $"총 수입: {totalIncome}원";
+        //_turnVisitorText.text = $"이번 턴 방문자 수: {_todayVisitorCount}";
+        _turnVisitorText.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_TurnEnd_Visitor", new object[] { _todayVisitorCount });
+
+        //_turnInComeText.text = $"이번 턴 수입: {_turnIncome}원";
+        _turnInComeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_TurnEnd_Income", new object[] { _turnIncome });
+
+        //_TotalcomeText.text = $"총 수입: {totalIncome}원";
+        _totalcomeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_TurnEnd_Total", new object[] { totalIncome });
+
+        //_week.text = LocalizationSettings.StringDatabase.GetLocalizedString("ProjectTable", "UI_Week", new object[] { _userWeek });
 
         Time.timeScale = 0f;
         _root.SetActive(true);
