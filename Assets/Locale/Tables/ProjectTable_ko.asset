@@ -1407,6 +1407,74 @@ MonoBehaviour:
     m_Localized: "\uAF43\uBCD1"
     m_Metadata:
       m_Items: []
+  - m_Id: 3349990759649280
+    m_Localized: "\uCE74\uD398"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203712
+    m_Localized: "\uC815\uB9D0 \uD574\uB2F9 \uC2DC\uC124\uC744 \uCCA0\uAC70\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203713
+    m_Localized: "\uD574\uB2F9 \uC120\uD0DD \uD6C4 \uB418\uB3CC\uB9B4 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203714
+    m_Localized: "\uC2DD\uD0C1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203715
+    m_Localized: "\uC870\uBA85"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203716
+    m_Localized: "\uB77D\uCEE4"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203717
+    m_Localized: "\uC758\uC790"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203718
+    m_Localized: "\uACC4\uC0B0\uB300"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398016
+    m_Localized: "\uC804\uC2DC\uB300"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398017
+    m_Localized: "\uD5C8\uC218\uC544\uBE44"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398018
+    m_Localized: "\uAC74\uCD08\uB354\uBBF8"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398019
+    m_Localized: "\uCEE4\uD53C\uBA38\uC2E0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398020
+    m_Localized: "\uAF43\uBCD1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3351454085206016
+    m_Localized: "\uC774\uBC88 \uC8FC \uC815\uC0B0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3351454085206017
+    m_Localized: "\uC774\uBC88 \uD134 \uBC29\uBB38\uC790 \uC218: {0]\uBA85"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3351454089400320
+    m_Localized: "\uC774\uBC88 \uD134 \uC218\uC785: {0}\uC6D0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3351454089400321
+    m_Localized: "\uCD1D \uC218\uC785: {0}\uC6D0"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

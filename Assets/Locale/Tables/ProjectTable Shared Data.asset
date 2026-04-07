@@ -155,6 +155,90 @@ MonoBehaviour:
     m_Key: UI_This_action_cannot_be_undone
     m_Metadata:
       m_Items: []
+  - m_Id: 3349990759649280
+    m_Key: UI_Cafe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203712
+    m_Key: UI_Demolish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203713
+    m_Key: UI_Undon_Notable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203714
+    m_Key: UI_Table
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203715
+    m_Key: UI_Lamp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203716
+    m_Key: UI_Locker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203717
+    m_Key: UI_Stool
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990793203718
+    m_Key: UI_Cashier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398016
+    m_Key: UI_Display_Stnad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398017
+    m_Key: UI_Scarecrow
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398018
+    m_Key: UI_Haybale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398019
+    m_Key: UI_Coffee_Machine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3349990797398020
+    m_Key: Flowervase
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3351454085206016
+    m_Key: UI_TurnEnd_ThisWeek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3351454085206017
+    m_Key: UI_TurnEnd_Visitor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3351454089400320
+    m_Key: UI_TurnEnd_Income
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3351454089400321
+    m_Key: UI_TurnEnd_Total
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3354578921377792
+    m_Key: New Entry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3354894760857600
+    m_Key: New Entry 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3355030689861632
+    m_Key: New Entry 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3355140400271360
+    m_Key: New Entry 3
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
