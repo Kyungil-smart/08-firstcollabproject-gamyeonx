@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Serialization;
 
-public class EventUI : MonoBehaviour
+public class EventUI : MonoBehaviour, ICanvasRaycastFilter
 {
     [Header("UI 구성 요소")]
     [SerializeField] private Button _nextButton; // 화면 전체를 덮는 투명 버튼 혹은 '다음' 버튼
@@ -23,10 +23,41 @@ public class EventUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _nameText; // 화자 이름표
     private int _currentIndex = 0;
     private int _currentGuideIndex = 0;
+    
+    private List<RectTransform> _currentExcludeTargets = new List<RectTransform>();
+    
+    public bool IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
+    {
+        if (_currentExcludeTargets.Count == 0) return true;
+
+        foreach (var target in _currentExcludeTargets)
+        {
+            if (target == null || !target.gameObject.activeInHierarchy) continue;
+            
+            if (RectTransformUtility.RectangleContainsScreenPoint(target, sp, eventCamera))
+                return false;
+        }
+        return true;
+    }
+    
+    private void UpdateExcludeTargets(GameObject guideParent)
+    {
+        _currentExcludeTargets.Clear();
+        if (guideParent == null) return;
+        
+        foreach (RectTransform child in guideParent.transform)
+        {
+            if (child.GetComponent<Image>() != null)
+            {
+                _currentExcludeTargets.Add(child);
+            }
+        }
+    }
 
     public void StartConversation()
     {
         _currentIndex = 0;
+        _currentExcludeTargets.Clear();
         _enterButtonObj.SetActive(false); // 시작할 땐 확인 버튼 숨김
         _nextButton.gameObject.SetActive(true);
         CameraController cam = FindFirstObjectByType<CameraController>();
@@ -64,6 +95,8 @@ public class EventUI : MonoBehaviour
         if (_currentIndex == 11)
         {
             _buildGuideUI[0].gameObject.SetActive(true);
+            UpdateExcludeTargets(_buildGuideUI[0]);
+            
             _BackGround.SetActive(false);
             _nextButton.gameObject.SetActive(false);
             Time.timeScale = 1f;
@@ -76,6 +109,8 @@ public class EventUI : MonoBehaviour
         if (_currentIndex == 13)
         {
             _roadGuideUI[0].gameObject.SetActive(true);
+            UpdateExcludeTargets(_roadGuideUI[0]);
+                
             _BackGround.SetActive(false);
             _nextButton.gameObject.SetActive(false);
             Time.timeScale = 1f;
@@ -121,6 +156,7 @@ public class EventUI : MonoBehaviour
     {
         if (EventManager.Instance.IsTutorial)
         {
+            _currentExcludeTargets.Clear();
             TutorialOnClickNext(); // 다음 대사로 바로 넘겨줌
             foreach (var guide in _buildGuideUI) guide.SetActive(false);
             foreach (var guide in _roadGuideUI) guide.SetActive(false);
@@ -141,6 +177,7 @@ public class EventUI : MonoBehaviour
         {
             _currentGuideIndex++;
             _buildGuideUI[_currentGuideIndex].SetActive(true);
+            UpdateExcludeTargets(_buildGuideUI[_currentGuideIndex]);
         }
     }
     
@@ -154,6 +191,7 @@ public class EventUI : MonoBehaviour
         {
             _currentGuideIndex++;
             _roadGuideUI[_currentGuideIndex].SetActive(true);
+            UpdateExcludeTargets(_roadGuideUI[_currentGuideIndex]);
         }
     }
 
