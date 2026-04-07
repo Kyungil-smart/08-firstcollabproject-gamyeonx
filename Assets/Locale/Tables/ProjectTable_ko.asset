@@ -1407,6 +1407,22 @@ MonoBehaviour:
     m_Localized: "\uAF43\uBCD1"
     m_Metadata:
       m_Items: []
+  - m_Id: 3350277746049024
+    m_Localized: "\uC774\uBC88 \uC8FC \uC815\uC0B0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3350277746049025
+    m_Localized: "\uC774\uBC88 \uD134 \uBC29\uBB38\uC790 \uC218: {0]\uBA85"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3350277746049026
+    m_Localized: "\uC774\uBC88 \uD134 \uC218\uC785: {0}\uC6D0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3350277746049027
+    m_Localized: "\uCD1D \uC218\uC785: {0}\uC6D0"
+    m_Metadata:
+      m_Items: []
   - m_Id: 3349990759649280
     m_Localized: "\uCE74\uD398"
     m_Metadata:

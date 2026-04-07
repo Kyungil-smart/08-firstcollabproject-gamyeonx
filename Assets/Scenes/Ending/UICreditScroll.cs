@@ -9,6 +9,6 @@ public class UICreditScroll : MonoBehaviour
     void Update()
     {
         if (rect.anchoredPosition.y < stopY)
-            rect.anchoredPosition += Vector2.up * speed * Time.deltaTime;
+            rect.anchoredPosition += Vector2.up * speed * Time.unscaledDeltaTime;
     }
 }

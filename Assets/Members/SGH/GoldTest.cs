@@ -19,7 +19,7 @@ public class GoldTest : MonoBehaviour
         {
             _testGold = value;
             UpdateUI();
-            // EventManager.Instance.CheckGoldEvents(IncreasedGold);
+            //EventManager.Instance.CheckGoldEvents(IncreasedGold);
         }
     }
 
@@ -41,7 +41,7 @@ public class GoldTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PayMoney(1000);
+            PayMoney(10000);
             Debug.Log($"현재 누적 수익 {IncreasedGold}");
         }
     }
@@ -53,7 +53,7 @@ public class GoldTest : MonoBehaviour
         //===========밑 삭제
         UpdateIncreasedGoldUI();
 
-        //EventManager.Instance.CheckGoldEvents(IncreasedGold);
+        EventManager.Instance.CheckGoldEvents(IncreasedGold);
     }
 
     public void GetFacilityRefundAmount(int value)
