@@ -191,7 +191,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3737421573351592369}
-  - component: {fileID: 4631049883130529804}
   - component: {fileID: 6098650717847420250}
   - component: {fileID: 5641941752231877138}
   m_Layer: 0
@@ -218,30 +217,6 @@ Transform:
   - {fileID: 6461228279706718389}
   m_Father: {fileID: 1254885943345794470}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4631049883130529804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1932289875626956231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c35e3f1012b41b148a3a5a4b75ed9488, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Building
-  area:
-    m_Position: {x: 0, y: 0, z: 0}
-    m_Size: {x: 1, y: 1, z: 1}
-  buildType: 0
-  InBuildingData: {fileID: 0}
-  InBuildingRoot: {fileID: 0}
-  turnType: 0
-  pivot: {fileID: 0}
-  rotateCount: 0
-  _facilityType: 0
-  furnitureTouchType: 0
-  IsMenuOpen: 0
 --- !u!61 &6098650717847420250
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -828,7 +803,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2233161381431702980}
-  - component: {fileID: 8285687950921582778}
   - component: {fileID: 5342572930882078739}
   m_Layer: 0
   m_Name: Exit
@@ -854,30 +828,6 @@ Transform:
   - {fileID: 5555976144772636939}
   m_Father: {fileID: 1254885943345794470}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8285687950921582778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8839235113384572298}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c35e3f1012b41b148a3a5a4b75ed9488, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Building
-  area:
-    m_Position: {x: 0, y: 0, z: 0}
-    m_Size: {x: 1, y: 1, z: 1}
-  buildType: 0
-  InBuildingData: {fileID: 0}
-  InBuildingRoot: {fileID: 0}
-  turnType: 0
-  pivot: {fileID: 0}
-  rotateCount: 0
-  _facilityType: 0
-  furnitureTouchType: 0
-  IsMenuOpen: 0
 --- !u!61 &5342572930882078739
 BoxCollider2D:
   m_ObjectHideFlags: 0

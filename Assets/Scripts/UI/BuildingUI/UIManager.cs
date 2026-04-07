@@ -227,6 +227,14 @@ public class UIManager : MonoBehaviour
         _roadDemolishUIPanel.SetActive(false);
         _buildButton.SetActive(true);
         _topUIPanel.SetActive(true);
+        CameraController _cameraController = FindFirstObjectByType<CameraController>();
+        _cameraController.SetInputLock(false);
+        _cameraController._touchStartedOnBuilding = false;
+        if (GridBuildingSystem.Instance._temp != null)
+        {
+            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
+            GridBuildingSystem.Instance._temp = null;
+        }
         OpenMenu = false;
         Time.timeScale = 1;
     }
