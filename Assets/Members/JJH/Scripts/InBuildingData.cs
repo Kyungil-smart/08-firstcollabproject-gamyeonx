@@ -92,7 +92,6 @@ public class InBuildingData : MonoBehaviour
         UpdateUseVisual();
         OnUsePivotsChanged?.Invoke(GetUsePivots());
     }
-    
     // 현재 늘어난 이용 공간을 시각적으로 보여주는 메서드
     public void UpdateUseVisual()
     {

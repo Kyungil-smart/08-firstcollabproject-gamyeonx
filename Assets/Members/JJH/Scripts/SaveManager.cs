@@ -132,7 +132,6 @@ public class SaveManager : MonoBehaviour
         }
 
         // EventManager.Instance.LoadTriggerEvents(); // 이벤트 불러오기
-        
         GridBuildingSystem.Instance.MainTilemap.RefreshAllTiles();
     }
     
