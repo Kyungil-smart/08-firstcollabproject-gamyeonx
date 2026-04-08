@@ -84,11 +84,9 @@ public class GuestController : MonoBehaviour
     public bool IsExitFlowRunning { get; private set; }
     public bool IsRemoved { get; private set; }
 
-    // 디버그용 최근 성공/실패 시설
+    //최근 성공 시설
     public EFacilityType LastUsedFacilityType { get; private set; } = EFacilityType.None;
     public EGuestNeedType LastUsedFacilityNeedType { get; private set; } = EGuestNeedType.None;
-    public EFacilityType LastFailedFacilityType { get; private set; } = EFacilityType.None;
-    public EGuestNeedType LastFailedFacilityNeedType { get; private set; } = EGuestNeedType.None;
 
     private GuestUtilityEvaluator _utilityEvaluator;
     private GuestStateMachine _stateMachine;
@@ -100,14 +98,10 @@ public class GuestController : MonoBehaviour
     private GuestUseState _useState;
     private GuestExitState _exitState;
 
-    // ===== 시설별 재사용 잠금 =====
     // 성공 사용한 시설은 시설별로 잠금 유지
     private readonly Dictionary<EFacilityType, EGuestNeedType> _reuseLockedNeedByFacility = new();
 
-    // 끼임 실패 시설은 즉시 재도전 방지용
-    private readonly HashSet<EFacilityType> _failedLockedFacilities = new();
-
-    // ===== 막힘 복구 런타임 =====
+    //막힘 복구
     private bool _isStuckWatchActive;
     private Vector3 _lastStuckCheckPosition;
     private float _stuckTimer;
@@ -239,11 +233,8 @@ public class GuestController : MonoBehaviour
 
         LastUsedFacilityType = EFacilityType.None;
         LastUsedFacilityNeedType = EGuestNeedType.None;
-        LastFailedFacilityType = EFacilityType.None;
-        LastFailedFacilityNeedType = EGuestNeedType.None;
 
         _reuseLockedNeedByFacility.Clear();
-        _failedLockedFacilities.Clear();
 
         ClearCurrentFacilityContext();
         ResetStuckWatch();
@@ -362,14 +353,7 @@ public class GuestController : MonoBehaviour
             return false;
         }
 
-        // 1. 끼임 실패 시설은 즉시 재도전 방지
-        if (_failedLockedFacilities.Contains(facilityType))
-        {
-            Log($"[GuestController] 실패 시설 재선택 차단 | FacilityType={facilityType}");
-            return false;
-        }
-
-        // 2. 성공 사용 시설은 시설별로 Need가 다시 기준 이상 쌓일 때까지 잠금
+        // 정상 사용 시설은 시설별로 Need가 다시 기준 이상 쌓일 때까지 잠금
         if (_reuseLockedNeedByFacility.TryGetValue(facilityType, out EGuestNeedType lockedNeedType))
         {
             int currentNeedValue = _guestStates.GetNeedValue(lockedNeedType);
@@ -382,7 +366,6 @@ public class GuestController : MonoBehaviour
                 return false;
             }
 
-            // 기준 이상 쌓였으면 해당 시설 잠금 해제
             _reuseLockedNeedByFacility.Remove(facilityType);
 
             Log(
@@ -572,14 +555,10 @@ public class GuestController : MonoBehaviour
         LastUsedFacilityType = CurrentTargetFacilityType;
         LastUsedFacilityNeedType = targetNeed;
 
-        // 성공 사용한 시설을 시설별 잠금 목록에 등록
         if (CurrentTargetFacilityType != EFacilityType.None && targetNeed != EGuestNeedType.None)
         {
             _reuseLockedNeedByFacility[CurrentTargetFacilityType] = targetNeed;
         }
-
-        // 성공 사용이 끝나면 실패 잠금은 모두 해제
-        ClearAllFailedFacilityLocks();
 
         FacilityUseCount++;
         _currentExitChancePercent = FacilityUseCount * _exitChanceIncreasePerUse;
@@ -998,55 +977,6 @@ public class GuestController : MonoBehaviour
         }
     }
 
-    // 실패 시설 기록
-    public void RememberFailedFacility()
-    {
-        if (CurrentTargetFacilityType == EFacilityType.None)
-        {
-            return;
-        }
-
-        LastFailedFacilityType = CurrentTargetFacilityType;
-        LastFailedFacilityNeedType = GetNeedTypeByFacilityType(CurrentTargetFacilityType);
-
-        _failedLockedFacilities.Add(CurrentTargetFacilityType);
-
-        Log(
-            $"[GuestController] 실패 시설 기록 | " +
-            $"FacilityType={LastFailedFacilityType}, NeedType={LastFailedFacilityNeedType}");
-    }
-
-    public void ClearAllFailedFacilityLocks()
-    {
-        _failedLockedFacilities.Clear();
-        LastFailedFacilityType = EFacilityType.None;
-        LastFailedFacilityNeedType = EGuestNeedType.None;
-
-        Log("[GuestController] 실패 시설 잠금 전체 해제");
-    }
-
-    public bool ShouldLockFacilityOnStuck()
-    {
-        // 시설 내부에 들어간 뒤 끼였을 때만 실패 시설 잠금
-        if (IsInsideFacility)
-        {
-            return true;
-        }
-
-        // 내부 출구로 이동 중인 경우도 내부 흐름으로 판단
-        if (IsLeavingFacility)
-        {
-            return true;
-        }
-
-        // 입구 가는 길 / 시설 바깥은 실패 시설 잠금하지 않음
-        return false;
-    }
-
-    // =========================
-    // 막힘 복구 전용 메서드
-    // =========================
-
     public void StartStuckWatch()
     {
         _isStuckWatchActive = true;
@@ -1091,15 +1021,6 @@ public class GuestController : MonoBehaviour
         if (CurrentFacilityRuntime != null)
         {
             CurrentFacilityRuntime.ReleaseGuest(this);
-        }
-
-        if (ShouldLockFacilityOnStuck())
-        {
-            RememberFailedFacility();
-        }
-        else
-        {
-            Log("[GuestController] 시설 외부 끼임으로 판단하여 실패 시설 잠금은 적용하지 않음");
         }
 
         ClearCurrentFacilityContext();
