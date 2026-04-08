@@ -228,8 +228,11 @@ public class Building : MonoBehaviour
     private IEnumerator WaitForButton()
     {
         Time.timeScale = 1f;
+        UIManager.Instance._buildButton.SetActive(true);
+        UIManager.Instance._topUIPanel.SetActive(true);
 
         yield return new WaitForSeconds(0.5f);
+        UIManager.Instance.OpenMenu = false;
         _canvas?.gameObject.SetActive(false);
         IsMenuOpen = false;
         _cameraController.SetInputLock(false);
@@ -239,8 +242,5 @@ public class Building : MonoBehaviour
             GridBuildingSystem.Instance._temp.IsMenuOpen = false;
             GridBuildingSystem.Instance._temp = null;
         }
-        UIManager.Instance._buildButton.SetActive(true);
-        UIManager.Instance._topUIPanel.SetActive(true);
-        UIManager.Instance.OpenMenu = false;
     }
 }
