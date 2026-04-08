@@ -470,9 +470,13 @@ public class InBuildingData : MonoBehaviour
     {
         currentLevel = level;
 
-        if (currentLevel == 2)
+        if (currentLevel >= 2)
         {
             _UpgradeExpandArea.SetActive(true);
+        }
+        if (currentLevel >= 1)
+        {
+            _maxFurnitureCount = 6;
         }
 
 
@@ -488,5 +492,6 @@ public class InBuildingData : MonoBehaviour
         _currentUseCount = useCount;
         _currentFeeFurnitureCount = furnitureCount;
         _currentCapacityFurnitureCount = capacityFurnitureCount;
+        _currentFurnitureCount = furnitureCount + capacityFurnitureCount;
     }
 }
