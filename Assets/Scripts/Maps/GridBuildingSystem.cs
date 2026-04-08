@@ -606,10 +606,11 @@ public class GridBuildingSystem : MonoBehaviour
             _temp.InBuildingData.SetLevelPrice(bData.currentLevel, bData.BuildingGold);
             _temp.InBuildingData.SetCurrentCount(bData.CurrentUseCount, bData.FeeFurnitureCount, bData.CapacityFurnitureCount);
         }
-
+        
         _temp.Place();
-
+        
         BuildingList.Add(_temp);
+        
         _temp = null;
     }
 

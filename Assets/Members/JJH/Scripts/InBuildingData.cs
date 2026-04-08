@@ -295,7 +295,6 @@ public class InBuildingData : MonoBehaviour
             {
                 _whiteAreaPivots.Add(_upgradeWhiteAreaPivots[i]);
             }
-
             
             GoldTest.Instance.PlayerUseMoney(FacilityRuntime.UpgradeCost);
             InBuildingWhiteTilesCreate();
@@ -433,7 +432,7 @@ public class InBuildingData : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    private void InBuildingWhiteTilesCreate()
+    public void InBuildingWhiteTilesCreate()
     {
         if (GridBuildingSystem.Instance.MainTilemap == null)
         {

@@ -26270,10 +26270,10 @@ MonoBehaviour:
   BuildingPivotDistance: 5
   Guild: {fileID: 5646732189160533396, guid: b73c9ff6be27d834f8782ca0eb3ff867, type: 3}
   HotSpring: {fileID: 5646732189160533396, guid: b73c9ff6be27d834f8782ca0eb3ff867, type: 3}
-  Restaurant: {fileID: 5646732189160533396, guid: b73c9ff6be27d834f8782ca0eb3ff867, type: 3}
-  VendingMachine: {fileID: 5646732189160533396, guid: b73c9ff6be27d834f8782ca0eb3ff867, type: 3}
-  Shop: {fileID: 5646732189160533396, guid: b73c9ff6be27d834f8782ca0eb3ff867, type: 3}
-  TrainingGround: {fileID: 5646732189160533396, guid: b73c9ff6be27d834f8782ca0eb3ff867, type: 3}
+  Restaurant: {fileID: 5646732189160533396, guid: 37c5ea6c35406cd4f8202fbbb8321666, type: 3}
+  VendingMachine: {fileID: 5646732189160533396, guid: c9182aebe2845cc46bd27616a78bb3b8, type: 3}
+  Shop: {fileID: 5646732189160533396, guid: 94274edaab062184ea2c877cb9d7e299, type: 3}
+  TrainingGround: {fileID: 5646732189160533396, guid: 874e52667589fc44c9abe6b937b33ffd, type: 3}
   InBuildingPivot: {fileID: 218385191}
   InBuildingPivotDistance: 50
   CurrentInBuildingNum: 0

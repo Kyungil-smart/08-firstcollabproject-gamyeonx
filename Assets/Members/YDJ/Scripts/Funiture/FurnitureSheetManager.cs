@@ -25,13 +25,15 @@ public class FurnitureSheetManager : MonoBehaviour
 
     private void Start()
     {
-        _furnitureDatas = _furnitureSO.furnituresDatas;
+        // _furnitureDatas = _furnitureSO.furnituresDatas;
+        _furnitureDatas = new List<FurnitureData>();
         StartCoroutine(_furnitureSheet.Load(ParseFurnitureData));
     }
     
     private void ParseFurnitureData(char splitSymbol, string[] lines)
     {
         _furnitureDatas.Clear();
+        // _furnitureSO.furnituresDatas.Clear();
 
         if (lines == null || lines.Length <= 4)
         {
@@ -72,7 +74,9 @@ public class FurnitureSheetManager : MonoBehaviour
             };
 
             _furnitureDatas.Add(data);
+            // _furnitureSO.furnituresDatas.Add(data);
         }
+        _furnitureSO.furnituresDatas = _furnitureDatas;
     }
     
     private int ParseIntSafe(string value)
@@ -109,8 +113,11 @@ public class FurnitureSheetManager : MonoBehaviour
     
     public List<FurnitureData> GetFurnitureByFacility(string facilityID)
     {
-        return _furnitureDatas.FindAll(furnitureData =>
+        // return _furnitureDatas.FindAll(furnitureData =>
+        //     furnitureData.interiorTargetFacility == facilityID);
+        return _furnitureSO.furnituresDatas.FindAll(furnitureData =>
             furnitureData.interiorTargetFacility == facilityID);
+        
     }
     
 }
