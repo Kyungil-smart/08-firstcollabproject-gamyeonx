@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public enum FurnitureTouchType
 {
@@ -61,6 +62,14 @@ public class GridBuildingSystem : MonoBehaviour
     public GameObject RoadDelMenu;
     FurnitureTouchType furnitureTouchType;
 
+    //#120 이슈 추가코드
+    [Header("가구 설치 확인 버튼")]
+    [SerializeField] private Button _restaurantPlaceButton;
+    [SerializeField] private Button _hotSpringPlaceButton;
+    [SerializeField] private Button _trainingGroundPlaceButton;
+    [SerializeField] private Button _shopPlaceButton;
+    [SerializeField] private Button _vendingMachinePlaceButton;
+    [SerializeField] private Button _buildButton;
 
     // 길 설치용
     private HashSet<Vector3Int> _roadPathPositions = new HashSet<Vector3Int>();
@@ -322,6 +331,19 @@ public class GridBuildingSystem : MonoBehaviour
             }
 
             i++;
+
+            //# 이슈 120
+            TempTilemap.SetTilesBlock(area, tiles);
+            bool canPlace = CanTakeArea(area);
+
+            if (_temp.buildType == BuildType.CapacityFurniture || _temp.buildType == BuildType.FeeFurniture)
+            {
+                SetFurniturePlaceButtonInteractable(_temp.furnitureTouchType, canPlace);
+            }
+            else if(_temp.buildType == BuildType.Building)
+            {
+                SetBuildPlaceButton(canPlace);
+            }
         }
 
         TempTilemap.SetTilesBlock(area, tiles);
@@ -915,5 +937,43 @@ public class GridBuildingSystem : MonoBehaviour
 
         _tempRoadObjects.Clear();
         TempTilemap.ClearAllTiles();
+    }
+
+    //#120 이슈 관련 버튼 활성화 메서드
+    private void SetFurniturePlaceButtonInteractable(FurnitureTouchType touchType, bool canPlace)
+    {
+        switch (touchType)
+        {
+            case FurnitureTouchType.Restaurant:
+                if (_restaurantPlaceButton != null)
+                    _restaurantPlaceButton.interactable = canPlace;
+                break;
+
+            case FurnitureTouchType.HotSpring:
+                if (_hotSpringPlaceButton != null)
+                    _hotSpringPlaceButton.interactable = canPlace;
+                break;
+
+            case FurnitureTouchType.TrainingGround:
+                if (_trainingGroundPlaceButton != null)
+                    _trainingGroundPlaceButton.interactable = canPlace;
+                break;
+
+            case FurnitureTouchType.Shop:
+                if (_shopPlaceButton != null)
+                    _shopPlaceButton.interactable = canPlace;
+                break;
+
+            case FurnitureTouchType.VendingMachine:
+                if (_vendingMachinePlaceButton != null)
+                    _vendingMachinePlaceButton.interactable = canPlace;
+                break;        
+        }
+    }
+
+    private void SetBuildPlaceButton(bool canPlace)
+    {
+        if (_buildButton != null)
+            _buildButton.interactable = canPlace;
     }
 }
