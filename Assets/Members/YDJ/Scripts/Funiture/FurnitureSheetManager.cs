@@ -25,8 +25,7 @@ public class FurnitureSheetManager : MonoBehaviour
 
     private void Start()
     {
-        _furnitureDatas = new List<FurnitureData>(_furnitureSO.furnituresDatas);
-        // _furnitureDatas = _furnitureSO.furnituresDatas;
+        _furnitureDatas = _furnitureSO.furnituresDatas;
         StartCoroutine(_furnitureSheet.Load(ParseFurnitureData));
     }
     
