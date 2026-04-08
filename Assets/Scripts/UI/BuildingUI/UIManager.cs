@@ -1066,11 +1066,11 @@ public class UIManager : MonoBehaviour
     private IEnumerator WaitForButton()
     {
         Time.timeScale = 1;
-        yield return new WaitForSeconds(0.5f);
-        
         _roadDemolishUIPanel.SetActive(false);
         _buildButton.SetActive(true);
         _topUIPanel.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        
         CameraController _cameraController = FindFirstObjectByType<CameraController>();
         _cameraController.SetInputLock(false);
         _cameraController._touchStartedOnBuilding = false;
