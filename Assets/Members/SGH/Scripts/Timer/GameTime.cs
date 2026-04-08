@@ -108,4 +108,9 @@ public class GameTime : MonoBehaviour
         UserWeek++;
         SaveManager.Instance.Save();
     }
+
+    public void NextOneWeek(int value)
+    {
+        UserTime = value;
+    }
 }
