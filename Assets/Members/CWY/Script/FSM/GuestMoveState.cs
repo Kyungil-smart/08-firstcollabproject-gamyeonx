@@ -35,6 +35,12 @@ public class GuestMoveState : IGuestState
             return;
         }
 
+        if (_controller.UpdateStuckWatch())
+        {
+            _controller.ChangeToWanderState();
+            return;
+        }
+
         if (_controller.HasMovementFailed || _controller.HasFacilityUseFailed)
         {
             _controller.ClearCurrentFacilityContext();

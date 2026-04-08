@@ -18,6 +18,12 @@ public class GuestExitState : IGuestState
 
     public void Update()
     {
+        if (_controller.UpdateStuckWatch())
+        {
+            _controller.ChangeToWanderState();
+            return;
+        }
+
         if (_startedExitProcess)
         {
             return;
@@ -25,7 +31,6 @@ public class GuestExitState : IGuestState
 
         _startedExitProcess = true;
 
-        // 시설 내부에 있으면 먼저 시설 내부 종료 흐름 처리
         if (_controller.IsInsideFacility)
         {
             bool startedLeave = _controller.BeginFacilityLeave();
@@ -38,7 +43,6 @@ public class GuestExitState : IGuestState
             return;
         }
 
-        // 시설 밖이면 길드 최종 퇴장 처리
         _controller.StartGuildExitFlow();
     }
 
