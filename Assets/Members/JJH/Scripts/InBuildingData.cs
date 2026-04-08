@@ -472,10 +472,45 @@ public class InBuildingData : MonoBehaviour
         if (currentLevel >= 2)
         {
             _UpgradeExpandArea.SetActive(true);
-        }
-        if (currentLevel >= 1)
-        {
             _maxFurnitureCount = 6;
+
+            for (int i = 0; i < _upgradeWhiteAreaPivots.Count; i++)
+            {
+                _whiteAreaPivots.Add(_upgradeWhiteAreaPivots[i]);
+            }
+            
+            if (_facilityRuntime != null)
+            {
+                string upgradedFacilityID = GetUpgradedFacilityID(_facilityRuntime.FacilityID);
+
+                if (string.IsNullOrWhiteSpace(upgradedFacilityID) == false)
+                {
+                    _facilityRuntime.InitializeFacility(upgradedFacilityID);
+                    Debug.Log($"[InBuildingData] 시설 업그레이드 완료 | OldID={_facilityRuntime.FacilityID}, NewID={upgradedFacilityID}");
+                }
+                else
+                {
+                    Debug.LogWarning("[InBuildingData] 업그레이드 대상 FacilityID를 만들지 못했습니다.");
+                }
+            }
+        }
+        if (currentLevel >= 3)
+        {
+            if (_facilityRuntime != null)
+            {
+                string upgradedFacilityID = GetUpgradedFacilityID(_facilityRuntime.FacilityID);
+
+                if (string.IsNullOrWhiteSpace(upgradedFacilityID) == false)
+                {
+                    _facilityRuntime.InitializeFacility(upgradedFacilityID);
+                    Debug.Log($"[InBuildingData] 시설 업그레이드 완료 | OldID={_facilityRuntime.FacilityID}, NewID={upgradedFacilityID}");
+                }
+                else
+                {
+                    Debug.LogWarning("[InBuildingData] 업그레이드 대상 FacilityID를 만들지 못했습니다.");
+                }
+            }
+            Debug.Log($"이용 요금 증가 {_facilityRuntime.UsageFee}");
         }
 
 
