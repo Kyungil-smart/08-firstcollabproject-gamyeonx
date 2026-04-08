@@ -230,10 +230,10 @@ public class Building : MonoBehaviour
         Time.timeScale = 1f;
         UIManager.Instance._buildButton.SetActive(true);
         UIManager.Instance._topUIPanel.SetActive(true);
+        _canvas?.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(0.5f);
         UIManager.Instance.OpenMenu = false;
-        _canvas?.gameObject.SetActive(false);
         IsMenuOpen = false;
         _cameraController.SetInputLock(false);
         _cameraController._touchStartedOnBuilding = false;
