@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -238,6 +239,7 @@ public class UIManager : MonoBehaviour
             GridBuildingSystem.Instance._temp = null;
         }
         OpenMenu = false;
+        cameraController.canMove = true;
         Time.timeScale = 1;
     }
 
@@ -253,6 +255,7 @@ public class UIManager : MonoBehaviour
         }
         _RoadDemolishdoublecheckPanel.SetActive(false);
         OpenMenu = false;
+        cameraController.canMove = true;
         Time.timeScale = 1;
     }
     public void OnClickRoadDemolishNo()
