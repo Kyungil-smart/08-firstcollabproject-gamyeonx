@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class TrainingGroundBackButton : MonoBehaviour
 {
+    [SerializeField] private GameObject _buildPanel;
     [SerializeField] private GameObject _uiTrainingGroundBuildPanel;
     [SerializeField] private GameObject _trainingGroundBuildButton;
     [SerializeField] private GameObject _topUI;
@@ -21,6 +22,7 @@ public class TrainingGroundBackButton : MonoBehaviour
         _trainingGroundBuildButton.SetActive(true);
         _topUI.SetActive(true);
         _uiTrainingGroundBuildPanel.SetActive(false);
+        _buildPanel.SetActive(false);
     }
 
     private void OnDestroy()

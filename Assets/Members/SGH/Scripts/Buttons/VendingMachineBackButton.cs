@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class VendingMachineBackButton : MonoBehaviour
 {
+    [SerializeField] private GameObject _buildPanel;
     [SerializeField] private GameObject _uiVendingMachineBuildPanel;
     [SerializeField] private GameObject _vendingMachineBuildButton;
     [SerializeField] private GameObject _topUI;
@@ -22,6 +23,7 @@ public class VendingMachineBackButton : MonoBehaviour
         _vendingMachineBuildButton.SetActive(true);
         _topUI.SetActive(true);
         _uiVendingMachineBuildPanel.SetActive(false);
+        _buildPanel.SetActive(false);
     }
 
     private void OnDestroy()

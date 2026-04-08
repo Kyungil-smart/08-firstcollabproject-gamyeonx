@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class RestaurantBackButton : MonoBehaviour
 {
+    [SerializeField] private GameObject _buildPanel;
     [SerializeField] private GameObject _uiRestaurantBuildPanel;
     [SerializeField] private GameObject _restaurantBuildButton;
     [SerializeField] private GameObject _topUI;
@@ -22,6 +23,7 @@ public class RestaurantBackButton : MonoBehaviour
         _restaurantBuildButton.SetActive(true);
         _topUI.SetActive(true);
         _uiRestaurantBuildPanel.SetActive(false);
+        _buildPanel.SetActive(false);
     }
 
     private void OnDestroy()

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class ShopBackButton : MonoBehaviour
 {
+    [SerializeField] private GameObject _buildPanel;
     [SerializeField] private GameObject _uiShopBuildPanel;
     [SerializeField] private GameObject _shopBuildButton;
     [SerializeField] private GameObject _topUI;
@@ -22,6 +23,7 @@ public class ShopBackButton : MonoBehaviour
         _shopBuildButton.SetActive(true);
         _topUI.SetActive(true);
         _uiShopBuildPanel.SetActive(false);
+        _buildPanel.SetActive(false);
     }
 
     private void OnDestroy()
