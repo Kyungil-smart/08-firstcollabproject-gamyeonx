@@ -6,28 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Locale/Tables/ProjectTable_en.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Locale/Tables/ProjectTable_en.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Locale/Tables/ProjectTable_ko.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Locale/Tables/ProjectTable_ko.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/InBuildingData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/JJH/Scripts/InBuildingData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Members/YDJ/Scripts/Funiture/FurnitureSheetManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/YDJ/Scripts/Funiture/FurnitureSheetManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DelCheck.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/DelCheck.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/EVENTtextect.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/EVENTtextect.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Event SDK.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Event SDK.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Event12000 SDK.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Event12000 SDK.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/MainUIText.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/MainUIText.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/TitleDDCheck.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/TitleDDCheck.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/TitleName.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/TitleName.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/TitleUIText.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/TitleUIText.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 10.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 10.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 11.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 11.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 12.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 12.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 13.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 13.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 7.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 7.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 9.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/Tutorial&amp;Event/DungGeunMo SDF 9.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/MainNotoSansKR-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/MainNotoSansKR-Bold SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/NotoSansKR-Bold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/NotoSansKR/NotoSansKR-Bold SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScenes.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScenes.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Maps/GridBuildingSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Maps/GridBuildingSystem.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,6 +18,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/31f3cd5c2a074982a9d5664e7709cac1212400/13/0e92a5d1/MonoBehaviour.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/JJH/Scripts/LevelUpBuildingData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/JJH/Scripts/SaveData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Members/JJH/Scripts/SaveManager.cs" root0="FORCE_HIGHLIGHTING" />
@@ -63,21 +43,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;YDJ__branch&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "develop",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Unity 에디터에 연결.Unity 에디터에 연결">
     <configuration name="유닛 테스트(배치 모드)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.9f1\Editor\Unity.exe" />

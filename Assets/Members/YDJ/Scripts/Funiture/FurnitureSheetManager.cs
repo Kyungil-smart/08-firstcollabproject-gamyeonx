@@ -11,6 +11,7 @@ public class FurnitureSheetManager : MonoBehaviour
     
     [SerializeField] private FurnitureSO _furnitureSO;
     public List<FurnitureData> _furnitureDatas;
+    public bool IsLoaded { get; private set; } = false;
     
     private void Awake()
     {
@@ -77,6 +78,7 @@ public class FurnitureSheetManager : MonoBehaviour
             // _furnitureSO.furnituresDatas.Add(data);
         }
         _furnitureSO.furnituresDatas = _furnitureDatas;
+        IsLoaded = true;
     }
     
     private int ParseIntSafe(string value)

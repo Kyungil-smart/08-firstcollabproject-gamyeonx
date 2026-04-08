@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -118,14 +119,34 @@ public class GridBuildingSystem : MonoBehaviour
         if (_initialMapBounds.size == Vector3Int.zero)
             _initialMapBounds = MainTilemap.cellBounds;
 
+        // if (SaveManager.Instance.LoadMap)
+        // {
+        //     SaveManager.Instance.Load();
+        //     SaveManager.Instance.LoadMapChange();
+        //     if (MapManager.Instance.MapLevel == 2) LevelUpCameraBounds();
+        // }
+        // else InitTileTypes();
+        
         if (SaveManager.Instance.LoadMap)
         {
-            SaveManager.Instance.Load();
-            SaveManager.Instance.LoadMapChange();
-            if (MapManager.Instance.MapLevel == 2) LevelUpCameraBounds();
+            StartCoroutine(LoadAfterData());
         }
-        else InitTileTypes();
+        else
+        {
+            InitTileTypes();
+        }
     }
+    
+    IEnumerator LoadAfterData()
+    {
+        yield return new WaitUntil(() => FurnitureSheetManager.Instance.IsLoaded);
+
+        SaveManager.Instance.Load();
+        SaveManager.Instance.LoadMapChange();
+
+        if (MapManager.Instance.MapLevel == 2) LevelUpCameraBounds();
+    }
+    
 
     private void Update()
     {
