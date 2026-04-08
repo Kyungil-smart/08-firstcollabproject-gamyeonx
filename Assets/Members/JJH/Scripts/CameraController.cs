@@ -190,6 +190,12 @@ public class CameraController : MonoBehaviour
             {
                 Vector2 worldPos = _cam.ScreenToWorldPoint(touch.position);
                 RaycastHit2D[] hits = Physics2D.RaycastAll(worldPos, Vector2.zero);
+                
+                foreach (var hit in hits)
+                {
+                    if (hit.collider.GetComponent<GuestMovementAgent>() != null)
+                        return;
+                }
 
                 foreach (var hit in hits)
                 {
@@ -200,7 +206,12 @@ public class CameraController : MonoBehaviour
                         if (!UIManager.Instance.OpenMenu)
                         {
                             RoadMenu.SetActive(true);
+                            UIManager.Instance._buildButton.SetActive(false);
+                            UIManager.Instance._topUIPanel.SetActive(false);
                             UIManager.Instance.OpenMenu = true;
+                            canMove = false; 
+                            Time.timeScale = 0;
+                            
                         }
                         break; // 길타일 메뉴만 처리
                     }
