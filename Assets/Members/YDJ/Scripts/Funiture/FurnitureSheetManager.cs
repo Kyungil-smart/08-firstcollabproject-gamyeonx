@@ -26,6 +26,7 @@ public class FurnitureSheetManager : MonoBehaviour
     private void Start()
     {
         _furnitureDatas = new List<FurnitureData>(_furnitureSO.furnituresDatas);
+        // _furnitureDatas = _furnitureSO.furnituresDatas;
         StartCoroutine(_furnitureSheet.Load(ParseFurnitureData));
     }
     
@@ -91,16 +92,14 @@ public class FurnitureSheetManager : MonoBehaviour
 
     private BuildType ParseEnumSafe(string value)
     {
-        value = value.Trim().ToLower();
-        
         if (string.IsNullOrEmpty(value))
             return default;
-
+        
         if (value == "capacity")
         {
             return BuildType.CapacityFurniture;
         }
-
+        
         if (value == "fee")
         {
             return BuildType.FeeFurniture;
