@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -227,20 +228,7 @@ public class UIManager : MonoBehaviour
 
     public void OnClickRoadDemolishUIBack()
     {
-        _roadDemolishUIPanel.SetActive(false);
-        _buildButton.SetActive(true);
-        _topUIPanel.SetActive(true);
-        CameraController _cameraController = FindFirstObjectByType<CameraController>();
-        _cameraController.SetInputLock(false);
-        _cameraController._touchStartedOnBuilding = false;
-        if (GridBuildingSystem.Instance._temp != null)
-        {
-            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
-            GridBuildingSystem.Instance._temp = null;
-        }
-        OpenMenu = false;
-        cameraController.canMove = true;
-        Time.timeScale = 1;
+        StartCoroutine(WaitForButton());
     }
 
     public void OnClickRoadDemolishYes()
@@ -1073,5 +1061,26 @@ public class UIManager : MonoBehaviour
     {
         _vendingMachineRemoveTouchUIPanel.SetActive(false);
         _vendingMachineBuildPanelDemolishUIPanel.SetActive(true);
+    }
+
+    private IEnumerator WaitForButton()
+    {
+        Time.timeScale = 1;
+        yield return new WaitForSeconds(0.5f);
+        
+        _roadDemolishUIPanel.SetActive(false);
+        _buildButton.SetActive(true);
+        _topUIPanel.SetActive(true);
+        CameraController _cameraController = FindFirstObjectByType<CameraController>();
+        _cameraController.SetInputLock(false);
+        _cameraController._touchStartedOnBuilding = false;
+        if (GridBuildingSystem.Instance._temp != null)
+        {
+            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
+            GridBuildingSystem.Instance._temp = null;
+        }
+        OpenMenu = false;
+        cameraController.canMove = true;
+        
     }
 }
