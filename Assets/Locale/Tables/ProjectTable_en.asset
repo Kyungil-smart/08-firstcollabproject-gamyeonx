@@ -1302,15 +1302,18 @@ MonoBehaviour:
   - m_Id: 3351454085206017
     m_Localized: 'Visitors This Turn: {0}'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 5086423950185988184
   - m_Id: 3351454089400320
     m_Localized: 'Revenue This Turn: {0} Gold'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 5086423950185988184
   - m_Id: 3351454089400321
     m_Localized: 'Total Revenue: {0} Gold'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 5086423950185988184
   references:
     version: 2
     RefIds:
@@ -1323,3 +1326,6 @@ MonoBehaviour:
         - id: 619016124350464
         - id: 619018020175872
         - id: 619020557729792
+        - id: 3351454085206017
+        - id: 3351454089400320
+        - id: 3351454089400321
