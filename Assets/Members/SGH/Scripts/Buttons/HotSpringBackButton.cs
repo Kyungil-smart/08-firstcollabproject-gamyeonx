@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class HotSpringBackButton : MonoBehaviour
 {
+    [SerializeField] private GameObject _buildPanel;
     [SerializeField] private GameObject _uiHotSpringBuildPanel;
     [SerializeField] private GameObject _hotSpringBuildButton;
     [SerializeField] private GameObject _topUI;
@@ -22,6 +23,7 @@ public class HotSpringBackButton : MonoBehaviour
         _hotSpringBuildButton.SetActive(true);
         _topUI.SetActive(true);
         _uiHotSpringBuildPanel.SetActive(false);
+        _buildPanel.SetActive(false);
     }
 
     private void OnDestroy()

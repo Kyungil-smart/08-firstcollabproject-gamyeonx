@@ -36660,6 +36660,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 138611611}
+    - target: {fileID: 616476104644208565, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: _buildPanel
+      value: 
+      objectReference: {fileID: 26207931}
     - target: {fileID: 720220568948728867, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -36816,6 +36820,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 138611611}
+    - target: {fileID: 2634244526950693429, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: _buildPanel
+      value: 
+      objectReference: {fileID: 26207931}
     - target: {fileID: 2683401656603455650, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -36960,6 +36968,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 138611611}
+    - target: {fileID: 4516011136896149913, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: _buildPanel
+      value: 
+      objectReference: {fileID: 26207931}
     - target: {fileID: 4613438868940529121, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -37256,10 +37268,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 138611611}
+    - target: {fileID: 6365644282284443931, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: _buildPanel
+      value: 
+      objectReference: {fileID: 26207931}
     - target: {fileID: 6423217648515490317, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 138611611}
+    - target: {fileID: 6597914960103192820, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
+      propertyPath: _buildPanel
+      value: 
+      objectReference: {fileID: 26207931}
     - target: {fileID: 6638845016033304915, guid: 0d870ae2a8c2b1d40b21f9ded42b1028, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
