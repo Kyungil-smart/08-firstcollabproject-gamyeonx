@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -68,7 +66,19 @@ public class Building : MonoBehaviour
     //=== 건물 업그레이드 및 버튼 눌렀을때 뒤로가기시 창닫힘(메서드로 안닫으면 문제 심각)
     public void CloseMenu()
     {
-        StartCoroutine(WaitForButton());
+        Time.timeScale = 1f;
+        UIManager.Instance._buildButton.SetActive(true);
+        UIManager.Instance._topUIPanel.SetActive(true);
+        _canvas?.gameObject.SetActive(false);
+        UIManager.Instance.OpenMenu = false;
+        IsMenuOpen = false;
+        _cameraController.SetInputLock(false);
+        _cameraController._touchStartedOnBuilding = false;
+        if (GridBuildingSystem.Instance._temp != null)
+        {
+            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
+            GridBuildingSystem.Instance._temp = null;
+        }
     }
 
 
@@ -223,24 +233,5 @@ public class Building : MonoBehaviour
     public void RestorePlaced()
     {
         Placed = true;
-    }
-
-    private IEnumerator WaitForButton()
-    {
-        Time.timeScale = 1f;
-        UIManager.Instance._buildButton.SetActive(true);
-        UIManager.Instance._topUIPanel.SetActive(true);
-        _canvas?.gameObject.SetActive(false);
-
-        yield return new WaitForSeconds(0.5f);
-        UIManager.Instance.OpenMenu = false;
-        IsMenuOpen = false;
-        _cameraController.SetInputLock(false);
-        _cameraController._touchStartedOnBuilding = false;
-        if (GridBuildingSystem.Instance._temp != null)
-        {
-            GridBuildingSystem.Instance._temp.IsMenuOpen = false;
-            GridBuildingSystem.Instance._temp = null;
-        }
     }
 }
