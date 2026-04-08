@@ -63,6 +63,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _TrainingGroundDemolishdoublecheckPanel;
     [SerializeField] private GameObject _HotSpringDemolishdoublecheckPanel;
     [SerializeField] private GridBuildingSystem _gridBuildingSystem;
+    public GameObject RestaurantUICanvas;
     public bool OpenMenu = false;
     [Header("건설창에서 카메라 멈추기 위한 참조")]
     [SerializeField] private CameraController cameraController;
@@ -106,6 +107,7 @@ public class UIManager : MonoBehaviour
     public void OnClickNoBuildDoublecheckPanel()
     {
         BuildDoublecheckPanel.SetActive(false);
+        RestaurantUICanvas?.SetActive(true);
     }
     public void OnClickCloseBuildDoublecheckPanel()
     {

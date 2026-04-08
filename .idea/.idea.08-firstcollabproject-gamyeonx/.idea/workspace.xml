@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="" />
+    <list default="true" id="d1b562d5-4ea0-4541-ab2d-06f3cf60f222" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.08-firstcollabproject-gamyeonx/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Locale/Tables/ProjectTable_en.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Locale/Tables/ProjectTable_en.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Locale/Tables/ProjectTable_ko.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Locale/Tables/ProjectTable_ko.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Members/SGH/Scripts/BuildingUI/RestaurantUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Members/SGH/Scripts/BuildingUI/RestaurantUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/EVENTtextect.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/EVENTtextect.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/MainUIText.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/MainUIText.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/TitleName.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/TitleName.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/TitleUIText.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Text/DungGeunMo TTF/TitleUIText.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScenes.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScenes.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/BuildingUI/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/BuildingUI/UIManager.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -113,6 +124,7 @@
       <workItem from="1775139773185" duration="2083000" />
       <workItem from="1775392961283" duration="427000" />
       <workItem from="1775522197858" duration="1566000" />
+      <workItem from="1775609950811" duration="2281000" />
     </task>
     <servers />
   </component>

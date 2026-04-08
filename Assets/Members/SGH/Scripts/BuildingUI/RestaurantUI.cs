@@ -20,9 +20,9 @@ public class RestaurantUI : MonoBehaviour
 
     public void OnclickDemolish()
     {
+        UIManager.Instance.RestaurantUICanvas = _restaurantUI;
         UIManager.Instance.OnClickSetBuildDoublecheckPanel();
-        UIManager.Instance._buildButton.SetActive(true);
-        UIManager.Instance._topUIPanel.SetActive(true);
+        _restaurantUI.SetActive(false);
         UIManager.Instance.OpenMenu = false;
     }
 }

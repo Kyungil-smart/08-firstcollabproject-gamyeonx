@@ -34499,6 +34499,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2126101499}
     - target: {fileID: 7917520848276295609, guid: fc3958c69dc356746b66a9532bc4a20a, type: 3}
+      propertyPath: _buildDemolishDoublecheckPanel
+      value: 
+      objectReference: {fileID: 1532261923339657758}
+    - target: {fileID: 7917520848276295609, guid: fc3958c69dc356746b66a9532bc4a20a, type: 3}
       propertyPath: _trainingGroundDemolishUIPanel
       value: 
       objectReference: {fileID: 1168473906}
