@@ -1069,10 +1069,10 @@ public class UIManager : MonoBehaviour
         _roadDemolishUIPanel.SetActive(false);
         _buildButton.SetActive(true);
         _topUIPanel.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
-        
         CameraController _cameraController = FindFirstObjectByType<CameraController>();
         _cameraController.SetInputLock(false);
+        yield return new WaitForSeconds(0.1f);
+        
         _cameraController._touchStartedOnBuilding = false;
         if (GridBuildingSystem.Instance._temp != null)
         {
