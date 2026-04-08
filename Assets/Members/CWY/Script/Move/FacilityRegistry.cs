@@ -112,9 +112,6 @@ public class FacilityRegistry : MonoBehaviour
         Debug.Log($"[FacilityRegistry] 시설 해제 | FacilityID={facility.FacilityID}, name={facility.name}");
     }
 
-    /// <summary>
-    /// 업그레이드 시 이전 ID 키만 제거할 때 사용
-    /// </summary>
     public void UnregisterFacilityByID(string facilityID, FacilityRuntime facility)
     {
         if (string.IsNullOrWhiteSpace(facilityID))
